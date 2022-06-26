@@ -1,0 +1,303 @@
+{
+  "burger": {
+    "theme": "Motyw",
+    "language": "Język"
+  },
+  "form": {
+    "schema": {
+      "required": "To pole jest wymagane",
+      "email": "Nieprawidłowy adres email"
+    },
+    "sidebar": {
+      "requiredFields": "zawiera wymagane pola"
+    }
+  },
+  "formOptions": {
+    "new": "nowy",
+    "created": "Dodano",
+    "lastUpdated": "Ostatnio edytowano",
+    "save": "Zapisz",
+    "edit": "Edytuj",
+    "name": "Nazwa"
+  },
+  "dataGrid": {
+    "noData": "Nie znaleziono danych",
+    "add": "Dodaj",
+    "search": "Szukaj..."
+  },
+  "login": {
+    "title": "Zaloguj się",
+    "description": "Zaloguj się do aplikacji DietAI",
+    "info": "Masz już konto?"
+  },
+  "register": {
+    "title": "Załóż konto",
+    "description": "Załóż konto w aplikacji DietAI",
+    "info": "Nie masz jeszcze konta?"
+  },
+  "auth": {
+    "form": {
+      "email": "email",
+      "password": "hasło",
+      "name": "imię",
+      "lastName": "nazwisko"
+    }
+  },
+  "verify": {
+    "email": {
+      "verifyTitle": "Zweryfikuj konto przed korzystaniem z aplikacji",
+      "verifyDescription": "Kliknij w link wysłany na Twój adres email aby aktywować konto",
+      "verifyButtonText": "Wyślij ponownie",
+      "successTitle": "Zweryfikowano konto",
+      "successDescription": "Przejdź do panelu wyboru roli użytkownika",
+      "successButtonText": "Dalej"
+    },
+    "role": {
+      "heading": "Twoje konto jest już prawie gotowe",
+      "description": "Uzupełnij numer telefonu i wybierz rolę aby zakończyć proces zakładania konta",
+      "verifyButtonText": "Zakończ proces zakładania konta",
+      "form": {
+        "phone": "numer telefonu",
+        "selectRole": "wybierz rolę",
+        "changeRole": "zmień rolę"
+      },
+      "modal": {
+        "title": "Wybierz rolę",
+        "description": "Wybierz rolę użytkownika"
+      }
+    }
+  },
+  "dashboardSidebar": {
+    "home": "Strona główna",
+    "account": "Konto",
+    "measurements": "Pomiary",
+    "establishments": "Założenia",
+    "products": "Produkty",
+    "meals": "Potrawy",
+    "diets": "Jadłospisy"
+  },
+  "profile": {
+    "account": {
+      "heading": "Konto"
+    }
+  },
+  "dietEstablishment": {
+    "sidebar": {
+      "title": "Nowe założenia"
+    },
+    "form": {
+      "basic_info": {
+        "heading": "Podstawowe informacje",
+        "info": "Podstawowe informacje o założeniach",
+        "name": "nazwa",
+        "description": "opis",
+        "kcal": "kcal",
+        "addMeasurement": "dodaj pomiar",
+        "addFolder": "dodaj folder",
+        "dietKind": "rodzaj diety"
+      },
+      "meals": {
+        "heading": "Posiłki",
+        "info": "Uzupełnij informacje o posiłkach w diecie",
+        "time": "godzina posiłku",
+        "type": "typ posiłku",
+        "name": "nazwa posiłku",
+        "procent": "wartość procentowa posiłku w ciągu dnia",
+        "kcal": "wartość energetyczna posiłku w ciągu dnia [kcal]",
+        "addMeal": "dodaj posiłek"
+      },
+      "macrohydrates": {
+        "heading": "Makroskładniki",
+        "info": "Uzupełnij informacje o makroskładnikach w diecie",
+        "gram": "gram",
+        "kcal": "kcal",
+        "procent": "procent",
+        "carbohydrateExchangers": "wymienniki węglowodanowe",
+        "proteinFatExchangers": "wymienniki białkowo-tłuszczowe"
+      },
+      "vitamins": {
+        "heading": "Witaminy",
+        "info": "Uzupełnij informacje o witaminach w diecie",
+        "vitaminA": "witamina A",
+        "vitaminB1": "witamina B1 (tiamina)",
+        "vitaminB2": "witamina B2 (ryboflawina)",
+        "vitaminB3": "witamina B3 (niacyna)",
+        "vitaminB5": "witamina B5 (kwas pantotenowy)",
+        "vitaminB6": "witamina B6 (pirydoksyna)",
+        "vitaminB7": "witamina B7 (biotyna)",
+        "vitaminB9": "witamina B9 (kwas foliowy)",
+        "vitaminB12": "witamina B12 (kobalamina)",
+        "vitaminC": "witamina C",
+        "vitaminD": "witamina D",
+        "vitaminE": "witamina E",
+        "vitaminK": "witamina K"
+      },
+      "minerals": {
+        "heading": "Składniki mineralne",
+        "info": "Uzupełnij informacje o składnikach mineralnych w diecie",
+        "zinc": "cynk",
+        "phosphorus": "fosfor",
+        "magnesium": "magnez",
+        "copper": "miedź",
+        "pottasium": "potas",
+        "selenium": "selen",
+        "sodium": "sód",
+        "calcium": "wapń",
+        "iron": "żelazo"
+      },
+      "fattyAcids": {
+        "heading": "Kwasy tłuszczowe",
+        "info": "Uzupełnij informacje o kwasach tłuszczowych w diecie",
+        "saturatedFattyAcids": "nasycone kwasy tłuszczowe",
+        "pollyunsaturatedFattyAcids": "wielonienasycone kwasy tłuszczowe",
+        "pollyunsaturatedFattyAcidsOmega3": "wielonienasycone kwasy tłuszczowe omega-3",
+        "pollyunsaturatedFattyAcidsOmega6": "wielonienasycone kwasy tłuszczowe omega-6",
+        "monounsaturatedFattyAcids": "jednonienasycone kwasy tłuszczowe"
+      }
+    }
+  },
+  "measurement": {
+    "sidebar": {
+      "title": "Nowy pomiar"
+    },
+    "form": {
+      "informations": {
+        "heading": "Informacje o pomiarze",
+        "description": "Informacje o pomiarze jak nazwa, data, notatki, czy zdjęcia sylwetki",
+        "name": "nazwa",
+        "date": "data pomiaru",
+        "sex": "płeć",
+        "age": "wiek (lata)",
+        "notes": "notatki",
+        "images": "zdjęcia sylwetki"
+      },
+      "basicData": {
+        "heading": "Podstawowe dane pomiaru",
+        "description": "Uzupełnij podstawowe dane pomiaru",
+        "weight": "masa ciała",
+        "height": "wysokość ciała",
+        "pal": "wskaźnik aktywności fizycznej (PAL)",
+        "ppmHarris": "ppm (harris-benedict) [kcal]",
+        "ppmMifflin": "ppm (mifflin) [kcal]",
+        "cpm": "cpm [kcal]",
+        "bmi": "bmi"
+      },
+      "additionalData": {
+        "heading": "Dodatkowe dane pomiaru",
+        "description": "Uzupełnij dodatkowe dane pomiaru",
+        "chest_breath": "obwód klatki piersiowej we wdechu (cm)",
+        "chest_exhaust": "obwód klatki piersiowej w wydechu (cm)",
+        "shoulder": "obwód ramienia (cm)",
+        "shoulder_tonus": "obwód ramienia w napięciu (cm)",
+        "waist": "obwód talii (cm)",
+        "hip": "obwód bioder (cm)",
+        "forearm": "obwód przedramienia (cm)",
+        "thigh": "obwód uda (cm)",
+        "calf": "obwód łydki (cm)",
+        "biceps": "grubość fałdu skórno-tłuszczowego nad bicepsem (cm)",
+        "triceps": "grubość fałdu skórno-tłuszczowego nad tricepsem (cm)",
+        "shoulder_blade": "grubość fałdu skórno-tłuszczowego pod dolnym kątem łopatki (cm)",
+        "ala_of_ilium": "grubość fałdu skórno-tłuszczowego nad talerzem biodrowym (cm)",
+        "iliac_spine": "grubość fałdu skórno-tłuszczowego nad kolcem biodrowym przednim górnym (cm)",
+        "whtr": "wskaźnik WHtR talia/wzrost",
+        "whr": "wskaźnik WHR talia/biodra",
+        "ymca": "procentowa zawartość tkanki tłuszczowej YMCA"
+      }
+    }
+  },
+  "dinner": {
+    "sidebar": {
+      "title": "Nowy posiłek"
+    },
+    "form": {
+      "basic_info": {
+        "heading": "Podstawowe informacje",
+        "description": "Podstawowe informacje o posiłku"
+      },
+      "products": {
+        "heading": "Produkty",
+        "description": "Produkty występujące w posiłku"
+      }
+    }
+  },
+  "products": {
+    "heading": "Wszystkie produkty"
+  },
+  "product": {
+    "sidebar": {
+      "title": "Nowy produkt"
+    },
+    "form": {
+      "basic_info": {
+        "heading": "Podstawowe informacje",
+        "name": "nazwa",
+        "description": "opis",
+        "addFolder": "dodaj folder",
+        "group": "grupa produktów",
+        "dietKind": "rodzaje diety",
+        "tags": "tagi",
+        "image": "zdjęcie",
+        "gallery": "galeria"
+      },
+      "macrohydrates": {
+        "heading": "Makroelementy",
+        "proteinGram": "białka (g)",
+        "fatGram": "tłuszcze (g)",
+        "carbohydratesGram": "węglowodany (g)",
+        "fiberGram": "błonnik (g)",
+        "digestibleCarbohydratesGram": "węglowodany przyswajalne (g)",
+        "ww": "wymienniki węglowodanowe",
+        "kcal": "kcal"
+      },
+      "vitamins": {
+        "heading": "Witaminy",
+        "vitaminA": "witamina A",
+        "vitaminB1": "witamina B1 (tiamina)",
+        "vitaminB2": "witamina B2 (ryboflawina)",
+        "vitaminB3": "witamina B3 (niacyna)",
+        "vitaminB5": "witamina B5 (kwas pantotenowy)",
+        "vitaminB6": "witamina B6 (pirydoksyna)",
+        "vitaminB7": "witamina B7 (biotyna)",
+        "vitaminB9": "witamina B9 (kwas foliowy)",
+        "vitaminB12": "witamina B12 (kobalamina)",
+        "vitaminC": "witamina C",
+        "vitaminD": "witamina D",
+        "vitaminE": "witamina E",
+        "vitaminK": "witamina K"
+      },
+      "minerals": {
+        "heading": "Składniki mineralne",
+        "zinc": "cynk",
+        "phosphorus": "fosfor",
+        "magnesium": "magnez",
+        "copper": "miedź",
+        "pottasium": "potas",
+        "selenium": "selen",
+        "sodium": "sód",
+        "calcium": "wapń",
+        "iron": "żelazo"
+      },
+      "fattyAcids": {
+        "heading": "Kwasy tłuszczowe",
+        "saturatedFattyAcids": "nasycone kwasy tłuszczowe",
+        "pollyunsaturatedFattyAcids": "wielonienasycone kwasy tłuszczowe",
+        "pollyunsaturatedFattyAcidsOmega3": "wielonienasycone kwasy tłuszczowe omega-3",
+        "pollyunsaturatedFattyAcidsOmega6": "wielonienasycone kwasy tłuszczowe omega-6",
+        "monounsaturatedFattyAcids": "jednonienasycone kwasy tłuszczowe"
+      },
+      "measures": {
+        "heading": "Miary",
+        "measure": "miara",
+        "quantity": "ilość",
+        "addMeasure": "dodaj miarę"
+      },
+      "prices": {
+        "heading": "Ceny",
+        "shop": "sklep",
+        "price": "cena",
+        "currency": "waluta",
+        "addPrice": "dodaj cenę"
+      }
+    }
+  }
+}

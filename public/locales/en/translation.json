@@ -1,0 +1,303 @@
+{
+  "burger": {
+    "theme": "Theme",
+    "language": "Language"
+  },
+  "form": {
+    "schema": {
+      "required": "This field is required",
+      "email": "Incorrect e-mail address"
+    },
+    "sidebar": {
+      "requiredFields": "contains required fields"
+    }
+  },
+  "formOptions": {
+    "new": "new",
+    "created": "Created",
+    "lastUpdated": "Last Updated",
+    "save": "Save",
+    "edit": "Edit",
+    "name": "Name"
+  },
+  "dataGrid": {
+    "noData": "Data not found",
+    "add": "Add",
+    "search": "Search..."
+  },
+  "login": {
+    "title": "Log in",
+    "description": "Log in to the DietAI application",
+    "info": "Already have an account?"
+  },
+  "register": {
+    "title": "Create an account",
+    "description": "Create an account in the DietAI application",
+    "info": "You don't have an account yet?"
+  },
+  "auth": {
+    "form": {
+      "email": "email",
+      "password": "password",
+      "name": "name",
+      "lastName": "last name"
+    }
+  },
+  "verify": {
+    "email": {
+      "verifyTitle": "Verify your account before using the app",
+      "verifyDescription": "Click on the link sent to your email address jan.kowalski@gmail.com to activate your account",
+      "verifyButtonText": "Send it again",
+      "successTitle": "Account verified",
+      "successDescription": "Go to the user role selection panel",
+      "successButtonText": "Next"
+    },
+    "role": {
+      "heading": "Your account is almost ready",
+      "description": "Complete the phone number and select a role to complete the account creation process",
+      "verifyButtonText": "Complete the account creation process",
+      "form": {
+        "phone": "phone number",
+        "selectRole": "select a role",
+        "changeRole": "change role"
+      },
+      "modal": {
+        "title": "Choose a role",
+        "description": "Select a user role"
+      }
+    }
+  },
+  "dashboardSidebar": {
+    "home": "Home",
+    "account": "Account",
+    "measurements": "Measurement",
+    "establishments": "Assumptions",
+    "products": "Products",
+    "meals": "Meals",
+    "diets": "Nutritional plans"
+  },
+  "profile": {
+    "account": {
+      "heading": "Account"
+    }
+  },
+  "dietEstablishment": {
+    "sidebar": {
+      "title": "New establishment"
+    },
+    "form": {
+      "basic_info": {
+        "heading": "Basic information",
+        "info": "Basic information on nutritional assumptions",
+        "name": "name",
+        "description": "description",
+        "kcal": "kcal",
+        "addMeasurement": "add measurement",
+        "addFolder": "add folder",
+        "dietKind": "diet kind"
+      },
+      "meals": {
+        "heading": "Meals",
+        "info": "Complete the information about meals in your diet",
+        "time": "meal time",
+        "type": "meal type",
+        "name": "meal name",
+        "procent": "procent",
+        "kcal": "kcal",
+        "addMeal": "add meal"
+      },
+      "macrohydrates": {
+        "heading": "Macrohydrates",
+        "info": "Complete the information about macrohydrates in your diet",
+        "gram": "gram",
+        "kcal": "kcal",
+        "procent": "procent",
+        "carbohydrateExchangers": "carbohydrate exchangers",
+        "proteinFatExchangers": "protein-fat exchangers"
+      },
+      "vitamins": {
+        "heading": "Vitamins",
+        "info": "Complete the information about vitamins in your diet",
+        "vitaminA": "vitamin A",
+        "vitaminB1": "vitamin B1 (thiamin)",
+        "vitaminB2": "vitamin B2 (riboflavin)",
+        "vitaminB3": "vitamin B3 (niacin)",
+        "vitaminB5": "vitamin B5 (pantothenic acid)",
+        "vitaminB6": "vitamin B6 (pyridoxine)",
+        "vitaminB7": "vitamin B7 (biotin)",
+        "vitaminB9": "vitamin B9 (folic acid)",
+        "vitaminB12": "vitamin B12 (cobalamin)",
+        "vitaminC": "vitamin C",
+        "vitaminD": "vitamin D",
+        "vitaminE": "vitamin E",
+        "vitaminK": "vitamin K"
+      },
+      "minerals": {
+        "heading": "Minerals",
+        "info": "Complete the information about minerals in your diet",
+        "zinc": "zinc",
+        "phosphorus": "phosphorus",
+        "magnesium": "magnesium",
+        "copper": "copper",
+        "pottasium": "pottasium",
+        "selenium": "selenium",
+        "sodium": "sodium",
+        "calcium": "calcium",
+        "iron": "iron"
+      },
+      "fattyAcids": {
+        "heading": "Fatty acids",
+        "info": "Complete the information about fatty acids in your diet",
+        "saturatedFattyAcids": "saturated fatty acids",
+        "pollyunsaturatedFattyAcids": "polyunsaturated fatty acids",
+        "pollyunsaturatedFattyAcidsOmega3": "omega-3 polyunsaturated fatty acids",
+        "pollyunsaturatedFattyAcidsOmega6": "omega-6 polyunsaturated fatty acids",
+        "monounsaturatedFattyAcids": "monounsaturated fatty acids"
+      }
+    }
+  },
+  "measurement": {
+    "sidebar": {
+      "title": "New measurement"
+    },
+    "form": {
+      "informations": {
+        "heading": "Measurement information",
+        "description": "Measurement information such as name, date, notes, or body photos",
+        "name": "name",
+        "date": "date of measurement",
+        "sex": "gender",
+        "age": "age (years)",
+        "notes": "notes",
+        "images": "images"
+      },
+      "basicData": {
+        "heading": "Basic measurement data",
+        "description": "Complete the basic measurement data",
+        "weight": "weight",
+        "height": "height",
+        "pal": "physical activity index (PAL)",
+        "ppmHarris": "basal metabolic rate (harris-benedict) [kcal]",
+        "ppmMifflin": "basal metabolic rate (mifflin) [kcal]",
+        "cpm": "complete metabolism rate [kcal]",
+        "bmi": "bmi"
+      },
+      "additionalData": {
+        "heading": "Additional measurement data",
+        "description": "Complete the additional measurement data",
+        "chest_breath": "chest circumference in inhalation (cm)",
+        "chest_exhaust": "chest circumference in exhalation (cm)",
+        "shoulder": "arm circumference (cm)",
+        "shoulder_tonus": "arm circumference in tension (cm)",
+        "waist": "waist circumference (cm)",
+        "hip": "hip circumference (cm)",
+        "forearm": "forearm circumference (cm)",
+        "thigh": "thigh circumference (cm)",
+        "calf": "calf circumference (cm)",
+        "biceps": "thickness of the skin and fat fold above the biceps (cm)",
+        "triceps": "thickness of the skin and fat fold above the triceps (cm)",
+        "shoulder_blade": "thickness of the skin and fat fold at the lower angle of the scapula (cm)",
+        "ala_of_ilium": "thickness of the skin and fat fold above the iliac plate (cm)",
+        "iliac_spine": "thickness of the skin and fat fold above the anterior superior iliac spine (cm)",
+        "whtr": "WHtR waist / height ratio",
+        "whr": "WHR waist / hip ratio",
+        "ymca": "YMCA body fat percentage"
+      }
+    }
+  },
+  "dinner": {
+    "sidebar": {
+      "title": "New dinner"
+    },
+    "form": {
+      "basic_info": {
+        "heading": "Basic information",
+        "description": "Basic information about the meal"
+      },
+      "products": {
+        "heading": "Products",
+        "description": "Meal products"
+      }
+    }
+  },
+  "products": {
+    "heading": "All products"
+  },
+  "product": {
+    "sidebar": {
+      "title": "New product"
+    },
+    "form": {
+      "basic_info": {
+        "heading": "Basic information",
+        "name": "name",
+        "description": "description",
+        "addFolder": "add a folder",
+        "group": "products group",
+        "dietKind": "diet kind",
+        "tags": "tags",
+        "image": "image",
+        "gallery": "gallery"
+      },
+      "macrohydrates": {
+        "heading": "Macrohydrates",
+        "proteinGram": "protein (g)",
+        "fatGram": "fat (g)",
+        "carbohydratesGram": "carbohydrates (g)",
+        "fiberGram": "fiber (g)",
+        "digestibleCarbohydratesGram": "digestible carbohydrates (g)",
+        "ww": "carbohydrate exchangers",
+        "kcal": "kcal"
+      },
+      "vitamins": {
+        "heading": "Vitamins",
+        "vitaminA": "vitamin A",
+        "vitaminB1": "vitamin B1 (thiamin)",
+        "vitaminB2": "vitamin B2 (riboflavin)",
+        "vitaminB3": "vitamin B3 (niacin)",
+        "vitaminB5": "vitamin B5 (pantothenic acid)",
+        "vitaminB6": "vitamin B6 (pyridoxine)",
+        "vitaminB7": "vitamin B7 (biotin)",
+        "vitaminB9": "vitamin B9 (folic acid)",
+        "vitaminB12": "vitamin B12 (cobalamin)",
+        "vitaminC": "vitamin C",
+        "vitaminD": "vitamin D",
+        "vitaminE": "vitamin E",
+        "vitaminK": "vitamin K"
+      },
+      "minerals": {
+        "heading": "Minerals",
+        "zinc": "zinc",
+        "phosphorus": "phosphorus",
+        "magnesium": "magnesium",
+        "copper": "copper",
+        "pottasium": "pottasium",
+        "selenium": "selenium",
+        "sodium": "sodium",
+        "calcium": "calcium",
+        "iron": "iron"
+      },
+      "fattyAcids": {
+        "heading": "Fatty acids",
+        "saturatedFattyAcids": "saturated fatty acids",
+        "pollyunsaturatedFattyAcids": "polyunsaturated fatty acids",
+        "pollyunsaturatedFattyAcidsOmega3": "omega-3 polyunsaturated fatty acids",
+        "pollyunsaturatedFattyAcidsOmega6": "omega-6 polyunsaturated fatty acids",
+        "monounsaturatedFattyAcids": "monounsaturated fatty acids"
+      },
+      "measures": {
+        "heading": "Measure",
+        "measure": "measure",
+        "quantity": "quantity",
+        "addMeasure": "add measure"
+      },
+      "prices": {
+        "heading": "Prices",
+        "shop": "shop",
+        "price": "price",
+        "currency": "currency",
+        "addPrice": "add price"
+      }
+    }
+  }
+}

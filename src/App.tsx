@@ -1,26 +1,65 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, Suspense } from "react";
 
-function App() {
+//routes
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+//context
+import { useDarkMode } from "context/darkMode.context";
+
+//routes
+import AuthRoutes from "routes/authRoutes/auth.routes";
+import DashboardRoutes from "routes/dashboardRoutes/index.routes";
+import VerifyRoutes from "routes/verifyRoutes/verify.routes";
+import HomeRoutes from "routes/homeRoutes/home.routes";
+
+// //redux
+// import { useDispatch } from "react-redux";
+// import { getUser } from "@redux/user/user.actions";
+
+//styles
+import GlobalStyle from "theme/globalStyle";
+import { ThemeProvider } from "styled-components";
+import { defaultTheme, darkTheme } from "theme/theme";
+
+//auth
+import { useSession } from "utils/firebase";
+
+const App = () => {
+  // useSession();
+  const { darkMode } = useDarkMode();
+  // const dispatch = useDispatch();
+
+  const theme = darkMode ? darkTheme : defaultTheme;
+
+  // useEffect(() => {
+  //   dispatch(getUser());
+  // }, []);
+
+  //useSwr getUser
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <GlobalStyle />
+      <ThemeProvider theme={theme}>
+        <Router>
+          <Routes>
+            <Route path="/*" element={<HomeRoutes />} />
+            <Route path="/auth/*" element={<AuthRoutes />} />
+            <Route path="/verify/*" element={<VerifyRoutes />} />
+            <Route path="/dashboard/*" element={<DashboardRoutes />} />
+          </Routes>
+        </Router>
+      </ThemeProvider>
+    </>
   );
-}
+};
+
+// export default function WrappedApp() {
+//   return (
+//     <Suspense fallback="...is loading">
+//       <App />
+//     </Suspense>
+//   );
+// }
 
 export default App;

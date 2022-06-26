@@ -1,0 +1,42 @@
+import React from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
+
+//layout
+import NotFoundPage from "pages/information/notFound/notFound.page";
+import ProductRoutes from "./products.routes";
+import DinnerRoutes from "./dinners.routes";
+import AccountRoutes from "./account.routes";
+import HomeRoutes from "./home.routes";
+import MeasurementRoutes from "./measurements.routes";
+import DietEstablishmentRoutes from "./dietEstablishments.routes";
+import DietRoutes from "./diets.routes";
+
+//swr
+import { useUser } from "services/useUser";
+
+const Dietetic = () => {
+  //useSwr checkUserRole = dietetic
+  const { user, userLoading, userError } = useUser();
+
+  // if (!user.role || user.role.name !== "dietetic") {
+  //   return <Navigate to="/dashboard/profile" />;
+  // }
+
+  return (
+    <Routes>
+      <Route path="home/*" element={<HomeRoutes />} />
+      <Route path="account/*" element={<AccountRoutes />} />
+      <Route path="products/*" element={<ProductRoutes />} />
+      <Route path="dinners/*" element={<DinnerRoutes />} />
+      <Route path="measurements/*" element={<MeasurementRoutes />} />
+      <Route
+        path="diet-establishments/*"
+        element={<DietEstablishmentRoutes />}
+      />
+      <Route path="diets/*" element={<DietRoutes />} />
+      <Route path="*" element={<NotFoundPage />} />
+    </Routes>
+  );
+};
+
+export default Dietetic;
