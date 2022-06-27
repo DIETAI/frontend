@@ -7,6 +7,7 @@ import DashboardLayout from "layout/dashboard/dashboard.layout";
 //components
 // import PageLoading from "@components/loading/pageLoading/PageLoading";
 import DieteticRoutes from "./dietetic/dietetic.routes";
+import AdminRoutes from "./admin/admin.routes";
 import NotFoundPage from "pages/information/notFound/notFound.page";
 import PageLoading from "components/loading/PageLoading";
 
@@ -46,6 +47,7 @@ const Dashboard = () => {
     <DashboardLayout>
       <Routes>
         <Route path="/*" element={<DieteticRoutes />} />
+        <Route path="/admin/*" element={<AdminRoutes />} />
         {/* <Route path="profile/*" element={<ProfileRoutes />} />
         <Route path="measurements/*" element={<MeasurementRoutes />} /> */}
         <Route path="*" element={<NotFoundPage />} />

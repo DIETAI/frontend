@@ -36,7 +36,7 @@ const Autocomplete = ({
 
   const [autocompletePopup, setAutocompletePopup] = useState(false);
   const [inputContent, setInputContent] = useState<string>(
-    field.value.toString()
+    field.value?.toString() || ""
   );
 
   useEffect(() => {

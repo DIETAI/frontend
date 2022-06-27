@@ -11,6 +11,7 @@ import AuthRoutes from "routes/authRoutes/auth.routes";
 import DashboardRoutes from "routes/dashboardRoutes/index.routes";
 import VerifyRoutes from "routes/verifyRoutes/verify.routes";
 import HomeRoutes from "routes/homeRoutes/home.routes";
+import SubscriptionPlanRoutes from "routes/subscriptionPlanRoutes/subscriptionPlan.routes";
 
 // //redux
 // import { useDispatch } from "react-redux";
@@ -46,6 +47,10 @@ const App = () => {
             <Route path="/*" element={<HomeRoutes />} />
             <Route path="/auth/*" element={<AuthRoutes />} />
             <Route path="/verify/*" element={<VerifyRoutes />} />
+            <Route
+              path="/subscription-plans/*"
+              element={<SubscriptionPlanRoutes />}
+            />
             <Route path="/dashboard/*" element={<DashboardRoutes />} />
           </Routes>
         </Router>

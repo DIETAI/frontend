@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router";
 
 //styles
 import * as Styled from "./Plans.styles";
@@ -15,6 +16,7 @@ const availableColumns = [
 ];
 
 const Plans = () => {
+  const navigate = useNavigate();
   const plans = [] as any;
   const loadingPlans = false;
 
@@ -28,6 +30,7 @@ const Plans = () => {
         <h2>Twój plan wygasł</h2>
         <p>Odnów plan aby móc korzystać z aplikacji</p>
       </Styled.EmptyPlanWrapper>
+      <button onClick={() => navigate("/subscription-plans")}>kup plan</button>
       <DataGrid
         loading={loadingPlans}
         availableColumns={availableColumns}

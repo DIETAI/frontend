@@ -24,20 +24,17 @@ import Image from "components/form/images/image/Image";
 
 //services
 import { getAssets } from "services/getAssets";
-import { IMeasurementInformations } from "pages/dashboard/measurements/schema/newMeasurement.schema";
+
+//context
+import { useFileLibrary } from "layout/dashboard/context/fileLibrary.context";
 
 interface IFilesLibraryProps {
+  onSubmitAction: () => void;
   closeModal: () => void;
 }
 
-const FilesLibrary = ({ closeModal }: IFilesLibraryProps) => {
-  const {
-    control,
-    formState: { errors },
-    setValue,
-    watch,
-    getValues,
-  } = useFormContext();
+const FilesLibrary = ({ closeModal, onSubmitAction }: IFilesLibraryProps) => {
+  const { selectAssetId, selectedAssetId } = useFileLibrary();
 
   const { assets, assetsLoading, assetsError } = getAssets();
   const [openAddFileForm, setOpenAddFileForm] = useState(false);
@@ -60,23 +57,8 @@ const FilesLibrary = ({ closeModal }: IFilesLibraryProps) => {
   //   }
   // }, [imageUpload]);
 
-  const images = getValues("images") as IMeasurementInformations["images"];
-
   const uploadImage = () => {
     setOpenAddFileForm(true);
-  };
-
-  const addImageToForm = () => {
-    console.log("changeImg");
-
-    if (!images) {
-      setValue("images", [selectedImageId]);
-      return closeModal();
-    }
-
-    setValue("images", [...images, selectedImageId]);
-
-    closeModal();
   };
 
   return (
@@ -88,8 +70,8 @@ const FilesLibrary = ({ closeModal }: IFilesLibraryProps) => {
       />
 
       <Button
-        variant={!selectedImageId ? "disabled" : "primary"}
-        onClick={addImageToForm}
+        variant={!selectedAssetId ? "disabled" : "primary"}
+        onClick={onSubmitAction}
       >
         dodaj zdjęcie
       </Button>
@@ -117,8 +99,8 @@ const FilesLibrary = ({ closeModal }: IFilesLibraryProps) => {
             {assets.map((asset) => (
               <Styled.ImageWrapper
                 key={asset._id}
-                onClick={() => setSelectedImageId(asset._id)}
-                selected={selectedImageId === asset._id}
+                onClick={() => selectAssetId(asset._id)}
+                selected={selectedAssetId === asset._id}
               >
                 <Image imageId={asset._id} />
               </Styled.ImageWrapper>

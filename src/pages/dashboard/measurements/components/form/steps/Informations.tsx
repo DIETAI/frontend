@@ -17,12 +17,16 @@ import Image from "components/form/images/image/Image";
 import Calendar from "components/form/calendar/Calendar";
 import Autocomplete from "components/form/autocomplete/Autocomplete";
 
+//context
+import { useFileLibrary } from "layout/dashboard/context/fileLibrary.context";
+
 const genderOptions = [
   { id: 1, name: "mężczyzna", type: "male" },
   { id: 2, name: "kobieta", type: "female" },
 ];
 
 const Informations = () => {
+  const { selectAssetId, selectedAssetId } = useFileLibrary();
   const [openFileLibrary, setOpenFileLibrary] = useState(false);
 
   const { t } = useTranslation();
@@ -46,6 +50,19 @@ const Informations = () => {
       : parseInt(e.currentTarget.value);
 
     setValue(e.currentTarget.name, value);
+  };
+
+  const addImageToForm = () => {
+    console.log("changeImg");
+
+    if (!images) {
+      setValue("images", [selectedAssetId]);
+      return setOpenFileLibrary(false);
+    }
+
+    setValue("images", [...images, selectedAssetId]);
+
+    setOpenFileLibrary(false);
   };
 
   return (
@@ -93,7 +110,10 @@ const Informations = () => {
         {images && images.map((image) => <Image key={image} imageId={image} />)}
       </ImagesContainer>
       <Modal onClose={() => setOpenFileLibrary(false)} open={openFileLibrary}>
-        <FilesLibrary closeModal={() => setOpenFileLibrary(false)} />
+        <FilesLibrary
+          onSubmitAction={addImageToForm}
+          closeModal={() => setOpenFileLibrary(false)}
+        />
       </Modal>
 
       {/* <p>{`${t("measurement.form.informations.images")}`}</p> */}
