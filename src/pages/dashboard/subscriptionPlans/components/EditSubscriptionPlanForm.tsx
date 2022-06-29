@@ -25,6 +25,7 @@ import Image from "components/form/images/image/Image";
 import Modal from "components/modal/Modal";
 import FilesLibrary from "components/filesLibrary/FilesLibrary";
 import DashedSelect from "components/form/dashedSelect/DashedSelect";
+import { PlanVariant } from "./SubscriptionPlanForm";
 
 //icons
 import { FaUser, FaFileAlt, FaPlus, FaTrash } from "icons/icons";
@@ -206,7 +207,7 @@ const SubscriptionPlanForm = ({
             name="salePrice"
             fullWidth
           />
-
+          <PlanVariant />
           <>
             <Heading icon={<FaFileAlt />} title="Właściwości" />
             {featuresFields.length > 0 &&

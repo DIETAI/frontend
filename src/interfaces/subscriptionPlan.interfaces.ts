@@ -2,6 +2,13 @@ export interface ISubscriptionPlanFeature {
   name: string;
 }
 
+export interface ISubscriptionPlanVariant {
+  name: string;
+  time: "1month" | "3months" | "6months";
+  price: number;
+  salePrice?: number;
+}
+
 export interface ISubscriptionPlanData {
   _id: string;
   createdAt: string;
@@ -14,6 +21,7 @@ export interface ISubscriptionPlanData {
   salePrice?: number;
   image: string;
   features?: ISubscriptionPlanFeature[];
+  variants: ISubscriptionPlanVariant[];
 }
 
 export interface ISubscriptionPlanProps {

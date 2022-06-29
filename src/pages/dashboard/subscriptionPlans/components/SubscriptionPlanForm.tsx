@@ -11,6 +11,7 @@ import {
   FormProvider,
   FieldValues,
   useFieldArray,
+  useFormContext,
 } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
@@ -200,7 +201,7 @@ const SubscriptionPlanForm = () => {
             name="salePrice"
             fullWidth
           />
-
+          <PlanVariant />
           <>
             <Heading icon={<FaFileAlt />} title="Właściwości" />
             {featuresFields.length > 0 &&
@@ -259,6 +260,96 @@ const SubscriptionPlanForm = () => {
         </form>
       </FormProvider>
     </Styled.FormWrapper>
+  );
+};
+
+const planTimesOptions = [
+  { id: 1, name: "miesiąc", type: "1month" },
+  { id: 2, name: "3 miesiące", type: "3months" },
+  { id: 3, name: "6 miesięcy", type: "6months" },
+];
+
+export const PlanVariant = () => {
+  const {
+    control,
+    formState: { errors },
+    setValue,
+    watch,
+    getValues,
+  } = useFormContext();
+
+  const { fields, append, prepend, remove, swap, move, insert, update } =
+    useFieldArray({
+      control,
+      name: "variants",
+    });
+
+  const addVariant = () => {
+    return append({ name: "", time: "", price: 50 });
+  };
+
+  const removeVariant = (index: number) => {
+    remove(index);
+  };
+
+  return (
+    <>
+      <Heading icon={<FaFileAlt />} title="Warianty" />
+      {fields.length > 0 &&
+        fields.map((field, index) => (
+          <Styled.FieldWrapper key={field.id}>
+            <Styled.FieldHeadWrapper>
+              <Styled.FieldNumberWrapper>
+                <p>{index + 1}</p>
+              </Styled.FieldNumberWrapper>
+
+              <Styled.IconOptionsWrapper>
+                <Styled.IconButtonWrapper
+                  iconType="delete"
+                  type="button"
+                  onClick={() => removeVariant(index)}
+                >
+                  <FaTrash />
+                </Styled.IconButtonWrapper>
+              </Styled.IconOptionsWrapper>
+            </Styled.FieldHeadWrapper>
+
+            <Input
+              label="nazwa"
+              type="text"
+              name={`variants.${index}.name`}
+              fullWidth
+            />
+            <Autocomplete
+              label="czas"
+              name={`variants.${index}.time`}
+              options={planTimesOptions}
+              optionLabel="name"
+              optionRender="type"
+              fullWidth
+            />
+            <Input
+              label="cena"
+              type="text"
+              name={`variants.${index}.price`}
+              fullWidth
+            />
+            <Input
+              label="cena promocyjna"
+              type="text"
+              name={`variants.${index}.salePrice`}
+              fullWidth
+            />
+          </Styled.FieldWrapper>
+        ))}
+
+      <DashedSelect
+        icon={<FaPlus />}
+        text="dodaj wariant"
+        onClick={addVariant}
+        fullWidth
+      />
+    </>
   );
 };
 

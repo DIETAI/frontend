@@ -54,6 +54,8 @@ import {
   FaChartLine,
   FaWeightHanging,
   FaChevronLeft,
+  FaBuffer,
+
 } from "react-icons/fa";
 
 export {
@@ -112,4 +114,5 @@ export {
   FaChartLine,
   FaWeightHanging,
   FaChevronLeft,
+  FaBuffer
 };

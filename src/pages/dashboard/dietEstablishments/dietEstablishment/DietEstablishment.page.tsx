@@ -1,23 +1,27 @@
 import React from "react";
-import { useParams } from "react-router";
-import { useDietEstablishment } from "services/useDietEstablishments";
+
+//styles
+import * as Styled from "./DietEstablishmentPage.styles";
+
+//icons
+import { FaUtensils } from "icons/icons";
+
+//components
+import DietEstablishmentContent from "./components/content/DietEstablishmentContent";
+import DietEstablishmentSidebar from "./components/sidebar/DietEstablishmentSidebar";
+import { dietEstablishmentSidebarSections } from "./components/sidebar/sections";
 
 const DietEstablishment = () => {
-  const { dietEstablishmentId } = useParams();
-  console.log({ dietEstablishmentId });
-
-  if (!dietEstablishmentId) return <div>not found</div>;
-
-  const {
-    dietEstablishment,
-    dietEstablishmentError,
-    dietEstablishmentLoading,
-  } = useDietEstablishment(dietEstablishmentId);
-
-  if (dietEstablishmentLoading) return <div>dietEstablishment loading...</div>;
-  if (dietEstablishmentError || !dietEstablishment)
-    return <div>dietEstablishment error</div>;
-  return <div>DietEstablishment: {dietEstablishment.name}</div>;
+  return (
+    <Styled.DietEstablishmentContainer>
+      <DietEstablishmentContent />
+      <DietEstablishmentSidebar
+        title={"Informacje"}
+        icon={<FaUtensils />}
+        sections={dietEstablishmentSidebarSections}
+      />
+    </Styled.DietEstablishmentContainer>
+  );
 };
 
 export default DietEstablishment;

@@ -1,20 +1,27 @@
 import React from "react";
-import { useParams } from "react-router";
-import { getProduct } from "services/getProducts";
+
+//styles
+import * as Styled from "./ProductPage.styles";
+
+//icons
+import { FaUtensils } from "icons/icons";
+
+//components
+import ProductContent from "./components/content/ProductContent";
+import ProductSidebar from "./components/sidebar/ProductSidebar";
+import { productSidebarSections } from "./components/sidebar/sections";
 
 const Product = () => {
-  const { productId } = useParams();
-  console.log({ productId });
-
-  if (!productId) return <div>not found</div>;
-
-  const { product, productError, productLoading } = getProduct(productId);
-
-  if (productLoading) return <div>product loading...</div>;
-  if (productError || !product) return <div>product error</div>;
-
-  console.log({ product });
-  return <div>Produkt: {product.name}</div>;
+  return (
+    <Styled.ProductContainer>
+      <ProductContent />
+      <ProductSidebar
+        title={"Informacje"}
+        icon={<FaUtensils />}
+        sections={productSidebarSections}
+      />
+    </Styled.ProductContainer>
+  );
 };
 
 export default Product;

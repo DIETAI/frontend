@@ -1,6 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { useDietEstablishments } from "services/useDietEstablishments";
+import { Link } from "react-router-dom";
 
 //date-fns
 import format from "date-fns/format";
@@ -32,9 +33,12 @@ const AllDietEstablishments = () => {
   if (dietEstablishmentsError || !dietEstablishments)
     return <div>dietEstablishments error</div>;
 
+  console.log({ dietEstablishments });
+
   const dietEstablishmentList = () => {
     const modifyDietEstablishments = dietEstablishments.map((data) => ({
       ...data,
+      meals: "",
       createdAt: format(new Date(data.createdAt), "dd.MM.yyyy"),
     }));
 
@@ -47,6 +51,13 @@ const AllDietEstablishments = () => {
 
   return (
     <>
+      {dietEstablishments.map((dietEstablishment) => (
+        <div key={dietEstablishment._id}>
+          <Link to={`/dashboard/diet-establishments/${dietEstablishment._id}`}>
+            {dietEstablishment.name}
+          </Link>
+        </div>
+      ))}
       {/* <DataGrid
         loading={dietEstablishmentsLoading}
         availableColumns={availableColumns}

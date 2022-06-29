@@ -19,7 +19,7 @@ export const product_basic_info_schema = yup.object().shape({
   dietKindsExclude: yup.array(yup.string()),
   season: yup.string().oneOf(["zima", "wiosna", "lato", "jesień"]),
   image: yup.string(),
-  gallery: yup.array(yup.string()),
+  gallery: yup.array(yup.string().required("To pole jest wymagane")),
   //grupa | dodaj grupę
   //folder
 });

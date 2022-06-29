@@ -22,7 +22,14 @@ export const establishmentMealsSchema = yup.object({
         type: yup
           .string()
           .required("To pole jest wymagane")
-          .oneOf(["breakfast", "second_breakfast", "lunch", "snack", "dinner"]),
+          .oneOf([
+            "breakfast",
+            "second_breakfast",
+            "lunch",
+            "snack",
+            "tea",
+            "dinner",
+          ]),
         name: yup.string().required("To pole jest wymagane"),
         procent: yup
           .number()

@@ -5,6 +5,7 @@ import { IEstablishmentsMeals } from "pages/dashboard/dietEstablishments/schema/
 //components
 import Input from "components/form/input/Input";
 import DashedSelect from "components/form/dashedSelect/DashedSelect";
+import Autocomplete from "components/form/autocomplete/Autocomplete";
 
 //styles
 import * as Styled from "./Meals.styles";
@@ -17,6 +18,15 @@ import { FaTrash, FaPlus, FaEdit } from "icons/icons";
 
 //helpers
 import { round2 } from "pages/dashboard/dietEstablishments/helpers/round";
+
+const mealTypeOptions = [
+  { id: 1, name: "Śniadanie", type: "breakfast" },
+  { id: 2, name: "II śniadanie", type: "second_breakfast" },
+  { id: 3, name: "Obiad", type: "lunch" },
+  { id: 4, name: "Przekąska", type: "snack" },
+  { id: 5, name: "Podwieczorek", type: "tea" },
+  { id: 6, name: "Kolacja", type: "dinner" },
+];
 
 const Meals = () => {
   const { t } = useTranslation();
@@ -160,11 +170,20 @@ const Meals = () => {
               // disabled
               fullWidth
             />
-            <Input
+
+            {/* <Input
               label={`${t("dietEstablishment.form.meals.type")} *`}
               type="text"
               name={`meals.${index}.type`}
               // disabled
+              fullWidth
+            /> */}
+            <Autocomplete
+              label={`${t("dietEstablishment.form.meals.type")} *`}
+              name={`meals.${index}.type`}
+              options={mealTypeOptions}
+              optionLabel="name"
+              optionRender="type"
               fullWidth
             />
             <Input
