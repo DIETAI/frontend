@@ -72,11 +72,11 @@ const ButtonWrapper = styled.button<
     css`
       background: ${palette.primary.main};
       color: white;
-      border: none;
       font-size: 1.4rem;
       font-weight: ${fontWeight.medium};
-      padding: 1rem 3rem;
+      padding: 1rem 2rem;
       gap: 1.5rem;
+      border: 0.1rem solid ${palette.primary.main};
 
       svg {
         width: 1.5rem;
@@ -89,10 +89,30 @@ const ButtonWrapper = styled.button<
     css`
       background: ${palette.primary.light};
       color: ${palette.primary.main};
-      border: none;
-      font-size: ${fontSize.xs};
+      font-size: 1.4rem;
+      font-weight: ${fontWeight.medium};
       padding: 1rem 2rem;
       gap: 1.5rem;
+      border: 0.1rem solid ${palette.primary.light};
+
+      svg {
+        width: 1.5rem;
+        height: 1.5rem;
+        path {
+          fill: ${palette.primary.main};
+        }
+      }
+    `}
+
+    ${variant === "data-third" &&
+    css`
+      background: transparent;
+      color: ${palette.primary.main};
+      font-size: 1.4rem;
+      font-weight: ${fontWeight.medium};
+      padding: 1rem 2rem;
+      gap: 1.5rem;
+      border: 0.1rem solid ${palette.primary.light};
 
       svg {
         width: 1.5rem;

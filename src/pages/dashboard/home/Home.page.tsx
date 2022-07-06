@@ -6,7 +6,7 @@ import * as Styled from "./Home.styles";
 //components
 import HomeInfo from "./components/info/HomeInfo";
 import HomeFeatures from "./components/features/HomeFeatures";
-import HomeCalendar from "./components/calendar/HomeCalendar";
+import HomeCalendar from "./components/calendar/HomeCalendar2";
 
 const Home = () => {
   return (

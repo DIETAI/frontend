@@ -37,7 +37,7 @@ const EditProduct = () => {
   if (productLoading) return <div>product loading...</div>;
   if (productError || !product) return <div>product error</div>;
 
-  console.log({ product });
+  console.log({ productEdit: product });
 
   return (
     <>

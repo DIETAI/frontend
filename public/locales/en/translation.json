@@ -212,11 +212,24 @@
     "form": {
       "basic_info": {
         "heading": "Basic information",
-        "description": "Basic information about the meal"
+        "info": "Basic information about the meal",
+        "name": "meal name",
+        "description": "description",
+        "recipe": "recipe",
+        "mealTypes": "meal types",
+        "tags": "tags",
+        "dietKinds": "diet kinds",
+        "preparation_time": "diet kinds",
+        "image": "image",
+        "gallery": "gallery"
       },
       "products": {
         "heading": "Products",
-        "description": "Meal products"
+        "info": "Meal products",
+        "addProduct": "add product",
+        "modal": {
+          "title": "Add product"
+        }
       }
     }
   },
@@ -246,7 +259,8 @@
         "carbohydratesGram": "carbohydrates (g)",
         "fiberGram": "fiber (g)",
         "digestibleCarbohydratesGram": "digestible carbohydrates (g)",
-        "ww": "carbohydrate exchangers",
+        "carbohydrateExchangers": "carbohydrate exchangers",
+        "proteinFatExchangers": "protein-fat exchangers",
         "kcal": "kcal"
       },
       "vitamins": {

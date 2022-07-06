@@ -19,6 +19,15 @@ import { FaTrash, FaPlus, FaEdit } from "icons/icons";
 //helpers
 import { round2 } from "pages/dashboard/dietEstablishments/helpers/round";
 
+// One time slot every 30 minutes.
+const timeSlotsOptions = Array.from(new Array(24 * 2)).map((_, index) => {
+  return {
+    name: `${index < 20 ? "0" : ""}${Math.floor(index / 2)}:${
+      index % 2 === 0 ? "00" : "30"
+    }`,
+  };
+});
+
 const mealTypeOptions = [
   { id: 1, name: "Śniadanie", type: "breakfast" },
   { id: 2, name: "II śniadanie", type: "second_breakfast" },
@@ -163,21 +172,15 @@ const Meals = () => {
               </Styled.IconOptionsWrapper>
             </Styled.FieldHeadWrapper>
 
-            <Input
+            <Autocomplete
               label={`${t("dietEstablishment.form.meals.time")} *`}
-              type="text"
               name={`meals.${index}.time`}
-              // disabled
+              options={timeSlotsOptions}
+              optionLabel="name"
+              optionRender="name"
               fullWidth
             />
 
-            {/* <Input
-              label={`${t("dietEstablishment.form.meals.type")} *`}
-              type="text"
-              name={`meals.${index}.type`}
-              // disabled
-              fullWidth
-            /> */}
             <Autocomplete
               label={`${t("dietEstablishment.form.meals.type")} *`}
               name={`meals.${index}.type`}

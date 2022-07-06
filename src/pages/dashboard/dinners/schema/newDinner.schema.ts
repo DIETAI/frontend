@@ -3,7 +3,7 @@ import * as yup from "yup";
 export const basicInfoSchema = yup.object({
   name: yup.string().required("To pole jest wymagane").default(""),
   image: yup.string().default(""),
-  gallery: yup.array(yup.string()),
+  gallery: yup.array(yup.string().required("To pole jest wymagane")),
   mealTypes: yup.array(
     yup
       .string()

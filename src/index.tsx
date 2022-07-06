@@ -10,6 +10,8 @@ import "./i18n";
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
+
+//react strict mode - problem z beautiful dnd
 root.render(
   <DarkModeProvider>
     <React.StrictMode>

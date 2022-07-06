@@ -17,7 +17,7 @@ export const dinnerFormSteps = [
     id: 1,
     requiredFields: true,
     title: "dinner.form.basic_info.heading", //i18next
-    description: "dinner.form.basic_info.description",
+    description: "dinner.form.basic_info.info",
     icon: <FaInfoCircle />,
     validationSchema: basicInfoSchema,
     stepContent: <Step.BasicInfo />,
@@ -27,7 +27,7 @@ export const dinnerFormSteps = [
     id: 2,
     requiredFields: true,
     title: "dinner.form.products.heading",
-    description: "dinner.form.products.description",
+    description: "dinner.form.products.info",
     icon: <FaCarrot />,
     validationSchema: dinnerProductsSchema,
     stepContent: <Step.Products />,

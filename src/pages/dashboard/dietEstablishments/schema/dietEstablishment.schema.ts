@@ -45,35 +45,35 @@ export const establishmentMealsSchema = yup.object({
     )
     .default([
       {
-        time: "8.00",
+        time: "8:00",
         type: "breakfast",
         name: "Śniadanie",
         procent: 26,
         kcal: 0,
       },
       {
-        time: "11.00",
+        time: "11:00",
         type: "second_breakfast",
         name: "II Śniadanie",
         procent: 10,
         kcal: 0,
       },
       {
-        time: "14.00",
+        time: "14:00",
         type: "lunch",
         name: "Obiad",
         procent: 35,
         kcal: 0,
       },
       {
-        time: "18.00",
+        time: "18:00",
         type: "snack",
         name: "Przekąska",
         procent: 10,
         kcal: 0,
       },
       {
-        time: "20.00",
+        time: "20:00",
         type: "dinner",
         name: "Kolacja",
         procent: 19,

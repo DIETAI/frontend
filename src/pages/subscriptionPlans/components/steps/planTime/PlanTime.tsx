@@ -19,8 +19,8 @@ const PlanLength = () => {
   } = useFormContext();
   const subscriptionPlanId = getValues("subscriptionPlanId") as string;
   const selectedPlanTime = watch(
-    "planTime"
-  ) as IUserSubscriptionPlanPrice["planTime"];
+    "stripePriceId"
+  ) as IUserSubscriptionPlanPrice["stripePriceId"];
 
   const { subscriptionPlan, subscriptionPlanError, subscriptionPlanLoading } =
     getSubscriptionPlan(subscriptionPlanId);
@@ -28,8 +28,10 @@ const PlanLength = () => {
   if (subscriptionPlanLoading) return <div>loading...</div>;
   if (subscriptionPlanError) return <div>error..</div>;
 
-  const changePlanTime = (planTime: IUserSubscriptionPlanPrice["planTime"]) => {
-    setValue("planTime", planTime);
+  const changePlanTime = (
+    stripePriceId: IUserSubscriptionPlanPrice["stripePriceId"]
+  ) => {
+    setValue("stripePriceId", stripePriceId);
     trigger();
   };
 
@@ -38,9 +40,9 @@ const PlanLength = () => {
       <h2>Plan: {subscriptionPlan?.name}</h2>
       {subscriptionPlan?.variants.map((variant) => (
         <Styled.PlanLTimeItemWrapper
-          onClick={() => changePlanTime(variant.time)}
-          key={variant.time}
-          selectedTimePlan={variant.time === selectedPlanTime}
+          onClick={() => changePlanTime(variant.stripePriceId)}
+          key={variant.stripePriceId}
+          selectedTimePlan={variant.stripePriceId === selectedPlanTime}
         >
           <h3>nazwa: {variant.name}</h3> <h3>cena: {variant.price}</h3>
         </Styled.PlanLTimeItemWrapper>

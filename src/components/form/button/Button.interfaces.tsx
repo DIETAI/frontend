@@ -9,6 +9,7 @@ export interface IButtonProps {
     | "disabled"
     | "data-primary"
     | "data-secondary"
+    | "data-third"
     | "data-delete-primary"
     | "data-delete-secondary";
   onClick?: () =>

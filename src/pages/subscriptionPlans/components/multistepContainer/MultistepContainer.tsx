@@ -4,6 +4,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { FieldValues } from "react-hook-form";
 import { IChildrenProps } from "interfaces/children.interfaces";
 import Button from "components/form/button/Button";
+import axios from "utils/api";
+import { Stripe } from "stripe";
+
+//stripe
+import { loadStripe } from "@stripe/stripe-js";
 
 //components
 import SubscriptionPlanNav from "../nav/SubscriptionPlanNav";
@@ -15,8 +20,21 @@ import {
   IDefaultValues,
 } from "./MultistepContainer.interfaces";
 
+import {
+  IUserSubscriptionPlan,
+  IUserSubscriptionPlanCheckout,
+  IUserSubscriptionPlanPrice,
+} from "../../schema/userSubscriptionPlan.schema";
+
 //styles
 import * as Styled from "./MultistepContainer.styles";
+import { AxiosResponse } from "axios";
+
+type UserSubscription = IUserSubscriptionPlan &
+  IUserSubscriptionPlanPrice &
+  IUserSubscriptionPlanCheckout;
+
+const stripePromise = loadStripe(process.env.REACT_APP_PUBLIC_STRIPE as string);
 
 export const FormStep = ({ children }: IFormStepProps) => {
   return <div className="w-full flex flex-wrap gap-6">{children}</div>;
@@ -72,9 +90,25 @@ const MultiStepContainer = ({
     return activeStep === childrenArray.length - 1;
   };
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: UserSubscription) => {
     //stripe session
-    console.log("hello");
+    console.log("create stripe session");
+    try {
+      const stripeResp: AxiosResponse<Stripe.Checkout.Session> =
+        await axios.post(`/api/v1/transactions`, data, {
+          withCredentials: true,
+        });
+      console.log({ stripeResp });
+      const { id } = stripeResp.data;
+      const stripe = await stripePromise;
+
+      if (stripe) {
+        const { error } = await stripe.redirectToCheckout({ sessionId: id });
+        console.log(error);
+      }
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   // check isValid after change step

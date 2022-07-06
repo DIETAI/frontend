@@ -3,7 +3,10 @@ import { getSubscriptionPlan } from "services/getSubscriptionPlans";
 import { useFormContext } from "react-hook-form";
 
 //interfaces
-import { IUserSubscriptionPlanPrice } from "../../schema/userSubscriptionPlan.schema";
+import {
+  IUserSubscriptionPlanPrice,
+  IUserSubscriptionPlanCheckout,
+} from "../../schema/userSubscriptionPlan.schema";
 
 const Checkout = () => {
   const {
@@ -17,8 +20,12 @@ const Checkout = () => {
 
   const subscriptionPlanId = getValues("subscriptionPlanId") as string;
   const selectedPlanTime = getValues(
-    "planTime"
-  ) as IUserSubscriptionPlanPrice["planTime"];
+    "stripePriceId"
+  ) as IUserSubscriptionPlanPrice["stripePriceId"];
+
+  const selectedPaymentOperator = watch(
+    "paymentOperator"
+  ) as IUserSubscriptionPlanCheckout["paymentOperator"];
 
   const { subscriptionPlan, subscriptionPlanError, subscriptionPlanLoading } =
     getSubscriptionPlan(subscriptionPlanId);
@@ -27,14 +34,14 @@ const Checkout = () => {
   if (subscriptionPlanError) return <div>error..</div>;
 
   const selectedVariant = subscriptionPlan?.variants.find(
-    ({ time }) => time === selectedPlanTime
+    ({ stripePriceId }) => stripePriceId === selectedPlanTime
   );
-
   return (
     <div>
       <h2>plan: {subscriptionPlan?.name}</h2>{" "}
       <h2>czas: {selectedVariant?.name}</h2>{" "}
       <h2>cena: {selectedVariant?.price}</h2>{" "}
+      <h2>operator płatności: {selectedPaymentOperator}</h2>
     </div>
   );
 };

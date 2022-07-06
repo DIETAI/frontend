@@ -5,12 +5,15 @@ export const userSubscriptionPlanSchema = yup.object({
 });
 
 export const userSubscriptionPlanPriceSchema = yup.object({
-  planTime: yup.string().required("To pole jest wymagane"),
+  stripePriceId: yup.string().required("To pole jest wymagane"),
 });
 
 export const userSubscriptionPlanCheckoutSchema = yup.object({
-  dateStart: yup.date().required("To pole jest wymagane"),
-  dateEnd: yup.date().required("To pole jest wymagane"),
+  paymentOperator: yup
+    .string()
+    .oneOf(["stripe", "paypal", "p24"])
+    .required("To pole jest wymagane")
+    .default("stripe"),
 });
 
 export type IUserSubscriptionPlan = yup.InferType<

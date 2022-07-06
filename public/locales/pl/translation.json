@@ -212,11 +212,24 @@
     "form": {
       "basic_info": {
         "heading": "Podstawowe informacje",
-        "description": "Podstawowe informacje o posiłku"
+        "info": "Podstawowe informacje o posiłku",
+        "name": "nazwa posiłku",
+        "description": "opis",
+        "recipe": "przepis",
+        "mealTypes": "rodzaje dań",
+        "tags": "tagi",
+        "dietKinds": "rodzaje diety",
+        "preparation_time": "czas przygotowania",
+        "image": "zdjęcie",
+        "gallery": "galeria"
       },
       "products": {
         "heading": "Produkty",
-        "description": "Produkty występujące w posiłku"
+        "info": "Dodaj produkty do posiłku",
+        "addProduct": "dodaj produkt",
+        "modal": {
+          "title": "Dodaj produkt"
+        }
       }
     }
   },
@@ -246,7 +259,8 @@
         "carbohydratesGram": "węglowodany (g)",
         "fiberGram": "błonnik (g)",
         "digestibleCarbohydratesGram": "węglowodany przyswajalne (g)",
-        "ww": "wymienniki węglowodanowe",
+        "carbohydrateExchangers": "wymienniki węglowodanowe",
+        "proteinFatExchangers": "wymienniki białkowo-tłuszczowe",
         "kcal": "kcal"
       },
       "vitamins": {

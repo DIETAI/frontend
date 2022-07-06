@@ -7,6 +7,7 @@ export interface ISubscriptionPlanVariant {
   time: "1month" | "3months" | "6months";
   price: number;
   salePrice?: number;
+  stripePriceId: string;
 }
 
 export interface ISubscriptionPlanData {

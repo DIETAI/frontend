@@ -34,7 +34,7 @@ const Product = styled.div(
   `
 );
 
-const RoleModalContainer = styled.div(
+const ProductModalContainer = styled.div(
   ({
     theme: {
       palette,
@@ -155,7 +155,7 @@ const RoleItemWrapper = styled.div<ISelectedRole>(
 );
 
 export {
-  RoleModalContainer,
+  ProductModalContainer,
   RolesWrapper,
   RoleItemWrapper,
   ButtonWrapper,

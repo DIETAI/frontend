@@ -10,7 +10,7 @@ const HomeFeaturesWrapper = styled.div(
     },
   }) => css`
     display: flex;
-    align-items: flex-start;
+    align-items: stretch;
     justify-content: flex-start;
     width: 100%;
     max-width: ${breakpoints.lg};

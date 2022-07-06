@@ -25,64 +25,59 @@ export const product_basic_info_schema = yup.object().shape({
 });
 
 export const product_macrohydrates_schema = yup.object().shape({
-  protein: yup.object({
-    gram: yup
-      .number()
-      .typeError("To pole jest wymagane")
-      .positive("Wymagana wartość większa od 0")
-      .required("To pole jest wymagane"),
-    kcal: yup
-      .number()
-      .typeError("To pole jest wymagane")
-      .positive("Wymagana wartość większa od 0")
-      .required("To pole jest wymagane"),
-  }),
+  protein: yup
+    .object({
+      gram: yup
+        .number()
+        .min(0, "Wartość nie może być mniejsza od 0")
+        .required("To pole jest wymagane"),
+      kcal: yup
+        .number()
+        .min(0, "Wartość nie może być mniejsza od 0")
+        .required("To pole jest wymagane"),
+    })
+    .default({
+      gram: 2,
+    }),
+
   fat: yup.object({
     gram: yup
       .number()
-      .typeError("To pole jest wymagane")
-      .positive("Wymagana wartość większa od 0")
+      .min(0, "Wartość nie może być mniejsza od 0")
       .required("To pole jest wymagane"),
     kcal: yup
       .number()
-      .typeError("To pole jest wymagane")
-      .positive("Wymagana wartość większa od 0")
+      .min(0, "Wartość nie może być mniejsza od 0")
       .required("To pole jest wymagane"),
   }),
   carbohydrates: yup.object({
     gram: yup
       .number()
-      .typeError("To pole jest wymagane")
-      .positive("Wymagana wartość większa od 0")
+      .min(0, "Wartość nie może być mniejsza od 0")
       .required("To pole jest wymagane"),
     kcal: yup
       .number()
-      .typeError("To pole jest wymagane")
-      .positive("Wymagana wartość większa od 0")
+      .min(0, "Wartość nie może być mniejsza od 0")
       .required("To pole jest wymagane"),
   }),
   digestableCarbohydrates: yup.object({
     gram: yup
       .number()
-      .typeError("To pole jest wymagane")
-      .positive("Wymagana wartość większa od 0")
+      .min(0, "Wartość nie może być mniejsza od 0")
       .required("To pole jest wymagane"),
     kcal: yup
       .number()
-      .typeError("To pole jest wymagane")
-      .positive("Wymagana wartość większa od 0")
+      .min(0, "Wartość nie może być mniejsza od 0")
       .required("To pole jest wymagane"),
   }),
   fiber: yup.object({
     gram: yup
       .number()
-      .typeError("To pole jest wymagane")
-      .positive("Wymagana wartość większa od 0")
+      .min(0, "Wartość nie może być mniejsza od 0")
       .required("To pole jest wymagane"),
     kcal: yup
       .number()
-      .typeError("To pole jest wymagane")
-      .positive("Wymagana wartość większa od 0")
+      .min(0, "Wartość nie może być mniejsza od 0")
       .required("To pole jest wymagane"),
   }),
   // animalProtein: yup.object({
@@ -111,18 +106,15 @@ export const product_macrohydrates_schema = yup.object().shape({
   // }),
   carbohydrateExchangers: yup
     .number()
-    .typeError("To pole jest wymagane")
-    .positive("Wymagana wartość większa od 0")
+    .min(0, "Wartość nie może być mniejsza od 0")
     .required("To pole jest wymagane"),
   proteinFatExchangers: yup
     .number()
-    .typeError("To pole jest wymagane")
-    .positive("Wymagana wartość większa od 0")
+    .min(0, "Wartość nie może być mniejsza od 0")
     .required("To pole jest wymagane"),
   kcal: yup
     .number()
-    .typeError("To pole jest wymagane")
-    .positive("Wymagana wartość większa od 0")
+    .min(0, "Wartość nie może być mniejsza od 0")
     .required("To pole jest wymagane"),
 });
 
@@ -150,319 +142,231 @@ export const product_fatty_acids_schema = yup.object().shape({
 });
 
 export const product_vitamins_schema = yup.object().shape({
-  vitaminA: yup
-    .object({
-      amount: yup
-        .number()
-        .typeError("To pole jest wymagane")
-        .positive("Wymagana wartość większa od 0"),
-      unit: yup
-        .string()
-        .required("To pole jest wymagane")
-        .oneOf(["mg", "uq", "j."]),
-    })
-    .default({
-      unit: "mg",
-    }),
-  vitaminB1: yup
-    .object({
-      amount: yup
-        .number()
-        .typeError("To pole jest wymagane")
-        .positive("Wymagana wartość większa od 0"),
-      unit: yup
-        .string()
-        .required("To pole jest wymagane")
-        .oneOf(["mg", "uq", "j."]),
-    })
-    .default({
-      unit: "mg",
-    }),
-  vitaminB2: yup
-    .object({
-      amount: yup
-        .number()
-        .typeError("To pole jest wymagane")
-        .positive("Wymagana wartość większa od 0"),
-      unit: yup
-        .string()
-        .required("To pole jest wymagane")
-        .oneOf(["mg", "uq", "j."]),
-    })
-    .default({
-      unit: "mg",
-    }),
-  vitaminB5: yup
-    .object({
-      amount: yup
-        .number()
-        .typeError("To pole jest wymagane")
-        .positive("Wymagana wartość większa od 0"),
-      unit: yup
-        .string()
-        .required("To pole jest wymagane")
-        .oneOf(["mg", "uq", "j."]),
-    })
-    .default({
-      unit: "mg",
-    }),
-  vitaminB6: yup
-    .object({
-      amount: yup
-        .number()
-        .typeError("To pole jest wymagane")
-        .positive("Wymagana wartość większa od 0"),
-      unit: yup
-        .string()
-        .required("To pole jest wymagane")
-        .oneOf(["mg", "uq", "j."]),
-    })
-    .default({
-      unit: "mg",
-    }),
-  biotin: yup
-    .object({
-      amount: yup
-        .number()
-        .typeError("To pole jest wymagane")
-        .positive("Wymagana wartość większa od 0"),
-      unit: yup
-        .string()
-        .required("To pole jest wymagane")
-        .oneOf(["mg", "uq", "j."]),
-    })
-    .default({
-      unit: "mg",
-    }),
-  folicAcid: yup
-    .object({
-      amount: yup
-        .number()
-        .typeError("To pole jest wymagane")
-        .positive("Wymagana wartość większa od 0"),
-      unit: yup
-        .string()
-        .required("To pole jest wymagane")
-        .oneOf(["mg", "uq", "j."]),
-    })
-    .default({
-      unit: "mg",
-    }),
-  vitaminB12: yup
-    .object({
-      amount: yup
-        .number()
-        .typeError("To pole jest wymagane")
-        .positive("Wymagana wartość większa od 0"),
-      unit: yup
-        .string()
-        .required("To pole jest wymagane")
-        .oneOf(["mg", "uq", "j."]),
-    })
-    .default({
-      unit: "mg",
-    }),
-  vitaminC: yup
-    .object({
-      amount: yup
-        .number()
-        .typeError("To pole jest wymagane")
-        .positive("Wymagana wartość większa od 0"),
-      unit: yup
-        .string()
-        .required("To pole jest wymagane")
-        .oneOf(["mg", "uq", "j."]),
-    })
-    .default({
-      unit: "mg",
-    }),
-  vitaminD: yup
-    .object({
-      amount: yup
-        .number()
-        .typeError("To pole jest wymagane")
-        .positive("Wymagana wartość większa od 0"),
-      unit: yup
-        .string()
-        .required("To pole jest wymagane")
-        .oneOf(["mg", "uq", "j."]),
-    })
-    .default({
-      unit: "mg",
-    }),
-  vitaminE: yup
-    .object({
-      amount: yup
-        .number()
-        .typeError("To pole jest wymagane")
-        .positive("Wymagana wartość większa od 0"),
-      unit: yup
-        .string()
-        .required("To pole jest wymagane")
-        .oneOf(["mg", "uq", "j."]),
-    })
-    .default({
-      unit: "mg",
-    }),
+  vitaminA: yup.object({
+    amount: yup
+      .number()
+      .typeError("To pole jest wymagane")
+      .positive("Wymagana wartość większa od 0"),
+    unit: yup.string().oneOf(["mg", "uq", "j."]),
+  }),
+  // .default({
+  //   unit: "mg",
+  // }),
+  vitaminB1: yup.object({
+    amount: yup
+      .number()
+      .typeError("To pole jest wymagane")
+      .positive("Wymagana wartość większa od 0"),
+    unit: yup.string().oneOf(["mg", "uq", "j."]),
+  }),
+  // .default({
+  //   unit: "mg",
+  // }),
+  vitaminB2: yup.object({
+    amount: yup
+      .number()
+      .typeError("To pole jest wymagane")
+      .positive("Wymagana wartość większa od 0"),
+    unit: yup.string().oneOf(["mg", "uq", "j."]),
+  }),
+  // .default({
+  //   unit: "mg",
+  // }),
+  vitaminB5: yup.object({
+    amount: yup
+      .number()
+      .typeError("To pole jest wymagane")
+      .positive("Wymagana wartość większa od 0"),
+    unit: yup.string().oneOf(["mg", "uq", "j."]),
+  }),
+  // .default({
+  //   unit: "mg",
+  // }),
+  vitaminB6: yup.object({
+    amount: yup
+      .number()
+      .typeError("To pole jest wymagane")
+      .positive("Wymagana wartość większa od 0"),
+    unit: yup.string().oneOf(["mg", "uq", "j."]),
+  }),
+  // .default({
+  //   unit: "mg",
+  // }),
+  biotin: yup.object({
+    amount: yup
+      .number()
+      .typeError("To pole jest wymagane")
+      .positive("Wymagana wartość większa od 0"),
+    unit: yup.string().oneOf(["mg", "uq", "j."]),
+  }),
+  // .default({
+  //   unit: "mg",
+  // }),
+  folicAcid: yup.object({
+    amount: yup
+      .number()
+      .typeError("To pole jest wymagane")
+      .positive("Wymagana wartość większa od 0"),
+    unit: yup.string().oneOf(["mg", "uq", "j."]),
+  }),
+  // .default({
+  //   unit: "mg",
+  // }),
+  vitaminB12: yup.object({
+    amount: yup
+      .number()
+      .typeError("To pole jest wymagane")
+      .positive("Wymagana wartość większa od 0"),
+    unit: yup.string().oneOf(["mg", "uq", "j."]),
+  }),
+  // .default({
+  //   unit: "mg",
+  // }),
+  vitaminC: yup.object({
+    amount: yup
+      .number()
+      .typeError("To pole jest wymagane")
+      .positive("Wymagana wartość większa od 0"),
+    unit: yup.string().oneOf(["mg", "uq", "j."]),
+  }),
+  // .default({
+  //   unit: "mg",
+  // }),
+  vitaminD: yup.object({
+    amount: yup
+      .number()
+      .typeError("To pole jest wymagane")
+      .positive("Wymagana wartość większa od 0"),
+    unit: yup.string().oneOf(["mg", "uq", "j."]),
+  }),
+  // .default({
+  //   unit: "mg",
+  // }),
+  vitaminE: yup.object({
+    amount: yup
+      .number()
+      .typeError("To pole jest wymagane")
+      .positive("Wymagana wartość większa od 0"),
+    unit: yup.string().oneOf(["mg", "uq", "j."]),
+  }),
+  // .default({
+  //   unit: "mg",
+  // }),
 
-  vitaminPP: yup
-    .object({
-      amount: yup
-        .number()
-        .typeError("To pole jest wymagane")
-        .positive("Wymagana wartość większa od 0"),
-      unit: yup
-        .string()
-        .required("To pole jest wymagane")
-        .oneOf(["mg", "uq", "j."]),
-    })
-    .default({
-      unit: "mg",
-    }),
+  vitaminPP: yup.object({
+    amount: yup
+      .number()
+      .typeError("To pole jest wymagane")
+      .positive("Wymagana wartość większa od 0"),
+    unit: yup.string().oneOf(["mg", "uq", "j."]),
+  }),
+  // .default({
+  //   unit: "mg",
+  // }),
 
-  vitaminK: yup
-    .object({
-      amount: yup
-        .number()
-        .typeError("To pole jest wymagane")
-        .positive("Wymagana wartość większa od 0"),
-      unit: yup
-        .string()
-        .required("To pole jest wymagane")
-        .oneOf(["mg", "uq", "j."]),
-    })
-    .default({
-      unit: "mg",
-    }),
+  vitaminK: yup.object({
+    amount: yup
+      .number()
+      .typeError("To pole jest wymagane")
+      .positive("Wymagana wartość większa od 0"),
+    unit: yup.string().oneOf(["mg", "uq", "j."]),
+  }),
+  // .default({
+  //   unit: "mg",
+  // }),
 });
 
 export const product_minerals_schema = yup.object().shape({
-  zinc: yup
-    .object({
-      amount: yup
-        .number()
-        .typeError("To pole jest wymagane")
-        .positive("Wymagana wartość większa od 0"),
-      unit: yup
-        .string()
-        .required("To pole jest wymagane")
-        .oneOf(["mg", "uq", "j."]),
-    })
-    .default({
-      unit: "mg",
-    }),
-  phosphorus: yup
-    .object({
-      amount: yup
-        .number()
-        .typeError("To pole jest wymagane")
-        .positive("Wymagana wartość większa od 0"),
-      unit: yup
-        .string()
-        .required("To pole jest wymagane")
-        .oneOf(["mg", "uq", "j."]),
-    })
-    .default({
-      unit: "mg",
-    }),
-  magnesium: yup
-    .object({
-      amount: yup
-        .number()
-        .typeError("To pole jest wymagane")
-        .positive("Wymagana wartość większa od 0"),
-      unit: yup
-        .string()
-        .required("To pole jest wymagane")
-        .oneOf(["mg", "uq", "j."]),
-    })
-    .default({
-      unit: "mg",
-    }),
-  copper: yup
-    .object({
-      amount: yup
-        .number()
-        .typeError("To pole jest wymagane")
-        .positive("Wymagana wartość większa od 0"),
-      unit: yup
-        .string()
-        .required("To pole jest wymagane")
-        .oneOf(["mg", "uq", "j."]),
-    })
-    .default({
-      unit: "mg",
-    }),
-  potassium: yup
-    .object({
-      amount: yup
-        .number()
-        .typeError("To pole jest wymagane")
-        .positive("Wymagana wartość większa od 0"),
-      unit: yup
-        .string()
-        .required("To pole jest wymagane")
-        .oneOf(["mg", "uq", "j."]),
-    })
-    .default({
-      unit: "mg",
-    }),
-  selenium: yup
-    .object({
-      amount: yup
-        .number()
-        .typeError("To pole jest wymagane")
-        .positive("Wymagana wartość większa od 0"),
-      unit: yup
-        .string()
-        .required("To pole jest wymagane")
-        .oneOf(["mg", "uq", "j."]),
-    })
-    .default({
-      unit: "mg",
-    }),
-  sodium: yup
-    .object({
-      amount: yup
-        .number()
-        .typeError("To pole jest wymagane")
-        .positive("Wymagana wartość większa od 0"),
-      unit: yup
-        .string()
-        .required("To pole jest wymagane")
-        .oneOf(["mg", "uq", "j."]),
-    })
-    .default({
-      unit: "mg",
-    }),
-  calcium: yup
-    .object({
-      amount: yup
-        .number()
-        .typeError("To pole jest wymagane")
-        .positive("Wymagana wartość większa od 0"),
-      unit: yup
-        .string()
-        .required("To pole jest wymagane")
-        .oneOf(["mg", "uq", "j."]),
-    })
-    .default({
-      unit: "mg",
-    }),
-  iron: yup
-    .object({
-      amount: yup
-        .number()
-        .typeError("To pole jest wymagane")
-        .positive("Wymagana wartość większa od 0"),
-      unit: yup
-        .string()
-        .required("To pole jest wymagane")
-        .oneOf(["mg", "uq", "j."]),
-    })
-    .default({
-      unit: "mg",
-    }),
+  zinc: yup.object({
+    amount: yup
+      .number()
+      .typeError("To pole jest wymagane")
+      .positive("Wymagana wartość większa od 0"),
+    unit: yup.string().oneOf(["mg", "uq", "j."]),
+  }),
+  // .default({
+  //   unit: "mg",
+  // }),
+  phosphorus: yup.object({
+    amount: yup
+      .number()
+      .typeError("To pole jest wymagane")
+      .positive("Wymagana wartość większa od 0"),
+    unit: yup.string().oneOf(["mg", "uq", "j."]),
+  }),
+  // .default({
+  //   unit: "mg",
+  // }),
+  magnesium: yup.object({
+    amount: yup
+      .number()
+      .typeError("To pole jest wymagane")
+      .positive("Wymagana wartość większa od 0"),
+    unit: yup.string().oneOf(["mg", "uq", "j."]),
+  }),
+  // .default({
+  //   unit: "mg",
+  // }),
+  copper: yup.object({
+    amount: yup
+      .number()
+      .typeError("To pole jest wymagane")
+      .positive("Wymagana wartość większa od 0"),
+    unit: yup.string().oneOf(["mg", "uq", "j."]),
+  }),
+  // .default({
+  //   unit: "mg",
+  // }),
+  potassium: yup.object({
+    amount: yup
+      .number()
+      .typeError("To pole jest wymagane")
+      .positive("Wymagana wartość większa od 0"),
+    unit: yup.string().oneOf(["mg", "uq", "j."]),
+  }),
+  // .default({
+  //   unit: "mg",
+  // }),
+  selenium: yup.object({
+    amount: yup
+      .number()
+      .typeError("To pole jest wymagane")
+      .positive("Wymagana wartość większa od 0"),
+    unit: yup.string().oneOf(["mg", "uq", "j."]),
+  }),
+  // .default({
+  //   unit: "mg",
+  // }),
+  sodium: yup.object({
+    amount: yup
+      .number()
+      .typeError("To pole jest wymagane")
+      .positive("Wymagana wartość większa od 0"),
+    unit: yup.string().oneOf(["mg", "uq", "j."]),
+  }),
+  // .default({
+  //   unit: "mg",
+  // }),
+  calcium: yup.object({
+    amount: yup
+      .number()
+      .typeError("To pole jest wymagane")
+      .positive("Wymagana wartość większa od 0"),
+    unit: yup.string().oneOf(["mg", "uq", "j."]),
+  }),
+  // .default({
+  //   unit: "mg",
+  // }),
+  iron: yup.object({
+    amount: yup
+      .number()
+      .typeError("To pole jest wymagane")
+      .positive("Wymagana wartość większa od 0"),
+    unit: yup.string().oneOf(["mg", "uq", "j."]),
+  }),
+  // .default({
+  //   unit: "mg",
+  // }),
 });
 
 const measureColumn = ["miara", "jednostka", "gram", ""];

@@ -10,7 +10,7 @@ export const subscriptionPlanSchema = yup.object({
     .required("To pole jest wymagane")
     .oneOf(["admin", "patient", "dietetic", "personal"]),
   shortDescription: yup.string().default(""),
-  description: yup.string().default(""),
+  description: yup.string(),
   price: yup
     .number()
     .typeError("To pole jest wymagane")

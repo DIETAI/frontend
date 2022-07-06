@@ -12,10 +12,11 @@ import { IProductMacrohydrates } from "../../../schema/productFormSchema";
 const Macrohydrates = () => {
   const {
     control,
-    formState: { errors },
+    formState: { errors, isValid },
     setValue,
     watch,
     getValues,
+    trigger,
   } = useFormContext();
 
   const { t } = useTranslation();
@@ -29,13 +30,14 @@ const Macrohydrates = () => {
   const fiber = watch("fiber") as IProductMacrohydrates["fiber"];
 
   const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
-    // const value = !e.currentTarget.value
-    //   ? undefined
-    //   : parseFloat(parseFloat(e.currentTarget.value).toFixed(2));
+    const value = !e.currentTarget.value
+      ? undefined
+      : parseFloat(parseFloat(e.currentTarget.value).toFixed(2));
 
-    // setValue(e.currentTarget.name, value);
+    console.log({ name: e.currentTarget.name, value: value });
 
-    const value = parseFloat(parseFloat(e.currentTarget.value).toFixed(1));
+    if (!value) return setValue(e.currentTarget.name, 0);
+
     setValue(e.currentTarget.name, value);
   };
 
@@ -103,13 +105,14 @@ const Macrohydrates = () => {
   }, [protein.kcal, fat.kcal]);
 
   useEffect(() => {
-    if (protein.kcal && fat.kcal && carbohydrates.kcal) {
-      const kcal = round2(protein.kcal + fat.kcal + carbohydrates.kcal);
-      setValue("kcal", kcal);
-      return;
-    }
+    // if (protein.kcal && fat.kcal && carbohydrates.kcal) {
+    const kcal = round2(protein.kcal + fat.kcal + carbohydrates.kcal);
+    console.log({ kcal });
+    setValue("kcal", kcal);
+    return;
+    // }
 
-    setValue("kcal", 0);
+    // setValue("kcal", 0);
   }, [protein.kcal, fat.kcal, carbohydrates.kcal]);
 
   return (

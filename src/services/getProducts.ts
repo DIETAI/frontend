@@ -21,6 +21,14 @@ export const getProduct = (id: string) => {
     fetcher
   );
 
+  if (!id) {
+    return {
+      product: undefined,
+      productLoading: false,
+      productError: false,
+    };
+  }
+
   return {
     product: data,
     productLoading: !error && !data,

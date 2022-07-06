@@ -50,9 +50,9 @@ const InputWrapper = styled.div<Pick<IInputProps, "fullWidth">>(
     }
 
     p {
-      font-size: ${fontSize.xs};
-      font-weight: ${fontWeight.light};
-      color: ${palette.common.error};
+      font-size: ${fontSize.xs} !important;
+      font-weight: ${fontWeight.light} !important;
+      color: ${palette.common.error} !important;
       margin-top: 0.5rem;
       letter-spacing: 0.05rem;
     }

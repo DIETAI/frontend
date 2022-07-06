@@ -16,8 +16,8 @@ const HomeInfo = () => {
           dostępnych funkcji w aplikacji
         </p>
         <Styled.ButtonWrapper>
-          <Button variant="secondary">zobacz nowości</Button>
-          <Button>szybki jadłospis</Button>
+          {/* <Button variant="secondary">zobacz nowości</Button> */}
+          <Button>stwórz jadłospis</Button>
         </Styled.ButtonWrapper>
       </Styled.InfoHeading>
       <img src={ReportImg} />

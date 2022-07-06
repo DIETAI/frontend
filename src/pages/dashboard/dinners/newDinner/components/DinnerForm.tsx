@@ -2,10 +2,18 @@ import React, { useEffect } from "react";
 
 import axios from "utils/api";
 import { useNavigate } from "react-router";
+import { useTranslation } from "react-i18next";
+
+//icons
+import { FaUtensils } from "icons/icons";
 
 //components
-import MultiStepFormContent from "../../../components/multiStepForm/multiStepContent/MultiStepContent";
-import FormStep from "../../../components/multiStepForm/step/Step";
+import MultiStepFormContent from "../../../components/multiStepFormv2/multiStepContent/MultiStepContent";
+import MultiStepContainer from "../../../components/multiStepFormv2/multiStepContainer/MultiStepContainer";
+import MultiStepSidebar from "../../../components/multiStepFormv2/multistepSidebar/MultiStepSidebar";
+import DinnerSidebarSteps from "../../components/form/sidebar/steps/DinnerSidebarSteps";
+import DinnerSidebarEstablishment from "../../components/form/sidebar/establishment/DinnerSidebarEstablishment";
+import FormStep from "../../../components/multiStepFormv2/step/Step";
 
 //steps
 import { dinnerFormSteps } from "../../utils/steps";
@@ -23,7 +31,17 @@ const allDinnerSchemas = basicInfoSchema.concat(dinnerProductsSchema);
 const defaultDinnerValues = allDinnerSchemas.cast({});
 type IDinnerValues = typeof defaultDinnerValues;
 
+const dinnerSidebarPages = [
+  {
+    id: 1,
+    title: "sekcje",
+    component: <DinnerSidebarSteps dinnerFormSteps={dinnerFormSteps} />,
+  },
+  { id: 2, title: "założenia", component: <DinnerSidebarEstablishment /> },
+];
+
 const DinnerForm = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { handleAlert } = useAlert();
 
@@ -48,24 +66,31 @@ const DinnerForm = () => {
   };
 
   return (
-    <MultiStepFormContent
+    <MultiStepContainer
       defaultValues={defaultDinnerValues}
       onSubmitAction={onDinnerFormSubmit}
       validationSchema={allDinnerSchemas}
     >
-      {dinnerFormSteps.map((step) => (
-        <FormStep
-          key={step.id}
-          icon={step.icon}
-          label={step.title}
-          validationSchema={step.validationSchema}
-          id={step.sectionId}
-          sectionId={step.sectionId}
-        >
-          {step.stepContent}
-        </FormStep>
-      ))}
-    </MultiStepFormContent>
+      <MultiStepSidebar
+        icon={<FaUtensils />}
+        title={t("dinner.sidebar.title")}
+        pages={dinnerSidebarPages}
+      />
+      <MultiStepFormContent>
+        {dinnerFormSteps.map((step) => (
+          <FormStep
+            key={step.id}
+            icon={step.icon}
+            label={step.title}
+            validationSchema={step.validationSchema}
+            id={step.sectionId}
+            sectionId={step.sectionId}
+          >
+            {step.stepContent}
+          </FormStep>
+        ))}
+      </MultiStepFormContent>
+    </MultiStepContainer>
   );
 };
 
