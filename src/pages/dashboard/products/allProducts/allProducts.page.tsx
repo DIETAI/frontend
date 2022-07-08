@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { getProducts } from "services/getProducts";
 
@@ -7,7 +7,12 @@ import format from "date-fns/format";
 
 //components
 import PageHeading from "pages/dashboard/components/pageHeading/PageHeading";
-import DataGrid from "../../components/dataGridv2/DataGrid";
+import {
+  DataGridContainer,
+  DataGridNav,
+  DataGridList,
+  DataGridPagination,
+} from "../../components/dataGridv3";
 import Section from "../components/section/Section";
 
 //interfaces
@@ -30,7 +35,29 @@ const columns: IColumn[] = [
 
 const AllProducts = () => {
   const { t } = useTranslation();
-  const { products, productsError, productsLoading } = getProducts();
+  const [page, setPage] = useState(1);
+  const [pageCount, setPageCount] = useState(0);
+  const { products, productsError, productsLoading, pagination } = getProducts(
+    page.toString() //usePagination
+  );
+
+  useEffect(() => {
+    if (pagination) {
+      setPageCount(pagination.pageCount);
+    }
+  }, [pagination]);
+
+  const handleBack = () => {
+    if (page === 1) return;
+    setPage(page - 1);
+  };
+
+  const handleNext = () => {
+    if (page === pageCount) return;
+    setPage(page + 1);
+  };
+
+  console.log({ products });
 
   // if (measurementsLoading) return <div>measurements loading...</div>;
   if (productsError || !products) return <div>products error</div>;
@@ -53,14 +80,23 @@ const AllProducts = () => {
 
   return (
     <>
-      <DataGrid
-        columns={columns}
-        addLink="/dashboard/products/new"
-        link="/dashboard/products"
-        exportAction={() => console.log("open export popup")}
-        data={productsData}
-        loadingData={productsLoading}
-      />
+      <DataGridContainer>
+        <DataGridNav
+          addLink="/dashboard/products/new"
+          exportAction={() => console.log("open export popup")}
+        />
+        <DataGridList
+          data={productsData}
+          loadingData={productsLoading}
+          columns={columns}
+          link="/dashboard/products"
+        />
+        <DataGridPagination
+          currentPage={page}
+          pageCount={pageCount}
+          changePage={setPage}
+        />
+      </DataGridContainer>
     </>
   );
 };

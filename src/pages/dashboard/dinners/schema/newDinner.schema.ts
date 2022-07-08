@@ -52,5 +52,40 @@ export const dinnerProductsSchema = yup.object({
     .default([]),
 });
 
+export const productPortionListSchema = yup.object({
+  portionList: yup
+    .array(
+      yup.object({
+        dinnerProducts: yup.array(
+          yup.object({
+            dinnerProductId: yup.string().required("To pole jest wymagane"),
+            portion: yup
+              .number()
+              .typeError("To pole jest wymagane")
+              .positive("Wymagana wartość większa od 0")
+              .required("To pole jest wymagane"),
+            total: yup.object({
+              kcal: yup
+                .number()
+                .typeError("To pole jest wymagane")
+                .positive("Wymagana wartość większa od 0")
+                .required("To pole jest wymagane"),
+            }),
+          })
+        ),
+        total: yup.object({
+          kcal: yup
+            .number()
+            .typeError("To pole jest wymagane")
+            .positive("Wymagana wartość większa od 0")
+            .required("To pole jest wymagane"),
+        }),
+        type: yup.string().oneOf(["default", "custom"]),
+      })
+    )
+    // .min(1)
+    .default([]),
+});
+
 export type IBasicInfo = yup.InferType<typeof basicInfoSchema>;
 export type IDinnerProducts = yup.InferType<typeof dinnerProductsSchema>;

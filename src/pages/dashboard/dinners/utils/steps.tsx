@@ -10,6 +10,7 @@ import * as Step from "../components/form/steps";
 import {
   basicInfoSchema,
   dinnerProductsSchema,
+  productPortionListSchema,
 } from "../schema/newDinner.schema";
 
 export const dinnerFormSteps = [
@@ -32,5 +33,15 @@ export const dinnerFormSteps = [
     validationSchema: dinnerProductsSchema,
     stepContent: <Step.Products />,
     sectionId: "dinner_form_2",
+  },
+  {
+    id: 3,
+    requiredFields: false,
+    title: "Zestawy porcji",
+    description: "Dodaj zestawy porcji produktów w posiłku",
+    icon: <FaCarrot />,
+    validationSchema: productPortionListSchema,
+    stepContent: <Step.Portions />,
+    sectionId: "dinner_form_3",
   },
 ];

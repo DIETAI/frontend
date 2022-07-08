@@ -49,9 +49,7 @@ const DinnerInfo = () => {
       </Styled.DinnerInfoItem>
       <Button
         fullWidth
-        onClick={() =>
-          navigate(`/dashboard/diet-establishments/edit/${dinner._id}`)
-        }
+        onClick={() => navigate(`/dashboard/dinners/edit/${dinner._id}`)}
       >
         {t("formOptions.edit")}
       </Button>

@@ -1,6 +1,6 @@
 import useSWR from "swr";
 import fetcher from "utils/fetcher";
-import { IDinnerData } from "interfaces/dinner.interfaces";
+import { IDinnerData } from "interfaces/dinner/dinner.interfaces";
 
 export const getDinners = () => {
   const { data, error } = useSWR<IDinnerData[] | null>(

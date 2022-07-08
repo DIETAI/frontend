@@ -1,8 +1,25 @@
 import useSWR from "swr";
 import fetcher from "utils/fetcher";
-import { IProductData } from "interfaces/product.interfaces";
+import {
+  IProductData,
+  IProductPaginationData,
+} from "interfaces/product.interfaces";
 
-export const getProducts = () => {
+export const getProducts = (page?: string) => {
+  if (page) {
+    const { data, error } = useSWR<IProductPaginationData | null>(
+      `/api/v1/products?page=${page}`,
+      fetcher
+    );
+
+    return {
+      products: data?.products,
+      productsLoading: !error && !data,
+      productsError: error,
+      pagination: data?.pagination,
+    };
+  }
+
   const { data, error } = useSWR<IProductData[] | null>(
     `/api/v1/products`,
     fetcher

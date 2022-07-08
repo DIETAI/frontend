@@ -15,7 +15,7 @@ import Image from "components/form/images/image/Image";
 import * as DinnerStep from "./steps";
 
 //interfaces
-import { IDinnerData } from "interfaces/dinner.interfaces";
+import { IDinnerData } from "interfaces/dinner/dinner.interfaces";
 
 const DinnerContent = () => {
   const { dinnerId } = useParams();
@@ -35,7 +35,7 @@ const DinnerContent = () => {
         image={dinner.image}
         gallery={dinner.gallery}
       />
-      <DinnerStep.Products products={dinner.products} />
+      {/* <DinnerStep.Products products={dinner.products} /> */}
     </Styled.DinnerContentWrapper>
   );
 };

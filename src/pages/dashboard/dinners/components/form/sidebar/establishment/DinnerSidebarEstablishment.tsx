@@ -12,7 +12,7 @@ const DinnerSidebarEstablishment = () => {
     <>
       <Styled.SidebarEstablishmentContainer>
         DinnerSidebarEstablishment
-        <p>domyślne ilości</p>
+        <p>wyświetlenie dinner portions</p>
         <button type="button" onClick={() => setEstablishmentModalOpen(true)}>
           dodaj założenia
         </button>

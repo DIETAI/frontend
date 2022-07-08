@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useParams } from "react-router";
+import axios from "utils/api";
 
 //components
 import Input from "components/form/input/Input";
@@ -21,12 +23,22 @@ import { getProduct } from "services/getProducts";
 //interfaces
 import { IDinnerProducts } from "../../../../schema/newDinner.schema";
 
+//query
+import { getDinnerProducts } from "services/getDinnerProducts";
+import { getDinnerPortions } from "services/getDinnerPortions";
+import { mutate } from "swr";
+import { IDinnerProductData } from "interfaces/dinner/dinnerProducts.interfaces";
+
 interface IDinnerProductsValues {
   products: IDinnerProducts["products"];
 }
 
 const Products = () => {
   const { t } = useTranslation();
+  const { dinnerId } = useParams();
+  const { dinnerProducts, dinnerProductsLoading, dinnerProductsError } =
+    getDinnerProducts(dinnerId as string);
+
   const [addProductModalOpen, setAddProductModalOpen] = useState(false);
 
   const {
@@ -48,9 +60,26 @@ const Products = () => {
 
   console.log({ fields });
 
+  if (dinnerProductsLoading) return <div>loading...</div>;
+  if (dinnerProductsError) return <div>error..</div>;
+
   return (
     <>
-      {fields.length > 0 &&
+      {dinnerProducts?.length &&
+        dinnerProducts.map((dinnerProduct, index) => (
+          <ProductField
+            key={dinnerProduct._id}
+            dinnerProducts={dinnerProducts}
+            fieldIndex={index}
+            dinnerProductId={dinnerProduct._id}
+            productId={dinnerProduct.productId}
+            removeProduct={removeProduct}
+            defaultAmount={dinnerProduct.defaultAmount}
+            minAmount={dinnerProduct.minAmount}
+            maxAmount={dinnerProduct.maxAmount}
+          />
+        ))}
+      {/* {fields.length > 0 &&
         fields.map((field, index) => (
           <ProductField
             key={field.id}
@@ -61,7 +90,7 @@ const Products = () => {
             minAmount={field.minAmount}
             maxAmount={field.maxAmount}
           />
-        ))}
+        ))} */}
 
       <DashedSelect
         icon={<FaPlus />}
@@ -83,6 +112,8 @@ const Products = () => {
 };
 
 interface IProductFieldProps {
+  dinnerProductId: string;
+  dinnerProducts: IDinnerProductData[];
   productId: string;
   removeProduct: (fieldIndex: number) => void;
   fieldIndex: number;
@@ -92,17 +123,62 @@ interface IProductFieldProps {
 }
 
 const ProductField = ({
+  dinnerProductId,
   productId,
   removeProduct,
   fieldIndex,
   defaultAmount,
   minAmount,
   maxAmount,
+  dinnerProducts,
 }: IProductFieldProps) => {
+  const { dinnerId } = useParams();
+  const { dinnerPortions, dinnerPortionsLoading, dinnerPortionsError } =
+    getDinnerPortions(dinnerId as string);
+
+  //odczytać dinnerProductQuery z obiektem produktu
   const { product, productError, productLoading } = getProduct(productId);
 
-  if (productLoading) return <div>loading...</div>;
-  if (productError) return <div>error...</div>;
+  if (productLoading || dinnerPortionsLoading) return <div>loading...</div>;
+  if (productError || dinnerPortionsError) return <div>error...</div>;
+
+  const removeDinnerProduct = async () => {
+    console.log("usuwanie produktu");
+
+    try {
+      await axios.delete(`/api/v1/dinnerProducts/${dinnerProductId}`, {
+        withCredentials: true,
+      });
+      await mutate(
+        `/api/v1/dinnerProducts/dinner/${dinnerId}`,
+        dinnerProducts.filter(
+          (dinnerProduct) => dinnerProduct._id !== dinnerProductId
+        )
+      );
+
+      //dinnerPortions
+      if (dinnerProducts.length === 1) {
+        await mutate(`/api/v1/dinnerPortions/dinner/${dinnerId}`, []);
+      }
+
+      if (dinnerPortions && dinnerProducts.length > 1) {
+        await mutate(
+          `/api/v1/dinnerPortions/dinner/${dinnerId}`,
+          dinnerPortions.map((dinnerPortion) => ({
+            ...dinnerPortion,
+            dinnerProducts: dinnerPortion.dinnerProducts.filter(
+              (dinnerProduct) =>
+                dinnerProduct.dinnerProductId !== dinnerProductId
+            ),
+          }))
+        );
+      }
+
+      console.log("usunięto produkt z posiłku");
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
     <Styled.FieldWrapper>
@@ -122,7 +198,7 @@ const ProductField = ({
           <Styled.IconButtonWrapper
             iconType="delete"
             type="button"
-            onClick={() => removeProduct(fieldIndex)}
+            onClick={removeDinnerProduct}
           >
             <FaTrash />
           </Styled.IconButtonWrapper>

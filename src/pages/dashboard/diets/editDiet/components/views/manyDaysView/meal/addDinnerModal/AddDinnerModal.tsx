@@ -14,7 +14,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as Styled from "./AddDinnerModal.styles";
 
 //interfaces
-import { IDinnerData } from "interfaces/dinner.interfaces";
+import { IDinnerData } from "interfaces/dinner/dinner.interfaces";
 
 //icons
 import { FaUserCog } from "icons/icons";
@@ -107,16 +107,16 @@ const AddDinnerModal = ({ closeModal, meal }: IDinnerModalProps) => {
     setValue("dinnerId", dinner._id);
     setValue("total.kcal", 0);
     setValue("order", 1);
-    setValue(
-      "products",
-      dinner.products.map((dinnerProduct) => ({
-        productId: dinnerProduct.productId,
-        selectedPortionGram: dinnerProduct.defaultAmount,
-        total: {
-          kcal: 0,
-        },
-      }))
-    );
+    // setValue(
+    //   "products",
+    //   dinner.products.map((dinnerProduct) => ({
+    //     productId: dinnerProduct.productId,
+    //     selectedPortionGram: dinnerProduct.defaultAmount,
+    //     total: {
+    //       kcal: 0,
+    //     },
+    //   }))
+    // );
     console.log("dodano danie");
     return;
   };
@@ -186,6 +186,8 @@ const AddDinnerFormContent = () => {
     }
   };
 
+  //wybrać i dodac wybrany zestaw porcji {portion: 1, total: {kcal: 200}, type: "custom", products:[dinnerProductId: sad, productId: adsada]}
+
   return (
     <Styled.AddDinnerFormWrapper
       onSubmit={handleSubmit(onDietDinnerFormSubmit as any)}
@@ -196,12 +198,12 @@ const AddDinnerFormContent = () => {
       <div>
         <h3>Produkty:</h3>
         <ul>
-          {dinner?.products?.map((dinnerProduct) => (
+          {/* {dinner?.products?.map((dinnerProduct) => (
             <DinnerProduct
               key={dinnerProduct.productId}
               dinnerProduct={dinnerProduct}
             />
-          ))}
+          ))} */}
         </ul>
       </div>
       <Button
@@ -215,75 +217,75 @@ const AddDinnerFormContent = () => {
   );
 };
 
-interface IDinnerProductProps {
-  dinnerProduct: IDinnerData["products"][0];
-}
+// interface IDinnerProductProps {
+//   dinnerProduct: IDinnerData["products"][0];
+// }
 
-const DinnerProduct = ({ dinnerProduct }: IDinnerProductProps) => {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors, isSubmitting, isValid },
-    setValue,
-    watch,
-    getValues,
-  } = useFormContext();
+// const DinnerProduct = ({ dinnerProduct }: IDinnerProductProps) => {
+//   const {
+//     control,
+//     handleSubmit,
+//     formState: { errors, isSubmitting, isValid },
+//     setValue,
+//     watch,
+//     getValues,
+//   } = useFormContext();
 
-  const dietDinner = watch() as IDietDinner;
+//   const dietDinner = watch() as IDietDinner;
 
-  const { product, productLoading, productError } = getProduct(
-    dinnerProduct.productId
-  );
+//   const { product, productLoading, productError } = getProduct(
+//     dinnerProduct.productId
+//   );
 
-  if (productLoading) return <div>product loading...</div>;
-  if (productError) return <div>product error...</div>;
+//   if (productLoading) return <div>product loading...</div>;
+//   if (productError) return <div>product error...</div>;
 
-  const getDietDinnerProductSelectedPortion = () => {
-    const product = dietDinner.products?.filter(
-      ({ productId }) => productId === dinnerProduct.productId
-    )[0];
-    const selectedPortion = product?.selectedPortionGram;
-    return selectedPortion;
-  };
+//   const getDietDinnerProductSelectedPortion = () => {
+//     const product = dietDinner.products?.filter(
+//       ({ productId }) => productId === dinnerProduct.productId
+//     )[0];
+//     const selectedPortion = product?.selectedPortionGram;
+//     return selectedPortion;
+//   };
 
-  const selectNewPortion = (portionGram: number) => {
-    const productIndex = dietDinner.products?.findIndex(
-      ({ productId }) => productId === dinnerProduct.productId
-    );
-    setValue(`products.${productIndex}.selectedPortionGram`, portionGram);
+//   const selectNewPortion = (portionGram: number) => {
+//     const productIndex = dietDinner.products?.findIndex(
+//       ({ productId }) => productId === dinnerProduct.productId
+//     );
+//     setValue(`products.${productIndex}.selectedPortionGram`, portionGram);
 
-    //setTotalValues
-  };
+//     //setTotalValues
+//   };
 
-  return (
-    <>
-      <h4>{product?.name}</h4>
-      <div>
-        <div>
-          <p>min: {dinnerProduct.minAmount}</p>
-          <p>max: {dinnerProduct.maxAmount}</p>
-        </div>
+//   return (
+//     <>
+//       <h4>{product?.name}</h4>
+//       <div>
+//         <div>
+//           <p>min: {dinnerProduct.minAmount}</p>
+//           <p>max: {dinnerProduct.maxAmount}</p>
+//         </div>
 
-        <h4>Dostępne porcje:</h4>
-        <Styled.DinnerProductPortionsWrapper>
-          {createPortions(
-            dinnerProduct.minAmount as number,
-            dinnerProduct.maxAmount as number
-          ).map((portionGram) => (
-            <Styled.DinnerProductPortion
-              onClick={() => selectNewPortion(portionGram)}
-              key={portionGram}
-              selectedPortion={
-                portionGram === getDietDinnerProductSelectedPortion()
-              }
-            >
-              {portionGram} g
-            </Styled.DinnerProductPortion>
-          ))}
-        </Styled.DinnerProductPortionsWrapper>
-      </div>
-    </>
-  );
-};
+//         <h4>Dostępne porcje:</h4>
+//         <Styled.DinnerProductPortionsWrapper>
+//           {createPortions(
+//             dinnerProduct.minAmount as number,
+//             dinnerProduct.maxAmount as number
+//           ).map((portionGram) => (
+//             <Styled.DinnerProductPortion
+//               onClick={() => selectNewPortion(portionGram)}
+//               key={portionGram}
+//               selectedPortion={
+//                 portionGram === getDietDinnerProductSelectedPortion()
+//               }
+//             >
+//               {portionGram} g
+//             </Styled.DinnerProductPortion>
+//           ))}
+//         </Styled.DinnerProductPortionsWrapper>
+//       </div>
+//     </>
+//   );
+// };
 
 export default AddDinnerModal;

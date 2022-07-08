@@ -1,7 +1,7 @@
 import { IDietDayData } from "./dietDays.interfaces";
 import { IDietDayMealData } from "./dietMeals.interfaces";
 import { IDietDinnerData } from "./dietDinners.interfaces";
-import { IDinnerData } from "../dinner.interfaces";
+import { IDinnerData } from "../dinner/dinner.interfaces";
 
 export interface IDietDinnerQueryData extends IDietDinnerData {
   dinner: IDinnerData;

@@ -7,7 +7,7 @@ import Image from "components/form/images/image/Image";
 //icons
 import { FaInfoCircle } from "icons/icons";
 
-import { IDinnerData } from "interfaces/dinner.interfaces";
+import { IDinnerData } from "interfaces/dinner/dinner.interfaces";
 
 interface IDinnerInfo {
   name: IDinnerData["name"];

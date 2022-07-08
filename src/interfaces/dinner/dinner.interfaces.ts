@@ -1,11 +1,3 @@
-export interface IDinnerProduct {
-  productId: string;
-  defaultAmount: number;
-  minAmount?: number;
-  maxAmount?: number;
-  portionsGram: number[];
-}
-
 export interface IDinnerData {
   _id: string;
   createdAt: string;
@@ -27,7 +19,6 @@ export interface IDinnerData {
   dietKinds?: string[];
   tags?: string[];
   preparation_time?: string;
-  products: IDinnerProduct[];
 }
 
 export interface IDinnerProps {

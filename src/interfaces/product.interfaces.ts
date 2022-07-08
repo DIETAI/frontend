@@ -93,6 +93,14 @@ export interface IProductData {
   tags?: string[];
 }
 
+export interface IProductPaginationData {
+  products: IProductData[];
+  pagination: {
+    count: number;
+    pageCount: number;
+  };
+}
+
 export interface IProductProps {
   product: IProductData;
 }

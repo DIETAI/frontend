@@ -15,6 +15,8 @@ import { FaUtensils } from "icons/icons";
 //components
 import Heading from "components/heading/Heading";
 import MealTotal from "./mealTotal/MealTotal";
+import Product from "./product/Product";
+import Button from "components/form/button/Button";
 
 interface IPage {
   id: number;
@@ -76,12 +78,15 @@ const EstablishmentModal = () => {
         ))}
       </Styled.EstablishmentModalNav>
       <MealTotal />
+      dodanie nowego formularza i zliczanie makro z context
       {dinnerProducts.map((dinnerProduct) => (
-        <div key={dinnerProduct.productId}>
-          <h2>{dinnerProduct.productId}</h2>
-          <p>domyślna porcja: {dinnerProduct.defaultAmount} g</p>
-        </div>
+        <Product
+          key={dinnerProduct.productId}
+          productId={dinnerProduct.productId}
+          defaultAmount={dinnerProduct.defaultAmount}
+        />
       ))}
+      <Button>zapisz zestawienie porcji w bazie 0/20</Button>
       (zapisywanie kolekcji w bazie) (zapisywanie dinnerProducts w bazie)
       (zapisywanie obliczonych porcji w bazie) zapisz zestawienie porcji 0/20
     </Styled.EstablishmentModalWrapper>

@@ -21,7 +21,7 @@ import { dinnerFormSteps } from "../../utils/steps";
 import { useAlert } from "layout/dashboard/context/alert.context";
 
 //interfaces
-import { IDinnerProps } from "interfaces/dinner.interfaces";
+import { IDinnerProps } from "interfaces/dinner/dinner.interfaces";
 
 //schema
 import {
@@ -29,7 +29,8 @@ import {
   dinnerProductsSchema,
 } from "../../schema/newDinner.schema";
 
-const allDinnerSchemas = basicInfoSchema.concat(dinnerProductsSchema);
+// const allDinnerSchemas = basicInfoSchema.concat(dinnerProductsSchema);
+const allDinnerSchemas = basicInfoSchema;
 const defaultDinnerValues = allDinnerSchemas.cast({});
 type IDinnerValues = typeof defaultDinnerValues;
 
@@ -69,7 +70,7 @@ const EditDinnerForm = ({ dinner }: IDinnerProps) => {
 
   return (
     <MultiStepContainer
-      defaultValues={defaultDinnerValues}
+      defaultValues={dinner}
       onSubmitAction={onDinnerFormSubmit}
       validationSchema={allDinnerSchemas}
     >
