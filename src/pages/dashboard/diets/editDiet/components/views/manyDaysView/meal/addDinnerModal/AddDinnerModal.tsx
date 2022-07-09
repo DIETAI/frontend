@@ -35,42 +35,17 @@ import { getDinner, getDinners } from "services/getDinners";
 //schema
 import { dietDinnerSchema, IDietDinner } from "./AddDinnerModel.schema";
 import { getProduct } from "services/getProducts";
+import {
+  getDinnerPortions,
+  getDinnerPortion,
+} from "services/getDinnerPortions";
+import { IDietMealQueryData } from "interfaces/diet/dietQuery.interfaces";
+
+//components
+import AddDinnerFormContent from "./form/AddDinnerFormContent";
 
 const defaultDietDinnerValues = dietDinnerSchema.cast({});
-type IDietDinnerValues = typeof defaultDietDinnerValues;
-
-const createPortions = (minAmount: number, maxAmount: number) => {
-  const portionDifference = maxAmount - minAmount;
-
-  const portions: number[] = [];
-
-  for (
-    let index = minAmount;
-    index <= maxAmount;
-    index = index + portionCount(portionDifference)
-  ) {
-    portions.push(index);
-  }
-
-  return portions;
-};
-
-const portionCount = (portionDifference: number) => {
-  if (portionDifference <= 50) {
-    return 5;
-  }
-  if (portionDifference > 50 && portionDifference <= 150) {
-    return 10;
-  }
-  if (portionDifference > 150 && portionDifference <= 300) {
-    return 20;
-  }
-  if (portionDifference > 300 && portionDifference <= 500) {
-    return 50;
-  }
-
-  return 75;
-};
+export type IDietDinnerValues = typeof defaultDietDinnerValues;
 
 const AddDinnerModal = ({ closeModal, meal }: IDinnerModalProps) => {
   const methods = useForm({
@@ -91,7 +66,10 @@ const AddDinnerModal = ({ closeModal, meal }: IDinnerModalProps) => {
     setValue,
   } = methods;
 
-  const dietDinnerId = watch("dinnerId") as IDietDinner["dinnerId"];
+  // const dietDinnerId = watch("dinnerId") as IDietDinner["dinnerId"];
+  const dietDinnerPortionId = watch(
+    "dinnerPortionId"
+  ) as IDietDinner["dinnerPortionId"];
 
   const { t } = useTranslation();
 
@@ -100,12 +78,61 @@ const AddDinnerModal = ({ closeModal, meal }: IDinnerModalProps) => {
   if (dinnersLoading) return <div>dinners loading</div>;
   if (dinnersError) return <div>dinners error</div>;
 
-  const appendDinner = (dinner: IDinnerData) => {
+  return (
+    <Styled.DinnerModalContainer>
+      <Heading
+        icon={<FaUserCog />}
+        title={t("diet.form.dinner.modal.title")}
+        description={t("diet.form.dinner.modal.description")}
+      />
+      <FormProvider {...methods}>
+        <Styled.DinnerModalContentWrapper>
+          <Styled.DinnerModalSidebar>
+            <h2>Posiłki:</h2>
+            {dinners?.map((dinner) => (
+              <DinnerSidebarItem
+                key={dinner._id}
+                dinnerId={dinner._id}
+                meal={meal}
+              />
+            ))}
+          </Styled.DinnerModalSidebar>
+          {dietDinnerPortionId && (
+            <AddDinnerFormContent closeModal={closeModal} mealId={meal._id} />
+          )}
+        </Styled.DinnerModalContentWrapper>
+      </FormProvider>
+    </Styled.DinnerModalContainer>
+  );
+};
+
+const DinnerSidebarItem = ({
+  dinnerId,
+  meal,
+}: {
+  dinnerId: string;
+  meal: IDietMealQueryData;
+}) => {
+  const { dinner, dinnerError, dinnerLoading } = getDinner(dinnerId);
+  const { dinnerPortions, dinnerPortionsError, dinnerPortionsLoading } =
+    getDinnerPortions(dinnerId);
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isSubmitting, isValid },
+    setValue,
+    watch,
+    getValues,
+  } = useFormContext();
+
+  const appendDinner = (dinnerPortionId: IDietDinner["dinnerPortionId"]) => {
     setValue("dietId", meal.dietId);
     setValue("dayId", meal.dayId);
     setValue("dietMealId", meal._id);
-    setValue("dinnerId", dinner._id);
-    setValue("total.kcal", 0);
+    setValue("dinnerPortionId", dinnerPortionId);
+    // setValue("dinnerId", dinner._id);
+    // setValue("total.kcal", 0);
     setValue("order", 1);
     // setValue(
     //   "products",
@@ -121,171 +148,39 @@ const AddDinnerModal = ({ closeModal, meal }: IDinnerModalProps) => {
     return;
   };
 
-  return (
-    <Styled.DinnerModalContainer>
-      <Heading
-        icon={<FaUserCog />}
-        title={t("diet.form.dinner.modal.title")}
-        description={t("diet.form.dinner.modal.description")}
-      />
-      <Styled.DinnerModalContentWrapper>
-        <Styled.DinnerModalSidebar>
-          <h2>Posiłki:</h2>
-          {dinners?.map((dinner) => (
-            <Styled.DinnerModalSidebarItem
-              key={dinner._id}
-              onClick={() => appendDinner(dinner)}
-            >
-              <h2>{dinner.name}</h2>
-            </Styled.DinnerModalSidebarItem>
-          ))}
-        </Styled.DinnerModalSidebar>
-        {dietDinnerId && (
-          <FormProvider {...methods}>
-            <AddDinnerFormContent />
-          </FormProvider>
-        )}
-      </Styled.DinnerModalContentWrapper>
-    </Styled.DinnerModalContainer>
-  );
-};
-
-const AddDinnerFormContent = () => {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors, isSubmitting, isValid },
-    setValue,
-    watch,
-    getValues,
-  } = useFormContext();
-
-  const dietDinner = getValues() as IDietDinner;
-
-  if (!dietDinner) return <div>dietDinner error</div>;
-
-  const { dinner, dinnerLoading, dinnerError } = getDinner(dietDinner.dinnerId);
-
-  if (dinnerLoading) return <div>dinnerLoading...</div>;
-  if (dinnerError) return <div>dinnerError</div>;
-
-  const onDietDinnerFormSubmit = async (data: IDietDinnerValues) => {
-    //zmiana isSubmitting
-    //brak zmiany treści alertu
-    //przekierowanie do edycji
-    console.log("wysyłanie posiłku");
-    console.log(data);
-
-    try {
-      const newDietDinner = await axios.post("/api/v1/dietDinners", data, {
-        withCredentials: true,
-      });
-      console.log({ newDietDinner });
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  //wybrać i dodac wybrany zestaw porcji {portion: 1, total: {kcal: 200}, type: "custom", products:[dinnerProductId: sad, productId: adsada]}
+  if (dinnerLoading || dinnerPortionsLoading) return <div>loading...</div>;
+  if (dinnerError || dinnerPortionsError) return <div>error...</div>;
 
   return (
-    <Styled.AddDinnerFormWrapper
-      onSubmit={handleSubmit(onDietDinnerFormSubmit as any)}
-      autoComplete="off"
+    <Styled.DinnerModalSidebarItem
+
+    // onClick={() => appendDinner(dinner)}
+    // onClick={() => openDinnerPortions(dinner._id)}
     >
-      {JSON.stringify(watch())}
       <h2>{dinner?.name}</h2>
       <div>
-        <h3>Produkty:</h3>
-        <ul>
-          {/* {dinner?.products?.map((dinnerProduct) => (
-            <DinnerProduct
-              key={dinnerProduct.productId}
-              dinnerProduct={dinnerProduct}
-            />
-          ))} */}
-        </ul>
+        porcje:{" "}
+        {dinnerPortions?.map((dinnerPortion) => (
+          <Styled.DinnerSidebarItemPortion
+            key={dinnerPortion._id}
+            onClick={() => appendDinner(dinnerPortion._id)}
+          >
+            {" "}
+            typ porcji: <h2>{dinnerPortion.type}</h2>
+            <div>
+              produkty:{" "}
+              {dinnerPortion.dinnerProducts.map((dinnerProductPortion) => (
+                <div key={dinnerProductPortion.dinnerProductId}>
+                  <h2>produkt: {dinnerProductPortion.dinnerProductId}</h2>{" "}
+                  <h3>porcja: {dinnerProductPortion.portion}</h3>
+                </div>
+              ))}
+            </div>
+          </Styled.DinnerSidebarItemPortion>
+        ))}
       </div>
-      <Button
-        fullWidth
-        type="submit"
-        // variant={isSubmitting || !isValid ? "disabled" : "primary"}
-      >
-        {isSubmitting ? "loading" : "dodaj danie"}
-      </Button>
-    </Styled.AddDinnerFormWrapper>
+    </Styled.DinnerModalSidebarItem>
   );
 };
-
-// interface IDinnerProductProps {
-//   dinnerProduct: IDinnerData["products"][0];
-// }
-
-// const DinnerProduct = ({ dinnerProduct }: IDinnerProductProps) => {
-//   const {
-//     control,
-//     handleSubmit,
-//     formState: { errors, isSubmitting, isValid },
-//     setValue,
-//     watch,
-//     getValues,
-//   } = useFormContext();
-
-//   const dietDinner = watch() as IDietDinner;
-
-//   const { product, productLoading, productError } = getProduct(
-//     dinnerProduct.productId
-//   );
-
-//   if (productLoading) return <div>product loading...</div>;
-//   if (productError) return <div>product error...</div>;
-
-//   const getDietDinnerProductSelectedPortion = () => {
-//     const product = dietDinner.products?.filter(
-//       ({ productId }) => productId === dinnerProduct.productId
-//     )[0];
-//     const selectedPortion = product?.selectedPortionGram;
-//     return selectedPortion;
-//   };
-
-//   const selectNewPortion = (portionGram: number) => {
-//     const productIndex = dietDinner.products?.findIndex(
-//       ({ productId }) => productId === dinnerProduct.productId
-//     );
-//     setValue(`products.${productIndex}.selectedPortionGram`, portionGram);
-
-//     //setTotalValues
-//   };
-
-//   return (
-//     <>
-//       <h4>{product?.name}</h4>
-//       <div>
-//         <div>
-//           <p>min: {dinnerProduct.minAmount}</p>
-//           <p>max: {dinnerProduct.maxAmount}</p>
-//         </div>
-
-//         <h4>Dostępne porcje:</h4>
-//         <Styled.DinnerProductPortionsWrapper>
-//           {createPortions(
-//             dinnerProduct.minAmount as number,
-//             dinnerProduct.maxAmount as number
-//           ).map((portionGram) => (
-//             <Styled.DinnerProductPortion
-//               onClick={() => selectNewPortion(portionGram)}
-//               key={portionGram}
-//               selectedPortion={
-//                 portionGram === getDietDinnerProductSelectedPortion()
-//               }
-//             >
-//               {portionGram} g
-//             </Styled.DinnerProductPortion>
-//           ))}
-//         </Styled.DinnerProductPortionsWrapper>
-//       </div>
-//     </>
-//   );
-// };
 
 export default AddDinnerModal;

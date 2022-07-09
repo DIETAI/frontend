@@ -29,11 +29,11 @@ export interface IDinnerPortionProps {
 }
 
 //query
-interface IDinnerProductQuery extends IDinnerProductData {
+export interface IDinnerProductQuery extends IDinnerProductData {
   product: IProductData;
 }
 
-interface IDinnerPortionDinnerProduct extends IDinnerProductPortion {
+export interface IDinnerPortionDinnerProduct extends IDinnerProductPortion {
   dinnerProduct: IDinnerProductQuery;
 }
 

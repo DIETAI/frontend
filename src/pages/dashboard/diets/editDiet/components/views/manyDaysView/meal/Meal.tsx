@@ -26,7 +26,20 @@ const Meal = ({ meal }: IMeal) => {
         <button onClick={() => setDinnerModalOpen(true)}>+</button>
         {meal.name}
         {meal.dinners?.map((dietDinner) => (
-          <div key={dietDinner._id}>{dietDinner.dinner.name}</div>
+          <div key={dietDinner._id}>
+            <h4>nazwa: {dietDinner.dinnerPortion.dinner.name}</h4>
+            <div>
+              produkty:{" "}
+              {dietDinner.dinnerPortion.dinnerProducts.map(
+                (dinnerPortionProduct) => (
+                  <div key={dinnerPortionProduct.dinnerProductId}>
+                    <p>produkt: {dinnerPortionProduct.dinnerProductId}</p>{" "}
+                    <p>ilość: {dinnerPortionProduct.portion} g</p>
+                  </div>
+                )
+              )}{" "}
+            </div>
+          </div>
         ))}
         {/* <h3 className=" text-slate-700 text-base font-medium">{meal.name}</h3> */}
       </div>

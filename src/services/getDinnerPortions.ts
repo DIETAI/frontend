@@ -31,7 +31,7 @@ export const getDinnerPortionsQuery = (dinnerId: string) => {
   };
 };
 
-export const getDinnerProduct = (id: string) => {
+export const getDinnerPortion = (id: string) => {
   const { data, error } = useSWR<IDinnerPortionData | null>(
     `/api/v1/dinnerPortions/${id}`,
     fetcher
