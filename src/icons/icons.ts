@@ -55,7 +55,9 @@ import {
   FaWeightHanging,
   FaChevronLeft,
   FaBuffer,
-
+  FaCalendarDay,
+  FaCalendarWeek,
+  FaCalendarPlus,
 } from "react-icons/fa";
 
 export {
@@ -114,5 +116,8 @@ export {
   FaChartLine,
   FaWeightHanging,
   FaChevronLeft,
-  FaBuffer
+  FaBuffer,
+  FaCalendarDay,
+  FaCalendarWeek,
+  FaCalendarPlus,
 };

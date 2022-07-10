@@ -72,49 +72,50 @@ const AddDinnerFormContent = ({
       console.log({ newDietDinner });
 
       //mutate dietquery obj
+      await mutate(`/api/v1/diets/${dietEditId}/query`); //correct
 
       ///api/v1/diets/62c947e24fc6f8b2f34df5b4/query in useSWR chache
-      await mutate(
-        `/api/v1/diets/${dietEditId}/query`,
-        async (dietData: IDietQueryData) => {
-          console.log({ mutateData: data });
-          return {
-            ...dietData,
-            days: dietData.days.map((dietDay) => ({
-              ...dietDay,
-              meals: dietDay.meals.map((dietMeal) => {
-                if (dietMeal._id === newDietDinner.data.dietMealId) {
-                  //zwrócić a api dinner z dinnerPortion i dinner obj
-                  // const { dinnerPortion } = getDinnerPortion(
-                  //   newDietDinner.data.dinnerPortionId
-                  // );
-                  // const { dinner } = getDinner(
-                  //   dinnerPortion?.dinnerId as string
-                  // );
+      // await mutate(
+      //   `/api/v1/diets/${dietEditId}/query`,
+      //   async (dietData: IDietQueryData) => {
+      //     console.log({ mutateData: data });
+      //     return {
+      //       ...dietData,
+      //       days: dietData.days.map((dietDay) => ({
+      //         ...dietDay,
+      //         meals: dietDay.meals.map((dietMeal) => {
+      //           if (dietMeal._id === newDietDinner.data.dietMealId) {
+      //             //zwrócić a api dinner z dinnerPortion i dinner obj
+      //             // const { dinnerPortion } = getDinnerPortion(
+      //             //   newDietDinner.data.dinnerPortionId
+      //             // );
+      //             // const { dinner } = getDinner(
+      //             //   dinnerPortion?.dinnerId as string
+      //             // );
 
-                  // console.log({ dinnerPortion });
+      //             // console.log({ dinnerPortion });
 
-                  return {
-                    ...dietMeal,
-                    dinners: [
-                      ...dietMeal.dinners,
-                      {
-                        ...newDietDinner.data,
-                        // dinnerPortion: {
-                        //   ...dinnerPortion,
-                        //   dinner,
-                        // },
-                      },
-                    ],
-                  };
-                }
+      //             return {
+      //               ...dietMeal,
+      //               dinners: [
+      //                 ...dietMeal.dinners,
+      //                 {
+      //                   ...newDietDinner.data,
+      //                   // dinnerPortion: {
+      //                   //   ...dinnerPortion,
+      //                   //   dinner,
+      //                   // },
+      //                 },
+      //               ],
+      //             };
+      //           }
 
-                return dietMeal;
-              }),
-            })),
-          };
-        }
-      ); //correct
+      //           return dietMeal;
+      //         }),
+      //       })),
+      //     };
+      //   }
+      // ); //correct
 
       // if (dietDinners) {
       //   await mutate(`/api/v1/dietDinners`, [

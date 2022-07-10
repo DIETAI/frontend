@@ -11,6 +11,7 @@ const ListNavWrapper = styled.div(
     padding: 2rem 0;
     width: fit-content;
     border-bottom: 0.1rem dashed ${palette.common.border};
+    position: relative;
 
     ${up(breakpoints.xl)} {
       width: 100%;
@@ -58,6 +59,10 @@ const ListNavConfig = styled.div(
     justify-content: flex-start;
     width: 8rem;
     z-index: 2;
+
+    :last-of-type {
+      justify-content: flex-end;
+    }
   `
 );
 

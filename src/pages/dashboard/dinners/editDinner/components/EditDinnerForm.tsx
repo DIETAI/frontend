@@ -68,9 +68,14 @@ const EditDinnerForm = ({ dinner }: IDinnerProps) => {
     }
   };
 
+  const dinnerDefaultValues = {
+    ...dinner,
+    mealTypesKind: undefined,
+  };
+
   return (
     <MultiStepContainer
-      defaultValues={dinner}
+      defaultValues={dinnerDefaultValues}
       onSubmitAction={onDinnerFormSubmit}
       validationSchema={allDinnerSchemas}
     >

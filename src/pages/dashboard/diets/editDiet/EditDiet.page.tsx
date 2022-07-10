@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router";
 import { getDiet, getDietQuery } from "services/getDiets";
 
@@ -6,8 +6,12 @@ import { getDiet, getDietQuery } from "services/getDiets";
 import DietNav from "./components/nav/DietNav";
 import DietContent from "./components/content/DietContent";
 import ManyDaysView from "./components/views/manyDaysView/days/Days";
+import OneDayView from "./components/views/oneDayView/OneDayView";
+
+export type DaysView = "oneDay" | "manyDays";
 
 const EditDiet = () => {
+  const [view, setView] = useState<DaysView>("oneDay");
   const { dietEditId } = useParams();
   console.log({ dietEditId });
 
@@ -19,11 +23,10 @@ const EditDiet = () => {
   if (dietError || !diet) return <div>diet error</div>;
   return (
     <>
-      <DietNav />
+      <DietNav setView={setView} view={view} />
       <DietContent>
-        <ManyDaysView />
+        {view === "oneDay" ? <OneDayView /> : <ManyDaysView />}
       </DietContent>
-      <p>edytowanie diety : {diet.name}</p>
     </>
   );
 };

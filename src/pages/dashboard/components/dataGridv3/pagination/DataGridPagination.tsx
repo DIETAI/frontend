@@ -7,13 +7,15 @@ import { IDataGridPaginationProps } from "./DataGridPagination.interfaces";
 import * as Styled from "./DataGridPagination.styles";
 
 //icons
-import { FaChevronLeft, FaChevronRight } from "icons/icons";
+import { FaChevronLeft, FaChevronRight, FaChevronDown } from "icons/icons";
 
 const DataGridPagination = ({
   currentPage,
   pageCount,
   changePage,
 }: IDataGridPaginationProps) => {
+  const [openPaginateSelect, setOpenPaginateSelect] = useState(false);
+
   const handleBack = () => {
     if (currentPage === 1) return;
     changePage(currentPage - 1);
@@ -26,7 +28,13 @@ const DataGridPagination = ({
 
   return (
     <Styled.DataGridPaginationWrapper>
-      <input placeholder="5" />
+      <Styled.PaginateSelect onClick={() => setOpenPaginateSelect(true)}>
+        <input value={5} disabled />
+        <span>
+          <FaChevronDown />
+        </span>
+      </Styled.PaginateSelect>
+
       <Styled.PaginationOptionsWrapper>
         <Styled.PaginationOption
           onClick={handleBack}

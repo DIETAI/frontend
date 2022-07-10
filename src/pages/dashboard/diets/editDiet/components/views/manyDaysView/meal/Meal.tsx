@@ -7,7 +7,12 @@ import * as Styled from "./Meal.styles";
 //components
 import Modal from "components/modal/Modal";
 import AddDinnerModalContent from "./addDinnerModal/AddDinnerModal";
-import { getDietDinners } from "services/getDietDinners";
+import IconModal from "components/iconModal/IconModal";
+import MealEstablishmentModalContent from "./mealEstablishmentModal/MealEstablishmentModalContent";
+import Dinner from "../dinner/Dinner";
+
+//icons
+import { FaEllipsisV, FaPlus } from "icons/icons";
 
 interface IMeal {
   meal: IDietMealQueryData;
@@ -21,39 +26,22 @@ const Meal = ({ meal }: IMeal) => {
   // );
 
   return (
-    <Styled.MealWrapper className="w-full flex flex-col gap-6">
-      <div className="flex p-4 bg-slate-50 w-full justify-center items-center">
-        <button onClick={() => setDinnerModalOpen(true)}>+</button>
-        {meal.name}
-        {meal.dinners?.map((dietDinner) => (
-          <div key={dietDinner._id}>
-            <h4>nazwa: {dietDinner.dinnerPortion.dinner.name}</h4>
-            <div>
-              produkty:{" "}
-              {dietDinner.dinnerPortion.dinnerProducts.map(
-                (dinnerPortionProduct) => (
-                  <div key={dinnerPortionProduct.dinnerProductId}>
-                    <p>produkt: {dinnerPortionProduct.dinnerProductId}</p>{" "}
-                    <p>ilość: {dinnerPortionProduct.portion} g</p>
-                  </div>
-                )
-              )}{" "}
-            </div>
-          </div>
-        ))}
-        {/* <h3 className=" text-slate-700 text-base font-medium">{meal.name}</h3> */}
-      </div>
-      {/* {currentMealDinners.map((dinner) => (
-        <div className="flex p-4 rounded-md bg-white shadow-sm" key={dinner.id}>
-          {dinner.name}
-        </div>
-      ))} */}
-      {/* <button
-        onClick={() => setMealPopupOpen(meal.id, true)}
-        className=" text-orange-300 text-sm font-medium flex items-center justify-center p-4 border-2 border-orange-200 border-dashed"
-      >
-        Dodaj posiłek
-      </button> */}
+    <Styled.MealWrapper>
+      <Styled.MealHeading>
+        <h3>{meal.name}</h3>
+        <h3>8.00</h3>
+        {/* <IconModal icon={<FaEllipsisV />}>
+          <MealEstablishmentModalContent />
+        </IconModal> */}
+      </Styled.MealHeading>
+
+      {meal.dinners?.map((dietDinner) => (
+        <Dinner key={dietDinner._id} dietDinner={dietDinner} />
+      ))}
+      <Styled.AddDinnerButton onClick={() => setDinnerModalOpen(true)}>
+        <FaPlus />
+        dodaj pozycję
+      </Styled.AddDinnerButton>
 
       <Modal
         onClose={() => setDinnerModalOpen(false)}

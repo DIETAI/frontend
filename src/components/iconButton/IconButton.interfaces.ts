@@ -5,4 +5,6 @@ export interface IIconButtonProps {
   onClick: () => void;
   iconReverse?: boolean;
   className?: string;
+  active?: boolean;
+  modalText?: string;
 }

@@ -10,6 +10,8 @@ const DietNavWrapper = styled.div(
     },
   }) => css`
     display: flex;
+    align-items: center;
+    justify-content: space-between;
     width: 100%;
     transition: 0.3s ease-out;
     background: ${palette.common.main};
@@ -18,11 +20,23 @@ const DietNavWrapper = styled.div(
     padding: 2rem;
     border-radius: ${border.rounded.md};
     margin-top: 2rem;
-
-    /* ${up(breakpoints.xs)} {
-      padding: 6rem;
-    } */
   `
 );
 
-export { DietNavWrapper };
+const OptionsWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+  `
+);
+
+export { DietNavWrapper, OptionsWrapper };

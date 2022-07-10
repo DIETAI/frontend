@@ -24,6 +24,7 @@ interface IDataGridLineViewProps {
   columns: IDataGridListProps["columns"];
   data: any[];
   linkPage: string;
+  initialDataLength: number;
 }
 
 interface IRenderContent {
@@ -36,6 +37,7 @@ const DataGridLineView = ({
   columns,
   data,
   linkPage,
+  initialDataLength,
 }: IDataGridLineViewProps) => {
   const { selectedItems, checkItem, unCheckItem } = useDataGridSelect();
   const navigate = useNavigate();
@@ -75,6 +77,7 @@ const DataGridLineView = ({
         columns={columns}
         displayColumns={displayColumns}
         changeDisplayColumns={changeDisplayColumns}
+        initialDataLength={initialDataLength}
       />
       <Styled.RowsWrapper>
         {data.map((row) => (

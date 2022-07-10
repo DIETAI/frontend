@@ -15,6 +15,64 @@ const DataGridPaginationWrapper = styled.div(
   `
 );
 
+const PaginateSelect = styled.div(
+  ({
+    theme: {
+      media: { breakpoints, down },
+      palette,
+      layout: { border },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    input {
+      width: 4rem;
+      height: 3rem;
+      border: 0.1rem solid ${palette.primary.light};
+      border-radius: ${border.rounded.sm} 0 0 ${border.rounded.sm};
+      padding: 0.5rem;
+      color: ${palette.common.text};
+      font-size: 1.5rem;
+      border-right: none;
+
+      :disabled {
+        background: transparent;
+      }
+    }
+
+    input:focus {
+      outline: none;
+    }
+
+    span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 3rem;
+      height: 3rem;
+      background: ${palette.common.contrast};
+      border: 0.1rem solid ${palette.primary.light};
+      border-radius: 0 ${border.rounded.sm} ${border.rounded.sm} 0;
+      cursor: pointer;
+      transition: 0.3s ease-out;
+
+      svg {
+        width: 1.5rem;
+        height: 1.5rem;
+        path {
+          fill: ${palette.primary.main};
+        }
+      }
+
+      :hover {
+        opacity: 0.7;
+      }
+    }
+  `
+);
+
 const PaginationOptionsWrapper = styled.div(
   ({
     theme: {
@@ -79,6 +137,7 @@ const PaginationOption = styled.button<IActiveOption>(
 
 export {
   DataGridPaginationWrapper,
+  PaginateSelect,
   PaginationOptionsWrapper,
   PaginationOption,
 };

@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components";
+import { motion } from "framer-motion";
 
 const DaysContainer = styled.div(
   ({
@@ -34,7 +35,23 @@ const DaysNav = styled.div(
   `
 );
 
-const DaysContentWrapper = styled.div(
+const DaysContentContainer = styled(motion.div)(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    cursor: grab;
+    overflow: hidden;
+    /* border: 0.1rem solid red;
+    background: red; */
+    width: 100%;
+  `
+);
+
+const DaysContentWrapper = styled(motion.div)(
   ({
     theme: {
       palette,
@@ -45,10 +62,16 @@ const DaysContentWrapper = styled.div(
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
-    width: 100%;
-    flex-wrap: wrap;
+    position: relative;
+    /* width: 100%; */
+    /* overflow-x: auto; */
+    /* flex-wrap: wrap; */
+    gap: 1.5rem;
+    /* background: white; */
+    /* cursor: grab;
+    overflow: hidden; */
     /* gap: 2rem; */
   `
 );
 
-export { DaysContainer, DaysNav, DaysContentWrapper };
+export { DaysContainer, DaysNav, DaysContentContainer, DaysContentWrapper };

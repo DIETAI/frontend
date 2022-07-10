@@ -1,4 +1,5 @@
 import React from "react";
+import { AnimatePresence } from "framer-motion";
 
 //styles
 import * as Styled from "./ListNav.styles";
@@ -10,6 +11,7 @@ import { FaCog } from "icons/icons";
 import CheckBoxWrapper from "components/checkbox/CheckboxWrapper";
 import IconModal from "components/iconModal/IconModal";
 import ColumnsModal from "./columnsModal/ColumnsModal";
+import CheckedPopup from "../checkedItems/CheckedPopup";
 
 //interfaces
 import { IDataGridListProps } from "../DataGridList.interfaces";
@@ -22,6 +24,7 @@ interface IListNavProps {
   changeDisplayColumns: (columns: any) => void;
   displayColumns: any[];
   data: any[];
+  initialDataLength: number;
 }
 
 const ListNav = ({
@@ -29,6 +32,7 @@ const ListNav = ({
   changeDisplayColumns,
   displayColumns,
   data,
+  initialDataLength,
 }: IListNavProps) => {
   const { checkAllItems, unCheckAllItems, selectedItems } = useDataGridSelect();
 
@@ -40,30 +44,31 @@ const ListNav = ({
   };
   return (
     <Styled.ListNavWrapper>
+      <AnimatePresence>
+        <CheckedPopup />
+      </AnimatePresence>
       <Styled.ListNavConfig>
         <CheckBoxWrapper
           onClick={handleCheckedRows}
-          checked={selectedItems.length === data.length}
+          checked={selectedItems.length === initialDataLength}
         />
       </Styled.ListNavConfig>
 
-      <>
-        {displayColumns.map((heading) => (
-          <Styled.ListNavItem key={heading.key}>
-            <p> {heading.label}</p>
-          </Styled.ListNavItem>
-        ))}
+      {displayColumns.map((heading) => (
+        <Styled.ListNavItem key={heading.key}>
+          <p> {heading.label}</p>
+        </Styled.ListNavItem>
+      ))}
 
-        <Styled.ListNavConfig>
-          <IconModal icon={<FaCog />}>
-            <ColumnsModal
-              columns={columns}
-              displayColumns={displayColumns}
-              changeDisplayColumns={changeDisplayColumns}
-            />
-          </IconModal>
-        </Styled.ListNavConfig>
-      </>
+      <Styled.ListNavConfig>
+        <IconModal icon={<FaCog />}>
+          <ColumnsModal
+            columns={columns}
+            displayColumns={displayColumns}
+            changeDisplayColumns={changeDisplayColumns}
+          />
+        </IconModal>
+      </Styled.ListNavConfig>
     </Styled.ListNavWrapper>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useParams } from "react-router";
 import { getDietDays } from "services/getDietDays";
 import { getDietQuery } from "services/getDiets";
@@ -10,6 +10,17 @@ import Day from "../day/Day";
 import * as Styled from "./Days.styles";
 
 const ManyDaysView = () => {
+  const [width, setWidth] = useState(600);
+  const carousel = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // if (carousel.current) {
+    //   setWidth(carousel.current.scrollWidth - carousel.current.offsetWidth);
+    // }
+
+    setWidth(600);
+  }, []);
+
   //pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [dayPerPage, setDayPerPage] = useState(7);
@@ -63,11 +74,16 @@ const ManyDaysView = () => {
           </div>
         )}
       </Styled.DaysNav>
-      <Styled.DaysContentWrapper>
-        {currentDays.map((day) => (
-          <Day key={day._id} day={day} />
-        ))}
-      </Styled.DaysContentWrapper>
+      <Styled.DaysContentContainer ref={carousel}>
+        <Styled.DaysContentWrapper
+          drag="x"
+          dragConstraints={{ right: 0, left: -width }}
+        >
+          {currentDays.map((day) => (
+            <Day key={day._id} day={day} />
+          ))}
+        </Styled.DaysContentWrapper>
+      </Styled.DaysContentContainer>
     </Styled.DaysContainer>
   );
 };

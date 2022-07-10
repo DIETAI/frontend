@@ -65,6 +65,7 @@ const Products = () => {
 
   return (
     <>
+      {/* {JSON.stringify(watch())} */}
       {dinnerProducts?.length &&
         dinnerProducts.map((dinnerProduct, index) => (
           <ProductField

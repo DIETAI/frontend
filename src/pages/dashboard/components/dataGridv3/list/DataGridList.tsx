@@ -1,8 +1,9 @@
-import React from "react";
-import { useDataGridSearch } from "../context/DataGridSearch.context";
+import React, { useEffect } from "react";
 
 //context
 import { useDataGridView } from "../context/DataGridViewProvider";
+import { useDataGridSearch } from "../context/DataGridSearch.context";
+import { useDataGridSelect } from "../context/DataGridSelect.context";
 
 //interfaces
 import { IDataGridListProps } from "./DataGridList.interfaces";
@@ -36,6 +37,16 @@ const DataGridList = ({
 }: IDataGridListProps) => {
   const { view } = useDataGridView();
   const { searchValue } = useDataGridSearch();
+  const { selectedItems, unCheckAllItems } = useDataGridSelect();
+
+  useEffect(() => {
+    if (searchValue.length > 0 && selectedItems.length > 0) {
+      return unCheckAllItems();
+    }
+
+    return;
+  }, [searchValue, selectedItems]);
+
   // const { data, columns, displayColumns, changeData } = useDataGridData();
   if (loadingData) return <div>loading data</div>;
   if (!data) return <div>empty data</div>;
@@ -45,6 +56,7 @@ const DataGridList = ({
       <DataGridLineView
         columns={columns}
         data={search(data, searchValue)}
+        initialDataLength={data.length}
         linkPage={link}
       />
     );

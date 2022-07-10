@@ -73,79 +73,14 @@ const AddProductModal = ({ closeModal }: IProductModalProps) => {
           }
         );
 
-        if (dinnerProducts) {
-          await mutate(`/api/v1/dinnerProducts/dinner/${dinnerId}`, [
-            ...dinnerProducts,
-            newDinnerProduct.data,
-          ]);
-        }
-
-        //add first default portion
-        if (dinnerProducts && dinnerPortions) {
-          if (dinnerPortions.length < 1) {
-            const newDinnerPortionObj = {
-              type: "default",
-              dinnerId: dinnerId,
-              total: {
-                kcal: 300,
-              },
-              dinnerProducts: dinnerProducts.map((dinnerProduct) => ({
-                dinnerProductId: dinnerProduct._id,
-                portion: dinnerProduct.defaultAmount,
-                total: {
-                  kcal: 200,
-                },
-              })),
-            };
-
-            // const newDinnerPortion = await axios.post(
-            //   "/api/v1/dinnerPortions",
-            //   newDinnerPortionObj,
-            //   {
-            //     withCredentials: true,
-            //   }
-            // );
-
-            // console.log({ newDinnerPortion });
-
-            await mutate(`/api/v1/dinnerPortions/dinner/${dinnerId}`, [
-              newDinnerPortionObj,
-            ]);
-          }
-
-          //edit portions
-          if (dinnerPortions.length > 0) {
-            await mutate(
-              `/api/v1/dinnerPortions/dinner/${dinnerId}`,
-              dinnerPortions.map((dinnerPortion) => ({
-                ...dinnerPortion,
-                dinnerProducts: [
-                  ...dinnerPortion.dinnerProducts,
-                  {
-                    dinnerProductId: newDinnerProduct.data._id,
-                    portion: newDinnerProduct.data.defaultAmount,
-                    total: {
-                      kcal: 200,
-                    },
-                  },
-                ],
-              }))
-            );
-          }
-        }
+        await mutate(`/api/v1/dinnerProducts/dinner/${dinnerId}`);
+        await mutate(`/api/v1/dinnerPortions/dinner/${dinnerId}`);
 
         console.log({ newDinnerProduct });
-
-        //add default Portion
-        //if(!defaultPortion) add
-        // jeśli usunięcie produktu => usunięcie produktu z każdego zestawu porcji
-        // jeśli dodanie produktu => dodanie do każdego zestawu porcji w domyślnej ilości na backendzie
       } catch (e) {
         console.log(e);
       }
     })(e);
-
-    // setValue("products", [...dinnerProducts, data]);
 
     closeModal();
   };

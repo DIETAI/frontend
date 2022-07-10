@@ -6,6 +6,9 @@ const ListConfig = styled.div(
     align-items: center;
     justify-content: flex-start;
     width: 8rem;
+    :last-of-type {
+      justify-content: flex-end;
+    }
     /* z-index: 2; */
   `
 );
