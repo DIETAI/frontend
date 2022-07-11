@@ -1,3 +1,5 @@
+import { IProductData } from "interfaces/product.interfaces";
+
 export interface IDinnerProductData {
   _id: string;
   createdAt: string;
@@ -13,4 +15,8 @@ export interface IDinnerProductData {
 
 export interface IDinnerProductProps {
   dinnerProduct: IDinnerProductData;
+}
+
+export interface IDinnerProductQueryData extends IDinnerProductData {
+  product: IProductData;
 }

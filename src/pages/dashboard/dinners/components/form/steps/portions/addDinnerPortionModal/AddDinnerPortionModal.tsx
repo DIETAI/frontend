@@ -1,5 +1,8 @@
 import React, { ReactNode, useState, useEffect } from "react";
-import { getDinnerProducts } from "services/getDinnerProducts";
+import {
+  getDinnerProducts,
+  getDinnerProductsQuery,
+} from "services/getDinnerProducts";
 import { useParams } from "react-router";
 import { BaseSyntheticEvent } from "react";
 import axios from "utils/api";
@@ -31,7 +34,13 @@ import { mutate } from "swr";
 
 //schema
 import { dinnerPortionSchema } from "./schema/dinnerPortion.schema";
-import { getDinnerPortions } from "services/getDinnerPortions";
+import {
+  getDinnerPortions,
+  getDinnerPortionsQuery,
+} from "services/getDinnerPortions";
+
+//helpers
+import { countTotal } from "helpers/countTotal";
 
 const defaultDinnerPortionValues = dinnerPortionSchema.cast({});
 type IDinnerPortionValues = typeof defaultDinnerPortionValues;
@@ -74,8 +83,13 @@ const AddDinnerPortionModal = ({ closeModal }: IDinnerPortionModalProps) => {
   const { dinnerId } = useParams();
   const [activePage, setActivePage] = useState(pages[0].type);
   const { dinnerPortions } = getDinnerPortions(dinnerId as string);
-  const { dinnerProducts, dinnerProductsLoading, dinnerProductsError } =
-    getDinnerProducts(dinnerId as string);
+  // const { dinnerProducts, dinnerProductsLoading, dinnerProductsError } =
+  //   getDinnerProducts(dinnerId as string);
+  const {
+    dinnerProductsQuery,
+    dinnerProductsLoadingQuery,
+    dinnerProductsErrorQuery,
+  } = getDinnerProductsQuery(dinnerId as string);
 
   const addPortionFormMethods = useForm({
     resolver: yupResolver(dinnerPortionSchema),
@@ -91,26 +105,30 @@ const AddDinnerPortionModal = ({ closeModal }: IDinnerPortionModalProps) => {
   } = addPortionFormMethods;
 
   useEffect(() => {
-    if (dinnerProducts && dinnerProducts.length > 0) {
-      const initialDinnerPortion: IDinnerPortionValues = {
-        type: "custom",
-        total: {
-          kcal: 200,
-        },
-        dinnerProducts: dinnerProducts.map((dinnerProduct) => ({
+    if (dinnerProductsQuery && dinnerProductsQuery.length > 0) {
+      const initialDinnerProducts = dinnerProductsQuery.map(
+        (dinnerProduct) => ({
           dinnerProductId: dinnerProduct._id,
           portion: dinnerProduct.defaultAmount,
-          total: {
-            kcal: 200,
-          },
-        })),
-      };
+          total: countTotal({
+            product: dinnerProduct.product,
+            portion: dinnerProduct.defaultAmount,
+          }),
+        })
+      );
 
-      setValue("type", initialDinnerPortion.type);
-      setValue("total", initialDinnerPortion.total);
-      setValue("dinnerProducts", initialDinnerPortion.dinnerProducts);
+      // const total = {
+      //   kcal: initialDinnerProducts.reduce(
+      //     (acc, field) => acc + Number(field.total.kcal),
+      //     0
+      //   ),
+      // };
+
+      setValue("type", "custom");
+      // setValue("total", total);
+      setValue("dinnerProducts", initialDinnerProducts as any);
     }
-  }, [dinnerProducts]);
+  }, [dinnerProductsQuery]);
 
   const addPortion = (
     // data: IDinnerProductValues,
@@ -147,9 +165,9 @@ const AddDinnerPortionModal = ({ closeModal }: IDinnerPortionModalProps) => {
     closeModal();
   };
 
-  if (dinnerProductsLoading) return <div>loading...</div>;
-  if (dinnerProductsError) return <div>error...</div>;
-  if (!dinnerProducts || dinnerProducts.length < 1)
+  if (dinnerProductsLoadingQuery) return <div>loading...</div>;
+  if (dinnerProductsErrorQuery) return <div>error...</div>;
+  if (!dinnerProductsQuery || dinnerProductsQuery.length < 1)
     return <p>brak produktów</p>;
 
   return (

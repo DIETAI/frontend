@@ -4,47 +4,11 @@ export interface IMacrohydrate {
 }
 
 export interface IMicrohydrate {
-  amount: number;
-  unit: "mg" | "uq" | "j.";
+  amount?: number;
+  unit?: "mg" | "uq" | "j.";
 }
 
-export type IMeasureType =
-  | "porcja"
-  | "sztuka"
-  | "szklanka"
-  | "łyżka"
-  | "łyżeczka"
-  | "garść"
-  | "opakowanie"
-  | "plaster"
-  | "ząbek"
-  | "kostka";
-
-export interface IMeasure {
-  type: IMeasureType;
-  amount: number;
-  unit: "g" | "ml";
-}
-
-export interface IPrice {
-  shop: string;
-  price: number;
-  currency: "PLN" | "USD" | "EUR";
-}
-
-export interface IProductData {
-  _id: string;
-  createdAt: string;
-  updatedAt: string;
-  user: string;
-  name: string;
-  image?: string;
-  gallery?: string[];
-  description?: string;
-  subGroupId?: string;
-  measureUnit: "g" | "l";
-  dietKindsExclude?: string[];
-  season?: "zima" | "wiosna" | "lato" | "jesień";
+export interface ITotal {
   //macrohydrates
   protein: IMacrohydrate;
   fat: IMacrohydrate;
@@ -86,22 +50,4 @@ export interface IProductData {
   sodium?: IMicrohydrate;
   calcium?: IMicrohydrate;
   iron?: IMicrohydrate;
-  //measures
-  measures: IMeasure[];
-  //prices
-  prices: IPrice[];
-  //tags
-  tags?: string[];
-}
-
-export interface IProductPaginationData {
-  products: IProductData[];
-  pagination: {
-    count: number;
-    pageCount: number;
-  };
-}
-
-export interface IProductProps {
-  product: IProductData;
 }

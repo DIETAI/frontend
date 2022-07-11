@@ -1,6 +1,9 @@
 import useSWR from "swr";
 import fetcher from "utils/fetcher";
-import { IDinnerProductData } from "interfaces/dinner/dinnerProducts.interfaces";
+import {
+  IDinnerProductData,
+  IDinnerProductQueryData,
+} from "interfaces/dinner/dinnerProducts.interfaces";
 
 export const getDinnerProducts = (dinnerId: string) => {
   const { data, error } = useSWR<IDinnerProductData[] | null>(
@@ -12,6 +15,19 @@ export const getDinnerProducts = (dinnerId: string) => {
     dinnerProducts: data,
     dinnerProductsLoading: !error && !data,
     dinnerProductsError: error,
+  };
+};
+
+export const getDinnerProductsQuery = (dinnerId: string) => {
+  const { data, error } = useSWR<IDinnerProductQueryData[] | null>(
+    `/api/v1/dinnerProducts/dinner/${dinnerId}/query`,
+    fetcher
+  );
+
+  return {
+    dinnerProductsQuery: data,
+    dinnerProductsLoadingQuery: !error && !data,
+    dinnerProductsErrorQuery: error,
   };
 };
 

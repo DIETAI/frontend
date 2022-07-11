@@ -26,11 +26,18 @@ const CustomSection = () => {
 
   return (
     <div>
-      {" "}
+      {/* {JSON.stringify(watch())}{" "} */}
       {fields.length > 0 &&
         fields.map((field, index) => (
           <div key={field.id}>
             <h2>wybrana porcja: {portionDinnerProducts[index].portion}</h2>
+            <ul>
+              składniki
+              <li>kcal: {field.total.kcal}</li>
+              <li>białko (g): {field.total.protein.gram}</li>
+              <li>tłuszcze (g): {field.total.fat.gram}</li>
+            </ul>
+
             <DinnerProduct
               fieldIndex={index}
               dinnerProductId={field.dinnerProductId}
@@ -59,8 +66,7 @@ const DinnerProduct = ({
 
   const changePortion = (portion: number) => {
     console.log("changePortion");
-    update(fieldIndex, { dinnerProductId, total: { kcal: 200 }, portion });
-    // setValue(`dinnerProducts.${fieldIndex}.portion`, portion);
+    // update(fieldIndex, { dinnerProductId, portion, total: { kcal: 200 }  }); //add count total
   };
 
   if (dinnerProductLoading) return <div>loading...</div>;

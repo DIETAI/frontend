@@ -2,10 +2,28 @@ import { IDietDayData } from "./dietDays.interfaces";
 import { IDietDayMealData } from "./dietMeals.interfaces";
 import { IDietDinnerData } from "./dietDinners.interfaces";
 import { IDinnerData } from "../dinner/dinner.interfaces";
-import { IDinnerPortionData } from "../dinner/dinnerPortions.interfaces";
+import {
+  IDinnerPortionData,
+  IDinnerPortionQueryData,
+  IDinnerProductPortion,
+} from "../dinner/dinnerPortions.interfaces";
+import { IProductData } from "interfaces/product.interfaces";
+import { IDinnerProductData } from "interfaces/dinner/dinnerProducts.interfaces";
 
-export interface IDietDinnerPortionQueryData extends IDinnerPortionData {
+export interface IDietProductsQueryData extends IDinnerProductData {
+  product: IProductData;
+}
+
+//dinnerProducts => dinnerProductId, portion, total, dinnerProduct
+
+export interface IDietDinnerProductsQueryData extends IDinnerProductPortion {
+  dinnerProduct: IDietProductsQueryData;
+}
+
+export interface IDietDinnerPortionQueryData extends IDietDinnerQueryData {
   dinner: IDinnerData;
+  dinnerProducts: IDietDinnerProductsQueryData[];
+  // dinnerProductsArr: IDietProductsQueryData[];
 }
 
 export interface IDietDinnerQueryData extends IDietDinnerData {

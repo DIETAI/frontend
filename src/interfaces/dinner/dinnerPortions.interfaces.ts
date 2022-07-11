@@ -7,7 +7,7 @@ interface ITotal {
 
 type IDinnerPortionType = "default" | "custom";
 
-interface IDinnerProductPortion {
+export interface IDinnerProductPortion {
   dinnerProductId: string;
   portion: number;
   total: ITotal;
