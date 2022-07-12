@@ -2,28 +2,43 @@ import React from "react";
 
 import * as Styled from "./MealTotal.styles";
 
+//form
+import { useFormContext } from "react-hook-form";
+import { IDinnerPortion } from "../schema/dinnerPortion.schema";
+
 const MealTotal = () => {
+  const {
+    control,
+    formState: { errors },
+    setValue,
+    watch,
+    getValues,
+    trigger,
+  } = useFormContext();
+
+  const dinnerPortionTotal = watch("total") as IDinnerPortion["total"];
+
   return (
     <Styled.MealTotalWrapper>
       <h2>Razem:</h2>
       <Styled.MealTotalFeaturesWrapper>
         <Styled.MealTotalFeature>
-          Kcal: <b>200</b>
+          Kcal: <b>{dinnerPortionTotal.kcal}</b>
         </Styled.MealTotalFeature>
         <Styled.MealTotalFeature>
-          B: <b>20g</b>
+          B (g): <b>{dinnerPortionTotal.protein.gram}</b>
         </Styled.MealTotalFeature>
         <Styled.MealTotalFeature>
-          T: <b>20g</b>
+          T (g): <b>{dinnerPortionTotal.fat.gram}</b>
         </Styled.MealTotalFeature>
         <Styled.MealTotalFeature>
-          W: <b>20g</b>
+          W (g): <b>{dinnerPortionTotal.carbohydrates.gram}</b>
         </Styled.MealTotalFeature>
         <Styled.MealTotalFeature>
-          Wp: <b>20g</b>
+          Wp (g): <b>{dinnerPortionTotal.digestableCarbohydrates.gram}</b>
         </Styled.MealTotalFeature>
         <Styled.MealTotalFeature>
-          Bł: <b>20g</b>
+          Bł (g): <b>{dinnerPortionTotal.fiber.gram}</b>
         </Styled.MealTotalFeature>
       </Styled.MealTotalFeaturesWrapper>
     </Styled.MealTotalWrapper>

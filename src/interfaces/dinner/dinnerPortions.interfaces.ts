@@ -1,9 +1,6 @@
 import { IDinnerProductData } from "./dinnerProducts.interfaces";
 import { IProductData } from "../product.interfaces";
-
-interface ITotal {
-  kcal?: number;
-}
+import { ITotal } from "../total.interfaces";
 
 type IDinnerPortionType = "default" | "custom";
 

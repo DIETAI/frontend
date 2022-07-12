@@ -43,3 +43,16 @@ export const getDinnerProduct = (id: string) => {
     dinnerProductError: error,
   };
 };
+
+export const getDinnerProductQuery = (id: string) => {
+  const { data, error } = useSWR<IDinnerProductQueryData>(
+    `/api/v1/dinnerProducts/${id}/query`,
+    fetcher
+  );
+
+  return {
+    dinnerProductQuery: data,
+    dinnerProductLoadingQuery: !error && !data,
+    dinnerProductErrorQuery: error,
+  };
+};

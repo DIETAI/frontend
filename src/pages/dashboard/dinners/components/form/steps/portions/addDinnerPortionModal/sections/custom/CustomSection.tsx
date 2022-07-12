@@ -1,11 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 //form
 import { useFieldArray, useFormContext, Control } from "react-hook-form";
-import { getDinnerProduct } from "services/getDinnerProducts";
+import {
+  getDinnerProduct,
+  getDinnerProductQuery,
+} from "services/getDinnerProducts";
 
 //interfaces
 import { IDinnerPortion } from "../../schema/dinnerPortion.schema";
+
+//helpers
+import { countTotal } from "helpers/countTotal";
+import { sumTotal } from "helpers/sumTotal";
 
 const CustomSection = () => {
   const { fields, append, prepend, remove, swap, move, insert, update } =
@@ -22,7 +29,16 @@ const CustomSection = () => {
     trigger,
   } = useFormContext();
 
-  const portionDinnerProducts = watch("dinnerProducts");
+  const portionDinnerProducts = watch(
+    "dinnerProducts"
+  ) as IDinnerPortion["dinnerProducts"];
+
+  useEffect(() => {
+    const total = sumTotal({
+      dinnerPortionProducts: portionDinnerProducts as any,
+    });
+    return setValue("total", total);
+  }, [...portionDinnerProducts.map(({ total }) => total)]);
 
   return (
     <div>
@@ -33,9 +49,13 @@ const CustomSection = () => {
             <h2>wybrana porcja: {portionDinnerProducts[index].portion}</h2>
             <ul>
               składniki
-              <li>kcal: {field.total.kcal}</li>
-              <li>białko (g): {field.total.protein.gram}</li>
-              <li>tłuszcze (g): {field.total.fat.gram}</li>
+              <li>kcal: {portionDinnerProducts[index].total.kcal}</li>
+              <li>
+                białko (g): {portionDinnerProducts[index].total.protein.gram}
+              </li>
+              <li>
+                tłuszcze (g): {portionDinnerProducts[index].total.fat.gram}
+              </li>
             </ul>
 
             <DinnerProduct
@@ -57,8 +77,14 @@ const DinnerProduct = ({
   dinnerProductId,
   fieldIndex,
 }: IDinnerProductProps) => {
-  const { dinnerProduct, dinnerProductLoading, dinnerProductError } =
-    getDinnerProduct(dinnerProductId);
+  // const { dinnerProduct, dinnerProductLoading, dinnerProductError } =
+  //   getDinnerProduct(dinnerProductId);
+
+  const {
+    dinnerProductQuery,
+    dinnerProductLoadingQuery,
+    dinnerProductErrorQuery,
+  } = getDinnerProductQuery(dinnerProductId);
 
   const { update } = useFieldArray<IDinnerPortion, "dinnerProducts", "id">({
     name: "dinnerProducts",
@@ -66,17 +92,27 @@ const DinnerProduct = ({
 
   const changePortion = (portion: number) => {
     console.log("changePortion");
-    // update(fieldIndex, { dinnerProductId, portion, total: { kcal: 200 }  }); //add count total
+
+    if (!dinnerProductQuery) return;
+
+    update(fieldIndex, {
+      dinnerProductId,
+      portion,
+      total: countTotal({
+        product: dinnerProductQuery.product,
+        portion,
+      }) as any,
+    }); //add count total
   };
 
-  if (dinnerProductLoading) return <div>loading...</div>;
-  if (dinnerProductError) return <div>error..</div>;
+  if (dinnerProductLoadingQuery) return <div>loading...</div>;
+  if (dinnerProductErrorQuery) return <div>error..</div>;
   return (
     <div>
-      <h2>produkt: {dinnerProduct?._id}</h2>{" "}
+      <h2>produkt: {dinnerProductQuery?.product.name}</h2>{" "}
       <ul>
         <h3>porcje:</h3>{" "}
-        {dinnerProduct?.portionsGram?.map((portion) => (
+        {dinnerProductQuery?.portionsGram?.map((portion) => (
           <li onClick={() => changePortion(portion)} key={portion}>
             {portion}
           </li>

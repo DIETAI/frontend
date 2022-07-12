@@ -41,6 +41,7 @@ import {
 
 //helpers
 import { countTotal } from "helpers/countTotal";
+import { sumTotal } from "helpers/sumTotal";
 
 const defaultDinnerPortionValues = dinnerPortionSchema.cast({});
 type IDinnerPortionValues = typeof defaultDinnerPortionValues;
@@ -82,7 +83,6 @@ const pages: IPage[] = [
 const AddDinnerPortionModal = ({ closeModal }: IDinnerPortionModalProps) => {
   const { dinnerId } = useParams();
   const [activePage, setActivePage] = useState(pages[0].type);
-  const { dinnerPortions } = getDinnerPortions(dinnerId as string);
   // const { dinnerProducts, dinnerProductsLoading, dinnerProductsError } =
   //   getDinnerProducts(dinnerId as string);
   const {
@@ -117,15 +117,10 @@ const AddDinnerPortionModal = ({ closeModal }: IDinnerPortionModalProps) => {
         })
       );
 
-      // const total = {
-      //   kcal: initialDinnerProducts.reduce(
-      //     (acc, field) => acc + Number(field.total.kcal),
-      //     0
-      //   ),
-      // };
+      const total = sumTotal({ dinnerPortionProducts: initialDinnerProducts });
 
       setValue("type", "custom");
-      // setValue("total", total);
+      setValue("total", total as any);
       setValue("dinnerProducts", initialDinnerProducts as any);
     }
   }, [dinnerProductsQuery]);
@@ -151,12 +146,7 @@ const AddDinnerPortionModal = ({ closeModal }: IDinnerPortionModalProps) => {
           }
         );
 
-        if (dinnerPortions) {
-          await mutate(`/api/v1/dinnerPortions/dinner/${dinnerId}`, [
-            ...dinnerPortions,
-            newDinnerPortion.data,
-          ]);
-        }
+        await mutate(`/api/v1/dinnerPortions/dinner/${dinnerId}/query`);
       } catch (e) {
         console.log(e);
       }
