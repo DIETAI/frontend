@@ -80,7 +80,11 @@ const ManyDaysView = () => {
           dragConstraints={{ right: 0, left: -width }}
         >
           {currentDays.map((day) => (
-            <Day key={day._id} day={day} />
+            <Day
+              key={day._id}
+              day={day}
+              establishment={dietQuery.establishment}
+            />
           ))}
         </Styled.DaysContentWrapper>
       </Styled.DaysContentContainer>

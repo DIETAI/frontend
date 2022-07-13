@@ -9,6 +9,7 @@ import {
 } from "../dinner/dinnerPortions.interfaces";
 import { IProductData } from "interfaces/product.interfaces";
 import { IDinnerProductData } from "interfaces/dinner/dinnerProducts.interfaces";
+import { IDietEstablishmentData } from "interfaces/dietEstablishment.interfaces";
 
 export interface IDietProductsQueryData extends IDinnerProductData {
   product: IProductData;
@@ -49,5 +50,6 @@ export interface IDietQueryData {
   dayStart?: Date;
   dayEnd?: Date;
   establishmentId: string;
+  establishment: IDietEstablishmentData;
   days: IDietDayQueryData[];
 }

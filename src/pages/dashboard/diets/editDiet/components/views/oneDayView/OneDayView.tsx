@@ -51,19 +51,24 @@ import * as Styled from "./OneDayView.styles";
 //   day: DietDays["days"][0];
 // }
 
-const procentClasses = (maxQuantity: number, currentQuantity: number) => {
-  const currentProcent = (currentQuantity * 100) / maxQuantity;
+interface IProcentClasses {
+  establishment: number;
+  total: number;
+}
+
+const procentClasses = ({ establishment, total }: IProcentClasses) => {
+  const currentProcent = (total * 100) / establishment;
   const missingProcent = Math.abs(100 - currentProcent);
 
   //procent
   if (missingProcent >= 50) {
-    return "text-red-400";
+    return "red";
   }
 
   if (missingProcent <= 5) {
-    return "text-green-500";
+    return "green";
   }
-  return "text-yellow-400";
+  return "yellow";
 };
 
 const OneDayView = () => {
@@ -126,6 +131,67 @@ const OneDayView = () => {
           </Styled.OneDayViewNavItem>
         ))}
       </Styled.OneDayViewNav>
+      <Styled.OneDayViewTotalWrapper>
+        <Styled.OneDayViewTotalItem
+          variant={procentClasses({
+            establishment: dietQuery.establishment.protein.gram,
+            total: currentDay?.total.protein.gram || 0,
+          })}
+        >
+          <h2>B (g):</h2>
+          <p>
+            <b>{currentDay?.total.protein.gram}</b>/
+            {dietQuery.establishment.protein.gram}
+          </p>
+        </Styled.OneDayViewTotalItem>
+        <Styled.OneDayViewTotalItem
+          variant={procentClasses({
+            establishment: dietQuery.establishment.fat.gram,
+            total: currentDay?.total.fat.gram || 0,
+          })}
+        >
+          <h2>T (g):</h2>
+          <p>
+            <b>{currentDay?.total.fat.gram}</b>/
+            {dietQuery.establishment.fat.gram}
+          </p>
+        </Styled.OneDayViewTotalItem>
+        <Styled.OneDayViewTotalItem
+          variant={procentClasses({
+            establishment: dietQuery.establishment.carbohydrates.gram,
+            total: currentDay?.total.carbohydrates.gram || 0,
+          })}
+        >
+          <h2>W (g):</h2>
+          <p>
+            <b>{currentDay?.total.carbohydrates.gram}</b>/
+            {dietQuery.establishment.carbohydrates.gram}
+          </p>
+        </Styled.OneDayViewTotalItem>
+        <Styled.OneDayViewTotalItem
+          variant={procentClasses({
+            establishment: dietQuery.establishment.fiber.gram,
+            total: currentDay?.total.fiber.gram || 0,
+          })}
+        >
+          <h2>Bł (g):</h2>
+          <p>
+            <b>{currentDay?.total.fiber.gram}</b>/
+            {dietQuery.establishment.fiber.gram}
+          </p>
+        </Styled.OneDayViewTotalItem>
+        <Styled.OneDayViewTotalItem
+          variant={procentClasses({
+            establishment: dietQuery.establishment.kcal,
+            total: currentDay?.total.kcal || 0,
+          })}
+        >
+          <h2>Kcal:</h2>
+          <p>
+            <b>{currentDay?.total.kcal}</b>/{dietQuery.establishment.kcal}
+          </p>
+        </Styled.OneDayViewTotalItem>
+      </Styled.OneDayViewTotalWrapper>
 
       {/* <div className="w-full flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
         <ul className="flex gap-4 text-gray-800 flex-wrap">

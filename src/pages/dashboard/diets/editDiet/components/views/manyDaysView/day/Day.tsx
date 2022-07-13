@@ -12,12 +12,14 @@ import * as Styled from "./Day.styles";
 
 //icons
 import { FaEllipsisV } from "icons/icons";
+import { IDietEstablishmentData } from "interfaces/dietEstablishment.interfaces";
 
 interface IDay {
   day: IDietDayQueryData;
+  establishment: IDietEstablishmentData;
 }
 
-const Day = ({ day }: IDay) => {
+const Day = ({ day, establishment }: IDay) => {
   // const { dietDayMeals, dietDayMealsError, dietDayMealsLoading } =
   //   getDietDayMeals(day._id);
 
@@ -50,25 +52,26 @@ const Day = ({ day }: IDay) => {
         <Styled.DayTotalItem>
           <span>B (g)</span>
           <p>
-            <b>{day.total.protein.gram}</b>/23
+            <b>{day.total.protein.gram}</b>/{establishment.protein.gram}
           </p>
         </Styled.DayTotalItem>
         <Styled.DayTotalItem>
           <span>T (g)</span>
           <p>
-            <b>{day.total.fat.gram}</b>/123
+            <b>{day.total.fat.gram}</b>/{establishment.fat.gram}
           </p>
         </Styled.DayTotalItem>
         <Styled.DayTotalItem>
           <span>W (g)</span>
           <p>
-            <b>{day.total.carbohydrates.gram}</b>/123
+            <b>{day.total.carbohydrates.gram}</b>/
+            {establishment.carbohydrates.gram}
           </p>
         </Styled.DayTotalItem>
         <Styled.DayTotalItem>
           <span>Kcal</span>
           <p>
-            <b>{day.total.kcal}</b>/2300
+            <b>{day.total.kcal}</b>/{establishment.kcal}
           </p>
         </Styled.DayTotalItem>
       </Styled.DayTotal>

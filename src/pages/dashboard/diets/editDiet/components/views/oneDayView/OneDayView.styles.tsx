@@ -76,6 +76,80 @@ const OneDayViewNavItem = styled.li<INavItemActive>(
   `
 );
 
+const OneDayViewTotalWrapper = styled.ul(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 1rem;
+    margin-bottom: 3rem;
+    width: 100%;
+  `
+);
+
+interface ITotalVariant {
+  variant?: "red" | "yellow" | "green";
+}
+
+const OneDayViewTotalItem = styled.li<ITotalVariant>(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+    variant,
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 2rem;
+    border: 0.1rem solid ${palette.primary.light};
+    border-radius: ${border.rounded.md};
+    gap: 1rem;
+    flex-grow: 1;
+
+    h2 {
+      color: ${palette.common.text};
+      font-size: 1.4rem;
+      font-weight: ${fontWeight.medium};
+    }
+
+    p {
+      color: ${palette.common.text};
+      font-size: 1.4rem;
+      font-weight: ${fontWeight.medium};
+    }
+
+    ${variant === "green" &&
+    css`
+      b {
+        color: lightgreen;
+      }
+    `}
+
+    ${variant === "yellow" &&
+    css`
+      b {
+        color: orange;
+      }
+    `}
+
+    ${variant === "red" &&
+    css`
+      b {
+        color: red;
+      }
+    `}
+  `
+);
+
 const OneDayViewTableWrapper = styled.div(
   ({
     theme: {
@@ -148,6 +222,8 @@ export {
   OneDayViewContainer,
   OneDayViewNav,
   OneDayViewNavItem,
+  OneDayViewTotalWrapper,
+  OneDayViewTotalItem,
   OneDayViewTableWrapper,
   OneDayViewTableHeaderWrapper,
   TableHeaderItem,
