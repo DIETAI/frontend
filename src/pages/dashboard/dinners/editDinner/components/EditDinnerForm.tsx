@@ -70,7 +70,6 @@ const EditDinnerForm = ({ dinner }: IDinnerProps) => {
 
   const dinnerDefaultValues = {
     ...dinner,
-    mealTypesKind: undefined,
   };
 
   return (
