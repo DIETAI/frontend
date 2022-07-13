@@ -13,6 +13,7 @@ import Image from "components/form/images/image/Image";
 import Modal from "components/modal/Modal";
 import FilesLibrary from "components/filesLibrary/FilesLibrary";
 import MultipleAutocomplete from "components/form/multipleAutocomplete/MultipleAutocomplete";
+import MyEditor from "./editor/Editor";
 
 //icons
 import { FaFileAlt } from "icons/icons";
@@ -92,6 +93,7 @@ const BasicInfo = () => {
         fullWidth
         textarea
       />
+      {/* <MyEditor /> */}
       <Autocomplete
         name="preparation_time"
         label={`${t("dinner.form.basic_info.preparation_time")}`}

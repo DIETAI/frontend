@@ -202,7 +202,7 @@ const OneDayView = () => {
             produkty
           </Styled.TableHeaderItem>
           <Styled.TableHeaderItem className="w-20 p-5 border-r flex items-center justify-center text-base font-semibold 2xl:w-32">
-            ilość
+            ilość (g)
           </Styled.TableHeaderItem>
           <Styled.TableHeaderItem className="w-20 p-5 border-r last-of-type:border-none flex items-center justify-center text-base font-semibold 2xl:w-32">
             B (g)

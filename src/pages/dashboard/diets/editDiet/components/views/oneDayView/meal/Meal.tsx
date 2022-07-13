@@ -16,10 +16,19 @@ import React, { useState } from "react";
 //form
 import { useFormContext } from "react-hook-form";
 
+//icons
+import { FaPlus } from "icons/icons";
+
 //styles
 import * as Styled from "./Meal.styles";
 
+//components
+import Modal from "components/modal/Modal";
+import AddDinnerModalContent from "../../../addDinnerModal/AddDinnerModal";
+import Image from "components/form/images/image/Image";
+
 const Meal = ({ meal }: { meal: IDietMealQueryData }) => {
+  const [addDinnerModalOpen, setDinnerModalOpen] = useState(false);
   // const { mealId, mealPopupOpen, setMealPopupOpen } = useCurrentMeal();
 
   // const currentMealDinners = dietDinners.filter(
@@ -32,15 +41,23 @@ const Meal = ({ meal }: { meal: IDietMealQueryData }) => {
         <Styled.Meal className="w-fit flex border-x border-b  2xl:w-full">
           <Styled.MealNameWrapper className="w-40 border-r p-5 2xl:flex-auto relative">
             {meal.name}
-            <button
-              type="button"
-              // onClick={() => setMealPopupOpen(meal.id, true)}
-              className=" w-6 h-6 rounded-full bg-orange-300 text-white text-xs absolute top-4 right-4"
+            <Styled.AddDinnerButtonWrapper
+              onClick={() => setDinnerModalOpen(true)}
             >
-              +
-            </button>
+              <FaPlus />
+              dodaj pozycję
+            </Styled.AddDinnerButtonWrapper>
           </Styled.MealNameWrapper>
           <Styled.MealDinnersWrapper className="flex flex-col divide-y">
+            {meal.dinners.length < 1 && (
+              <Styled.EmptyMealWrapper>
+                <Styled.EmptyMealContent
+                  onClick={() => setDinnerModalOpen(true)}
+                >
+                  <FaPlus />
+                </Styled.EmptyMealContent>
+              </Styled.EmptyMealWrapper>
+            )}
             {meal.dinners.length > 0 &&
               meal.dinners.map((dinner, index) => (
                 <>
@@ -49,33 +66,18 @@ const Meal = ({ meal }: { meal: IDietMealQueryData }) => {
                       style={{ width: "26rem" }}
                       className="w-40 p-5 border-r 2xl:w-64"
                     >
-                      {/* {!dinner.name ? "-" : dinner.name} */}
-                      {dinner.dinnerPortion.dinner.name}
+                      <span>
+                        {dinner.dinnerPortion.dinner.image && (
+                          <Image
+                            roundedDataGrid={true}
+                            imageId={dinner.dinnerPortion.dinner.image}
+                          />
+                        )}
+                        {dinner.dinnerPortion.dinner.name}
+                      </span>
                     </Styled.DinnerNameWrapper>
 
-                    <Styled.DinnerProductsWrapper className="flex flex-col divide-y">
-                      {dinner.dinnerPortion.dinnerProducts.length < 1 && (
-                        <div className="flex flex-grow">
-                          <div className="w-40 p-5 border-r flex 2xl:w-64">
-                            -
-                          </div>
-                          <div className="w-20 p-5 border-r 2xl:w-32">-</div>
-
-                          <div className="w-20 p-5 border-r last-of-type:border-none 2xl:w-32">
-                            -
-                          </div>
-                          <div className="w-20 p-5 border-r last-of-type:border-none 2xl:w-32">
-                            -
-                          </div>
-                          <div className="w-20 p-5 border-r last-of-type:border-none 2xl:w-32">
-                            -
-                          </div>
-                          <div className="w-20 p-5 border-r last-of-type:border-none 2xl:w-32">
-                            -
-                          </div>
-                        </div>
-                      )}
-
+                    <Styled.DinnerProductsWrapper>
                       {dinner.dinnerPortion.dinnerProducts.length > 0 &&
                         dinner.dinnerPortion.dinnerProducts.map(
                           ({
@@ -92,19 +94,27 @@ const Meal = ({ meal }: { meal: IDietMealQueryData }) => {
                                 style={{ width: "26rem" }}
                                 className="w-40 p-5 border-r flex 2xl:w-64"
                               >
-                                {dinnerProduct.product.name}
+                                <span>
+                                  {dinnerProduct.product.image && (
+                                    <Image
+                                      roundedDataGrid={true}
+                                      imageId={dinnerProduct.product.image}
+                                    />
+                                  )}
+                                  {dinnerProduct.product.name}
+                                </span>
                               </Styled.DinnerProductItem>
                               <Styled.DinnerProductItem className="w-20 p-5 border-r 2xl:w-32">
                                 {portion}
                               </Styled.DinnerProductItem>
                               <Styled.DinnerProductItem className="w-20 p-5 border-r last-of-type:border-none 2xl:w-32">
-                                20
+                                {total.protein.gram}
                               </Styled.DinnerProductItem>
                               <Styled.DinnerProductItem className="w-20 p-5 border-r last-of-type:border-none 2xl:w-32">
-                                20
+                                {total.fat.gram}
                               </Styled.DinnerProductItem>
                               <Styled.DinnerProductItem className="w-20 p-5 border-r last-of-type:border-none 2xl:w-32">
-                                20
+                                {total.carbohydrates.gram}
                               </Styled.DinnerProductItem>
                               <Styled.DinnerProductItem className="w-20 p-5 border-r last-of-type:border-none 2xl:w-32">
                                 {total.kcal}
@@ -112,8 +122,55 @@ const Meal = ({ meal }: { meal: IDietMealQueryData }) => {
                             </Styled.DinnerProduct>
                           )
                         )}
+                      {meal.dinners.length > 1 && (
+                        <Styled.DinnerWrapper className="flex items-center w-full">
+                          <Styled.DinnerNameWrapper className="w-80 p-5 border-r 2xl:w-[32rem]">
+                            <b>Razem:</b>
+                          </Styled.DinnerNameWrapper>
+                          <Styled.DinnerProductItem className="w-20 p-5 border-r 2xl:w-32">
+                            <b>-</b>
+                          </Styled.DinnerProductItem>
+                          <Styled.DinnerProductItem className="w-20 p-5 border-r 2xl:w-32">
+                            <b>{dinner.dinnerPortion.total.protein.gram}</b>
+                          </Styled.DinnerProductItem>
+                          <Styled.DinnerProductItem className="w-20 p-5 border-r 2xl:w-32">
+                            <b>{dinner.dinnerPortion.total.fat.gram}</b>
+                          </Styled.DinnerProductItem>
+                          <Styled.DinnerProductItem className="w-20 p-5 border-r 2xl:w-32">
+                            <b>
+                              {dinner.dinnerPortion.total.carbohydrates.gram}
+                            </b>
+                          </Styled.DinnerProductItem>
+                          <Styled.DinnerProductItem className="w-20 p-5 border-r 2xl:w-32">
+                            <b>{dinner.dinnerPortion.total.kcal}</b>
+                          </Styled.DinnerProductItem>
+                        </Styled.DinnerWrapper>
+                      )}
                     </Styled.DinnerProductsWrapper>
                   </Styled.DinnerWrapper>
+
+                  <Styled.DinnerWrapper className="flex items-center w-full">
+                    <Styled.DinnerNameWrapper className="w-80 p-5 border-r 2xl:w-[32rem]">
+                      <b>Razem:</b>
+                    </Styled.DinnerNameWrapper>
+                    <Styled.DinnerNameWrapper className="w-80 p-5 border-r 2xl:w-[32rem]"></Styled.DinnerNameWrapper>
+                    <Styled.DinnerProductItem className="w-20 p-5 border-r 2xl:w-32">
+                      <b>-</b>
+                    </Styled.DinnerProductItem>
+                    <Styled.DinnerProductItem className="w-20 p-5 border-r 2xl:w-32">
+                      <b>{meal.total.protein.gram}</b>
+                    </Styled.DinnerProductItem>
+                    <Styled.DinnerProductItem className="w-20 p-5 border-r 2xl:w-32">
+                      <b>{meal.total.fat.gram}</b>
+                    </Styled.DinnerProductItem>
+                    <Styled.DinnerProductItem className="w-20 p-5 border-r 2xl:w-32">
+                      <b>{meal.total.carbohydrates.gram}</b>
+                    </Styled.DinnerProductItem>
+                    <Styled.DinnerProductItem className="w-20 p-5 border-r 2xl:w-32">
+                      <b>{meal.total.kcal}</b>
+                    </Styled.DinnerProductItem>
+                  </Styled.DinnerWrapper>
+
                   {/* {columns.map((column) => (
                               <div
                                 key={column.key}
@@ -122,32 +179,11 @@ const Meal = ({ meal }: { meal: IDietMealQueryData }) => {
                                 {dinnerProduct.macrohydrates[column.key]}
                               </div>
                             ))} */}
-                  {/* {row.dinners.length > 1 && (
-                      <div className="flex items-center w-full">
-                        <div className="w-80 p-5 border-r 2xl:w-[32rem]"></div>
-                        <div className="w-20 p-5 border-r 2xl:w-32">
-                          <b>{dinner.macrohydratesTotal.total_gram}</b>
-                        </div>
-                        <div className="w-20 p-5 border-r 2xl:w-32">
-                          <b>{dinner.macrohydratesTotal.total_protein_gram}</b>
-                        </div>
-                        <div className="w-20 p-5 border-r 2xl:w-32">
-                          <b>{dinner.macrohydratesTotal.total_fat_gram}</b>
-                        </div>
-                        <div className="w-20 p-5 border-r 2xl:w-32">
-                          <b>
-                            {dinner.macrohydratesTotal.total_carbohydrates_gram}
-                          </b>
-                        </div>
-                        <div className="w-20 p-5 border-r 2xl:w-32">
-                          <b>{dinner.macrohydratesTotal.total_kcal}</b>
-                        </div>
-                      </div>
-                    )} */}
                 </>
               ))}
           </Styled.MealDinnersWrapper>
         </Styled.Meal>
+
         {/* <div className="flex border-x border-b items-center w-full">
           <div className=" w-[30rem] p-5 border-r 2xl:w-[32rem] 2xl:flex-auto">
             Razem:{" "}
@@ -184,12 +220,16 @@ const Meal = ({ meal }: { meal: IDietMealQueryData }) => {
           />
         </div> */}
       </Styled.MealWrapper>
-      {/* <ModalContainer
-        modalIsOpen={mealPopupOpen}
-        closeModal={() => setMealPopupOpen(false)}
+
+      <Modal
+        onClose={() => setDinnerModalOpen(false)}
+        open={addDinnerModalOpen}
       >
-        <AddMealPopup meal={meal} mealEstablishment={{}} />
-      </ModalContainer> */}
+        <AddDinnerModalContent
+          meal={meal}
+          closeModal={() => setDinnerModalOpen(false)}
+        />
+      </Modal>
     </>
   );
 };

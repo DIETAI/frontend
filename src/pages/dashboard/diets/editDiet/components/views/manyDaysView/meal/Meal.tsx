@@ -6,7 +6,7 @@ import * as Styled from "./Meal.styles";
 
 //components
 import Modal from "components/modal/Modal";
-import AddDinnerModalContent from "./addDinnerModal/AddDinnerModal";
+import AddDinnerModalContent from "../../../addDinnerModal/AddDinnerModal";
 import IconModal from "components/iconModal/IconModal";
 import MealEstablishmentModalContent from "./mealEstablishmentModal/MealEstablishmentModalContent";
 import Dinner from "../dinner/Dinner";

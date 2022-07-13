@@ -32,7 +32,6 @@ import { getDietDinnersQuery } from "services/getDietDinners";
 import { IDietMealTotal } from "interfaces/diet/dietMeals.interfaces";
 
 //hepers
-import { sumDietDinnersTotal } from "../../helpers/mealTotal";
 import { getDietDayMeal } from "services/getDietMeals";
 
 const AddDinnerFormContent = ({
