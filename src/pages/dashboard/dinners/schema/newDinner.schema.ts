@@ -4,16 +4,22 @@ export const basicInfoSchema = yup.object({
   name: yup.string().required("To pole jest wymagane").default(""),
   image: yup.string().default(""),
   gallery: yup.array(yup.string().required("To pole jest wymagane")),
-  mealTypes: yup.array(
-    yup
-      .string()
-      .oneOf(["breakfast", "second_breakfast", "lunch", "snack", "dinner"])
-  ),
-  mealTypesKind: yup.array(yup.string().oneOf(["mainCourse", "soup", "drink"])),
+  mealTypes: yup
+    .array(
+      yup
+        .string()
+        .oneOf(["breakfast", "second_breakfast", "lunch", "snack", "dinner"])
+    )
+    .min(1, "To pole jest wymagane"),
+  mealTypesKind: yup
+    .string()
+    .oneOf(["mainCourse", "soup", "drink"])
+    .default("mainCourse")
+    .required("To pole jest wymagane"),
   description: yup.string().default(""),
   recipe: yup.string().default(""),
   dietKinds: yup.array(yup.string()),
-  tags: yup.array(yup.string()), //array(yup.string()) wegetarianski, weganski, bezmleczny, bezglutenowy wyswietlone jako checkbox
+  tags: yup.array(yup.string().oneOf(["nogluten", "lactose-free"])), //array(yup.string()) wegetarianski, weganski, bezmleczny, bezglutenowy wyswietlone jako checkbox
   preparation_time: yup.string(), // w zależności od czasu dodać opcje szybki, sredni, wolny
   // image: yup.mixed(),
   //rozmiar w zależności od ilości g przypisać mały, średni, duży

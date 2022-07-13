@@ -1,3 +1,17 @@
+export interface IMacrohydratesTotal {
+  procent: number;
+  gram: number;
+  kcal: number;
+}
+
+export interface IDietDayTotal {
+  kcal: number;
+  protein: IMacrohydratesTotal;
+  fat: IMacrohydratesTotal;
+  carbohydrates: IMacrohydratesTotal;
+  fiber: Omit<IMacrohydratesTotal, "procent">;
+}
+
 export interface IDietDayData {
   _id: string;
   createdAt: string;
@@ -8,5 +22,5 @@ export interface IDietDayData {
   name: string;
   date?: Date;
   order: number;
-  total?: object;
+  total: IDietDayTotal;
 }

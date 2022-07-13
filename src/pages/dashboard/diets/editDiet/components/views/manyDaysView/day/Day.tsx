@@ -48,16 +48,28 @@ const Day = ({ day }: IDay) => {
       </Styled.DayHeading>
       <Styled.DayTotal>
         <Styled.DayTotalItem>
-          <span>B (g)</span> <p>20/23</p>
+          <span>B (g)</span>
+          <p>
+            <b>{day.total.protein.gram}</b>/23
+          </p>
         </Styled.DayTotalItem>
         <Styled.DayTotalItem>
-          <span>T (g)</span> <p>120/123</p>
+          <span>T (g)</span>
+          <p>
+            <b>{day.total.fat.gram}</b>/123
+          </p>
         </Styled.DayTotalItem>
         <Styled.DayTotalItem>
-          <span>W (g)</span> <p>120/123</p>
+          <span>W (g)</span>
+          <p>
+            <b>{day.total.carbohydrates.gram}</b>/123
+          </p>
         </Styled.DayTotalItem>
         <Styled.DayTotalItem>
-          <span>Kcal</span> <p>2000/2300</p>
+          <span>Kcal</span>
+          <p>
+            <b>{day.total.kcal}</b>/2300
+          </p>
         </Styled.DayTotalItem>
       </Styled.DayTotal>
       <Styled.DayMealsWrapper>

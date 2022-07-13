@@ -27,7 +27,13 @@ import {
   IDietDinnerData,
   IDietDinnerQueryData,
 } from "interfaces/diet/dietDinners.interfaces";
-import { getDinner } from "services/getDinners";
+import { getDinners } from "services/getDinners";
+import { getDietDinnersQuery } from "services/getDietDinners";
+import { IDietMealTotal } from "interfaces/diet/dietMeals.interfaces";
+
+//hepers
+import { sumDietDinnersTotal } from "../../helpers/mealTotal";
+import { getDietDayMeal } from "services/getDietMeals";
 
 const AddDinnerFormContent = ({
   closeModal,
@@ -48,14 +54,19 @@ const AddDinnerFormContent = ({
   const { mutate, cache } = useSWRConfig();
 
   const dietDinner = getValues() as IDietDinner;
-
   if (!dietDinner) return <div>dietDinner error</div>;
+
+  const { dietDayMeal } = getDietDayMeal(mealId);
+
+  const { dietDinnersQuery, dietDinnersErrorQuery, dietDinnersLoadingQuery } =
+    getDietDinnersQuery(mealId);
 
   const { dinnerPortion, dinnerPortionLoading, dinnerPortionError } =
     getDinnerPortion(dietDinner.dinnerPortionId);
 
   if (dinnerPortionLoading) return <div>loading...</div>;
   if (dinnerPortionLoading) return <div>error</div>;
+  if (!dietDinnersQuery || !dietDayMeal) return <div>...</div>;
 
   const onDietDinnerFormSubmit = async (data: IDietDinnerValues) => {
     //zmiana isSubmitting
@@ -71,59 +82,29 @@ const AddDinnerFormContent = ({
         });
       console.log({ newDietDinner });
 
+      // //edit meal
+      // const editMealTotal = sumDietDinnersTotal({
+      //   dietDinners: [...dietDinnersQuery, newDietDinner.data],
+      //   dietDayTotalKcal: 2000,
+      // }); //zsumować wszystkie dietDinners w diecie = dayTotalKcal
+
+      // const editMealData = {
+      //   ...dietDayMeal,
+      //   total: editMealTotal,
+      // };
+
+      // const editDietMeal = await axios.put(
+      //   `/api/v1/dietMeals/${mealId}`,
+      //   editMealData,
+      //   {
+      //     withCredentials: true,
+      //   }
+      // );
+
+      // console.log({ editDietMeal });
+
       //mutate dietquery obj
       await mutate(`/api/v1/diets/${dietEditId}/query`); //correct
-
-      ///api/v1/diets/62c947e24fc6f8b2f34df5b4/query in useSWR chache
-      // await mutate(
-      //   `/api/v1/diets/${dietEditId}/query`,
-      //   async (dietData: IDietQueryData) => {
-      //     console.log({ mutateData: data });
-      //     return {
-      //       ...dietData,
-      //       days: dietData.days.map((dietDay) => ({
-      //         ...dietDay,
-      //         meals: dietDay.meals.map((dietMeal) => {
-      //           if (dietMeal._id === newDietDinner.data.dietMealId) {
-      //             //zwrócić a api dinner z dinnerPortion i dinner obj
-      //             // const { dinnerPortion } = getDinnerPortion(
-      //             //   newDietDinner.data.dinnerPortionId
-      //             // );
-      //             // const { dinner } = getDinner(
-      //             //   dinnerPortion?.dinnerId as string
-      //             // );
-
-      //             // console.log({ dinnerPortion });
-
-      //             return {
-      //               ...dietMeal,
-      //               dinners: [
-      //                 ...dietMeal.dinners,
-      //                 {
-      //                   ...newDietDinner.data,
-      //                   // dinnerPortion: {
-      //                   //   ...dinnerPortion,
-      //                   //   dinner,
-      //                   // },
-      //                 },
-      //               ],
-      //             };
-      //           }
-
-      //           return dietMeal;
-      //         }),
-      //       })),
-      //     };
-      //   }
-      // ); //correct
-
-      // if (dietDinners) {
-      //   await mutate(`/api/v1/dietDinners`, [
-      //     ...dietDinners,
-      //     newDietDinner.data,
-      //   ]);
-      // }
-      // window.location.reload();
 
       closeModal();
     } catch (e) {

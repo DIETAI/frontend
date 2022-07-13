@@ -22,6 +22,9 @@ const Dinner = ({ dietDinner }: IDietDinner) => {
         {image && <Image roundedDataGrid={true} imageId={image} />}
         <h4>{dietDinner.dinnerPortion.dinner.name}</h4>
       </Styled.DietDinner>
+      <Styled.DietDinnerTotalWrapper>
+        <p>kcal: {dietDinner.dinnerPortion.total.kcal}</p>
+      </Styled.DietDinnerTotalWrapper>
 
       {/* <div>
         produkty:{" "}

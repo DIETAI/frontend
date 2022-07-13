@@ -1,4 +1,7 @@
-import { IDinnerPortionData } from "interfaces/dinner/dinnerPortions.interfaces";
+import {
+  IDinnerPortionData,
+  IDinnerPortionQueryData,
+} from "interfaces/dinner/dinnerPortions.interfaces";
 import { IDinnerPortionDinnerProduct } from "../dinner/dinnerPortions.interfaces";
 import { IDinnerData } from "interfaces/dinner/dinner.interfaces";
 
@@ -33,7 +36,7 @@ export interface IDietDinnerQueryData {
   dietMealId: string;
   order: number;
   dinnerPortionId: string;
-  dinnerPortion: IDietDinnerPortionQueryData;
+  dinnerPortion: IDinnerPortionQueryData;
 
   // dinnerId: string;
   // name: string;

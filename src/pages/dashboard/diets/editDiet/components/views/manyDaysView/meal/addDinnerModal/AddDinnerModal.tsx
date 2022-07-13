@@ -38,6 +38,7 @@ import { getProduct } from "services/getProducts";
 import {
   getDinnerPortions,
   getDinnerPortion,
+  getDinnerPortionsQuery,
 } from "services/getDinnerPortions";
 import { IDietMealQueryData } from "interfaces/diet/dietQuery.interfaces";
 
@@ -114,8 +115,14 @@ const DinnerSidebarItem = ({
   meal: IDietMealQueryData;
 }) => {
   const { dinner, dinnerError, dinnerLoading } = getDinner(dinnerId);
-  const { dinnerPortions, dinnerPortionsError, dinnerPortionsLoading } =
-    getDinnerPortions(dinnerId);
+  // const { dinnerPortions, dinnerPortionsError, dinnerPortionsLoading } =
+  //   getDinnerPortions(dinnerId);
+
+  const {
+    dinnerPortionsQuery,
+    dinnerPortionsLoadingQuery,
+    dinnerPortionsErrorQuery,
+  } = getDinnerPortionsQuery(dinnerId);
 
   const {
     control,
@@ -148,8 +155,8 @@ const DinnerSidebarItem = ({
     return;
   };
 
-  if (dinnerLoading || dinnerPortionsLoading) return <div>loading...</div>;
-  if (dinnerError || dinnerPortionsError) return <div>error...</div>;
+  if (dinnerLoading || dinnerPortionsLoadingQuery) return <div>loading...</div>;
+  if (dinnerError || dinnerPortionsErrorQuery) return <div>error...</div>;
 
   return (
     <Styled.DinnerModalSidebarItem
@@ -160,7 +167,7 @@ const DinnerSidebarItem = ({
       <h2>{dinner?.name}</h2>
       <div>
         porcje:{" "}
-        {dinnerPortions?.map((dinnerPortion) => (
+        {dinnerPortionsQuery?.map((dinnerPortion) => (
           <Styled.DinnerSidebarItemPortion
             key={dinnerPortion._id}
             onClick={() => appendDinner(dinnerPortion._id)}
@@ -168,10 +175,15 @@ const DinnerSidebarItem = ({
             {" "}
             typ porcji: <h2>{dinnerPortion.type}</h2>
             <div>
+              razem: <h3>kcal: {dinnerPortion.total.kcal}</h3>
+            </div>
+            <div>
               produkty:{" "}
               {dinnerPortion.dinnerProducts.map((dinnerProductPortion) => (
                 <div key={dinnerProductPortion.dinnerProductId}>
-                  <h2>produkt: {dinnerProductPortion.dinnerProductId}</h2>{" "}
+                  <h2>
+                    produkt: {dinnerProductPortion.dinnerProduct.product.name}
+                  </h2>{" "}
                   <h3>porcja: {dinnerProductPortion.portion}</h3>
                 </div>
               ))}

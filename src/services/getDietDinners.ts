@@ -1,6 +1,9 @@
 import useSWR from "swr";
 import fetcher from "utils/fetcher";
-import { IDietDinnerData } from "interfaces/diet/dietDinners.interfaces";
+import {
+  IDietDinnerData,
+  IDietDinnerQueryData,
+} from "interfaces/diet/dietDinners.interfaces";
 
 export const getDietDinners = (mealId: string) => {
   const { data, error } = useSWR<IDietDinnerData[] | null>(
@@ -12,6 +15,19 @@ export const getDietDinners = (mealId: string) => {
     dietDinners: data,
     dietDinnersLoading: !error && !data,
     dietDinnersError: error,
+  };
+};
+
+export const getDietDinnersQuery = (mealId: string) => {
+  const { data, error } = useSWR<IDietDinnerQueryData[]>(
+    `/api/v1/dietDinners/meal/${mealId}/query`,
+    fetcher
+  );
+
+  return {
+    dietDinnersQuery: data,
+    dietDinnersLoadingQuery: !error && !data,
+    dietDinnersErrorQuery: error,
   };
 };
 
