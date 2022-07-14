@@ -1,6 +1,48 @@
 import styled, { css } from "styled-components";
 
-const PlanTimeContainer = styled.div(
+const DietGenerateDaysContainer = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints },
+    },
+  }) => css`
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    width: 100%;
+    gap: 2rem;
+    padding: 2rem;
+  `
+);
+
+const DaysOptions = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+    padding: 2rem;
+
+    span {
+      color: ${palette.common.text};
+      font-size: ${fontSize.s};
+      font-weight: ${fontWeight.light};
+    }
+  `
+);
+
+const DaysWrapper = styled.div(
   ({
     theme: {
       palette,
@@ -14,15 +56,16 @@ const PlanTimeContainer = styled.div(
     justify-content: flex-start;
     width: 100%;
     gap: 2rem;
-    margin-top: 2rem;
+    padding: 2rem;
+    flex-wrap: wrap;
   `
 );
 
-interface ISelectedTimePlan {
-  selectedTimePlan: boolean;
+interface ISelectedDay {
+  selectedDay: boolean;
 }
 
-const PlanLTimeItemWrapper = styled.div<ISelectedTimePlan>(
+const DayItem = styled.div<ISelectedDay>(
   ({
     theme: {
       palette,
@@ -30,36 +73,56 @@ const PlanLTimeItemWrapper = styled.div<ISelectedTimePlan>(
       layout: { border },
       media: { breakpoints },
     },
-    selectedTimePlan,
+    selectedDay,
   }) => css`
     display: flex;
+    align-items: center;
+    justify-content: flex-start;
     flex-direction: column;
-    gap: 1rem;
-    width: 40rem;
-    min-height: 60rem;
-    cursor: pointer;
-    border: 0.1rem solid ${palette.primary.light};
+    width: 12rem;
+    height: 16rem;
     border-radius: ${border.rounded.md};
-    transition: 0.3s ease-out;
+    border: 0.1rem dashed ${palette.primary.light};
+    background: ${palette.common.contrast};
     padding: 2rem;
+    cursor: pointer;
+    transition: 0.3s ease-out;
+    flex-grow: 1;
+    gap: 2rem;
 
     h2 {
-      font-size: ${fontSize.l};
-      font-weight: ${fontWeight.semibold};
       color: ${palette.common.text};
+      font-size: ${fontSize.s};
+      font-weight: ${fontWeight.light};
     }
 
-    h3 {
-      font-size: ${fontSize.xl};
-      font-weight: ${fontWeight.semibold};
-      color: ${palette.common.text};
+    svg {
+      width: 5rem;
+      height: 5rem;
+      path {
+        fill: ${palette.primary.light};
+      }
     }
 
-    ${selectedTimePlan &&
+    :hover {
+      opacity: 0.6;
+    }
+
+    ${selectedDay &&
     css`
-      border: 0.2rem solid ${palette.primary.main};
+      h2 {
+        color: ${palette.primary.main};
+        font-weight: ${fontWeight.medium};
+      }
+      border: 0.1rem solid ${palette.primary.main};
+
+      svg {
+        path {
+          fill: ${palette.primary.main};
+        }
+      }
     `}
   `
 );
 
-export { PlanTimeContainer, PlanLTimeItemWrapper };
+export { DietGenerateDaysContainer, DaysWrapper, DaysOptions, DayItem };

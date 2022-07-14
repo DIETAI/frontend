@@ -125,15 +125,15 @@ const MultiStepContainer = ({
       />
 
       <Styled.MultistepContent>
-        <Heading
+        {/* <Heading
           icon={currentChild.props.icon}
           title={currentChild.props.label}
-        />
+        /> */}
 
         <FormProvider {...methods}>
           <form className="w-full flex flex-col gap-6" autoComplete="off">
             {currentChild}
-            <div className="w-full flex flex-wrap gap-6 flex-col sm:flex-row">
+            <Styled.ButtonsWrapper className="w-full flex flex-wrap gap-6 flex-col sm:flex-row">
               {activeStep > 0 && (
                 <Button
                   variant={activeStep === 0 ? "disabled" : "secondary"}
@@ -151,7 +151,7 @@ const MultiStepContainer = ({
               >
                 {isLastStep() ? "Generuj dietę" : "Dalej"}
               </Button>
-            </div>
+            </Styled.ButtonsWrapper>
           </form>
         </FormProvider>
       </Styled.MultistepContent>

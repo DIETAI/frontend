@@ -1,4 +1,5 @@
 export interface IDietEstablishmentMeal {
+  _id: string;
   time: string;
   name: string;
   type: "breakfast" | "second_breakfast" | "lunch" | "snack" | "dinner";

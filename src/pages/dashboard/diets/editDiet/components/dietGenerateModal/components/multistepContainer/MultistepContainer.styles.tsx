@@ -35,8 +35,29 @@ const MultistepContent = styled.div(
     flex-direction: column;
     gap: 2rem;
     width: 100%;
-    margin-top: 2rem;
   `
 );
 
-export { MultistepWrapper, MultistepContent };
+const ButtonsWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 1rem;
+    margin-top: 3rem;
+
+    button {
+      width: 25rem;
+    }
+  `
+);
+
+export { MultistepWrapper, MultistepContent, ButtonsWrapper };

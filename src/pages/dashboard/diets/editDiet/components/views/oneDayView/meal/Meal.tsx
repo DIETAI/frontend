@@ -1,6 +1,10 @@
 import { IDietDayMealData } from "interfaces/diet/dietMeals.interfaces";
 import { IDietMealQueryData } from "interfaces/diet/dietQuery.interfaces";
 import React, { useState } from "react";
+
+//utils
+import { procentClasses } from "pages/dashboard/diets/editDiet/utils/procentClasses";
+
 // import { columns } from "../OneDayView";
 
 //interfaces
@@ -26,8 +30,16 @@ import * as Styled from "./Meal.styles";
 import Modal from "components/modal/Modal";
 import AddDinnerModalContent from "../../../addDinnerModal/AddDinnerModal";
 import Image from "components/form/images/image/Image";
+import { IDietEstablishmentData } from "interfaces/dietEstablishment.interfaces";
+import { AnimatePresence } from "framer-motion";
 
-const Meal = ({ meal }: { meal: IDietMealQueryData }) => {
+const Meal = ({
+  meal,
+  establishment,
+}: {
+  meal: IDietMealQueryData;
+  establishment: IDietEstablishmentData;
+}) => {
   const [addDinnerModalOpen, setDinnerModalOpen] = useState(false);
   // const { mealId, mealPopupOpen, setMealPopupOpen } = useCurrentMeal();
 
@@ -35,12 +47,17 @@ const Meal = ({ meal }: { meal: IDietMealQueryData }) => {
   //   ({ mealId }) => mealId === meal.id
   // );
 
+  const mealEstablishment = establishment.meals.find(
+    ({ _id }) => _id === meal.establishmentMealId
+  );
+
   return (
     <>
       <Styled.MealWrapper className="w-fit flex flex-col 2xl:w-full">
         <Styled.Meal className="w-fit flex border-x border-b  2xl:w-full">
           <Styled.MealNameWrapper className="w-40 border-r p-5 2xl:flex-auto relative">
             {meal.name}
+            procent: {mealEstablishment?.procent} %
             <Styled.AddDinnerButtonWrapper
               onClick={() => setDinnerModalOpen(true)}
             >
@@ -62,16 +79,15 @@ const Meal = ({ meal }: { meal: IDietMealQueryData }) => {
               meal.dinners.map((dinner, index) => (
                 <>
                   <Styled.DinnerWrapper key={dinner._id} className="flex">
-                    <Styled.DinnerNameWrapper
-                      style={{ width: "26rem" }}
-                      className="w-40 p-5 border-r 2xl:w-64"
-                    >
+                    <Styled.DinnerNameWrapper>
                       <span>
                         {dinner.dinnerPortion.dinner.image && (
-                          <Image
-                            roundedDataGrid={true}
-                            imageId={dinner.dinnerPortion.dinner.image}
-                          />
+                          <div>
+                            <Image
+                              roundedDataGrid={true}
+                              imageId={dinner.dinnerPortion.dinner.image}
+                            />
+                          </div>
                         )}
                         {dinner.dinnerPortion.dinner.name}
                       </span>
@@ -96,12 +112,15 @@ const Meal = ({ meal }: { meal: IDietMealQueryData }) => {
                               >
                                 <span>
                                   {dinnerProduct.product.image && (
-                                    <Image
-                                      roundedDataGrid={true}
-                                      imageId={dinnerProduct.product.image}
-                                    />
+                                    <div>
+                                      <Image
+                                        roundedDataGrid={true}
+                                        imageId={dinnerProduct.product.image}
+                                      />
+                                    </div>
                                   )}
-                                  {dinnerProduct.product.name}
+
+                                  <p>{dinnerProduct.product.name}</p>
                                 </span>
                               </Styled.DinnerProductItem>
                               <Styled.DinnerProductItem className="w-20 p-5 border-r 2xl:w-32">
@@ -123,52 +142,30 @@ const Meal = ({ meal }: { meal: IDietMealQueryData }) => {
                           )
                         )}
                       {meal.dinners.length > 1 && (
-                        <Styled.DinnerWrapper className="flex items-center w-full">
-                          <Styled.DinnerNameWrapper className="w-80 p-5 border-r 2xl:w-[32rem]">
+                        <Styled.SumWrapper>
+                          <Styled.SumHeadingWrapper variant="dinnerSum">
                             <b>Razem:</b>
-                          </Styled.DinnerNameWrapper>
-                          <Styled.DinnerProductItem className="w-20 p-5 border-r 2xl:w-32">
+                          </Styled.SumHeadingWrapper>
+                          <Styled.SumItem>
                             <b>-</b>
-                          </Styled.DinnerProductItem>
-                          <Styled.DinnerProductItem className="w-20 p-5 border-r 2xl:w-32">
+                          </Styled.SumItem>
+                          <Styled.SumItem>
                             <b>{dinner.dinnerPortion.total.protein.gram}</b>
-                          </Styled.DinnerProductItem>
-                          <Styled.DinnerProductItem className="w-20 p-5 border-r 2xl:w-32">
+                          </Styled.SumItem>
+                          <Styled.SumItem>
                             <b>{dinner.dinnerPortion.total.fat.gram}</b>
-                          </Styled.DinnerProductItem>
-                          <Styled.DinnerProductItem className="w-20 p-5 border-r 2xl:w-32">
+                          </Styled.SumItem>
+                          <Styled.SumItem>
                             <b>
                               {dinner.dinnerPortion.total.carbohydrates.gram}
                             </b>
-                          </Styled.DinnerProductItem>
-                          <Styled.DinnerProductItem className="w-20 p-5 border-r 2xl:w-32">
+                          </Styled.SumItem>
+                          <Styled.SumItem>
                             <b>{dinner.dinnerPortion.total.kcal}</b>
-                          </Styled.DinnerProductItem>
-                        </Styled.DinnerWrapper>
+                          </Styled.SumItem>
+                        </Styled.SumWrapper>
                       )}
                     </Styled.DinnerProductsWrapper>
-                  </Styled.DinnerWrapper>
-
-                  <Styled.DinnerWrapper className="flex items-center w-full">
-                    <Styled.DinnerNameWrapper className="w-80 p-5 border-r 2xl:w-[32rem]">
-                      <b>Razem:</b>
-                    </Styled.DinnerNameWrapper>
-                    <Styled.DinnerNameWrapper className="w-80 p-5 border-r 2xl:w-[32rem]"></Styled.DinnerNameWrapper>
-                    <Styled.DinnerProductItem className="w-20 p-5 border-r 2xl:w-32">
-                      <b>-</b>
-                    </Styled.DinnerProductItem>
-                    <Styled.DinnerProductItem className="w-20 p-5 border-r 2xl:w-32">
-                      <b>{meal.total.protein.gram}</b>
-                    </Styled.DinnerProductItem>
-                    <Styled.DinnerProductItem className="w-20 p-5 border-r 2xl:w-32">
-                      <b>{meal.total.fat.gram}</b>
-                    </Styled.DinnerProductItem>
-                    <Styled.DinnerProductItem className="w-20 p-5 border-r 2xl:w-32">
-                      <b>{meal.total.carbohydrates.gram}</b>
-                    </Styled.DinnerProductItem>
-                    <Styled.DinnerProductItem className="w-20 p-5 border-r 2xl:w-32">
-                      <b>{meal.total.kcal}</b>
-                    </Styled.DinnerProductItem>
                   </Styled.DinnerWrapper>
 
                   {/* {columns.map((column) => (
@@ -181,6 +178,30 @@ const Meal = ({ meal }: { meal: IDietMealQueryData }) => {
                             ))} */}
                 </>
               ))}
+
+            {meal.dinners.length > 0 && (
+              <Styled.SumWrapper>
+                <Styled.SumHeadingWrapper variant="mealSum">
+                  <b>Razem:</b>
+                </Styled.SumHeadingWrapper>
+                <Styled.SumItem>
+                  <b>-</b>
+                </Styled.SumItem>
+                <Styled.SumItem>
+                  <b>{meal.total.protein.gram}</b>
+                </Styled.SumItem>
+                <Styled.SumItem>
+                  <b>{meal.total.fat.gram}</b>
+                </Styled.SumItem>
+                <Styled.SumItem>
+                  <b>{meal.total.carbohydrates.gram}</b>
+                </Styled.SumItem>
+                <SumModal
+                  totalValue={meal.total.kcal || 0}
+                  establishmentValue={mealEstablishment?.kcal || 0}
+                />
+              </Styled.SumWrapper>
+            )}
           </Styled.MealDinnersWrapper>
         </Styled.Meal>
 
@@ -234,15 +255,50 @@ const Meal = ({ meal }: { meal: IDietMealQueryData }) => {
   );
 };
 
-export const procentClasses = (procent: number) => {
-  if (procent >= 50) {
-    return "text-red-400";
-  }
+// export const procentClasses = (procent: number) => {
+//   if (procent >= 50) {
+//     return "text-red-400";
+//   }
 
-  if (procent <= 5) {
-    return "text-green-500";
-  }
-  return "text-yellow-400";
+//   if (procent <= 5) {
+//     return "text-green-500";
+//   }
+//   return "text-yellow-400";
+// };
+
+const SumModal = ({
+  totalValue,
+  establishmentValue,
+}: {
+  totalValue: number;
+  establishmentValue: number;
+}) => {
+  const [sumModalOpen, setSumModalOpen] = useState(false);
+  return (
+    <Styled.SumItem
+      onMouseEnter={() => setSumModalOpen(true)}
+      onMouseLeave={() => setSumModalOpen(false)}
+      variant={procentClasses({
+        establishment: establishmentValue,
+        total: totalValue,
+      })}
+    >
+      <b>{totalValue}</b>
+      <AnimatePresence>
+        {sumModalOpen && (
+          <Styled.SumItemModal
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <p>
+              <b>{totalValue}</b> / {establishmentValue}
+            </p>
+          </Styled.SumItemModal>
+        )}
+      </AnimatePresence>
+    </Styled.SumItem>
+  );
 };
 
 export const procentCount = (dietMacro: number, establishmentMacro: number) => {
@@ -261,34 +317,34 @@ interface IMealMacroTotal {
   macroDifferentMeal?: boolean;
 }
 
-const MealMacroTotalItem = ({
-  total,
-  establishment,
-  macroDifferentMeal,
-}: IMealMacroTotal) => {
-  const [macroModalOpen, setMacroModalOpen] = useState(false);
+// const MealMacroTotalItem = ({
+//   total,
+//   establishment,
+//   macroDifferentMeal,
+// }: IMealMacroTotal) => {
+//   const [macroModalOpen, setMacroModalOpen] = useState(false);
 
-  return (
-    <div
-      className="w-20 p-5 2xl:w-32 border-r last-of-type:border-0 relative"
-      onMouseEnter={() => setMacroModalOpen(true)}
-      onMouseLeave={() => setMacroModalOpen(false)}
-    >
-      <b
-        className={` ${
-          !macroDifferentMeal
-            ? procentClasses(procentCount(total, establishment))
-            : "text-slate-700"
-        }`}
-      >
-        {total}
-      </b>
-      {!macroDifferentMeal && macroModalOpen && (
-        <MacroModal total={total} establishment={establishment} />
-      )}
-    </div>
-  );
-};
+//   return (
+//     <div
+//       className="w-20 p-5 2xl:w-32 border-r last-of-type:border-0 relative"
+//       onMouseEnter={() => setMacroModalOpen(true)}
+//       onMouseLeave={() => setMacroModalOpen(false)}
+//     >
+//       <b
+//         className={` ${
+//           !macroDifferentMeal
+//             ? procentClasses(procentCount(total, establishment))
+//             : "text-slate-700"
+//         }`}
+//       >
+//         {total}
+//       </b>
+//       {!macroDifferentMeal && macroModalOpen && (
+//         <MacroModal total={total} establishment={establishment} />
+//       )}
+//     </div>
+//   );
+// };
 
 const MacroModal = ({ total, establishment }: IMealMacroTotal) => {
   return (

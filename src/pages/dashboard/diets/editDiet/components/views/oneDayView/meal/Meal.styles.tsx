@@ -59,7 +59,7 @@ const MealNameWrapper = styled.div(
     padding: 2rem;
     /* flex: 1; */
     position: relative;
-    width: 26rem;
+    /* width: 26rem; */
     flex: 1;
     align-self: stretch;
     gap: 2rem;
@@ -80,9 +80,10 @@ const MealDinnersWrapper = styled.div(
     align-items: flex-start;
     justify-content: flex-start;
     flex-direction: column;
+
     /* width: 16rem; */
     /* border-right: 0.1rem solid ${palette.common.border}; */
-    border-left: 0.1rem solid ${palette.common.border};
+    /* border-left: 0.1rem solid ${palette.common.border}; */
 
     //flex flex-col divide-y
   `
@@ -123,6 +124,8 @@ const DinnerNameWrapper = styled.div(
     gap: 2rem;
     padding: 2rem;
     width: 26rem;
+    border-left: 0.1rem solid ${palette.common.border};
+    /* border: 0.1rem solid red; */
     span {
       display: flex;
       align-items: center;
@@ -263,6 +266,7 @@ const EmptyMealWrapper = styled.div(
     align-items: center;
     justify-content: center;
     gap: 2rem;
+    border-left: 0.1rem solid ${palette.common.border};
   `
 );
 
@@ -299,6 +303,137 @@ const EmptyMealContent = styled.div(
   `
 );
 
+const SumWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+  `
+);
+
+interface ISumHeadingVariant {
+  variant: "mealSum" | "dinnerSum";
+}
+
+const SumHeadingWrapper = styled.div<ISumHeadingVariant>(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+    variant,
+  }) => css`
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    align-self: stretch;
+    gap: 2rem;
+    padding: 2rem;
+
+    border-right: 0.1rem solid ${palette.common.border};
+
+    ${variant === "mealSum" &&
+    css`
+      width: 52.1rem;
+      border-left: 0.1rem solid ${palette.common.border};
+    `}
+
+    ${variant === "dinnerSum" &&
+    css`
+      width: 26rem;
+    `}
+  `
+);
+
+interface ISumItemVariant {
+  variant?: "red" | "yellow" | "green";
+}
+
+const SumItem = styled.div<ISumItemVariant>(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+    variant,
+  }) => css`
+    display: flex;
+    width: 12rem;
+    padding: 2rem;
+    border-right: 0.1rem solid ${palette.common.border};
+    position: relative;
+
+    span {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 1.5rem;
+    }
+
+    :last-of-type {
+      border: none;
+    }
+
+    ${variant === "green" &&
+    css`
+      b {
+        color: lightgreen;
+      }
+    `}
+
+    ${variant === "yellow" &&
+    css`
+      b {
+        color: orange;
+      }
+    `}
+
+    ${variant === "red" &&
+    css`
+      b {
+        color: red;
+      }
+    `}
+  `
+);
+
+const SumItemModal = styled(motion.div)(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    position: absolute;
+    left: 0;
+    top: 105%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    padding: 1rem 2rem;
+    background: ${palette.common.main};
+    border: 0.1rem solid ${palette.primary.light};
+    border-radius: ${border.rounded.sm};
+    box-shadow: ${palette.common["box-shadow"]};
+    p {
+      color: ${palette.common.text};
+      font-size: ${fontSize.xs};
+      font-weight: ${fontWeight.medium};
+    }
+  `
+);
+
 export {
   MealWrapper,
   Meal,
@@ -312,4 +447,8 @@ export {
   AddDinnerButtonWrapper,
   EmptyMealWrapper,
   EmptyMealContent,
+  SumWrapper,
+  SumHeadingWrapper,
+  SumItem,
+  SumItemModal,
 };

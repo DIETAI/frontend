@@ -3,6 +3,7 @@ import * as yup from "yup";
 export const dietGenerateDaysSchema = yup.object({
   days: yup
     .array(yup.string().required("To pole jest wymagane"))
+    .default([])
     .min(1, "Wybierz dni"),
 });
 

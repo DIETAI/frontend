@@ -6,6 +6,9 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { getDietQuery } from "services/getDiets";
 
+//utils
+import { procentClasses } from "../../../utils/procentClasses";
+
 //csv
 // import { CSVLink } from "react-csv";
 // import { IDietTemplateEstablishments } from "@/interfaces/dietTemplateEstablishments";
@@ -50,26 +53,6 @@ import * as Styled from "./OneDayView.styles";
 // interface DayData {
 //   day: DietDays["days"][0];
 // }
-
-interface IProcentClasses {
-  establishment: number;
-  total: number;
-}
-
-const procentClasses = ({ establishment, total }: IProcentClasses) => {
-  const currentProcent = (total * 100) / establishment;
-  const missingProcent = Math.abs(100 - currentProcent);
-
-  //procent
-  if (missingProcent >= 50) {
-    return "red";
-  }
-
-  if (missingProcent <= 5) {
-    return "green";
-  }
-  return "yellow";
-};
 
 const OneDayView = () => {
   //query to diet days
@@ -193,64 +176,10 @@ const OneDayView = () => {
         </Styled.OneDayViewTotalItem>
       </Styled.OneDayViewTotalWrapper>
 
-      {/* <div className="w-full flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
-        <ul className="flex gap-4 text-gray-800 flex-wrap">
-          <li>
-            <b>B (g)</b>:{" "}
-            <span
-              className={` font-medium ${procentClasses(
-                establishmentProtein.gram,
-                day.total.protein.gram
-              )}`}
-            >
-              {day.total.protein.gram}
-            </span>{" "}
-            / {establishmentProtein.gram}
-          </li>
-          <li>
-            <b>T (g)</b>:{" "}
-            <span
-              className={` font-medium ${procentClasses(
-                establishmentFat.gram,
-                day.total.fat.gram
-              )}`}
-            >
-              {day.total.fat.gram}
-            </span>{" "}
-            / {establishmentFat.gram}
-          </li>
-          <li>
-            <b>W (g)</b>:{" "}
-            <span
-              className={` font-medium ${procentClasses(
-                establishmentCarbohydrates.gram,
-                day.total.carbohydrates.gram
-              )}`}
-            >
-              {day.total.carbohydrates.gram}
-            </span>{" "}
-            / {establishmentCarbohydrates.gram}
-          </li>
-        </ul>
-        <ul className="flex gap-4 text-gray-800">
-          <li>
-            <b>kcal (g)</b>:{" "}
-            <span
-              className={` font-medium ${procentClasses(
-                establishments.kcal,
-                day.total.kcal
-              )}`}
-            >
-              {day.total.kcal}
-            </span>{" "}
-            / {establishments.kcal}
-          </li>
-        </ul>
-      </div> */}
       <Styled.OneDayViewTableWrapper className="w-full flex flex-col overflow-x-auto relative">
         <Styled.OneDayViewTableHeaderWrapper className="w-fit flex border-x border-y 2xl:w-full">
           <Styled.TableHeaderItem
-            style={{ width: "26rem", flex: 1 }}
+            style={{ flex: 1 }}
             className="w-40 p-5 border-r flex items-center justify-center text-base font-semibold 2xl:flex-auto"
           >
             posiłek
@@ -294,7 +223,11 @@ const OneDayView = () => {
         </Styled.OneDayViewTableHeaderWrapper>
 
         {currentDay?.meals.map((meal, index) => (
-          <Meal key={index} meal={meal} />
+          <Meal
+            key={index}
+            meal={meal}
+            establishment={dietQuery.establishment}
+          />
         ))}
 
         {/* {loadingDay() && (

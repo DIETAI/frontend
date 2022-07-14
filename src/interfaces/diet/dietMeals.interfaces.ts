@@ -18,7 +18,7 @@ export interface IDietDayMealData {
   createdAt: string;
   updatedAt: string;
   user: string;
-  establishmentId: string;
+  establishmentMealId: string;
   dietId: string;
   dayId: string;
   name: string;

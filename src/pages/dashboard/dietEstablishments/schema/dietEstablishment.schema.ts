@@ -1,4 +1,5 @@
 import * as yup from "yup";
+import { v4 as uuidv4 } from "uuid";
 
 export const establishmentBasicInfoSchema = yup.object({
   name: yup.string().required("To pole jest wymagane").default(""),
@@ -18,6 +19,7 @@ export const establishmentMealsSchema = yup.object({
   meals: yup
     .array(
       yup.object({
+        _id: yup.string().required("To pole jest wymagane"),
         time: yup.string().required("To pole jest wymagane"),
         type: yup
           .string()
@@ -45,13 +47,15 @@ export const establishmentMealsSchema = yup.object({
     )
     .default([
       {
-        time: "8:00",
+        _id: uuidv4(),
+        time: "08:00",
         type: "breakfast",
         name: "Śniadanie",
         procent: 26,
         kcal: 0,
       },
       {
+        _id: uuidv4(),
         time: "11:00",
         type: "second_breakfast",
         name: "II Śniadanie",
@@ -59,6 +63,7 @@ export const establishmentMealsSchema = yup.object({
         kcal: 0,
       },
       {
+        _id: uuidv4(),
         time: "14:00",
         type: "lunch",
         name: "Obiad",
@@ -66,6 +71,7 @@ export const establishmentMealsSchema = yup.object({
         kcal: 0,
       },
       {
+        _id: uuidv4(),
         time: "18:00",
         type: "snack",
         name: "Przekąska",
@@ -73,6 +79,7 @@ export const establishmentMealsSchema = yup.object({
         kcal: 0,
       },
       {
+        _id: uuidv4(),
         time: "20:00",
         type: "dinner",
         name: "Kolacja",
@@ -158,7 +165,8 @@ export const establishmentMacrohydratesSchema = yup.object({
       .number()
       .typeError("To pole jest wymagane")
       .positive("Wymagana wartość większa od 0")
-      .required("To pole jest wymagane"),
+      .required("To pole jest wymagane")
+      .default(25),
     kcal: yup
       .number()
       .typeError("To pole jest wymagane")

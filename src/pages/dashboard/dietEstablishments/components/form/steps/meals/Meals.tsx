@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { IEstablishmentsMeals } from "pages/dashboard/dietEstablishments/schema/dietEstablishment.schema";
+import { v4 as uuidv4 } from "uuid";
 
 //components
 import Input from "components/form/input/Input";
@@ -58,7 +59,7 @@ const Meals = () => {
   const totalMealsProcent = watch("maxMealsProcent") as number;
 
   const addMeal = () => {
-    return append({ name: "", amount: 0 });
+    return append({ name: "", amount: 0, _id: uuidv4() });
   };
 
   const removeMeal = (index: number) => {
