@@ -48,7 +48,7 @@ const Day = ({ day, establishment }: IDay) => {
           <DayEstablishmentModalContent />
         </IconModal>
       </Styled.DayHeading>
-      <Styled.DayTotal>
+      {/* <Styled.DayTotal>
         <Styled.DayTotalItem>
           <span>B (g)</span>
           <p>
@@ -74,7 +74,7 @@ const Day = ({ day, establishment }: IDay) => {
             <b>{day.total.kcal}</b>/{establishment.kcal}
           </p>
         </Styled.DayTotalItem>
-      </Styled.DayTotal>
+      </Styled.DayTotal> */}
       <Styled.DayMealsWrapper>
         {day.meals.length > 0 &&
           day.meals.map((meal) => <Meal key={meal._id} meal={meal} />)}

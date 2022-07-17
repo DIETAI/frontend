@@ -68,6 +68,26 @@ const MealNameWrapper = styled.div(
   `
 );
 
+const MealNameHeading = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    width: 100%;
+    gap: 2rem;
+    position: relative;
+
+    //w-40 border-r p-5 2xl:flex-auto relative
+  `
+);
+
 const MealDinnersWrapper = styled.div(
   ({
     theme: {
@@ -438,6 +458,7 @@ export {
   MealWrapper,
   Meal,
   MealNameWrapper,
+  MealNameHeading,
   MealDinnersWrapper,
   DinnerWrapper,
   DinnerNameWrapper,

@@ -21,7 +21,7 @@ import { procentClasses } from "pages/dashboard/diets/editDiet/utils/procentClas
 import { useFormContext } from "react-hook-form";
 
 //icons
-import { FaPlus } from "icons/icons";
+import { FaPlus, FaEllipsisV } from "icons/icons";
 
 //styles
 import * as Styled from "./Meal.styles";
@@ -32,6 +32,7 @@ import AddDinnerModalContent from "../../../addDinnerModal/AddDinnerModal";
 import Image from "components/form/images/image/Image";
 import { IDietEstablishmentData } from "interfaces/dietEstablishment.interfaces";
 import { AnimatePresence } from "framer-motion";
+import IconModal from "components/iconModal/IconModal";
 
 const Meal = ({
   meal,
@@ -56,8 +57,13 @@ const Meal = ({
       <Styled.MealWrapper className="w-fit flex flex-col 2xl:w-full">
         <Styled.Meal className="w-fit flex border-x border-b  2xl:w-full">
           <Styled.MealNameWrapper className="w-40 border-r p-5 2xl:flex-auto relative">
-            {meal.name}
-            procent: {mealEstablishment?.procent} %
+            <Styled.MealNameHeading>
+              {meal.name}
+              <IconModal icon={<FaEllipsisV />}>
+                procent: {mealEstablishment?.procent} %
+              </IconModal>
+            </Styled.MealNameHeading>
+
             <Styled.AddDinnerButtonWrapper
               onClick={() => setDinnerModalOpen(true)}
             >

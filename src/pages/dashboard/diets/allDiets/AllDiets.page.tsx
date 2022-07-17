@@ -7,12 +7,17 @@ import format from "date-fns/format";
 
 //components
 import DataGrid from "../../components/dataGrid/DataGrid";
+import {
+  DataGridContainer,
+  DataGridNav,
+  DataGridList,
+  DataGridPagination,
+} from "../../components/dataGridv3";
+import { IColumn } from "pages/dashboard/components/dataGridv3/container/DataGridContainer.interfaces";
 
-const availableColumns = [
-  { label: "nazwa", key: "name" },
-  { label: "kcal", key: "kcal" },
-  { label: "białko (g)", key: "proteinGram" },
-  { label: "tłuszcze (g)", key: "fatGram" },
+const columns: IColumn[] = [
+  { label: "nazwa", key: "name", type: "text" },
+  { label: "data", key: "createdAt", type: "text" },
 ];
 
 const AllDiets = () => {
@@ -36,15 +41,33 @@ const AllDiets = () => {
     return;
   };
 
+  const dietsData = diets?.map((data) => ({
+    _id: data._id,
+    name: data.name,
+    createdAt: format(new Date(data.createdAt), "dd.MM.yyyy"),
+  }));
+
   return (
     <>
-      <DataGrid
-        loading={dietsLoading}
-        availableColumns={availableColumns}
-        dataRows={dietList() as any}
-        deleteAction={deleteDiets}
-        linkPage="/dashboard/diets"
-      />
+      <DataGridContainer>
+        <DataGridNav
+          addLink="/dashboard/diets/new"
+          exportAction={() => console.log("open export popup")}
+        />
+        <DataGridList
+          data={dietsData}
+          loadingData={dietsLoading}
+          columns={columns}
+          link="/dashboard/diets"
+        />
+        {/* <DataGridPagination
+          currentPage={page}
+          pageCount={pageCount}
+          changePage={setPage}
+          itemsPerPage={itemsPerPage}
+          changeItemsPerPage={setItemsPerPage}
+        /> */}
+      </DataGridContainer>
     </>
   );
 };

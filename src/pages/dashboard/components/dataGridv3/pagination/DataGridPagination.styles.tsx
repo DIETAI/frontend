@@ -26,6 +26,7 @@ const PaginateSelect = styled.div(
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    position: relative;
 
     input {
       width: 4rem;
@@ -68,6 +69,48 @@ const PaginateSelect = styled.div(
 
       :hover {
         opacity: 0.7;
+      }
+    }
+  `
+);
+
+const PaginationSelectModal = styled.ul(
+  ({
+    theme: {
+      media: { breakpoints, down },
+      palette,
+      layout: { border },
+      typography: { fontSize, fontWeight },
+    },
+  }) => css`
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    max-height: 9rem;
+    margin-bottom: 2rem;
+    overflow-y: auto;
+    gap: 1rem;
+    width: 100%;
+    border: 0.1rem solid ${palette.primary.light};
+    border-radius: ${border.rounded.md};
+    background: ${palette.common.main};
+    position: absolute;
+    top: 105%;
+    left: 0;
+    list-style: none;
+
+    li {
+      transition: 0.3s ease-out;
+      width: 100%;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      :not(:last-child) {
+        border-bottom: 0.1rem solid ${palette.common.border};
+      }
+
+      :hover {
+        background: ${palette.common.contrast};
       }
     }
   `
@@ -138,6 +181,7 @@ const PaginationOption = styled.button<IActiveOption>(
 export {
   DataGridPaginationWrapper,
   PaginateSelect,
+  PaginationSelectModal,
   PaginationOptionsWrapper,
   PaginationOption,
 };

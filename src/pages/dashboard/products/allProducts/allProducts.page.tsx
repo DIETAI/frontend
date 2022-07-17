@@ -36,9 +36,11 @@ const columns: IColumn[] = [
 const AllProducts = () => {
   const { t } = useTranslation();
   const [page, setPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(5); //5 | 10 /15 /20
   const [pageCount, setPageCount] = useState(0);
   const { products, productsError, productsLoading, pagination } = getProducts(
-    page.toString() //usePagination
+    page.toString(),
+    itemsPerPage
   );
 
   useEffect(() => {
@@ -95,6 +97,8 @@ const AllProducts = () => {
           currentPage={page}
           pageCount={pageCount}
           changePage={setPage}
+          itemsPerPage={itemsPerPage}
+          changeItemsPerPage={setItemsPerPage}
         />
       </DataGridContainer>
     </>

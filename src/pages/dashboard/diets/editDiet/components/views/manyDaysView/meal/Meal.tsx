@@ -35,14 +35,20 @@ const Meal = ({ meal }: IMeal) => {
         </IconModal> */}
       </Styled.MealHeading>
 
-      {meal.total && (
-        <div>
-          <p>kcal: {meal.total?.kcal}</p>
-          <p>B (g): {meal.total?.protein.gram}</p>
-          <p>T (g): {meal.total?.fat.gram}</p>
-          <p>W (g): {meal.total?.carbohydrates.gram}</p>
-        </div>
-      )}
+      <Styled.MealTotalWrapper>
+        <p>
+          kcal: <b>{meal.total?.kcal}</b>
+        </p>
+        <p>
+          B: <b>{meal.total?.protein.gram}</b>{" "}
+        </p>
+        <p>
+          T: <b>{meal.total?.fat.gram}</b>{" "}
+        </p>
+        <p>
+          W: <b>{meal.total?.carbohydrates.gram}</b>{" "}
+        </p>
+      </Styled.MealTotalWrapper>
 
       {meal.dinners?.map((dietDinner) => (
         <Dinner key={dietDinner._id} dietDinner={dietDinner} />

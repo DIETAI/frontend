@@ -14,6 +14,7 @@ const DaysContainer = styled.div(
     justify-content: flex-start;
     flex-direction: column;
     width: 100%;
+    overflow: hidden;
   `
 );
 
@@ -44,10 +45,10 @@ const DaysContentContainer = styled(motion.div)(
     },
   }) => css`
     cursor: grab;
-    overflow: hidden;
     /* border: 0.1rem solid red;
     background: red; */
-    width: 100%;
+    /* width: 100%; */
+    /* overflow: hidden; */
   `
 );
 
@@ -63,6 +64,8 @@ const DaysContentWrapper = styled(motion.div)(
     align-items: flex-start;
     justify-content: flex-start;
     position: relative;
+    /* width: 100%; */
+    /* border: 0.1rem solid red; */
     /* width: 100%; */
     /* overflow-x: auto; */
     /* flex-wrap: wrap; */

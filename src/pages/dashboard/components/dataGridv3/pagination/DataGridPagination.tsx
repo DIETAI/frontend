@@ -9,10 +9,14 @@ import * as Styled from "./DataGridPagination.styles";
 //icons
 import { FaChevronLeft, FaChevronRight, FaChevronDown } from "icons/icons";
 
+const paginateItemsPerPageOptions = [5, 10, 15, 20, 50, 75, 100];
+
 const DataGridPagination = ({
   currentPage,
   pageCount,
   changePage,
+  itemsPerPage,
+  changeItemsPerPage,
 }: IDataGridPaginationProps) => {
   const [openPaginateSelect, setOpenPaginateSelect] = useState(false);
 
@@ -26,13 +30,27 @@ const DataGridPagination = ({
     changePage(currentPage + 1);
   };
 
+  const changeItems = (option: number) => {
+    changeItemsPerPage(option);
+    setOpenPaginateSelect(false);
+  };
+
   return (
     <Styled.DataGridPaginationWrapper>
-      <Styled.PaginateSelect onClick={() => setOpenPaginateSelect(true)}>
-        <input value={5} disabled />
-        <span>
+      <Styled.PaginateSelect>
+        <input value={itemsPerPage} disabled />
+        <span onClick={() => setOpenPaginateSelect(!openPaginateSelect)}>
           <FaChevronDown />
         </span>
+        {openPaginateSelect && (
+          <Styled.PaginationSelectModal>
+            {paginateItemsPerPageOptions.map((option) => (
+              <li key={option} onClick={() => changeItems(option)}>
+                {option}
+              </li>
+            ))}
+          </Styled.PaginationSelectModal>
+        )}
       </Styled.PaginateSelect>
 
       <Styled.PaginationOptionsWrapper>

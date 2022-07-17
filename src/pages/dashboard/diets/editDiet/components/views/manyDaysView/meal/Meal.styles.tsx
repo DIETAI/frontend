@@ -21,6 +21,31 @@ const MealWrapper = styled.div(
   `
 );
 
+const MealTotalWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 1rem;
+    gap: 1rem;
+    border: 0.1rem dashed ${palette.primary.light};
+    border-radius: ${border.rounded.sm};
+
+    p {
+      font-size: 1.1rem;
+      font-weight: ${fontWeight.medium};
+      color: ${palette.common.text};
+    }
+  `
+);
+
 const MealHeading = styled.div(
   ({
     theme: {
@@ -57,7 +82,7 @@ const AddDinnerButton = styled.button(
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
     gap: 1rem;
     padding: 0.7rem 2rem;
     border: 0.1rem dashed ${palette.primary.light};
@@ -91,4 +116,4 @@ const AddDinnerButton = styled.button(
   `
 );
 
-export { MealWrapper, MealHeading, AddDinnerButton };
+export { MealWrapper, MealTotalWrapper, MealHeading, AddDinnerButton };

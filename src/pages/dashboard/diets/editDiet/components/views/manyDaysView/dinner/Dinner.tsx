@@ -19,11 +19,26 @@ const Dinner = ({ dietDinner }: IDietDinner) => {
   return (
     <Styled.DietDinnerWrapper>
       <Styled.DietDinner>
-        {image && <Image roundedDataGrid={true} imageId={image} />}
+        {image && (
+          <div>
+            <Image roundedDataGrid={true} imageId={image} />
+          </div>
+        )}
         <h4>{dietDinner.dinnerPortion.dinner.name}</h4>
       </Styled.DietDinner>
       <Styled.DietDinnerTotalWrapper>
-        <p>kcal: {dietDinner.dinnerPortion.total.kcal}</p>
+        <p>
+          B: <b>{dietDinner.dinnerPortion.total.protein.gram}</b>
+        </p>
+        <p>
+          T: <b>{dietDinner.dinnerPortion.total.fat.gram}</b>
+        </p>
+        <p>
+          W: <b>{dietDinner.dinnerPortion.total.carbohydrates.gram}</b>
+        </p>
+        <p>
+          kcal: <b>{dietDinner.dinnerPortion.total.kcal}</b>
+        </p>
       </Styled.DietDinnerTotalWrapper>
 
       {/* <div>

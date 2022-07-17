@@ -5,10 +5,10 @@ import {
   IProductPaginationData,
 } from "interfaces/product.interfaces";
 
-export const getProducts = (page?: string) => {
+export const getProducts = (page?: string, itemsCount?: number) => {
   if (page) {
     const { data, error } = useSWR<IProductPaginationData | null>(
-      `/api/v1/products?page=${page}`,
+      `/api/v1/products?page=${page}&itemsCount=${itemsCount}`, //correct
       fetcher
     );
 
