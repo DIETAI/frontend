@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components";
+import { motion } from "framer-motion";
 
 const DataGridPaginationWrapper = styled.div(
   ({
@@ -15,13 +16,18 @@ const DataGridPaginationWrapper = styled.div(
   `
 );
 
-const PaginateSelect = styled.div(
+interface IOpenSelect {
+  openSelect: boolean;
+}
+
+const PaginateSelect = styled.div<IOpenSelect>(
   ({
     theme: {
       media: { breakpoints, down },
       palette,
       layout: { border },
     },
+    openSelect,
   }) => css`
     display: flex;
     align-items: center;
@@ -60,6 +66,7 @@ const PaginateSelect = styled.div(
       transition: 0.3s ease-out;
 
       svg {
+        transition: 0.3 ease-out;
         width: 1.5rem;
         height: 1.5rem;
         path {
@@ -70,11 +77,23 @@ const PaginateSelect = styled.div(
       :hover {
         opacity: 0.7;
       }
+
+      ${openSelect &&
+      css`
+        background: ${palette.primary.main};
+        svg {
+          path {
+            fill: white;
+          }
+          transition: 0.3s ease-out;
+          transform: rotate(180deg);
+        }
+      `}
     }
   `
 );
 
-const PaginationSelectModal = styled.ul(
+const PaginationSelectModal = styled(motion.ul)(
   ({
     theme: {
       media: { breakpoints, down },
@@ -105,6 +124,9 @@ const PaginationSelectModal = styled.ul(
       width: 100%;
       padding: 0.5rem 1rem;
       cursor: pointer;
+      color: ${palette.common.text};
+      font-size: ${fontSize.s};
+      font-weight: ${fontWeight.light};
       :not(:last-child) {
         border-bottom: 0.1rem solid ${palette.common.border};
       }

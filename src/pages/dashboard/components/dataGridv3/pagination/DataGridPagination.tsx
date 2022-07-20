@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 //interfaces
 import { IDataGridPaginationProps } from "./DataGridPagination.interfaces";
@@ -8,6 +8,7 @@ import * as Styled from "./DataGridPagination.styles";
 
 //icons
 import { FaChevronLeft, FaChevronRight, FaChevronDown } from "icons/icons";
+import { AnimatePresence } from "framer-motion";
 
 const paginateItemsPerPageOptions = [5, 10, 15, 20, 50, 75, 100];
 
@@ -19,6 +20,7 @@ const DataGridPagination = ({
   changeItemsPerPage,
 }: IDataGridPaginationProps) => {
   const [openPaginateSelect, setOpenPaginateSelect] = useState(false);
+  const selectRef = useRef<HTMLDivElement>(null);
 
   const handleBack = () => {
     if (currentPage === 1) return;
@@ -35,22 +37,42 @@ const DataGridPagination = ({
     setOpenPaginateSelect(false);
   };
 
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (!selectRef.current?.contains(e.target as Node)) {
+        setOpenPaginateSelect(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handler);
+
+    return () => {
+      document.removeEventListener("mousedown", handler);
+    };
+  }, []);
+
   return (
     <Styled.DataGridPaginationWrapper>
-      <Styled.PaginateSelect>
+      <Styled.PaginateSelect ref={selectRef} openSelect={openPaginateSelect}>
         <input value={itemsPerPage} disabled />
         <span onClick={() => setOpenPaginateSelect(!openPaginateSelect)}>
           <FaChevronDown />
         </span>
-        {openPaginateSelect && (
-          <Styled.PaginationSelectModal>
-            {paginateItemsPerPageOptions.map((option) => (
-              <li key={option} onClick={() => changeItems(option)}>
-                {option}
-              </li>
-            ))}
-          </Styled.PaginationSelectModal>
-        )}
+        <AnimatePresence>
+          {openPaginateSelect && (
+            <Styled.PaginationSelectModal
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              {paginateItemsPerPageOptions.map((option) => (
+                <li key={option} onClick={() => changeItems(option)}>
+                  {option}
+                </li>
+              ))}
+            </Styled.PaginationSelectModal>
+          )}
+        </AnimatePresence>
       </Styled.PaginateSelect>
 
       <Styled.PaginationOptionsWrapper>
