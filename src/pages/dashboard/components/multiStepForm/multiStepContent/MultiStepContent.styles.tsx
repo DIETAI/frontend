@@ -65,7 +65,7 @@ const SaveOptionsWrapper = styled.div(
     bottom: 1rem;
     left: 0;
     width: 100%;
-    z-index: 10;
+    /* z-index: 10; */
     padding: 2rem;
     background: ${palette.common.main};
     border-radius: ${border.rounded.md};

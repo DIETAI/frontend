@@ -13,6 +13,9 @@ import Alert from "components/alert/Alert";
 import { useSidebarView } from "../context/sidebarView.context";
 import { useAlert } from "../context/alert.context";
 
+//animation
+import { AnimatePresence } from "framer-motion";
+
 const Content = ({ children }: IChildrenProps) => {
   const { alert, handleAlert } = useAlert();
   const { sidebarView, changeSidebarView } = useSidebarView();
@@ -22,7 +25,9 @@ const Content = ({ children }: IChildrenProps) => {
       <Nav />
       <Styled.ContentWrapper>
         {children}
-        {alert.display && <Alert type={alert.type} message={alert.message} />}
+        <AnimatePresence>
+          {alert.display && <Alert type={alert.type} message={alert.message} />}
+        </AnimatePresence>
       </Styled.ContentWrapper>
       <Footer />
     </Styled.Container>

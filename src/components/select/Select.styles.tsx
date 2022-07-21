@@ -100,7 +100,7 @@ const SelectPopupWrapper = styled(motion.div)(
     border: 1px solid ${palette.common.border};
     box-shadow: ${palette.common["box-shadow"]};
     border-radius: ${border.rounded.sm};
-    z-index: 20;
+    /* z-index: 10; */
   `
 );
 

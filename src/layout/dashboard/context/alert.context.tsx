@@ -1,9 +1,11 @@
 import { IChildrenProps } from "interfaces/children.interfaces";
 import React, { useContext, useState, useEffect, useMemo } from "react";
 
+type IAlertType = "success" | "error" | "info";
+
 interface IAlert {
-  alert: { display: boolean; type: string; message: string };
-  handleAlert: (alertType: string, alertMessage: string) => void;
+  alert: { display: boolean; type: IAlertType; message: string };
+  handleAlert: (alertType: IAlertType, alertMessage: string) => void;
 }
 
 const AlertContext = React.createContext<IAlert | null>(null);
@@ -23,9 +25,9 @@ export const AlertProvider = ({ children }: IChildrenProps) => {
     message: "Info alert",
   });
 
-  const handleAlert = (alertType: string, alertMessage: string) => {
+  const handleAlert = (alertType: IAlertType, alertMessage: string) => {
     setAlert({
-      display: !alert.display,
+      display: true,
       type: alertType,
       message: alertMessage,
     });
@@ -34,8 +36,8 @@ export const AlertProvider = ({ children }: IChildrenProps) => {
   useEffect(() => {
     if (alert.display == true) {
       const timer = setTimeout(
-        () => setAlert({ display: false, type: "", message: "" }),
-        9000
+        () => setAlert({ display: false, type: "info", message: "" }),
+        2000
       );
       return () => {
         clearTimeout(timer);

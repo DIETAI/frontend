@@ -1,9 +1,10 @@
 import styled, { css } from "styled-components";
+import { motion } from "framer-motion";
 
 //interfaces
-import { IAlertType } from "./Alert.interfaces";
+import { IAlertProps } from "./Alert.interfaces";
 
-const AlertContainer = styled.div(
+const AlertContainer = styled(motion.div)<Pick<IAlertProps, "type">>(
   ({
     theme: {
       palette,
@@ -11,6 +12,7 @@ const AlertContainer = styled.div(
       media: { breakpoints, up },
       layout: { border },
     },
+    type,
   }) => css`
     position: fixed;
     right: 0;
@@ -22,9 +24,22 @@ const AlertContainer = styled.div(
     gap: 2rem;
     background: ${palette.common.main};
     padding: 3rem;
-    border-radius: 1rem 0 0 1rem;
-    border: 2px solid
-      ${({ type }: IAlertType) => (type === "success" ? "lightgreen" : "red")};
+    border-radius: ${border.rounded.md} 0 0 ${border.rounded.md};
+
+    ${type === "success" &&
+    css`
+      border: 0.2rem solid lightgreen;
+    `}
+
+    ${type === "error" &&
+    css`
+      border: 0.2rem solid lightgreen;
+    `}
+
+    ${type === "info" &&
+    css`
+      border: 0.2rem solid ${palette.primary.main};
+    `}
   `
 );
 
@@ -41,6 +56,7 @@ const AlertDescription = styled.div(
     justify-content: center;
     flex-direction: column;
     height: 100%;
+
     h2 {
       color: ${palette.common.text};
       font-size: ${fontSize.l};
@@ -48,7 +64,7 @@ const AlertDescription = styled.div(
     p {
       color: ${palette.common.text};
       padding: 0.5rem 0;
-      font-size: ${fontSize.xs};
+      font-size: 1.4rem;
     }
   `
 );
