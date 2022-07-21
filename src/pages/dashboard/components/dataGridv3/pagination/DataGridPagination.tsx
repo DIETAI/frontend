@@ -77,7 +77,7 @@ const DataGridPagination = ({
         </AnimatePresence>
       </Styled.PaginateSelect>
 
-      {pageCount > 1 && (
+      {Math.round(pageCount) > 1 && (
         <Styled.PaginationOptionsWrapper>
           <Styled.PaginationOption
             onClick={handleBack}
