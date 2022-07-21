@@ -51,6 +51,8 @@ const DataGridPagination = ({
     };
   }, []);
 
+  console.log({ pageCount });
+
   return (
     <Styled.DataGridPaginationWrapper>
       <Styled.PaginateSelect ref={selectRef} openSelect={openPaginateSelect}>
@@ -75,33 +77,35 @@ const DataGridPagination = ({
         </AnimatePresence>
       </Styled.PaginateSelect>
 
-      <Styled.PaginationOptionsWrapper>
-        <Styled.PaginationOption
-          onClick={handleBack}
-          disabled={currentPage === 1}
-        >
-          <FaChevronLeft />
-        </Styled.PaginationOption>
-        {Array(pageCount)
-          .fill(null)
-          .map((_, index) => {
-            return (
-              <Styled.PaginationOption
-                key={index}
-                active={currentPage === index + 1}
-                onClick={() => changePage(index + 1)}
-              >
-                {index + 1}
-              </Styled.PaginationOption>
-            );
-          })}
-        <Styled.PaginationOption
-          onClick={handleNext}
-          disabled={currentPage === pageCount}
-        >
-          <FaChevronRight />
-        </Styled.PaginationOption>
-      </Styled.PaginationOptionsWrapper>
+      {pageCount > 1 && (
+        <Styled.PaginationOptionsWrapper>
+          <Styled.PaginationOption
+            onClick={handleBack}
+            disabled={currentPage === 1}
+          >
+            <FaChevronLeft />
+          </Styled.PaginationOption>
+          {Array(Math.round(pageCount))
+            .fill(null)
+            .map((_, index) => {
+              return (
+                <Styled.PaginationOption
+                  key={index}
+                  active={currentPage === index + 1}
+                  onClick={() => changePage(index + 1)}
+                >
+                  {index + 1}
+                </Styled.PaginationOption>
+              );
+            })}
+          <Styled.PaginationOption
+            onClick={handleNext}
+            disabled={currentPage === pageCount}
+          >
+            <FaChevronRight />
+          </Styled.PaginationOption>
+        </Styled.PaginationOptionsWrapper>
+      )}
     </Styled.DataGridPaginationWrapper>
   );
 };
