@@ -8,15 +8,21 @@ export const dietGenerateDaysSchema = yup.object({
 });
 
 export const dietGenerateMealsSchema = yup.object({
-  meals: yup
+  mealsSettingType: yup
+    .string()
+    .oneOf(["custom", "default"])
+    .required("To pole jest wymagane")
+    .default("default"),
+  meals: yup.array(yup.string()).min(1, "Wybierz posiłki"),
+  mealTypes: yup
     .array(
-      yup.object({
-        dayId: yup.string().required("To pole jest wymagane"),
-        mealId: yup.string().required("To pole jest wymagane"),
-      })
+      yup
+        .string()
+        .oneOf(["breakfast", "second_breakfast", "lunch", "snack", "dinner"])
     )
-    .min(1, "Wybierz posiłki"),
-  dinnersEstablishment: yup
+    .default(["breakfast", "second_breakfast", "lunch", "snack", "dinner"])
+    .min(1, "Wybierz typy posiłków"),
+  dinnerTypes: yup
     .array(
       yup.object({
         mealId: yup.string().required("To pole jest wymagane"),
