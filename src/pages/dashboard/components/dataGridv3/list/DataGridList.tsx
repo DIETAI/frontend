@@ -33,7 +33,9 @@ const DataGridList = ({
   data,
   loadingData,
   columns,
-  link,
+  viewLink,
+  editLink,
+  deleteAction,
 }: IDataGridListProps) => {
   const { view } = useDataGridView();
   const { searchValue } = useDataGridSearch();
@@ -57,7 +59,9 @@ const DataGridList = ({
         columns={columns}
         data={search(data, searchValue)}
         initialDataLength={data.length}
-        linkPage={link}
+        linkPage={viewLink}
+        editLink={editLink}
+        deleteAction={deleteAction}
       />
     );
 

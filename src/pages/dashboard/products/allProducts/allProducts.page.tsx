@@ -79,6 +79,9 @@ const AllProducts = () => {
   const deleteProducts = () => {
     return;
   };
+  const deleteProduct = () => {
+    console.log("delete product");
+  };
 
   return (
     <>
@@ -91,7 +94,9 @@ const AllProducts = () => {
           data={productsData}
           loadingData={productsLoading}
           columns={columns}
-          link="/dashboard/products"
+          viewLink="/dashboard/products"
+          editLink="/dashboard/products/edit"
+          deleteAction={deleteProduct}
         />
         <DataGridPagination
           currentPage={page}

@@ -25,6 +25,8 @@ interface IDataGridLineViewProps {
   data: any[];
   linkPage: string;
   initialDataLength: number;
+  editLink: string;
+  deleteAction: () => void;
 }
 
 interface IRenderContent {
@@ -37,6 +39,8 @@ const DataGridLineView = ({
   columns,
   data,
   linkPage,
+  editLink,
+  deleteAction,
   initialDataLength,
 }: IDataGridLineViewProps) => {
   const { selectedItems, checkItem, unCheckItem } = useDataGridSelect();
@@ -108,9 +112,23 @@ const DataGridLineView = ({
                 icon={<FaCog />}
                 // onClick={() => navigate(`${linkPage}/edit/${row._id}`)}
               >
-                <li>zobacz</li>
-                <li>edytuj</li>
-                <li>usuń</li>
+                <Styled.ListConfigModalItem
+                  onClick={() => {
+                    navigate(`${linkPage}/${row._id}`);
+                  }}
+                >
+                  zobacz
+                </Styled.ListConfigModalItem>
+                <Styled.ListConfigModalItem
+                  onClick={() => {
+                    navigate(`${editLink}/${row._id}`);
+                  }}
+                >
+                  edytuj
+                </Styled.ListConfigModalItem>
+                <Styled.ListConfigModalItem onClick={deleteAction}>
+                  usuń
+                </Styled.ListConfigModalItem>
               </IconModal>
             </Styled.ListConfig>
           </Styled.Row>

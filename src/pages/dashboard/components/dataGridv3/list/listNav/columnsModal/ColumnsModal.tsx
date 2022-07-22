@@ -86,6 +86,7 @@ const ColumnsModal = ({
           )}
         </Droppable>
       </DragDropContext>
+
       <Styled.ColumnsModalHeadingWrapper>
         dostępne kolumny
       </Styled.ColumnsModalHeadingWrapper>

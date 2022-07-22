@@ -13,6 +13,31 @@ const ListConfig = styled.div(
   `
 );
 
+const ListConfigModalItem = styled.ul(
+  ({
+    theme: {
+      palette,
+      media: { breakpoints, down },
+      layout: { border },
+      typography: { fontSize, fontWeight },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    padding: 1rem 2rem;
+    color: ${palette.common.text};
+    font-size: 1.4rem;
+    font-weight: ${fontWeight.medium};
+    transition: 0.3s ease-out;
+
+    :hover {
+      background: ${palette.common.contrast};
+    }
+  `
+);
+
 const RowsWrapper = styled.div(
   ({
     theme: {
@@ -42,6 +67,7 @@ const Row = styled.div(
     min-height: 7rem;
     cursor: pointer;
     transition: 0.3s ease-out;
+    justify-content: space-between;
 
     :hover {
       background: ${palette.common.contrast};
@@ -85,4 +111,4 @@ const RowItem = styled.div(
   `
 );
 
-export { ListConfig, RowsWrapper, Row, RowItem };
+export { ListConfig, ListConfigModalItem, RowsWrapper, Row, RowItem };

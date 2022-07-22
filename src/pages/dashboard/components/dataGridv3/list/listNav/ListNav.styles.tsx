@@ -12,6 +12,7 @@ const ListNavWrapper = styled.div(
     width: fit-content;
     border-bottom: 0.1rem dashed ${palette.common.border};
     position: relative;
+    justify-content: space-between;
 
     ${up(breakpoints.xl)} {
       width: 100%;

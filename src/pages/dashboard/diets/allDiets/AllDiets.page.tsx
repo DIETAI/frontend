@@ -47,6 +47,10 @@ const AllDiets = () => {
     createdAt: format(new Date(data.createdAt), "dd.MM.yyyy"),
   }));
 
+  const deleteDiet = () => {
+    console.log("delete");
+  };
+
   return (
     <>
       <DataGridContainer>
@@ -58,7 +62,9 @@ const AllDiets = () => {
           data={dietsData}
           loadingData={dietsLoading}
           columns={columns}
-          link="/dashboard/diets"
+          viewLink="/dashboard/diets/edit"
+          editLink="/dashboard/diets"
+          deleteAction={deleteDiet}
         />
         {/* <DataGridPagination
           currentPage={page}

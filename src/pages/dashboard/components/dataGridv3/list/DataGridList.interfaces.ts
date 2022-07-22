@@ -5,7 +5,9 @@ export interface IColumn {
 }
 
 export interface IDataGridListProps {
-  link: string;
+  viewLink: string;
+  editLink: string;
+  deleteAction: () => void;
   loadingData: boolean;
   data?: any[] | null;
   columns: IColumn[];

@@ -76,6 +76,7 @@ const ModalContentContainer = styled.div(
     gap: 1rem;
     background: transparent;
     padding: 2rem 0;
+    z-index: 10;
   `
 );
 
