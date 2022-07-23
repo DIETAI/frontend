@@ -50,6 +50,7 @@ const ContentWrapper = styled.div(
     background: rgba(119, 34, 255, 0.03);
     background: rgba(132, 101, 182, 0.05);
     border: 0.1rem solid ${palette.primary.light};
+
     /* gap: 4rem; */
 
     ${up(breakpoints.md)} {

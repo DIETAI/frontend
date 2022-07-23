@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 
-const PlanTimeContainer = styled.div(
+const PreferencesWrapper = styled.div(
   ({
     theme: {
       palette,
@@ -12,17 +12,14 @@ const PlanTimeContainer = styled.div(
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
+    flex-direction: column;
     width: 100%;
     gap: 2rem;
     margin-top: 2rem;
   `
 );
 
-interface ISelectedTimePlan {
-  selectedTimePlan: boolean;
-}
-
-const PlanLTimeItemWrapper = styled.div<ISelectedTimePlan>(
+const OptionsWrapper = styled.div(
   ({
     theme: {
       palette,
@@ -30,36 +27,119 @@ const PlanLTimeItemWrapper = styled.div<ISelectedTimePlan>(
       layout: { border },
       media: { breakpoints },
     },
-    selectedTimePlan,
   }) => css`
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
     gap: 1rem;
-    width: 40rem;
-    min-height: 60rem;
-    cursor: pointer;
-    border: 0.1rem solid ${palette.primary.light};
-    border-radius: ${border.rounded.md};
-    transition: 0.3s ease-out;
-    padding: 2rem;
-
-    h2 {
-      font-size: ${fontSize.l};
-      font-weight: ${fontWeight.semibold};
-      color: ${palette.common.text};
-    }
-
-    h3 {
-      font-size: ${fontSize.xl};
-      font-weight: ${fontWeight.semibold};
-      color: ${palette.common.text};
-    }
-
-    ${selectedTimePlan &&
-    css`
-      border: 0.2rem solid ${palette.primary.main};
-    `}
   `
 );
 
-export { PlanTimeContainer, PlanLTimeItemWrapper };
+const Option = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.5rem;
+
+    span {
+      color: ${palette.common.text};
+      font-size: ${fontSize.s};
+      font-weight: ${fontWeight.light};
+    }
+  `
+);
+
+const BoxWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints },
+    },
+  }) => css`
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 2rem;
+    width: 100%;
+  `
+);
+
+const BoxContentWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints },
+    },
+  }) => css`
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    gap: 1rem;
+
+    p {
+      color: ${palette.common.text};
+      font-size: 1.4rem;
+      font-weight: ${fontWeight.light};
+    }
+  `
+);
+
+const Box = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints },
+    },
+  }) => css`
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 2rem;
+    border-radius: ${border.rounded.md};
+    border: 0.1rem solid ${palette.primary.light};
+  `
+);
+
+const BoxItem = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints },
+    },
+  }) => css`
+    padding: 1rem;
+    background: ${palette.common.contrast};
+    border-radius: ${border.rounded.md};
+    border: 0.1rem solid ${palette.primary.light};
+    color: ${palette.common.text};
+    font-size: 1.4rem;
+    font-weight: ${fontWeight.light};
+  `
+);
+
+export {
+  PreferencesWrapper,
+  OptionsWrapper,
+  Option,
+  BoxWrapper,
+  BoxContentWrapper,
+  Box,
+  BoxItem,
+};

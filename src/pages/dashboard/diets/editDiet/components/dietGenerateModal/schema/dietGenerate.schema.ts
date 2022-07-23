@@ -33,6 +33,11 @@ export const dietGenerateMealsSchema = yup.object({
 });
 
 export const dietGeneratePreferencesSchema = yup.object({
+  preferencesSettingType: yup
+    .string()
+    .oneOf(["custom", "default"])
+    .required("To pole jest wymagane")
+    .default("default"),
   preferencesDinners: yup.array(
     yup.object({
       dinnerId: yup.string().required("To pole jest wymagane"),
