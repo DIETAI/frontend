@@ -8,28 +8,43 @@ export const dietGenerateDaysSchema = yup.object({
 });
 
 export const dietGenerateMealsSchema = yup.object({
-  mealsSettingType: yup
-    .string()
-    .oneOf(["custom", "default"])
+  // mealsSettingType: yup
+  //   .string()
+  //   .oneOf(["custom", "default"])
+  //   .required("To pole jest wymagane")
+  //   .default("default"),
+  // meals: yup.array(yup.string()).min(1, "Wybierz posiłki"),
+  saveAddedMeals: yup
+    .boolean()
     .required("To pole jest wymagane")
-    .default("default"),
-  meals: yup.array(yup.string()).min(1, "Wybierz posiłki"),
-  mealTypes: yup
-    .array(
-      yup
-        .string()
-        .oneOf(["breakfast", "second_breakfast", "lunch", "snack", "dinner"])
-    )
-    .default(["breakfast", "second_breakfast", "lunch", "snack", "dinner"])
-    .min(1, "Wybierz typy posiłków"),
-  dinnerTypes: yup
+    .default(false),
+  meals: yup
     .array(
       yup.object({
-        mealId: yup.string().required("To pole jest wymagane"),
-        type: yup.string().oneOf(["mainCourse", "soup", "drink"]),
+        uid: yup.string().required("To pole jest wymagane"),
+        type: yup
+          .string()
+          .oneOf(["breakfast", "second_breakfast", "lunch", "snack", "dinner"]),
+
+        // dinnerTypes: yup
+        //   .array(yup.string().oneOf(["mainCourse", "soup", "drink"]))
+        //   .default([]),
       })
     )
-    .min(1, "Wybierz posiłki"),
+    .default([])
+    .min(1, "Wybierz typy posiłków"),
+  // dinnerTypes: yup
+  //   .array(
+  //     yup.object({
+  //       mealId: yup.string().required("To pole jest wymagane"),
+  //       type: yup
+  //         .string()
+  //         .oneOf(["mainCourse", "soup", "drink"])
+  //         .required("To pole jest wymagane"),
+  //     })
+  //   )
+  //   .default([])
+  //   .min(1, "Wybierz posiłki"),
 });
 
 export const dietGeneratePreferencesSchema = yup.object({

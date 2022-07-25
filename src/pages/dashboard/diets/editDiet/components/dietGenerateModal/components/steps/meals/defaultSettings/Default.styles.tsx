@@ -44,11 +44,12 @@ const MealItem = styled(motion.li)<IActiveItem>(
     padding: 2rem;
     border: 0.1rem solid ${palette.primary.light};
     border-radius: ${border.rounded.sm};
+    transition: 0.3s ease-out;
 
     ${active &&
     css`
       border: 0.1rem solid ${palette.primary.main};
-      background: ${palette.common.contrast};
+      /* background: ${palette.common.contrast}; */
 
       h2 {
         color: ${palette.primary.main} !important;
@@ -185,6 +186,46 @@ const MealOption = styled.button<IOptionType>(
   `
 );
 
+const DinnerTypesWrapper = styled(motion.div)(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints },
+    },
+  }) => css`
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    /* min-height: 10rem; */
+    border-left: 0.1rem dashed ${palette.primary.light};
+    margin-left: 1rem;
+  `
+);
+
+const DinnerType = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+
+    span {
+      width: 2rem;
+      border-bottom: 0.1rem dashed ${palette.primary.light};
+    }
+  `
+);
+
 export {
   DefaultMealsWrapper,
   MealItem,
@@ -192,4 +233,6 @@ export {
   MealHeading,
   MealOptions,
   MealOption,
+  DinnerTypesWrapper,
+  DinnerType,
 };

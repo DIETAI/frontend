@@ -26,42 +26,49 @@ const Meals = () => {
   } = useFormContext();
 
   const days = watch("days") as string[];
-  const mealsSettingType = watch(
-    "mealsSettingType"
-  ) as IDietGenerateMealsSchema["mealsSettingType"];
+  const saveAddedMeals = watch(
+    "saveAddedMeals"
+  ) as IDietGenerateMealsSchema["saveAddedMeals"];
 
-  const meals = days
-    .map((day) => {
-      const { dietDayMeals } = getDietDayMeals(day);
-
-      if (!dietDayMeals) return [];
-      return dietDayMeals;
-    })
-    .flatMap((daysMeal) => daysMeal); //wszystkie posiłki
-
-  useEffect(() => {
-    setValue(
-      "meals",
-      meals.map((meal) => meal._id)
-    );
-  }, [days]);
-
-  const checkAllMeals = () => {
-    console.log("all");
-    setValue("mealsSettingType", "default");
-    setValue(
-      "meals",
-      meals.map((meal) => meal._id)
-    );
+  const handleSaveAddedMeals = () => {
+    setValue("saveAddedMeals", !saveAddedMeals);
   };
-  const openDetailedSettings = () => {
-    console.log("detail");
-    setValue("mealsSettingType", "custom");
-  };
+  // const mealsSettingType = watch(
+  //   "mealsSettingType"
+  // ) as IDietGenerateMealsSchema["mealsSettingType"];
+
+  // const meals = days
+  //   .map((day) => {
+  //     const { dietDayMeals } = getDietDayMeals(day);
+
+  //     if (!dietDayMeals) return [];
+  //     return dietDayMeals;
+  //   })
+  //   .flatMap((daysMeal) => daysMeal); //wszystkie posiłki
+
+  // useEffect(() => {
+  //   setValue(
+  //     "meals",
+  //     meals.map((meal) => meal._id)
+  //   );
+  // }, [days]);
+
+  // const checkAllMeals = () => {
+  //   console.log("all");
+  //   setValue("mealsSettingType", "default");
+  //   // setValue(
+  //   //   "meals",
+  //   //   meals.map((meal) => meal._id)
+  //   // );
+  // };
+  // const openDetailedSettings = () => {
+  //   console.log("detail");
+  //   setValue("mealsSettingType", "custom");
+  // };
 
   return (
     <Styled.GenerateMealsWrapper>
-      <Styled.OptionsWrapper>
+      {/* <Styled.OptionsWrapper>
         <Styled.Option>
           <CheckBoxWrapper
             onClick={checkAllMeals}
@@ -76,17 +83,27 @@ const Meals = () => {
           />
           <span>szczegółowe ustawienia</span>
         </Styled.Option>
+      </Styled.OptionsWrapper> */}
+      <Styled.OptionsWrapper>
+        <Styled.Option>
+          <CheckBoxWrapper
+            onClick={handleSaveAddedMeals}
+            checked={saveAddedMeals}
+          />
+          <span>zachowaj juz dodane posiłki</span>
+        </Styled.Option>
       </Styled.OptionsWrapper>
+      <Default />
 
-      {mealsSettingType === "default" && <Default />}
+      {/* {mealsSettingType === "default" && <Default />} */}
 
-      {mealsSettingType === "custom" && (
+      {/* {mealsSettingType === "custom" && (
         <Styled.DaysWrapper>
           {days.map((dayId) => (
             <Day key={dayId} dayId={dayId} />
           ))}
         </Styled.DaysWrapper>
-      )}
+      )} */}
     </Styled.GenerateMealsWrapper>
   );
 };
