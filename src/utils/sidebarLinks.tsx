@@ -93,4 +93,10 @@ export const sidebarLinks: ISidebarLink[] = [
     icon: <FaCubes />,
     roles: ["personal", "dietetic", "admin"],
   },
+  {
+    path: "/dashboard/diets-live",
+    name: "dieta live",
+    icon: <FaCubes />,
+    roles: ["personal", "dietetic", "admin"],
+  },
 ];

@@ -14,10 +14,11 @@ export const dietGenerateMealsSchema = yup.object({
   //   .required("To pole jest wymagane")
   //   .default("default"),
   // meals: yup.array(yup.string()).min(1, "Wybierz posiłki"),
-  saveAddedMeals: yup
-    .boolean()
+  generateMealsSettings: yup
+    .string()
+    .oneOf(["changeAmountAddedMeals", "saveAddedMeals", "newMeals"])
     .required("To pole jest wymagane")
-    .default(false),
+    .default("changeAmountAddedMeals"),
   meals: yup
     .array(
       yup.object({
@@ -48,16 +49,53 @@ export const dietGenerateMealsSchema = yup.object({
 });
 
 export const dietGeneratePreferencesSchema = yup.object({
-  preferencesSettingType: yup
-    .string()
-    .oneOf(["custom", "default"])
-    .required("To pole jest wymagane")
-    .default("default"),
-  preferencesDinners: yup.array(
-    yup.object({
-      dinnerId: yup.string().required("To pole jest wymagane"),
-    })
-  ),
+  // preferencesSettingType: yup
+  //   .string()
+  //   .oneOf(["custom", "default"])
+  //   .required("To pole jest wymagane")
+  //   .default("default"),
+  // preferencesDinners: yup.array(
+  //   yup.object({
+  //     dinnerId: yup.string().required("To pole jest wymagane"),
+  //   })
+  // ),
+  // basicPreferences: yup
+  //   .array(
+  //     yup.object({
+  //       modelType: yup
+  //         .string()
+  //         .oneOf([
+  //           "dinner",
+  //           "dinnerGroup",
+  //           "product",
+  //           "productGroup",
+  //           "supplement",
+  //         ])
+  //         .required("To pole jest wymagane"),
+  //       product: yup.string().required("To pole jest wymagane"), //dowolna
+  //       action: yup
+  //         .string()
+  //         .oneOf(["exclude", "always", "often", "rarely"])
+  //         .required("To pole jest wymagane"),
+  //       meals: yup.array(
+  //         yup
+  //           .string()
+  //           .oneOf([
+  //             "all",
+  //             "breakfast",
+  //             "second_breakfast",
+  //             "lunch",
+  //             "snack",
+  //             "dinner",
+  //           ])
+  //       ),
+  //     })
+  //   )
+  //   .default([]),
+  advancedPreferences: yup.object({
+    cheapMeals: yup.boolean().default(false),
+    quickMeals: yup.boolean().default(false),
+  }),
 });
 
 export type IDietGenerateDaysSchema = yup.InferType<

@@ -26,13 +26,16 @@ const Meals = () => {
   } = useFormContext();
 
   const days = watch("days") as string[];
-  const saveAddedMeals = watch(
-    "saveAddedMeals"
-  ) as IDietGenerateMealsSchema["saveAddedMeals"];
+  const generateMealsSettings = watch(
+    "generateMealsSettings"
+  ) as IDietGenerateMealsSchema["generateMealsSettings"];
 
-  const handleSaveAddedMeals = () => {
-    setValue("saveAddedMeals", !saveAddedMeals);
+  const handleGenerateMealsSettings = (
+    mealSettingsType: "changeAmountAddedMeals" | "saveAddedMeals" | "newMeals"
+  ) => {
+    setValue("generateMealsSettings", mealSettingsType);
   };
+
   // const mealsSettingType = watch(
   //   "mealsSettingType"
   // ) as IDietGenerateMealsSchema["mealsSettingType"];
@@ -87,10 +90,26 @@ const Meals = () => {
       <Styled.OptionsWrapper>
         <Styled.Option>
           <CheckBoxWrapper
-            onClick={handleSaveAddedMeals}
-            checked={saveAddedMeals}
+            onClick={() => handleGenerateMealsSettings("saveAddedMeals")}
+            checked={generateMealsSettings === "saveAddedMeals"}
           />
           <span>zachowaj juz dodane posiłki</span>
+        </Styled.Option>
+        <Styled.Option>
+          <CheckBoxWrapper
+            onClick={() =>
+              handleGenerateMealsSettings("changeAmountAddedMeals")
+            }
+            checked={generateMealsSettings === "changeAmountAddedMeals"}
+          />
+          <span>zachowaj juz dodane posiłki i dostosuj ilość</span>
+        </Styled.Option>
+        <Styled.Option>
+          <CheckBoxWrapper
+            onClick={() => handleGenerateMealsSettings("newMeals")}
+            checked={generateMealsSettings === "newMeals"}
+          />
+          <span>zastąp już wybrane posiłki podczas generowania</span>
         </Styled.Option>
       </Styled.OptionsWrapper>
       <Default />

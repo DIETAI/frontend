@@ -10,6 +10,8 @@ import { IDataGridListProps } from "./DataGridList.interfaces";
 
 //components
 import DataGridLineView from "./lineView/DataGridLineView";
+import LoadingGrid from "../loading/LoadingGrid";
+import EmptyGrid from "../empty/EmptyGrid";
 
 export interface IDataRow {
   _id: string;
@@ -50,8 +52,8 @@ const DataGridList = ({
   }, [searchValue, selectedItems]);
 
   // const { data, columns, displayColumns, changeData } = useDataGridData();
-  if (loadingData) return <div>loading data</div>;
-  if (!data) return <div>empty data</div>;
+  if (loadingData) return <LoadingGrid />;
+  if (!data) return <EmptyGrid />;
 
   if (view === "line")
     return (

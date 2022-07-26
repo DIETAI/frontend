@@ -43,8 +43,9 @@ const OptionsWrapper = styled.div(
     },
   }) => css`
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: flex-start;
+    flex-direction: column;
     gap: 1rem;
   `
 );

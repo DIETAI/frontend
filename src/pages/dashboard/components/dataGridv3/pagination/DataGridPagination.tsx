@@ -100,7 +100,7 @@ const DataGridPagination = ({
             })}
           <Styled.PaginationOption
             onClick={handleNext}
-            disabled={currentPage === pageCount}
+            disabled={currentPage === Math.round(pageCount)}
           >
             <FaChevronRight />
           </Styled.PaginationOption>

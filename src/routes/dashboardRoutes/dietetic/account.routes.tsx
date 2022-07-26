@@ -9,9 +9,10 @@ import PageNav from "components/pageNav/PageNav";
 
 const accountNavLinks = [
   { id: 1, title: "profil", path: "/dashboard/account" },
-  { id: 2, title: "wiadomości", path: "/dashboard/account/messages" },
-  { id: 3, title: "plany", path: "/dashboard/account/plans" },
-  { id: 4, title: "faktury", path: "/dashboard/account/payments" },
+  { id: 2, title: "informacje", path: "/dashboard/informations" },
+  { id: 3, title: "wiadomości", path: "/dashboard/account/messages" },
+  { id: 4, title: "plany", path: "/dashboard/account/plans" },
+  { id: 5, title: "faktury", path: "/dashboard/account/payments" },
 ];
 
 const AccountRoutes = () => {

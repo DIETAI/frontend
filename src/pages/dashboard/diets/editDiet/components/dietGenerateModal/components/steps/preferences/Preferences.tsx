@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, useFieldArray } from "react-hook-form";
 import { getSubscriptionPlan } from "services/getSubscriptionPlans";
 
 //styles
@@ -8,6 +8,22 @@ import * as Styled from "./Preferences.styles";
 //components
 import CheckBoxWrapper from "components/checkbox/CheckboxWrapper";
 import { IDietGeneratePreferencesSchema } from "../../../schema/dietGenerate.schema";
+import Input from "components/form/input/Input";
+import Autocomplete from "components/form/autocomplete/Autocomplete";
+import MultipleAutocomplete from "components/form/multipleAutocomplete/MultipleAutocomplete";
+
+const preferencesModalTypeOptions = [
+  { id: 1, type: "dinner", name: "potrawy" },
+  { id: 2, type: "dinnerGroup", name: "grupa potraw" }, //zupa, napój, danie główne
+  { id: 3, type: "product", name: "produkty" },
+  { id: 4, type: "productGroup", name: "grupa produktów" },
+];
+const preferencesActionOptions = [
+  { id: 1, type: "always", name: "zawsze" },
+  { id: 2, type: "often", name: "często" },
+  { id: 3, type: "rarely", name: "rzadko" },
+  { id: 4, type: "exclude", name: "wyklucz" },
+];
 
 const Preferences = () => {
   const {
@@ -19,22 +35,91 @@ const Preferences = () => {
     trigger,
   } = useFormContext();
 
-  const preferencesSettingType = watch(
-    "preferencesSettingType"
-  ) as IDietGeneratePreferencesSchema["preferencesSettingType"];
+  const advancedPreferences = watch(
+    "advancedPreferences"
+  ) as IDietGeneratePreferencesSchema["advancedPreferences"];
 
-  const checkAllDays = () => {
-    console.log("all");
-    setValue("preferencesSettingType", "default");
+  // const preferencesSettingType = watch(
+  //   "preferencesSettingType"
+  // ) as IDietGeneratePreferencesSchema["preferencesSettingType"];
+
+  // const checkAllDays = () => {
+  //   console.log("all");
+  //   setValue("preferencesSettingType", "default");
+  // };
+  // const openDetailedSettings = () => {
+  //   console.log("detail");
+  //   setValue("preferencesSettingType", "custom");
+  // };
+
+  // const { fields, append, prepend, remove, swap, move, insert } = useFieldArray(
+  //   {
+  //     control, // control props comes from useForm (optional: if you are using FormContext)
+  //     name: `basicPreferences`, // unique name for your Field Array
+  //   }
+  // );
+
+  // const addBasicPreference = () => {
+  //   append({ modelType: "", product: "", action: "", meals: [] });
+  // };
+
+  const checkCheapMeals = () => {
+    setValue("advancedPreferences.cheapMeals", !advancedPreferences.cheapMeals);
   };
-  const openDetailedSettings = () => {
-    console.log("detail");
-    setValue("preferencesSettingType", "custom");
+  const checkQuickMeals = () => {
+    setValue("advancedPreferences.quickMeals", !advancedPreferences.quickMeals);
   };
 
   return (
     <Styled.PreferencesWrapper>
-      <Styled.OptionsWrapper>
+      {/* <p>
+        wyklucz posiłki, grupy posiłków i produkty! (bardzo lubię, lubię, nie
+        lubię, wyklucz)
+      </p> */}
+      {/* <Styled.OptionsWrapper> */}
+      <Styled.Option>
+        <CheckBoxWrapper
+          onClick={checkCheapMeals}
+          checked={advancedPreferences.cheapMeals}
+        />
+        <span>tanie posiłki</span>
+      </Styled.Option>
+      <Styled.Option>
+        <CheckBoxWrapper
+          onClick={checkQuickMeals}
+          checked={advancedPreferences.quickMeals}
+        />
+        <span>szybkie posiłki</span>
+      </Styled.Option>
+      {/* </Styled.OptionsWrapper> */}
+      {/* <button type="button" onClick={addBasicPreference}>
+        dodaj własną preferencję
+      </button>
+      <button type="button">dodaj przykładowe preferencje</button> */}
+      {/* {fields.map((field, index) => (
+        <div key={field.id}>
+          <Autocomplete
+            options={preferencesModalTypeOptions}
+            optionLabel="name"
+            optionRender="type"
+            name={`basicPreferences.${index}.modelType`}
+            label="typ"
+          />
+          <Input
+            name={`basicPreferences.${index}.product`}
+            label="produkt/potrawa/grupa"
+          />
+          <Autocomplete
+            options={preferencesActionOptions}
+            optionLabel="name"
+            optionRender="type"
+            name={`basicPreferences.${index}.action`}
+            label="akcja"
+          />
+          <Input name={`basicPreferences.${index}.meals`} label="posiłki" />
+        </div>
+      ))} */}
+      {/* <Styled.OptionsWrapper>
         <Styled.Option>
           <CheckBoxWrapper
             onClick={checkAllDays}
@@ -49,8 +134,8 @@ const Preferences = () => {
           />
           <span>szczegółowe ustawienia</span>
         </Styled.Option>
-      </Styled.OptionsWrapper>
-      <div>
+      </Styled.OptionsWrapper> */}
+      {/* <div>
         <button>pobierz dane z ankiety</button>
         <button>wybierz z dodanych preferencji</button>
         <h1>1. Posiłki</h1>
@@ -78,8 +163,8 @@ const Preferences = () => {
           generuj dietę z danych posiłków (jeśli posiłków będzie za mało,
           uzupełnij z innych) - zupa pomidorowa
         </p>
-      </div>
-      <div>
+      </div> */}
+      {/* <div>
         <h1>2. Płyny</h1>
         <p>kawa 2 razy w ciągu dnia</p>
         <p>herbata 2 razy w ciągu dnia</p>
@@ -116,7 +201,7 @@ const Preferences = () => {
         <p>desery</p>
         <p>napoje alkoholowe</p>
         <p>fast foody</p>
-      </div>
+      </div> */}
     </Styled.PreferencesWrapper>
   );
 };

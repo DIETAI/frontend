@@ -151,6 +151,7 @@ const Calendar = () => {
             onClick={() => handleChangeDay(day)}
           >
             {format(day, "dd")}
+            <button>generuj dietę</button>
           </Styled.CalendarDay>
         ))}
       </Styled.GridCalendar>
