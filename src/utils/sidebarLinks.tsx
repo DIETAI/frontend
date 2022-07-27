@@ -9,6 +9,8 @@ import {
   FaHome,
   FaWeight,
   FaFileInvoice,
+  FaUserPlus,
+  FaCalendarDay,
 } from "icons/icons";
 
 interface IChildrenLink {
@@ -64,6 +66,12 @@ export const sidebarLinks: ISidebarLink[] = [
   //   roles: ["admin"],
   // },
   {
+    path: "/dashboard/clients",
+    name: "dashboardSidebar.clients",
+    icon: <FaUsers />,
+    roles: ["dietetic", "admin"],
+  },
+  {
     path: "/dashboard/measurements",
     name: "dashboardSidebar.measurements",
     icon: <FaWeight />,
@@ -94,9 +102,9 @@ export const sidebarLinks: ISidebarLink[] = [
     roles: ["personal", "dietetic", "admin"],
   },
   {
-    path: "/dashboard/diets-live",
-    name: "dieta live",
-    icon: <FaCubes />,
+    path: "/dashboard/diet-live",
+    name: "dashboardSidebar.dietLive",
+    icon: <FaCalendarDay />,
     roles: ["personal", "dietetic", "admin"],
   },
 ];

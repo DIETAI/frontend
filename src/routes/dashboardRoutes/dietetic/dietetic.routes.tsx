@@ -10,6 +10,7 @@ import HomeRoutes from "./home.routes";
 import MeasurementRoutes from "./measurements.routes";
 import DietEstablishmentRoutes from "./dietEstablishments.routes";
 import DietRoutes from "./diets.routes";
+import ClientRoutes from "./clients.routes";
 
 //swr
 import { useUser } from "services/useUser";
@@ -27,6 +28,7 @@ const Dietetic = () => {
       <Route path="home/*" element={<HomeRoutes />} />
       <Route path="account/*" element={<AccountRoutes />} />
       <Route path="products/*" element={<ProductRoutes />} />
+      <Route path="clients/*" element={<ClientRoutes />} />
       <Route path="dinners/*" element={<DinnerRoutes />} />
       <Route path="measurements/*" element={<MeasurementRoutes />} />
       <Route

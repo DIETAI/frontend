@@ -70,11 +70,13 @@
   "dashboardSidebar": {
     "home": "Home",
     "account": "Account",
+    "clients": "Clients",
     "measurements": "Measurement",
     "establishments": "Assumptions",
     "products": "Products",
     "meals": "Meals",
-    "diets": "Nutritional plans"
+    "diets": "Nutritional plans",
+    "dietLive": "Diet live"
   },
   "profile": {
     "account": {
