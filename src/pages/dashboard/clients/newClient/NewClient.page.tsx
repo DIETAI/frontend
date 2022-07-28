@@ -1,7 +1,10 @@
 import React from "react";
 
+//components
+import NewClientForm from "./components/NewClientForm";
+
 const NewClient = () => {
-  return <div>NewClient</div>;
+  return <NewClientForm />;
 };
 
 export default NewClient;

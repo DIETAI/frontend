@@ -11,9 +11,14 @@ import {
 //components
 import Modal from "components/modal/Modal";
 import AddDinnerPortionModalContent from "./addDinnerPortionModal/AddDinnerPortionModal";
+import DashedSelect from "components/form/dashedSelect/DashedSelect";
 
 //styles
 import * as Styled from "./Portions.styles";
+
+//icons
+import { FaEdit, FaTrash, FaPlus, FaInfoCircle } from "icons/icons";
+import Image from "components/form/images/image/Image";
 
 const Portions = () => {
   const [dinnerPortionModalOpen, setDinnerPortionModalOpen] = useState(false);
@@ -51,34 +56,136 @@ const Portions = () => {
     <Styled.PortionsWrapper>
       {dinnerPortionsQuery &&
         dinnerPortionsQuery.length > 0 &&
-        dinnerPortionsQuery.map((dinnerPortion) => (
+        dinnerPortionsQuery.map((dinnerPortion, dinnerPortionIndex) => (
           <Styled.PortionWrapper key={dinnerPortion._id}>
-            <h2> Rodzaj zestawu: {dinnerPortion.type}</h2>
-            <div>razem (kcal): {dinnerPortion.total.kcal}</div>
-            <button
-              type="button"
-              onClick={() => deletePortion(dinnerPortion._id)}
-            >
-              usuń
-            </button>
-            <ul>
-              {dinnerPortion.dinnerProducts.map((dinnerProduct) => (
-                <li key={dinnerProduct.dinnerProductId}>
-                  <p>
-                    dinner produkt:{" "}
-                    <b> {dinnerProduct.dinnerProduct.product.name} </b>
-                  </p>
-                  <p> porcja: {dinnerProduct.portion}</p>
-                  <div>razem (kcal): {dinnerProduct.total.kcal}</div>
-                </li>
+            <Styled.PortionHeadingWrapper>
+              <Styled.PortionHeading>
+                <Styled.FieldNumberWrapper>
+                  <p>{dinnerPortionIndex + 1}</p>
+                </Styled.FieldNumberWrapper>
+                <h2>
+                  {dinnerPortion.type === "default" ? "domyślny" : "własny"}{" "}
+                  zestaw
+                </h2>
+              </Styled.PortionHeading>
+
+              {dinnerPortion.type === "custom" && (
+                <Styled.IconOptionsWrapper>
+                  <Styled.IconButtonWrapper
+                    iconType="info"
+                    type="button"
+                    onClick={() => deletePortion(dinnerPortion._id)}
+                  >
+                    <FaInfoCircle />
+                  </Styled.IconButtonWrapper>
+                  <Styled.IconButtonWrapper
+                    iconType="edit"
+                    type="button"
+                    onClick={() => deletePortion(dinnerPortion._id)}
+                  >
+                    <FaEdit />
+                  </Styled.IconButtonWrapper>
+                  <Styled.IconButtonWrapper
+                    iconType="delete"
+                    type="button"
+                    onClick={() => deletePortion(dinnerPortion._id)}
+                  >
+                    <FaTrash />
+                  </Styled.IconButtonWrapper>
+                </Styled.IconOptionsWrapper>
+              )}
+            </Styled.PortionHeadingWrapper>
+            <Styled.PortionTotalWrapper>
+              <Styled.PortionTotalFeaturesWrapper>
+                <Styled.PortionTotalFeature>
+                  Kcal: <b>{dinnerPortion.total.kcal}</b>
+                </Styled.PortionTotalFeature>
+                <Styled.PortionTotalFeature>
+                  B (g): <b>{dinnerPortion.total.protein.gram}</b>
+                </Styled.PortionTotalFeature>
+                <Styled.PortionTotalFeature>
+                  T (g): <b>{dinnerPortion.total.fat.gram}</b>
+                </Styled.PortionTotalFeature>
+                <Styled.PortionTotalFeature>
+                  W (g): <b>{dinnerPortion.total.carbohydrates.gram}</b>
+                </Styled.PortionTotalFeature>
+                <Styled.PortionTotalFeature>
+                  Wp (g):{" "}
+                  <b>{dinnerPortion.total.digestableCarbohydrates.gram}</b>
+                </Styled.PortionTotalFeature>
+                <Styled.PortionTotalFeature>
+                  Bł (g): <b>{dinnerPortion.total.fiber.gram}</b>
+                </Styled.PortionTotalFeature>
+              </Styled.PortionTotalFeaturesWrapper>
+            </Styled.PortionTotalWrapper>
+
+            <Styled.ProductsWrapper>
+              {dinnerPortion.dinnerProducts.map((dinnerPortionProduct) => (
+                <Styled.ProductWrapper
+                  key={dinnerPortionProduct.dinnerProductId}
+                >
+                  <Styled.ProductMainWrapper>
+                    {dinnerPortionProduct.dinnerProduct.product.image && (
+                      <div>
+                        <Image
+                          roundedDataGrid={true}
+                          imageId={
+                            dinnerPortionProduct.dinnerProduct.product.image
+                          }
+                        />
+                      </div>
+                    )}
+
+                    <Styled.ProductContentWrapper>
+                      <h3>{dinnerPortionProduct.dinnerProduct.product.name}</h3>
+
+                      {/* <Styled.ProductTotalFeaturesWrapper>
+                        <Styled.ProductTotalFeature>
+                          Kcal: <b>{dinnerPortionProduct.total.kcal}</b>
+                        </Styled.ProductTotalFeature>
+                        <Styled.ProductTotalFeature>
+                          B (g):{" "}
+                          <b>{dinnerPortionProduct.total.protein.gram}</b>
+                        </Styled.ProductTotalFeature>
+                        <Styled.ProductTotalFeature>
+                          T (g): <b>{dinnerPortionProduct.total.fat.gram}</b>
+                        </Styled.ProductTotalFeature>
+                        <Styled.ProductTotalFeature>
+                          W (g):{" "}
+                          <b>{dinnerPortionProduct.total.carbohydrates.gram}</b>
+                        </Styled.ProductTotalFeature>
+                        <Styled.ProductTotalFeature>
+                          Wp (g):{" "}
+                          <b>
+                            {
+                              dinnerPortionProduct.total.digestableCarbohydrates
+                                .gram
+                            }
+                          </b>
+                        </Styled.ProductTotalFeature>
+                        <Styled.ProductTotalFeature>
+                          Bł (g): <b>{dinnerPortionProduct.total.fiber.gram}</b>
+                        </Styled.ProductTotalFeature>
+                      </Styled.ProductTotalFeaturesWrapper> */}
+                    </Styled.ProductContentWrapper>
+                  </Styled.ProductMainWrapper>
+
+                  <Styled.ProductPortionItem>
+                    {dinnerPortionProduct.portion} g
+                  </Styled.ProductPortionItem>
+                </Styled.ProductWrapper>
               ))}
-            </ul>
+            </Styled.ProductsWrapper>
           </Styled.PortionWrapper>
         ))}
 
-      <button type="button" onClick={() => setDinnerPortionModalOpen(true)}>
-        dodaj zestaw porcji
-      </button>
+      <DashedSelect
+        icon={<FaPlus />}
+        // text={t("dinner.form.products.addProduct")}
+        text="dodaj porcję"
+        onClick={() => setDinnerPortionModalOpen(true)}
+        fullWidth
+      />
       <Modal
         open={dinnerPortionModalOpen}
         onClose={() => setDinnerPortionModalOpen(false)}
