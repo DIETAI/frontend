@@ -10,7 +10,7 @@ export interface IDinnerProductData {
   defaultAmount: number;
   minAmount?: number;
   maxAmount?: number;
-  portionsGram?: number[];
+  portionsGram: number[];
 }
 
 export interface IDinnerProductProps {

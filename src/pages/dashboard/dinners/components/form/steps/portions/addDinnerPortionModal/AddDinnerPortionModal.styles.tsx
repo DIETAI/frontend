@@ -11,6 +11,17 @@ const EstablishmentModalWrapper = styled.div(
     display: flex;
     flex-direction: column;
     gap: 4rem;
+    width: 100%;
+
+    form {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      button {
+        margin: 2rem 0;
+      }
+    }
   `
 );
 

@@ -54,27 +54,27 @@ interface IPage {
 }
 
 const pages: IPage[] = [
+  // {
+  //   id: 1,
+  //   label: "domyślne zestawienie porcji",
+  //   type: "default",
+  //   section: <DefaultSection />,
+  // },
   {
     id: 1,
-    label: "domyślne zestawienie porcji",
-    type: "default",
-    section: <DefaultSection />,
-  },
-  {
-    id: 2,
-    label: "własne zestawienie porcji",
+    label: "zestawienie porcji",
     type: "custom",
     section: <CustomSection />,
   },
   {
-    id: 3,
+    id: 2,
     label: "zestawienie porcji według założeń",
     type: "establishment",
     section: <EstablishmentSection />,
   },
   {
-    id: 4,
-    label: "wszystkie zestawienia porcji",
+    id: 3,
+    label: "wszystkie możliwe zestawienia porcji",
     type: "all",
     section: <AllSection />,
   },
@@ -181,16 +181,13 @@ const AddDinnerPortionModal = ({ closeModal }: IDinnerPortionModalProps) => {
             ))}
           </Styled.EstablishmentModalNav>
           <MealTotal />
-          dodanie nowego formularza i zliczanie makro z context
           {pages.find((page) => page.type === activePage)?.section}
-          (zapisywanie kolekcji w bazie) (zapisywanie dinnerProducts w bazie)
-          (zapisywanie obliczonych porcji w bazie) zapisz zestawienie porcji
-          0/20
+
           <Button
             variant={!isValid || isSubmitting ? "disabled" : "primary"}
             type="submit"
           >
-            zapisz zestawienie porcji w bazie 0/20
+            zapisz zestawienie porcji
           </Button>
         </form>
       </FormProvider>

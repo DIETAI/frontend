@@ -306,7 +306,7 @@ const ProductContentWrapper = styled.div(
 
     h3 {
       color: ${palette.common.text};
-      font-weight: ${fontWeight.semibold};
+      font-weight: ${fontWeight.medium};
       font-size: ${fontSize.s};
     }
   `

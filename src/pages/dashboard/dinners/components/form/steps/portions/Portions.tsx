@@ -182,7 +182,7 @@ const Portions = () => {
       <DashedSelect
         icon={<FaPlus />}
         // text={t("dinner.form.products.addProduct")}
-        text="dodaj porcję"
+        text="dodaj zestaw porcji"
         onClick={() => setDinnerPortionModalOpen(true)}
         fullWidth
       />
