@@ -19,9 +19,7 @@ import MealTotal from "./mealTotal/MealTotal";
 import Button from "components/form/button/Button";
 
 //sections
-import DefaultSection from "./sections/default/DefaultSection";
 import CustomSection from "./sections/custom/CustomSection";
-import EstablishmentSection from "./sections/establishment/EstablishmentSection";
 import AllSection from "./sections/all/AllSection";
 
 //interfaces
@@ -62,18 +60,18 @@ const pages: IPage[] = [
   // },
   {
     id: 1,
-    label: "zestawienie porcji",
+    label: "stwórz zestawienie porcji",
     type: "custom",
     section: <CustomSection />,
   },
+  // {
+  //   id: 2,
+  //   label: "zestawienie porcji według założeń",
+  //   type: "establishment",
+  //   section: <EstablishmentSection />,
+  // },
   {
     id: 2,
-    label: "zestawienie porcji według założeń",
-    type: "establishment",
-    section: <EstablishmentSection />,
-  },
-  {
-    id: 3,
     label: "wszystkie możliwe zestawienia porcji",
     type: "all",
     section: <AllSection />,

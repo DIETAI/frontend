@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 
 //styles
@@ -13,10 +13,16 @@ import { getDinnerProductsQuery } from "services/getDinnerProducts";
 //hooks
 import { GeneratePortion } from "../../hooks/generatePortions.hook";
 
+//icons
+import { FaFilter, FaChevronLeft, FaChevronRight } from "icons/icons";
+
 //components
 import Portion from "./portion/Portion";
+import Establishment from "./establishment/Establishment";
 
 const AllSection = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [openEstablishmentOption, setOpenEstablishmentOption] = useState(false);
   const { dinnerId } = useParams();
 
   if (!dinnerId) return null;
@@ -65,16 +71,78 @@ const AllSection = () => {
 
   if (generatedPortionsLoading) return <div>portions loading...</div>;
   if (generatedPortionsError) return <div>portions error...</div>;
+  if (!generatedPortions) return null;
+
+  const pageCount = generatedPortions.length / 12;
+
+  const handleBack = () => {
+    if (currentPage === 1) return;
+    setCurrentPage(currentPage - 1);
+  };
+
+  const handleNext = () => {
+    if (currentPage === pageCount) return;
+    setCurrentPage(currentPage + 1);
+  };
+
+  const currentPageItems = generatedPortions.slice(
+    (currentPage - 1) * 12,
+    12 * currentPage
+  );
 
   return (
     <>
-      <h3>razem porcji: {generatedPortions?.length}</h3>
+      <Styled.PortionGroupsNav>
+        <Styled.PortionGroupsFilterButton
+          type="button"
+          onClick={() => setOpenEstablishmentOption(!openEstablishmentOption)}
+        >
+          <FaFilter />
+          filtruj według założeń
+        </Styled.PortionGroupsFilterButton>
+        <h3>
+          ilość możliwych porcji: <b>{generatedPortions?.length}</b>
+        </h3>
+        {openEstablishmentOption && <Establishment />}
+      </Styled.PortionGroupsNav>
+
       <Styled.PortionGroupsWrapper>
-        {generatedPortions?.length &&
-          generatedPortions
-            .slice(0, 10)
-            .map((portion) => <Portion portion={portion} key={portion.uid} />)}
+        {currentPageItems.map((portion, index) => (
+          <Portion portion={portion} key={portion.uid} portionIndex={index} />
+        ))}
       </Styled.PortionGroupsWrapper>
+      {Math.round(pageCount) > 1 && (
+        <Styled.PaginationOptionsWrapper>
+          <Styled.PaginationOption
+            type="button"
+            onClick={handleBack}
+            disabled={currentPage === 1}
+          >
+            <FaChevronLeft />
+          </Styled.PaginationOption>
+          {Array(Math.round(pageCount))
+            .fill(null)
+            .map((_, index) => {
+              return (
+                <Styled.PaginationOption
+                  type="button"
+                  key={index}
+                  active={currentPage === index + 1}
+                  onClick={() => setCurrentPage(index + 1)}
+                >
+                  {index + 1}
+                </Styled.PaginationOption>
+              );
+            })}
+          <Styled.PaginationOption
+            type="button"
+            onClick={handleNext}
+            disabled={currentPage === Math.round(pageCount)}
+          >
+            <FaChevronRight />
+          </Styled.PaginationOption>
+        </Styled.PaginationOptionsWrapper>
+      )}
     </>
   );
 };

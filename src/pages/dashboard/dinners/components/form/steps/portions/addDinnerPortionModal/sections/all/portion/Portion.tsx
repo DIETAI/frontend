@@ -21,7 +21,16 @@ import { IDinnerPortion } from "../../../schema/dinnerPortion.schema";
 import { sumTotal } from "helpers/sumTotal";
 import { countTotal } from "helpers/countTotal";
 
-const Portion = ({ portion }: { portion: ICartesianResult }) => {
+//components
+import Image from "components/form/images/image/Image";
+
+const Portion = ({
+  portion,
+  portionIndex,
+}: {
+  portion: ICartesianResult;
+  portionIndex: number;
+}) => {
   const {
     control,
     formState: { errors },
@@ -81,12 +90,20 @@ const Portion = ({ portion }: { portion: ICartesianResult }) => {
       active={portionUID === portion.uid}
       onClick={addDinnerProducts}
     >
-      <p>id zestawu: {portion.uid}</p>
+      <Styled.PortionHeading>
+        <Styled.FieldNumberWrapper active={portionUID === portion.uid}>
+          <p>{portionIndex + 1}</p>
+        </Styled.FieldNumberWrapper>
+        <h3>{portion.uid.slice(0, 8)}...</h3>
+      </Styled.PortionHeading>
+
       <p>makro total:</p>
       <h3>produkty:</h3>
-      {portion.products.map((product) => (
-        <PortionProduct product={product} key={product._id} />
-      ))}
+      <Styled.PortionProductsWrapper>
+        {portion.products.map((product) => (
+          <PortionProduct product={product} key={product._id} />
+        ))}
+      </Styled.PortionProductsWrapper>
     </Styled.Portion>
   );
 };
@@ -106,10 +123,21 @@ const PortionProduct = ({
   if (dinnerProductErrorQuery) return <div>error...</div>;
   if (!dinnerProductQuery) return null;
   return (
-    <div>
-      <h4>produkt: {dinnerProductQuery.product.name}</h4>{" "}
-      <h4>wybrana porcja: {product.portionGram} g</h4>
-    </div>
+    <Styled.PortionProduct>
+      <Styled.PortionHeading>
+        {dinnerProductQuery.product.image && (
+          <Image
+            imageId={dinnerProductQuery.product.image}
+            roundedDataGrid={true}
+          />
+        )}
+        <h3>{dinnerProductQuery.product.name}</h3>
+      </Styled.PortionHeading>
+
+      <Styled.ProductPortionItem>
+        {product.portionGram} g
+      </Styled.ProductPortionItem>
+    </Styled.PortionProduct>
   );
 };
 
