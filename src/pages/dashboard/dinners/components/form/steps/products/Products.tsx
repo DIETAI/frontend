@@ -78,6 +78,7 @@ const Products = () => {
             defaultAmount={dinnerProduct.defaultAmount}
             minAmount={dinnerProduct.minAmount}
             maxAmount={dinnerProduct.maxAmount}
+            portionsGram={dinnerProduct.portionsGram}
           />
         ))}
       {/* {fields.length > 0 &&
@@ -121,6 +122,7 @@ interface IProductFieldProps {
   defaultAmount: number;
   minAmount?: number;
   maxAmount?: number;
+  portionsGram: number[];
 }
 
 const ProductField = ({
@@ -132,6 +134,7 @@ const ProductField = ({
   minAmount,
   maxAmount,
   dinnerProducts,
+  portionsGram,
 }: IProductFieldProps) => {
   const { dinnerId } = useParams();
   const { dinnerPortions, dinnerPortionsLoading, dinnerPortionsError } =
@@ -220,6 +223,12 @@ const ProductField = ({
           <Styled.ItemFeature>{maxAmount}</Styled.ItemFeature>
         </Styled.ItemContent>
       </Styled.ItemWrapper>
+      <div>
+        <h3>dostępne porcje:</h3>
+        {portionsGram.map((portionGram) => (
+          <div key={portionGram}>{portionGram} g</div>
+        ))}
+      </div>
     </Styled.FieldWrapper>
   );
 };
