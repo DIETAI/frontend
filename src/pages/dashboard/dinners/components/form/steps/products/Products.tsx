@@ -209,26 +209,27 @@ const ProductField = ({
         </Styled.IconOptionsWrapper>
       </Styled.FieldHeadWrapper>
       <Styled.ItemWrapper>
-        {product?.image && (
-          <Image imageId={product.image} roundedSelect={true} />
-        )}
         <Styled.ItemContent>
+          {product?.image && (
+            <Image imageId={product.image} roundedSelect={true} />
+          )}
           <h2>{product?.name}</h2>
-          {product?.description && <p> {product.description}</p>}
-          <h3>domyślna ilość (g):</h3>
-          <Styled.ItemFeature>{defaultAmount}</Styled.ItemFeature>
-          <h3>minimalna ilość (g):</h3>
-          <Styled.ItemFeature>{minAmount}</Styled.ItemFeature>
-          <h3>maksymalna ilość (g):</h3>
-          <Styled.ItemFeature>{maxAmount}</Styled.ItemFeature>
         </Styled.ItemContent>
+        <Styled.ItemFeatures>
+          <Styled.ItemFeatureWrapper>
+            <h3>domyślna ilość (g):</h3>
+            <Styled.ItemFeature>{defaultAmount}</Styled.ItemFeature>
+          </Styled.ItemFeatureWrapper>
+          <Styled.ItemFeatureWrapper>
+            <h3>minimalna ilość (g):</h3>
+            <Styled.ItemFeature>{minAmount}</Styled.ItemFeature>
+          </Styled.ItemFeatureWrapper>
+          <Styled.ItemFeatureWrapper>
+            <h3>maksymalna ilość (g):</h3>
+            <Styled.ItemFeature>{maxAmount}</Styled.ItemFeature>
+          </Styled.ItemFeatureWrapper>
+        </Styled.ItemFeatures>
       </Styled.ItemWrapper>
-      <div>
-        <h3>dostępne porcje:</h3>
-        {portionsGram.map((portionGram) => (
-          <div key={portionGram}>{portionGram} g</div>
-        ))}
-      </div>
     </Styled.FieldWrapper>
   );
 };

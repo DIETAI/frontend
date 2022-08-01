@@ -146,6 +146,7 @@ const ItemWrapper = styled.div(
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
+    flex-direction: column;
     gap: 3rem;
     padding: 3rem;
     width: 100%;
@@ -162,27 +163,51 @@ const ItemContent = styled.div(
     },
   }) => css`
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: flex-start;
-    flex-direction: column;
-    gap: 1rem;
+    gap: 2rem;
 
     h2 {
       color: ${palette.common.text};
       font-weight: ${fontWeight.semibold};
       font-size: ${fontSize.l};
     }
+  `
+);
+
+const ItemFeatures = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 2rem;
+  `
+);
+
+const ItemFeatureWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    gap: 1rem;
 
     h3 {
       color: ${palette.common.text};
       font-weight: ${fontWeight.medium};
-      font-size: 1.4rem;
-    }
-
-    p {
-      color: ${palette.common.text};
-      font-weight: ${fontWeight.light};
-      font-size: ${fontSize.s};
+      font-size: 1.2rem;
     }
   `
 );
@@ -204,9 +229,9 @@ const ItemFeature = styled.div(
     border: 0.1rem solid ${palette.primary.light};
     background: ${palette.common.contrast};
     color: ${palette.primary.main};
-    font-weight: ${fontWeight.medium};
+    font-weight: ${fontWeight.semibold};
     font-size: 1.3rem;
-    width: 10rem;
+    min-width: 15rem;
   `
 );
 
@@ -218,5 +243,7 @@ export {
   IconButtonWrapper,
   ItemWrapper,
   ItemContent,
+  ItemFeatures,
+  ItemFeatureWrapper,
   ItemFeature,
 };
