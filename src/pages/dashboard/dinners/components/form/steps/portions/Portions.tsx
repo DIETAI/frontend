@@ -11,6 +11,7 @@ import {
 //components
 import Modal from "components/modal/Modal";
 import AddDinnerPortionModalContent from "./addDinnerPortionModal/AddDinnerPortionModal";
+import DeleteDinnerPortionModalContent from "./deletePortionModal/DeleteDinnerPortionModal";
 import DashedSelect from "components/form/dashedSelect/DashedSelect";
 
 //styles
@@ -22,6 +23,8 @@ import Image from "components/form/images/image/Image";
 
 const Portions = () => {
   const [dinnerPortionModalOpen, setDinnerPortionModalOpen] = useState(false);
+  const [deleteDinnerPortionModalOpen, setDeleteDinnerPortionModalOpen] =
+    useState(false);
 
   const { t } = useTranslation();
   const { dinnerId } = useParams();
@@ -88,7 +91,7 @@ const Portions = () => {
                   <Styled.IconButtonWrapper
                     iconType="delete"
                     type="button"
-                    onClick={() => deletePortion(dinnerPortion._id)}
+                    onClick={() => setDeleteDinnerPortionModalOpen(true)}
                   >
                     <FaTrash />
                   </Styled.IconButtonWrapper>
@@ -176,6 +179,15 @@ const Portions = () => {
                 </Styled.ProductWrapper>
               ))}
             </Styled.ProductsWrapper>
+            <Modal
+              open={deleteDinnerPortionModalOpen}
+              onClose={() => setDeleteDinnerPortionModalOpen(false)}
+            >
+              <DeleteDinnerPortionModalContent
+                dinnerPortionId={dinnerPortion._id}
+                closeModal={() => setDeleteDinnerPortionModalOpen(false)}
+              />
+            </Modal>
           </Styled.PortionWrapper>
         ))}
 

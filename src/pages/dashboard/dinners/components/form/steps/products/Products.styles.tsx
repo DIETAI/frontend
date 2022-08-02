@@ -17,7 +17,7 @@ const FieldWrapper = styled.div(
     width: 100%;
     padding: 4rem;
     border-radius: 0.4rem;
-    border: 0.2rem dashed ${palette.primary.light};
+    border: 0.1rem dashed ${palette.primary.light};
   `
 );
 

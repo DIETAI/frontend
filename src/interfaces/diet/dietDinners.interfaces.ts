@@ -4,6 +4,7 @@ import {
 } from "interfaces/dinner/dinnerPortions.interfaces";
 import { IDinnerPortionDinnerProduct } from "../dinner/dinnerPortions.interfaces";
 import { IDinnerData } from "interfaces/dinner/dinner.interfaces";
+import { IDietData } from "pages/dashboard/diets/newDiet/schema/dietData.schema";
 
 export interface IDietDinnerData {
   _id: string;
@@ -19,6 +20,10 @@ export interface IDietDinnerData {
   // dinnerId: string;
   // name: string;
   // total?: object;
+}
+
+export interface IDietDinnerByPortionData extends IDietDinnerData {
+  diet: IDietData;
 }
 
 export interface IDietDinnerPortionQueryData extends IDinnerPortionData {
