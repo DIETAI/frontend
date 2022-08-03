@@ -112,7 +112,6 @@ const Diet = styled.li(
     padding: 2rem;
     background: ${palette.common.contrast};
     border-radius: ${border.rounded.md};
-
     font-size: ${fontSize.s};
     font-weight: ${fontWeight.light};
     color: ${palette.common.text};

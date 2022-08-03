@@ -24,7 +24,10 @@ import Image from "components/form/images/image/Image";
 const Portions = () => {
   const [dinnerPortionModalOpen, setDinnerPortionModalOpen] = useState(false);
   const [deleteDinnerPortionModalOpen, setDeleteDinnerPortionModalOpen] =
-    useState(false);
+    useState({
+      open: false,
+      dinnerPortionId: "",
+    });
 
   const { t } = useTranslation();
   const { dinnerId } = useParams();
@@ -91,7 +94,12 @@ const Portions = () => {
                   <Styled.IconButtonWrapper
                     iconType="delete"
                     type="button"
-                    onClick={() => setDeleteDinnerPortionModalOpen(true)}
+                    onClick={() =>
+                      setDeleteDinnerPortionModalOpen({
+                        open: true,
+                        dinnerPortionId: dinnerPortion._id,
+                      })
+                    }
                   >
                     <FaTrash />
                   </Styled.IconButtonWrapper>
@@ -179,15 +187,6 @@ const Portions = () => {
                 </Styled.ProductWrapper>
               ))}
             </Styled.ProductsWrapper>
-            <Modal
-              open={deleteDinnerPortionModalOpen}
-              onClose={() => setDeleteDinnerPortionModalOpen(false)}
-            >
-              <DeleteDinnerPortionModalContent
-                dinnerPortionId={dinnerPortion._id}
-                closeModal={() => setDeleteDinnerPortionModalOpen(false)}
-              />
-            </Modal>
           </Styled.PortionWrapper>
         ))}
 
@@ -204,6 +203,22 @@ const Portions = () => {
       >
         <AddDinnerPortionModalContent
           closeModal={() => setDinnerPortionModalOpen(false)}
+        />
+      </Modal>
+      <Modal
+        open={deleteDinnerPortionModalOpen.open}
+        onClose={() =>
+          setDeleteDinnerPortionModalOpen({ open: false, dinnerPortionId: "" })
+        }
+      >
+        <DeleteDinnerPortionModalContent
+          dinnerPortionId={deleteDinnerPortionModalOpen.dinnerPortionId}
+          closeModal={() =>
+            setDeleteDinnerPortionModalOpen({
+              open: false,
+              dinnerPortionId: "",
+            })
+          }
         />
       </Modal>
     </Styled.PortionsWrapper>
