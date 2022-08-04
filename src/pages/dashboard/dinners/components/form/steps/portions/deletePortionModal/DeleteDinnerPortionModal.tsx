@@ -36,18 +36,22 @@ const DeleteDinnerPortionModal = ({
   console.log({ dietDinners });
   //find dietDinners where dinnerPortionId === dinnerPortionId
 
-  const deletePortion = async (portionId: string) => {
+  const deletePortion = async () => {
     try {
-      await axios.delete(`/api/v1/dinnerPortions/${portionId}`, {
+      await axios.delete(`/api/v1/dinnerPortions/${dinnerPortionId}`, {
         withCredentials: true,
       });
       await mutate(`/api/v1/dinnerPortions/dinner/${dinnerId}/query`);
 
       console.log("usunięto porcje z posiłku");
+      closeModal();
     } catch (e) {
       console.log(e);
     }
   };
+
+  const diets = dietDinners.map((dietDinner) => dietDinner.diet.name);
+  const uniqueDiets = Array.from(new Set(diets));
 
   return (
     <Styled.DeleteDinnerPortionModalWrapper>
@@ -68,19 +72,22 @@ const DeleteDinnerPortionModal = ({
             </p>
             <h3>porcja jest dodana do następujących jadłospisów:</h3>
             <Styled.List>
-              {dietDinners.map((dietDinner) => (
-                <Styled.Diet key={dietDinner._id}>
+              {uniqueDiets.map((diet) => (
+                <Styled.Diet key={diet}>
                   <span>
                     <FaFileAlt />
                   </span>
-                  {dietDinner.diet.name}
+                  {diet}
+                  {/* <p>dzień: {dietDinner.dietId}</p> */}
                 </Styled.Diet>
               ))}
             </Styled.List>
           </Styled.DietsWrapper>
         )}
 
-        <Button type="button">usuń porcję</Button>
+        <Button type="button" onClick={deletePortion as any}>
+          usuń porcję
+        </Button>
       </Styled.ContentWrapper>
     </Styled.DeleteDinnerPortionModalWrapper>
   );

@@ -77,20 +77,20 @@ const Portions = () => {
 
               {dinnerPortion.type === "custom" && (
                 <Styled.IconOptionsWrapper>
-                  <Styled.IconButtonWrapper
+                  {/* <Styled.IconButtonWrapper
                     iconType="info"
                     type="button"
-                    onClick={() => deletePortion(dinnerPortion._id)}
+                    onClick={() => console.log("show portion macro")}
                   >
                     <FaInfoCircle />
-                  </Styled.IconButtonWrapper>
-                  <Styled.IconButtonWrapper
+                  </Styled.IconButtonWrapper> */}
+                  {/* <Styled.IconButtonWrapper
                     iconType="edit"
                     type="button"
                     onClick={() => deletePortion(dinnerPortion._id)}
                   >
                     <FaEdit />
-                  </Styled.IconButtonWrapper>
+                  </Styled.IconButtonWrapper> */}
                   <Styled.IconButtonWrapper
                     iconType="delete"
                     type="button"
