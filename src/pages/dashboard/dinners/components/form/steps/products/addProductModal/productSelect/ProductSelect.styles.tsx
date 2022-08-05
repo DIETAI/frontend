@@ -24,6 +24,11 @@ const SelectWrapper = styled.div(
       background: transparent;
       transition: 0.1s ease-out;
       width: 100%;
+
+      ::placeholder {
+        color: lightgrey;
+        font-weight: ${fontWeight.light};
+      }
     }
 
     input:focus {

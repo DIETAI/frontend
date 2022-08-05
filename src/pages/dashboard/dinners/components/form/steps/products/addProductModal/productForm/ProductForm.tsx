@@ -33,6 +33,7 @@ const AddProductFormContent = () => {
     setValue,
     watch,
     getValues,
+    trigger,
   } = useFormContext();
 
   const selectedProductId = watch("productId") as IDinnerProduct["productId"];
@@ -75,6 +76,7 @@ const AddProductFormContent = () => {
     //   : parseFloat(parseFloat(e.currentTarget.value).toFixed(1));
     const value = parseFloat(parseFloat(e.currentTarget.value).toFixed(1));
     setValue(e.currentTarget.name, value);
+    trigger();
   };
 
   if (productLoading) return <div>loading</div>;

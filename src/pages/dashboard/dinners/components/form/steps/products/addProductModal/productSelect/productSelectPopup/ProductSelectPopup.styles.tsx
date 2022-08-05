@@ -12,7 +12,7 @@ const SelectPopupWrapper = styled.div(
     flex-direction: column;
     padding: 4rem;
     border: 0.1rem solid ${palette.primary.light};
-    border-radius: ${border.rounded.md};
+    border-radius: ${border.rounded.sm};
     box-shadow: ${palette.common["box-shadow"]};
     width: 100%;
     max-height: 50rem;
@@ -115,12 +115,12 @@ const ItemContent = styled.div(
     align-items: flex-start;
     justify-content: flex-start;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1rem;
 
     h2 {
       color: ${palette.common.text};
       font-weight: ${fontWeight.semibold};
-      font-size: ${fontSize.l};
+      font-size: ${fontSize.m};
     }
 
     p {
@@ -161,9 +161,9 @@ const ItemFeature = styled.div(
     padding: 0.5rem 1rem;
     border-radius: ${border.rounded.sm};
     border: 0.1rem solid ${palette.primary.light};
-    background: ${palette.common.contrast};
+    /* background: ${palette.common.contrast}; */
     color: ${palette.primary.main};
-    font-weight: ${fontWeight.light};
+    font-weight: ${fontWeight.medium};
     font-size: 1.3rem;
   `
 );

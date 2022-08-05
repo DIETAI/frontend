@@ -80,7 +80,7 @@ const ProductSelectPopup = ({
               onClick={() => selectProduct(product._id)}
             >
               {product.image && (
-                <Image imageId={product.image} roundedSelect={true} />
+                <Image imageId={product.image} roundedDataGrid={true} />
               )}
 
               <Styled.ItemContent>
