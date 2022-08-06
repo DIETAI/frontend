@@ -41,13 +41,18 @@ const SelectPopupNav = styled.ul(
   `
 );
 
-const SelectPopupNavItem = styled.li(
+interface IActiveOption {
+  activeOption: boolean;
+}
+
+const SelectPopupNavItem = styled.li<IActiveOption>(
   ({
     theme: {
       palette,
       typography: { fontSize, fontWeight },
       layout: { border },
     },
+    activeOption,
   }) => css`
     display: flex;
     gap: 1rem;
@@ -58,6 +63,18 @@ const SelectPopupNavItem = styled.li(
     color: ${palette.primary.main};
     font-weight: ${fontWeight.medium};
     font-size: 1.4rem;
+    transition: 0.3s ease-out;
+    cursor: pointer;
+
+    ${activeOption &&
+    css`
+      background: ${palette.primary.main};
+      color: white;
+    `}
+
+    :hover {
+      opacity: 0.7;
+    }
   `
 );
 

@@ -20,9 +20,9 @@ const ProductSelectPopup = ({
   closePopup,
   openPopup,
 }: ISelectProductPopupProps) => {
+  const [filterOption, setFilterOption] = useState<IFilterOption>("recommend");
   const { products, productsError, productsLoading } = getProducts();
 
-  const [filterOption, setFilterOption] = useState("recommend");
   const {
     control,
     formState: { errors, isValid, isSubmitting },
@@ -68,48 +68,60 @@ const ProductSelectPopup = ({
   return (
     <Styled.SelectPopupWrapper ref={autocompleteRef}>
       <Styled.SelectPopupNav>
-        <Styled.SelectPopupNavItem>rekomendowane</Styled.SelectPopupNavItem>
-        <Styled.SelectPopupNavItem>wszystkie</Styled.SelectPopupNavItem>
-        <Styled.SelectPopupNavItem>grupy</Styled.SelectPopupNavItem>
+        <Styled.SelectPopupNavItem
+          activeOption={filterOption === "recommend"}
+          onClick={() => setFilterOption("recommend")}
+        >
+          rekomendowane
+        </Styled.SelectPopupNavItem>
+        <Styled.SelectPopupNavItem
+          activeOption={filterOption === "all"}
+          onClick={() => setFilterOption("all")}
+        >
+          wszystkie
+        </Styled.SelectPopupNavItem>
+        {/* <Styled.SelectPopupNavItem>grupy</Styled.SelectPopupNavItem> */}
       </Styled.SelectPopupNav>
-      <Styled.SelectPopupItemList>
-        {products &&
-          products.map((product) => (
-            <Styled.SelectPopupItem
-              key={product._id}
-              onClick={() => selectProduct(product._id)}
-            >
-              {product.image && (
-                <Image imageId={product.image} roundedDataGrid={true} />
-              )}
+      {filterOption === "all" && (
+        <Styled.SelectPopupItemList>
+          {products &&
+            products.map((product) => (
+              <Styled.SelectPopupItem
+                key={product._id}
+                onClick={() => selectProduct(product._id)}
+              >
+                {product.image && (
+                  <Image imageId={product.image} roundedDataGrid={true} />
+                )}
 
-              <Styled.ItemContent>
-                <h2>{product.name}</h2>
-                {product.description && <p> {product.description}</p>}
-                <Styled.ItemFeaturesWrapper>
-                  <Styled.ItemFeature>
-                    B (g): <b>{product.protein.gram}</b>
-                  </Styled.ItemFeature>
-                  <Styled.ItemFeature>
-                    T (g): <b>{product.fat.gram}</b>
-                  </Styled.ItemFeature>
-                  <Styled.ItemFeature>
-                    W (g): <b>{product.carbohydrates.gram}</b>
-                  </Styled.ItemFeature>
-                  <Styled.ItemFeature>
-                    Wp (g): <b>{product.digestableCarbohydrates.gram}</b>
-                  </Styled.ItemFeature>
-                  <Styled.ItemFeature>
-                    Bł (g): <b>{product.fiber.gram}</b>
-                  </Styled.ItemFeature>
-                  <Styled.ItemFeature>
-                    Kcal: <b>{product.kcal}</b>
-                  </Styled.ItemFeature>
-                </Styled.ItemFeaturesWrapper>
-              </Styled.ItemContent>
-            </Styled.SelectPopupItem>
-          ))}
-      </Styled.SelectPopupItemList>
+                <Styled.ItemContent>
+                  <h2>{product.name}</h2>
+                  {product.description && <p> {product.description}</p>}
+                  <Styled.ItemFeaturesWrapper>
+                    <Styled.ItemFeature>
+                      B (g): <b>{product.protein.gram}</b>
+                    </Styled.ItemFeature>
+                    <Styled.ItemFeature>
+                      T (g): <b>{product.fat.gram}</b>
+                    </Styled.ItemFeature>
+                    <Styled.ItemFeature>
+                      W (g): <b>{product.carbohydrates.gram}</b>
+                    </Styled.ItemFeature>
+                    <Styled.ItemFeature>
+                      Wp (g): <b>{product.digestableCarbohydrates.gram}</b>
+                    </Styled.ItemFeature>
+                    <Styled.ItemFeature>
+                      Bł (g): <b>{product.fiber.gram}</b>
+                    </Styled.ItemFeature>
+                    <Styled.ItemFeature>
+                      Kcal: <b>{product.kcal}</b>
+                    </Styled.ItemFeature>
+                  </Styled.ItemFeaturesWrapper>
+                </Styled.ItemContent>
+              </Styled.SelectPopupItem>
+            ))}
+        </Styled.SelectPopupItemList>
+      )}
     </Styled.SelectPopupWrapper>
   );
 };
