@@ -82,6 +82,7 @@ const ProductSelectPopup = ({
         </Styled.SelectPopupNavItem>
         {/* <Styled.SelectPopupNavItem>grupy</Styled.SelectPopupNavItem> */}
       </Styled.SelectPopupNav>
+      {filterOption === "recommend" && <div>rekomendowane produkty</div>}
       {filterOption === "all" && (
         <Styled.SelectPopupItemList>
           {products &&
