@@ -16,7 +16,7 @@ import * as Styled from "./DinnerInfo.styles";
 
 //components
 import Modal from "components/modal/Modal";
-import DeleteModalContent from "pages/dashboard/components/deleteModal/DeleteModal";
+import DeleteModalContent from "./deleteDinnerModal/DeleteDinnerModal";
 
 const DinnerInfo = () => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
