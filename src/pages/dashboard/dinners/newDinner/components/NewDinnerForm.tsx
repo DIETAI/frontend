@@ -18,6 +18,9 @@ import Input from "components/form/input/Input";
 import Heading from "components/heading/Heading";
 import Button from "components/form/button/Button";
 import DashedSelect from "components/form/dashedSelect/DashedSelect";
+import { BasicInfo } from "../../components/form/steps";
+import Autocomplete from "components/form/autocomplete/Autocomplete";
+import { preparationTimeOptions } from "../../components/form/steps/BasicInfo";
 
 //icons
 import { FaFileInvoice, FaUtensils, FaFolderPlus } from "icons/icons";
@@ -50,7 +53,7 @@ const NewDinnerForm = () => {
     watch,
   } = methods;
 
-  const onDietFormSubmit = async (data: INewDinnerValues) => {
+  const onDinnerFormSubmit = async (data: INewDinnerValues) => {
     console.log("wysyłanie posiłku");
     console.log(data);
     try {
@@ -74,11 +77,19 @@ const NewDinnerForm = () => {
     <Styled.FormWrapper>
       <Heading icon={<FaUtensils />} title="Nowy posiłek" />
       <FormProvider {...methods}>
-        <form onSubmit={handleSubmit(onDietFormSubmit)}>
+        <form onSubmit={handleSubmit(onDinnerFormSubmit)}>
           <Input
             label={`${t("dinner.form.basic_info.name")} *`}
             type="text"
             name="name"
+            fullWidth
+          />
+          <Autocomplete
+            name="preparation_time"
+            label={`${t("dinner.form.basic_info.preparation_time")}`}
+            options={preparationTimeOptions}
+            optionLabel="name"
+            optionRender="type"
             fullWidth
           />
           {/* <Input
@@ -95,7 +106,7 @@ const NewDinnerForm = () => {
             fullWidth
             textarea
           /> */}
-          <DashedSelect
+          {/* <DashedSelect
             icon={<FaFolderPlus />}
             text={`${t("dinner.form.basic_info.mealTypes")}`} //breakfast, dinner etc..
             onClick={openAddFolderModal}
@@ -106,7 +117,7 @@ const NewDinnerForm = () => {
             text={`${t("dinner.form.basic_info.dietKinds")}`}
             onClick={openAddFolderModal}
             fullWidth
-          />
+          /> */}
           <Button
             type="submit"
             variant={!isValid || isSubmitting ? "disabled" : "primary"}

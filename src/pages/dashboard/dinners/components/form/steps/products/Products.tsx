@@ -61,12 +61,12 @@ const Products = () => {
   console.log({ fields });
 
   if (dinnerProductsLoading) return <div>loading...</div>;
-  if (dinnerProductsError) return <div>error..</div>;
+  if (dinnerProductsError || !dinnerProducts) return <div>error..</div>;
 
   return (
     <>
       {/* {JSON.stringify(watch())} */}
-      {dinnerProducts?.length &&
+      {dinnerProducts.length > 0 &&
         dinnerProducts.map((dinnerProduct, index) => (
           <ProductField
             key={dinnerProduct._id}

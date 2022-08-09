@@ -53,7 +53,7 @@ const DataGridList = ({
 
   // const { data, columns, displayColumns, changeData } = useDataGridData();
   if (loadingData) return <LoadingGrid />;
-  if (!data) return <EmptyGrid />;
+  if (!data || data.length < 1) return <EmptyGrid />;
 
   if (view === "line")
     return (

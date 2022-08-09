@@ -62,7 +62,7 @@ const AllDiets = () => {
           data={dietsData}
           loadingData={dietsLoading}
           columns={columns}
-          viewLink="/dashboard/diets/edit"
+          viewLink="/dashboard/diets"
           editLink="/dashboard/diets"
           deleteAction={deleteDiet}
         />

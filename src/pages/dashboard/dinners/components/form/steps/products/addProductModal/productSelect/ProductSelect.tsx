@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 //styles
 import * as Styled from "./ProductSelect.styles";
@@ -8,13 +8,19 @@ import ProductSelectPopup from "./productSelectPopup/ProductSelectPopup";
 
 const ProductSelect = () => {
   const [openPopup, setOpenPopup] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
 
   return (
-    <Styled.SelectWrapper onClick={() => setOpenPopup(true)}>
-      <input placeholder="Szukaj produktu"></input>
+    <Styled.SelectWrapper>
+      <input
+        placeholder="Szukaj produktu"
+        onFocus={() => setOpenPopup(true)}
+        onChange={(e) => setSearchValue(e.target.value)}
+      ></input>
       <ProductSelectPopup
         openPopup={openPopup}
         closePopup={() => setOpenPopup(false)}
+        searchValue={searchValue}
       />
     </Styled.SelectWrapper>
   );

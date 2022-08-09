@@ -18,7 +18,7 @@ const SelectPopupWrapper = styled.div(
     max-height: 50rem;
     overflow-y: auto;
     position: absolute;
-    top: 0;
+    top: 110%;
     left: 0;
     background: ${palette.common.main};
   `

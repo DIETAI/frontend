@@ -89,6 +89,7 @@ const AddFileForm = ({ closeForm }: IAddFileFormProps) => {
     console.log({ uploadFile: file });
     if (file && file?.type?.substring(0, 5) === "image") {
       const imageRef = ref(storage, `images/${file.name + uuidv4()}`);
+      console.log({ imageRef });
       uploadBytes(imageRef, file).then((data) => {
         // alert("image uploaded");
         console.log("imageUpload");

@@ -6,14 +6,18 @@ import { getDinners } from "services/getDinners";
 import format from "date-fns/format";
 
 //components
-import DataGrid from "../../components/dataGrid/DataGrid";
+import {
+  DataGridContainer,
+  DataGridNav,
+  DataGridList,
+  DataGridPagination,
+} from "../../components/dataGridv3";
 
-const availableColumns = [
-  { label: "nazwa", key: "name" },
-  { label: "kcal", key: "kcal" },
-  { label: "białko (g)", key: "proteinGram" },
-  { label: "tłuszcze (g)", key: "fatGram" },
-  { label: "węglowodany (g)", key: "carbohydratesGram" },
+import { IColumn } from "pages/dashboard/components/dataGridv3/container/DataGridContainer.interfaces";
+
+const columns: IColumn[] = [
+  { label: "nazwa", key: "name", type: "text" },
+  { label: "data", key: "createdAt", type: "text" },
 ];
 
 const AllDinners = () => {
@@ -36,15 +40,39 @@ const AllDinners = () => {
     return;
   };
 
+  const dinnersData = dinners?.map((data) => ({
+    _id: data._id,
+    name: data.name,
+    createdAt: format(new Date(data.createdAt), "dd.MM.yyyy"),
+  }));
+
+  const deleteDinner = () => {
+    console.log("delete");
+  };
+
   return (
     <>
-      <DataGrid
-        loading={dinnersLoading}
-        availableColumns={availableColumns}
-        dataRows={dinnersList() as any}
-        deleteAction={deleteDinners}
-        linkPage="/dashboard/dinners"
-      />
+      <DataGridContainer>
+        <DataGridNav
+          addLink="/dashboard/dinners/new"
+          exportAction={() => console.log("open export popup")}
+        />
+        <DataGridList
+          data={dinnersData}
+          loadingData={dinnersLoading}
+          columns={columns}
+          viewLink="/dashboard/dinners"
+          editLink="/dashboard/dinners"
+          deleteAction={deleteDinner}
+        />
+        {/* <DataGridPagination
+          currentPage={page}
+          pageCount={pageCount}
+          changePage={setPage}
+          itemsPerPage={itemsPerPage}
+          changeItemsPerPage={setItemsPerPage}
+        /> */}
+      </DataGridContainer>
     </>
   );
 };

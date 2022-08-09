@@ -10,6 +10,7 @@ export const basicInfoSchema = yup.object({
         .string()
         .oneOf(["breakfast", "second_breakfast", "lunch", "snack", "dinner"])
     )
+    .default(["breakfast"])
     .min(1, "To pole jest wymagane"),
   mealTypesKind: yup
     .string()

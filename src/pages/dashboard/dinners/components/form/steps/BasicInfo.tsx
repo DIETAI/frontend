@@ -41,7 +41,7 @@ const tagOptions = [
   { id: 2, name: "bezlaktozy", type: "lactose-free" },
 ];
 
-const preparationTimeOptions = [
+export const preparationTimeOptions = [
   { id: 1, name: "do 5 minut", type: "5m-less" },
   { id: 3, name: "do 10 minut", type: "10m-less" },
   { id: 4, name: "do 15 minut", type: "15m-less" },
