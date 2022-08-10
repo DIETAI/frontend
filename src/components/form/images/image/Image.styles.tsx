@@ -14,10 +14,19 @@ const ImageWrapper = styled.div<
     roundedDataGrid,
     roundedSelect,
   }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 20rem;
     height: 25rem;
     border: 0.1rem dashed ${palette.common.slate};
     border-radius: ${border.rounded.sm};
+
+    svg {
+      path {
+        fill: ${palette.primary.light};
+      }
+    }
 
     img {
       width: 100%;
