@@ -98,7 +98,7 @@ const RecommendedProducts = ({ selectProduct }: IRecommendedProductsProps) => {
     <Styled.SelectPopupItemList>
       {/* {JSON.stringify(recommendProducts.data)} */}
 
-      {recommendProducts.loading && <div>loading...</div>}
+      {recommendProducts.loading && <div>szukanie produktów...</div>}
       {recommendProducts.data.length > 0 &&
         recommendProducts.data.map((recommendProduct) => (
           <RecommendProduct
