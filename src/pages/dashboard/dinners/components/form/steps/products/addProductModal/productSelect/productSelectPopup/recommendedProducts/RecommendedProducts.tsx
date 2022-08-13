@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import axios from "axios";
+import NoData from "assets/noData.svg";
 
 //styles
 import * as Styled from "../ProductSelectPopup.styles";
@@ -8,10 +9,12 @@ import * as Styled from "../ProductSelectPopup.styles";
 //components
 import Image from "components/form/images/image/Image";
 import { IProductData } from "interfaces/product.interfaces";
+import ReactLoading from "react-loading";
 
 //queries
 import { getDinnerProductsQuery } from "services/getDinnerProducts";
 import { getProduct } from "services/getProducts";
+import { AnimatePresence } from "framer-motion";
 
 interface IRecommendProductData {
   distance: number;
@@ -61,6 +64,8 @@ const RecommendedProducts = ({ selectProduct }: IRecommendedProductsProps) => {
           user: dinnerProduct.user,
         }));
 
+        console.log({ allDinnerProducts });
+
         try {
           setRecommendProducts({ ...recommendProducts, loading: true });
 
@@ -98,15 +103,42 @@ const RecommendedProducts = ({ selectProduct }: IRecommendedProductsProps) => {
     <Styled.SelectPopupItemList>
       {/* {JSON.stringify(recommendProducts.data)} */}
 
-      {recommendProducts.loading && <div>szukanie produktów...</div>}
-      {recommendProducts.data.length > 0 &&
-        recommendProducts.data.map((recommendProduct) => (
-          <RecommendProduct
-            key={recommendProduct.recommend_product_id}
-            productId={recommendProduct.recommend_product_id}
-            selectProduct={selectProduct}
-          />
-        ))}
+      <AnimatePresence>
+        {recommendProducts.loading && (
+          <Styled.LoadingWrapper
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <ReactLoading type="spin" color="blue" height={50} width={50} />
+            <h2>szukanie produktów</h2>
+          </Styled.LoadingWrapper>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {recommendProducts.data.length > 0 &&
+          recommendProducts.data.map((recommendProduct) => (
+            <RecommendProduct
+              key={recommendProduct.recommend_product_id}
+              productId={recommendProduct.recommend_product_id}
+              selectProduct={selectProduct}
+            />
+          ))}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {recommendProducts.data.length < 1 && !recommendProducts.loading && (
+          <Styled.EmptyDataWrapper
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <img src={NoData} />
+            <h2>brak rekomendowanych produktów</h2>
+          </Styled.EmptyDataWrapper>
+        )}
+      </AnimatePresence>
     </Styled.SelectPopupItemList>
   );
 };
@@ -123,7 +155,12 @@ const RecommendProduct = ({
   if (!product) return null;
 
   return (
-    <Styled.SelectPopupItem onClick={() => selectProduct(product._id)}>
+    <Styled.SelectPopupItem
+      onClick={() => selectProduct(product._id)}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
       {product.image && (
         <Image imageId={product.image} roundedDataGrid={true} />
       )}

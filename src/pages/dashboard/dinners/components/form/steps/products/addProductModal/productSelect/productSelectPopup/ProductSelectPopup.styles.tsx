@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components";
+import { motion } from "framer-motion";
 
 const SelectPopupWrapper = styled.div(
   ({
@@ -90,10 +91,12 @@ const SelectPopupItemList = styled.ul(
     align-items: flex-start;
     justify-content: flex-start;
     flex-direction: column;
+    position: relative;
+    min-height: 30rem;
   `
 );
 
-const SelectPopupItem = styled.li(
+const SelectPopupItem = styled(motion.li)(
   ({
     theme: {
       palette,
@@ -185,6 +188,74 @@ const ItemFeature = styled.div(
   `
 );
 
+const LoadingWrapper = styled(motion.div)(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 30rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    gap: 2rem;
+    padding: 2rem;
+    border-radius: ${border.rounded.sm};
+    border: 0.1rem solid ${palette.primary.light};
+    background: ${palette.common.main};
+
+    h2 {
+      color: ${palette.primary.main};
+      font-weight: ${fontWeight.medium};
+      font-size: ${fontSize.m};
+    }
+  `
+);
+
+const EmptyDataWrapper = styled(motion.div)(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 30rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    gap: 3rem;
+    padding: 2rem;
+    border-radius: ${border.rounded.sm};
+    border: 0.1rem solid ${palette.primary.light};
+    background: ${palette.common.main};
+
+    img {
+      width: 10rem;
+      height: 10rem;
+      object-fit: contain;
+    }
+
+    h2 {
+      color: ${palette.common.text};
+      font-weight: ${fontWeight.medium};
+      font-size: ${fontSize.m};
+    }
+  `
+);
+
 export {
   SelectPopupWrapper,
   SelectPopupNav,
@@ -194,4 +265,6 @@ export {
   ItemContent,
   ItemFeaturesWrapper,
   ItemFeature,
+  LoadingWrapper,
+  EmptyDataWrapper,
 };
