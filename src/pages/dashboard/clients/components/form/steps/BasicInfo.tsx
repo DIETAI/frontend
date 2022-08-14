@@ -11,6 +11,12 @@ const BasicInfo = () => {
       <Input type="email" name="email" label="email" fullWidth />
       <Input type="text" name="phone" label="numer telefonu" fullWidth />
       <Input type="text" name="dateOfBirth" label="data urodzenia" fullWidth />
+      <Input
+        type="text"
+        name="onLineAccount"
+        label="online account"
+        fullWidth
+      />
       <p>avatar</p>
       <p>online account</p>
       <Input type="text" name="street" label="ulica" fullWidth />
