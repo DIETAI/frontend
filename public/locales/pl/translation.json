@@ -83,6 +83,25 @@
       "heading": "Konto"
     }
   },
+  "client": {
+    "form": {
+      "basic_info": {
+        "heading": "Podstawowe informacje",
+        "info": "Uzupełnij podstawowe informacje o pacjencie",
+        "avatar": "zdjęcie",
+        "name": "imię",
+        "lastName": "nazwisko",
+        "email": "email",
+        "phoneNumber": "numer telefonu",
+        "dateOfBirth": "data urodzenia",
+        "onlineAccount": "konto online klienta",
+        "street": "ulica",
+        "zipCode": "kod pocztowy",
+        "city": "miasto",
+        "notes": "notatki"
+      }
+    }
+  },
   "dietEstablishment": {
     "sidebar": {
       "title": "Nowe założenia"

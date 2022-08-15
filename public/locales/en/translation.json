@@ -83,6 +83,25 @@
       "heading": "Account"
     }
   },
+  "client": {
+    "form": {
+      "basic_info": {
+        "heading": "Basic information",
+        "info": "Complete the basic information about the patient",
+        "avatar": "avatar",
+        "name": "name",
+        "lastName": "last name",
+        "email": "email",
+        "phoneNumber": "phone number",
+        "dateOfBirth": "date of birth",
+        "onlineAccount": "online account",
+        "street": "street",
+        "zipCode": "ZIP code",
+        "city": "city",
+        "notes": "notes"
+      }
+    }
+  },
   "dietEstablishment": {
     "sidebar": {
       "title": "New establishment"
