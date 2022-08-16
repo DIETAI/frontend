@@ -74,11 +74,8 @@ export const clientMeasurementsSchema = yup.object({
 });
 
 export const clientAimsSchema = yup.object({
-  weightAim: yup.object({
-    current: yup.number(),
-    target: yup.number(),
-  }),
-  allAims: yup.array(yup.string()),
+  expectedBodyWeight: yup.number(),
+  specificAims: yup.array(yup.string()).default([]),
 });
 
 export const clientNutritionalInterviewSchema = yup.object({

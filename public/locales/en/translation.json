@@ -107,6 +107,12 @@
         "info": "Complete information about diseases and allergies",
         "diseases": "diseases",
         "allergies": "allergies"
+      },
+      "aims": {
+        "heading": "Aims",
+        "info": "Complete the patient's goals",
+        "expectedBodyWeight": "expected body weight (kg)",
+        "specificAims": "specific aims"
       }
     }
   },

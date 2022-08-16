@@ -107,6 +107,12 @@
         "info": "Uzupełnij informacje o chorobach i alergiach",
         "diseases": "choroby",
         "allergies": "alergie"
+      },
+      "aims": {
+        "heading": "Cele",
+        "info": "Uzupełnij cele pacjenta",
+        "expectedBodyWeight": "oczekiwana masa ciała (kg)",
+        "specificAims": "cele szczegółowe"
       }
     }
   },
