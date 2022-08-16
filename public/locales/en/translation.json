@@ -90,6 +90,8 @@
         "info": "Complete the basic information about the patient",
         "avatar": "avatar",
         "name": "name",
+        "gender": "gender",
+        "physiologicalState": "physiological state",
         "lastName": "last name",
         "email": "email",
         "phoneNumber": "phone number",
@@ -99,6 +101,12 @@
         "zipCode": "ZIP code",
         "city": "city",
         "notes": "notes"
+      },
+      "diseases": {
+        "heading": "Diseases and allergies",
+        "info": "Complete information about diseases and allergies",
+        "diseases": "diseases",
+        "allergies": "allergies"
       }
     }
   },

@@ -14,11 +14,14 @@ export const clientBasicInfoSchema = yup.object({
     .string()
     .oneOf(["male", "female"])
     .required("To pole jest wymagane"),
-  physiologicalState: yup.string().oneOf(["pregnancy", "lactation"]),
+  physiologicalState: yup
+    .string()
+    .oneOf(["lack", "pregnancy", "lactation"])
+    .default("lack"),
   // .when("gender", {
   //   is: "female",
   // }),
-  dateOfBirth: yup.date().required("To pole jest wymagane"),
+  dateOfBirth: yup.date().required("To pole jest wymagane").default(new Date()),
   street: yup.string().default(""),
   zipCode: yup.string().default(""),
   city: yup.string().default(""),
@@ -26,22 +29,26 @@ export const clientBasicInfoSchema = yup.object({
 });
 
 export const clientDiseasesSchema = yup.object({
-  diseases: yup.array(
-    yup
-      .string()
-      .oneOf([
-        "flatulence",
-        "constipation",
-        "reflux",
-        "obesity",
-        "osteoporosis",
-        "gout",
-        "atherosclerosis",
-        "hypertension",
-        "tumor",
-      ])
-  ),
-  alergens: yup.array(yup.string().oneOf(["peanuts", "rye", "eggProtein"])),
+  diseases: yup
+    .array(
+      yup
+        .string()
+        .oneOf([
+          "flatulence",
+          "constipation",
+          "reflux",
+          "obesity",
+          "osteoporosis",
+          "gout",
+          "atherosclerosis",
+          "hypertension",
+          "tumor",
+        ])
+    )
+    .default([]),
+  alergens: yup
+    .array(yup.string().oneOf(["peanuts", "rye", "eggProtein"]))
+    .default([]),
 
   //normy dobowe witaminy i składniki mineralne, pózniej możliwość edycji
   //główny pomiar i analiza składu ciała z bioimpedancji

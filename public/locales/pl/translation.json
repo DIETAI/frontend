@@ -91,6 +91,8 @@
         "avatar": "zdjęcie",
         "name": "imię",
         "lastName": "nazwisko",
+        "gender": "płeć",
+        "physiologicalState": "stan fizjologiczny",
         "email": "email",
         "phoneNumber": "numer telefonu",
         "dateOfBirth": "data urodzenia",
@@ -99,6 +101,12 @@
         "zipCode": "kod pocztowy",
         "city": "miasto",
         "notes": "notatki"
+      },
+      "diseases": {
+        "heading": "Choroby i alergie",
+        "info": "Uzupełnij informacje o chorobach i alergiach",
+        "diseases": "choroby",
+        "allergies": "alergie"
       }
     }
   },
