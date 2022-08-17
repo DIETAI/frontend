@@ -84,6 +84,9 @@
     }
   },
   "client": {
+    "sidebar": {
+      "title": "New patient"
+    },
     "form": {
       "basic_info": {
         "heading": "Basic information",
@@ -113,6 +116,10 @@
         "info": "Complete the patient's goals",
         "expectedBodyWeight": "expected body weight (kg)",
         "specificAims": "specific aims"
+      },
+      "interview": {
+        "heading": "Nutritional interview",
+        "info": "Complete additional information about the patient"
       }
     }
   },

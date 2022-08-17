@@ -69,8 +69,18 @@ export const clientDiseasesSchema = yup.object({
 });
 
 export const clientMeasurementsSchema = yup.object({
-  date: yup.date(),
-  weight: yup.number(),
+  name: yup.string().required("To pole jest wymagane").default(""),
+  date: yup.date().required("To pole jest wymagane").default(new Date()),
+  weight: yup
+    .number()
+    .positive("Niewłaściwa wartość")
+    .required("To pole jest wymagane"),
+  height: yup
+    .number()
+    .positive("Niewłaściwa wartość")
+    .required("To pole jest wymagane"),
+  notes: yup.string().default(""),
+  images: yup.array(yup.string().required("To pole jest wymagane")),
 });
 
 export const clientAimsSchema = yup.object({

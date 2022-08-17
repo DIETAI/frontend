@@ -84,6 +84,9 @@
     }
   },
   "client": {
+    "sidebar": {
+      "title": "Nowy pacjent"
+    },
     "form": {
       "basic_info": {
         "heading": "Podstawowe informacje",
@@ -113,6 +116,10 @@
         "info": "Uzupełnij cele pacjenta",
         "expectedBodyWeight": "oczekiwana masa ciała (kg)",
         "specificAims": "cele szczegółowe"
+      },
+      "interview": {
+        "heading": "Wywiad żywieniowy",
+        "info": "Uzupełnij dodatkowe informacje o pacjencie"
       }
     }
   },
