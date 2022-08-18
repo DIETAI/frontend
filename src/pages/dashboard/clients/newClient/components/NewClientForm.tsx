@@ -58,7 +58,7 @@ const NewClientForm = () => {
       });
       console.log({ newClient });
       handleAlert("success", "Dodano pacjenta");
-      // navigate(`/dashboard/measurements/edit/${editMeasurement.data._id}`);
+      navigate(`/dashboard/clients/edit/${newClient.data._id}`);
     } catch (e) {
       console.log(e);
       handleAlert("error", "Dodawanie pacjenta nie powiodło się");

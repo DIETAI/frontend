@@ -89,54 +89,54 @@ export const clientAimsSchema = yup.object({
 });
 
 export const clientNutritionalInterviewSchema = yup.object({
-  clientType: yup
-    .string()
-    .oneOf([
-      "chory leżący",
-      "niska aktywność fizyczna",
-      "umiarkowana aktywność fizyczna",
-      "aktywny tryb życia",
-      "sportowiec amator",
-      "sportowiec wyczynowy",
-    ])
-    .required(),
+  // clientType: yup
+  //   .string()
+  //   .oneOf([
+  //     "chory leżący",
+  //     "niska aktywność fizyczna",
+  //     "umiarkowana aktywność fizyczna",
+  //     "aktywny tryb życia",
+  //     "sportowiec amator",
+  //     "sportowiec wyczynowy",
+  //   ])
+  //   .required(),
   pal: yup.number().required(),
-  physicalActivity: yup.object({
-    sportDyscyplines: yup.array(yup.string()),
-    trainings: yup.object({
-      day: yup
-        .string()
-        .oneOf([
-          "monday, tuesday, wednesday",
-          "thursday",
-          "friday",
-          "saturday",
-          "sunday",
-        ]),
-      hour: yup.number(),
-      time: yup.number(),
-      temperature: yup.number(),
-      weather: yup.string().oneOf(["sunny", "cloudy", "rainy", "windy"]),
-    }),
-  }),
-  supplements: yup.array(
-    yup.object({
-      name: yup.string(),
-      type: yup.string(),
-      day: yup
-        .string()
-        .oneOf([
-          "monday, tuesday, wednesday",
-          "thursday",
-          "friday",
-          "saturday",
-          "sunday",
-        ]),
-      hour: yup.number(),
-    })
-  ),
-  likedProducts: yup.array(yup.string()),
-  dislikedProducts: yup.array(yup.string()),
+  // physicalActivity: yup.object({
+  //   sportDyscyplines: yup.array(yup.string()),
+  //   trainings: yup.object({
+  //     day: yup
+  //       .string()
+  //       .oneOf([
+  //         "monday, tuesday, wednesday",
+  //         "thursday",
+  //         "friday",
+  //         "saturday",
+  //         "sunday",
+  //       ]),
+  //     hour: yup.number(),
+  //     time: yup.number(),
+  //     temperature: yup.number(),
+  //     weather: yup.string().oneOf(["sunny", "cloudy", "rainy", "windy"]),
+  //   }),
+  // }),
+  // supplements: yup.array(
+  //   yup.object({
+  //     name: yup.string(),
+  //     type: yup.string(),
+  //     day: yup
+  //       .string()
+  //       .oneOf([
+  //         "monday, tuesday, wednesday",
+  //         "thursday",
+  //         "friday",
+  //         "saturday",
+  //         "sunday",
+  //       ]),
+  //     hour: yup.number(),
+  //   })
+  // ),
+  // likedProducts: yup.array(yup.string()),
+  // dislikedProducts: yup.array(yup.string()),
 });
 
 export type IClientBasicInfo = yup.InferType<typeof clientBasicInfoSchema>;
