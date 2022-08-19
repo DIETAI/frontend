@@ -1,7 +1,13 @@
 import React, { useEffect } from "react";
 
 //icons
-import { FaCarrot, FaInfoCircle, FaWeight } from "icons/icons";
+import {
+  FaCarrot,
+  FaInfoCircle,
+  FaWeight,
+  FaClipboardList,
+  FaDisease,
+} from "icons/icons";
 
 //components
 import * as Step from "../components/form/steps";
@@ -31,7 +37,7 @@ export const clientFormSteps = [
     requiredFields: true,
     title: "client.form.diseases.heading",
     description: "client.form.diseases.info",
-    icon: <FaCarrot />,
+    icon: <FaDisease />,
     validationSchema: clientDiseasesSchema,
     stepContent: <Step.Diseases />,
     sectionId: "client_form_2",
@@ -41,7 +47,7 @@ export const clientFormSteps = [
     requiredFields: true,
     title: "client.form.aims.heading",
     description: "client.form.aims.info",
-    icon: <FaCarrot />,
+    icon: <FaWeight />,
     validationSchema: clientAimsSchema,
     stepContent: <Step.Aims />,
     sectionId: "client_form_3",
@@ -61,7 +67,7 @@ export const clientFormSteps = [
     requiredFields: true,
     title: "client.form.interview.heading",
     description: "client.form.interview.info",
-    icon: <FaCarrot />,
+    icon: <FaClipboardList />,
     validationSchema: clientNutritionalInterviewSchema,
     stepContent: <Step.Interview />,
     sectionId: "client_form_4",

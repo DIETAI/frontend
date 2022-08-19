@@ -19,6 +19,9 @@ import { clientFormSteps } from "../../utils/steps";
 //context
 import { useAlert } from "layout/dashboard/context/alert.context";
 
+//interfaces
+import { IClientProps } from "interfaces/client.interfaces";
+
 //schema
 import {
   clientBasicInfoSchema,
@@ -44,39 +47,49 @@ const clientSidebarPages = [
   },
 ];
 
-const NewClientForm = () => {
-  const navigate = useNavigate();
+const EditClientForm = ({ client }: IClientProps) => {
   const { t } = useTranslation();
   const { handleAlert } = useAlert();
 
   const onClientFormSubmit = async (data: IClientValues) => {
-    console.log("dodawanie pacjenta");
+    console.log("edytowanie pacjenta");
     console.log(data);
     try {
-      const newClient = await axios.post(`/api/v1/clients`, data, {
-        withCredentials: true,
-      });
-      console.log({ newClient });
-      handleAlert("success", "Dodano pacjenta");
-      navigate(`/dashboard/clients/edit/${newClient.data._id}`);
+      const editClient = await axios.put(
+        `/api/v1/clients/${client._id}`,
+        data,
+        {
+          withCredentials: true,
+        }
+      );
+      console.log({ editClient });
+      handleAlert("success", "Edytowano pacjenta");
     } catch (e) {
       console.log(e);
-      handleAlert("error", "Dodawanie pacjenta nie powiodło się");
+      handleAlert("error", "Edytowanie pacjenta nie powiodło się");
     }
+  };
+
+  const clientDefaultValues = {
+    ...client,
   };
 
   return (
     <MultiStepContainer
-      defaultValues={defaultClientValues}
+      defaultValues={clientDefaultValues}
       onSubmitAction={onClientFormSubmit}
       validationSchema={allClientSchemas}
     >
       <MultiStepSidebar
         icon={<FaUser />}
-        title={t("client.sidebar.title")}
+        title={client.name + " " + client.lastName}
         pages={clientSidebarPages}
       />
-      <MultiStepFormContent>
+      <MultiStepFormContent
+        itemId={client._id}
+        itemCreatedAt={client.createdAt}
+        itemUpdatedAt={client.updatedAt}
+      >
         {clientFormSteps.map((step) => (
           <FormStep
             key={step.id}
@@ -94,4 +107,4 @@ const NewClientForm = () => {
   );
 };
 
-export default NewClientForm;
+export default EditClientForm;

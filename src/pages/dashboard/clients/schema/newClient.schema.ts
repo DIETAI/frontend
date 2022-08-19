@@ -100,7 +100,11 @@ export const clientNutritionalInterviewSchema = yup.object({
   //     "sportowiec wyczynowy",
   //   ])
   //   .required(),
-  pal: yup.number().required(),
+  pal: yup
+    .number()
+    .positive("To pole jest wymagane")
+    .required("To pole jest wymagane")
+    .default(1.4),
   // physicalActivity: yup.object({
   //   sportDyscyplines: yup.array(yup.string()),
   //   trainings: yup.object({

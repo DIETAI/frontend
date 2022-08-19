@@ -59,6 +59,8 @@ import {
   FaCalendarWeek,
   FaCalendarPlus,
   FaHeart,
+  FaDisease,
+  FaClipboardList,
 } from "react-icons/fa";
 
 export {
@@ -122,4 +124,6 @@ export {
   FaCalendarWeek,
   FaCalendarPlus,
   FaHeart,
+  FaDisease,
+  FaClipboardList,
 };
