@@ -1,17 +1,21 @@
 import useSWR from "swr";
 import fetcher from "utils/fetcher";
-import { IClientData } from "interfaces/client.interfaces";
+import {
+  IClientData,
+  IClientPaginationData,
+} from "interfaces/client.interfaces";
 
-export const getClients = () => {
-  const { data, error } = useSWR<IClientData[] | null>(
-    `/api/v1/clients`,
+export const getClients = (page?: string, itemsCount?: number) => {
+  const { data, error } = useSWR<IClientPaginationData | null>(
+    `/api/v1/clients?page=${page}&itemsCount=${itemsCount}`,
     fetcher
   );
 
   return {
-    clients: data,
+    clients: data?.clients,
     clientsLoading: !error && !data,
     clientsError: error,
+    pagination: data?.pagination,
   };
 };
 

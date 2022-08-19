@@ -36,6 +36,14 @@ export interface IClientData {
   pal: number;
 }
 
+export interface IClientPaginationData {
+  clients: IClientData[];
+  pagination: {
+    count: number;
+    pageCount: number;
+  };
+}
+
 export interface IClientProps {
   client: IClientData;
 }
