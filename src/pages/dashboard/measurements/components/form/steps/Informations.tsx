@@ -17,6 +17,9 @@ import Image from "components/form/images/image/Image";
 import Calendar from "components/form/calendar/Calendar";
 import Autocomplete from "components/form/autocomplete/Autocomplete";
 
+//services
+import { getClients } from "services/getClients";
+
 //context
 import { useFileLibrary } from "layout/dashboard/context/fileLibrary.context";
 
@@ -28,6 +31,8 @@ const genderOptions = [
 const Informations = () => {
   const { selectAssetId, selectedAssetId } = useFileLibrary();
   const [openFileLibrary, setOpenFileLibrary] = useState(false);
+
+  const { clients, clientsError, clientsLoading } = getClients();
 
   const { t } = useTranslation();
   const {
@@ -65,6 +70,9 @@ const Informations = () => {
     setOpenFileLibrary(false);
   };
 
+  if (clientsLoading) return <div>clients loading</div>;
+  if (clientsError) return <div>clients error</div>;
+
   return (
     <>
       <Input
@@ -79,21 +87,29 @@ const Informations = () => {
         fullWidth
       />
       <Autocomplete
+        name="client"
+        fullWidth
+        label={`${t("measurement.form.informations.client")} *`}
+        options={clients as []}
+        optionLabel={"name"}
+        optionRender={"_id"}
+      />
+      {/* <Autocomplete
         name="sex"
         fullWidth
         label={`${t("measurement.form.informations.sex")} *`}
         options={genderOptions as []}
         optionLabel={"name"}
         optionRender={"type"}
-      />
-      <Input
+      /> */}
+      {/* <Input
         label={`${t("measurement.form.informations.age")} *`}
         type="number"
         name="age"
         fullWidth
         controlled
         onChange={handleChange}
-      />
+      /> */}
       <Input
         label={`${t("measurement.form.informations.notes")}`}
         type="text"

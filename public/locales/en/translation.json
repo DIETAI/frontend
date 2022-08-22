@@ -208,6 +208,7 @@
         "description": "Measurement information such as name, date, notes, or body photos",
         "name": "name",
         "date": "date of measurement",
+        "client": "patient",
         "sex": "gender",
         "age": "age (years)",
         "notes": "notes",

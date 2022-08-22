@@ -4,6 +4,8 @@ import DashedSelect from "components/form/dashedSelect/DashedSelect";
 import { FaFolderPlus, FaFolderOpen } from "icons/icons";
 import { useTranslation } from "react-i18next";
 import { useFormContext } from "react-hook-form";
+import formatDistance from "date-fns/formatDistance";
+import differenceInYears from "date-fns/differenceInYears";
 
 //helpers
 import { bmiHelper } from "../../../helpers/bmi";
@@ -12,6 +14,9 @@ import { cpmHelper } from "../../../helpers/cpm";
 
 //components
 import Autocomplete from "components/form/autocomplete/Autocomplete";
+
+//services
+import { getClient } from "services/getClients";
 
 const palOptions = [
   { id: 1, value: 1.3, type: "niska", description: "niska aktywność fizyczna" },
@@ -76,11 +81,24 @@ const BasicData = () => {
     getValues,
   } = useFormContext();
 
-  const sex = watch("sex");
-  const age = watch("age");
+  const clientId = watch("client") as string;
+
+  //odczytać sex i age z client model
+  //obliczyć client age
+  const { client, clientLoading, clientError } = getClient(clientId);
+
+  const age =
+    client && differenceInYears(new Date(), new Date(client.dateOfBirth));
+  const sex = client?.gender;
+  const pal = client?.pal;
+
+  console.log({ age, clientBirth: client?.dateOfBirth });
+
+  // const sex = watch("sex");
+  // const age = watch("age");
   const weight = watch("weight");
   const height = watch("height");
-  const pal = watch("pal");
+  // const pal = watch("pal");
 
   const openAddFolderModal = () => {
     console.log("dodaj folder");
@@ -130,22 +148,15 @@ const BasicData = () => {
         controlled
         fullWidth
       />
-      {/* <Input
-        label={`${t("measurement.form.basicData.pal")} *`}
-        type="number"
-        name="pal"
-        onChange={handleChange}
-        controlled
-        fullWidth
-      /> */}
-      <Autocomplete
+
+      {/* <Autocomplete
         name="pal"
         fullWidth
         label={`pal *`}
         options={palOptions}
         optionLabel={"value"}
         optionRender={"value"}
-      />
+      /> */}
       <Input
         label={`${t("measurement.form.basicData.ppmHarris")} *`}
         type="number"

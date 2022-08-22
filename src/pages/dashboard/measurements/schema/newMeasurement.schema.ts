@@ -3,16 +3,17 @@ import * as yup from "yup";
 export const measurementInformationsSchema = yup.object({
   name: yup.string().required("To pole jest wymagane").default(""),
   date: yup.date().required("To pole jest wymagane").default(new Date()),
-  sex: yup
-    .string()
-    .oneOf(["male", "female"])
-    .required("To pole jest wymagane")
-    .default(""),
-  age: yup
-    .number()
-    .typeError("To pole jest wymagane")
-    .positive("Wymagana wartość większa od 0")
-    .required("To pole jest wymagane"),
+  client: yup.string().required("To pole jest wymagane").default(""),
+  // sex: yup
+  //   .string()
+  //   .oneOf(["male", "female"])
+  //   .required("To pole jest wymagane")
+  //   .default(""),
+  // age: yup
+  //   .number()
+  //   .typeError("To pole jest wymagane")
+  //   .positive("Wymagana wartość większa od 0")
+  //   .required("To pole jest wymagane"),
   notes: yup.string().default(""),
   images: yup.array(yup.string().required("To pole jest wymagane")),
 });
@@ -26,11 +27,11 @@ export const measurementBasicDataSchema = yup.object({
     .number()
     .positive("Niewłaściwa wartość")
     .required("To pole jest wymagane"),
-  pal: yup
-    .number()
-    .positive("To pole jest wymagane")
-    .required("To pole jest wymagane")
-    .default(1.4),
+  // pal: yup
+  //   .number()
+  //   .positive("To pole jest wymagane")
+  //   .required("To pole jest wymagane")
+  //   .default(1.4),
   ppmHarris: yup
     .number()
     .positive("Niewłaściwa wartość")

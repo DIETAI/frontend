@@ -208,6 +208,7 @@
         "description": "Informacje o pomiarze jak nazwa, data, notatki, czy zdjęcia sylwetki",
         "name": "nazwa",
         "date": "data pomiaru",
+        "client": "pacjent",
         "sex": "płeć",
         "age": "wiek (lata)",
         "notes": "notatki",
