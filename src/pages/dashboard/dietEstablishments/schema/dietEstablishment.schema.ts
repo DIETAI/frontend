@@ -6,7 +6,9 @@ export const establishmentBasicInfoSchema = yup.object({
   folder: yup.string().default(""),
   description: yup.string().default(""),
   dietKind: yup.string().default(""),
-  measurementId: yup.string(),
+  client: yup.string().required("To pole jest wymagane").default(""),
+  clientMeasurementCpm: yup.boolean().default(false),
+  measurementId: yup.string().default(""),
   kcal: yup
     .number()
     .typeError("To pole jest wymagane")

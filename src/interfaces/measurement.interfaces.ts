@@ -4,6 +4,7 @@ export interface IMeasurementData {
   updatedAt: string;
   user: string;
   date: string;
+  client: string;
   //   client: IClientDocument['_id'];
   name: string;
   notes?: string;
