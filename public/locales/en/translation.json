@@ -136,7 +136,8 @@
         "kcal": "kcal",
         "addMeasurement": "add measurement",
         "addFolder": "add folder",
-        "dietKind": "diet kind"
+        "dietKind": "diet kind",
+        "client": "patient"
       },
       "meals": {
         "heading": "Meals",

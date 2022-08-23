@@ -13,11 +13,15 @@ import Input from "components/form/input/Input";
 import DashedSelect from "components/form/dashedSelect/DashedSelect";
 import CheckBox from "components/checkbox/CheckboxWrapper";
 
+//assets
+import NoDataImg from "assets/noData.svg";
+
 //styles
 import * as Styled from "./BasicInfo.styles";
 
 //form
 import { useFormContext } from "react-hook-form";
+import Button from "components/form/button/Button";
 
 const BasicInfo = () => {
   const {
@@ -31,9 +35,6 @@ const BasicInfo = () => {
   const { measurements, measurementsLoading, measurementsError } =
     useMeasurements();
 
-  if (measurementsLoading) return <div>measurements loading</div>;
-  if (measurementsError || !measurements) return <div>measurements error</div>;
-
   const { t } = useTranslation();
   const openAddFolderModal = () => {
     console.log("dodaj folder");
@@ -43,6 +44,9 @@ const BasicInfo = () => {
   const client = watch("client") as string;
 
   const { clients, clientsError, clientsLoading } = getClients();
+
+  if (measurementsLoading) return <div>measurements loading</div>;
+  if (measurementsError || !measurements) return <div>measurements error</div>;
 
   if (clientsLoading) return <div>clients loading</div>;
   if (clientsError) return <div>clients error</div>;
@@ -57,6 +61,11 @@ const BasicInfo = () => {
     _id: measurement._id,
     name: `${measurement.name} - ${measurement.cpm} kcal`,
   }));
+
+  const handleClientMeasurementCpm = (open: boolean) => {
+    setValue("clientMeasurementCpm", open);
+    setValue("kcal", 0);
+  };
 
   return (
     <>
@@ -84,14 +93,14 @@ const BasicInfo = () => {
       <Styled.CheckBoxContainer>
         <Styled.CheckBoxWrapper>
           <CheckBox
-            onClick={() => setValue("clientMeasurementCpm", true)}
+            onClick={() => handleClientMeasurementCpm(true)}
             checked={clientMeasurementCpm}
           />
           <p>pobierz kcal z pomiaru pacjenta</p>
         </Styled.CheckBoxWrapper>
         <Styled.CheckBoxWrapper>
           <CheckBox
-            onClick={() => setValue("clientMeasurementCpm", false)}
+            onClick={() => handleClientMeasurementCpm(false)}
             checked={!clientMeasurementCpm}
           />
           <p>wpisz kcal</p>
@@ -101,7 +110,10 @@ const BasicInfo = () => {
       {clientMeasurementCpm && (
         <>
           {!client ? (
-            <p>dodaj pacjenta</p>
+            <Styled.NoMeasurementWrapper>
+              <img src={NoDataImg} />
+              <h3>dodaj pacjenta</h3>
+            </Styled.NoMeasurementWrapper>
           ) : (
             <>
               {clientMeasurements.length > 0 ? (
@@ -124,7 +136,17 @@ const BasicInfo = () => {
                   />
                 </>
               ) : (
-                <p>brak pomiarów pacjenta</p>
+                <Styled.NoMeasurementWrapper>
+                  <img src={NoDataImg} />
+                  <h3>brak pomiarów pacjenta</h3>
+                  {/* <Button
+                    variant="primary"
+                    type="button"
+                    onClick={() => console.log("hello")}
+                  >
+                    dodaj pomiar
+                  </Button> */}
+                </Styled.NoMeasurementWrapper>
               )}
             </>
           )}

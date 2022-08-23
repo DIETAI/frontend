@@ -136,7 +136,8 @@
         "kcal": "kcal",
         "addMeasurement": "dodaj pomiar",
         "addFolder": "dodaj folder",
-        "dietKind": "rodzaj diety"
+        "dietKind": "rodzaj diety",
+        "client": "pacjent"
       },
       "meals": {
         "heading": "Posiłki",
