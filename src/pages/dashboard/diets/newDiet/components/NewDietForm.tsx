@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "utils/api";
 import { useNavigate } from "react-router";
+import { getClients } from "services/getClients";
 
 //styles
 import * as Styled from "./NewDietForm.styles";
@@ -19,6 +20,7 @@ import Button from "components/form/button/Button";
 import DashedSelect from "components/form/dashedSelect/DashedSelect";
 import Modal from "components/modal/Modal";
 import EstablishmentModalContent from "./establishmentModal/EstablishmentModal";
+import Autocomplete from "components/form/autocomplete/Autocomplete";
 
 //icons
 import { FaFileInvoice } from "icons/icons";
@@ -30,6 +32,7 @@ const defaultValues = dietDataSchema.cast({});
 type INewDietValues = typeof defaultValues;
 
 const NewDietForm = () => {
+  const { clients, clientsError, clientsLoading } = getClients();
   const [establishmentModal, setEstablishmentModal] = useState(false);
   const navigate = useNavigate();
   const { handleAlert } = useAlert();
@@ -73,6 +76,9 @@ const NewDietForm = () => {
     setEstablishmentModal(true);
   };
 
+  if (clientsLoading) return <div>clients loading</div>;
+  if (clientsError) return <div>clients error</div>;
+
   return (
     <Styled.FormWrapper>
       <Heading icon={<FaFileInvoice />} title="Nowa dieta" />
@@ -83,6 +89,14 @@ const NewDietForm = () => {
           <Input label="ilość dni" name="daysAmount" fullWidth />
           <Input label="start diety" name="dayStart" fullWidth />
           <Input label="koniec diety" name="dayEnd" fullWidth />
+          <Autocomplete
+            name="client"
+            fullWidth
+            label="pacjent"
+            options={clients as []}
+            optionLabel={"name"}
+            optionRender={"_id"}
+          />
           <DashedSelect
             icon={<FaFileInvoice />}
             text="dodaj założenia"

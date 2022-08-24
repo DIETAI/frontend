@@ -37,6 +37,7 @@ const EstablishmentModal = ({ closeModal }: IEstablishmentModal) => {
     getValues,
   } = useFormContext();
 
+  const client = getValues("client");
   const currentEstablishment = getValues("establishmentId");
 
   const [selectedEstablishmentId, setSelectedEstablishmentId] =
@@ -52,6 +53,15 @@ const EstablishmentModal = ({ closeModal }: IEstablishmentModal) => {
     setValue("establishmentId", id);
     closeModal();
   };
+
+  if (!client) return <div>dodaj pacjenta</div>;
+
+  const clientEstablishments = dietEstablishments?.filter(
+    (establishment) => establishment.client === client
+  );
+
+  if (!clientEstablishments || clientEstablishments.length < 1)
+    return <div>nie znaleziono założeń dla pacjenta</div>;
 
   return (
     <Styled.EstablishmentModalContainer>

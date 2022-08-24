@@ -1,56 +1,99 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { useMeasurements } from "services/useMeasurements";
 
 //date-fns
 import format from "date-fns/format";
 
 //components
-import DataGrid from "../../components/dataGrid/DataGrid";
+import {
+  DataGridContainer,
+  DataGridNav,
+  DataGridList,
+  DataGridPagination,
+} from "../../components/dataGridv3";
 
-const availableColumns = [
-  { label: "nazwa", key: "name" },
-  { label: "data", key: "createdAt" },
-  { label: "masa ciała", key: "weight" },
-  { label: "wysokość ciała", key: "height" },
-  { label: "pal", key: "pal" },
-  { label: "bmi", key: "bmi" },
-  { label: "ppm (mifflin)", key: "ppmMifflin" },
-  { label: "ppm (harris)", key: "ppmHarris" },
-  { label: "cpm", key: "cpm" },
+//interfaces
+import { IColumn } from "pages/dashboard/components/dataGridv2/DataGrid.interfaces";
+
+//services
+import { useMeasurements } from "services/useMeasurements";
+
+const columns: IColumn[] = [
+  { label: "nazwa", key: "name", type: "text" },
+  { label: "data", key: "createdAt", type: "text" },
+  { label: "pacjent", key: "client", type: "text" },
+  { label: "masa ciała", key: "weight", type: "text" },
+  { label: "wysokość ciała", key: "height", type: "text" },
+  { label: "bmi", key: "bmi", type: "text" },
+  { label: "ppm (mifflin)", key: "ppmMifflin", type: "text" },
+  { label: "ppm (harris)", key: "ppmHarris", type: "text" },
+  { label: "cpm", key: "cpm", type: "text" },
 ];
 
 const AllMeasurements = () => {
   const { t } = useTranslation();
-  const { measurements, measurementsError, measurementsLoading } =
-    useMeasurements();
+
+  const [page, setPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(5); //5 | 10 /15 /20
+  const [pageCount, setPageCount] = useState(0);
+
+  const { measurements, measurementsError, measurementsLoading, pagination } =
+    useMeasurements(page.toString(), itemsPerPage);
+
+  useEffect(() => {
+    if (pagination) {
+      setPageCount(pagination.pageCount);
+    }
+  }, [pagination]);
 
   // if (measurementsLoading) return <div>measurements loading...</div>;
   if (measurementsError || !measurements) return <div>measurements error</div>;
 
-  const measurementList = () => {
-    const modifyMeasurements = measurements.map((data) => ({
-      ...data,
-      images: "",
-      createdAt: format(new Date(data.createdAt), "dd.MM.yyyy"),
-    }));
+  const measurementsData = measurements.map((data) => ({
+    _id: data._id,
+    name: data.name,
+    createdAt: format(new Date(data.createdAt), "dd.MM.yyyy"),
+    client: data.client,
+    weight: data.weight,
+    height: data.height,
+    bmi: data.bmi,
+    ppmMifflin: data.ppmMifflin,
+    ppmHarris: data.ppmHarris,
+    cpm: data.cpm,
 
-    return modifyMeasurements;
-  };
+    // gender: data.gender,
+  }));
 
   const deleteMeasurements = () => {
     return;
   };
+  const deleteMeasurement = () => {
+    console.log("delete measurement");
+  };
 
   return (
     <>
-      <DataGrid
-        loading={measurementsLoading}
-        availableColumns={availableColumns}
-        dataRows={measurementList()}
-        deleteAction={deleteMeasurements}
-        linkPage="/dashboard/measurements"
-      />
+      <DataGridContainer>
+        <DataGridNav
+          addLink="/dashboard/measurements/new"
+          exportAction={() => console.log("open export popup")}
+        />
+        <DataGridList
+          data={measurementsData}
+          loadingData={measurementsLoading}
+          columns={columns}
+          viewLink="/dashboard/measurements"
+          editLink="/dashboard/measurements/edit"
+          deleteAction={deleteMeasurement}
+        />
+        <DataGridPagination
+          currentPage={page}
+          pageCount={pageCount}
+          changePage={setPage}
+          itemsPerPage={itemsPerPage}
+          changeItemsPerPage={setItemsPerPage}
+        />
+      </DataGridContainer>
     </>
   );
 };

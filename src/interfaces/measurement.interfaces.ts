@@ -40,6 +40,14 @@ export interface IMeasurementData {
   iliac_spine?: number;
 }
 
+export interface IMeasurementPaginationData {
+  measurements: IMeasurementData[];
+  pagination: {
+    count: number;
+    pageCount: number;
+  };
+}
+
 export interface IMeasurementProps {
   measurement: IMeasurementData;
 }

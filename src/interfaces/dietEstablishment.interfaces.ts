@@ -34,6 +34,8 @@ export interface IDietEstablishmentData {
   description?: string;
   dietKind?: string;
   measurementId?: string;
+  client: string;
+  clientMeasurementCpm: boolean;
   kcal: number;
   //meals
   meals: IDietEstablishmentMeal[];

@@ -1,6 +1,9 @@
 import useSWR from "swr";
 import axios from "utils/api";
-import { IMeasurementData } from "interfaces/measurement.interfaces";
+import {
+  IMeasurementData,
+  IMeasurementPaginationData,
+} from "interfaces/measurement.interfaces";
 
 const fetcher = (url: string, headers = {}) =>
   axios
@@ -10,16 +13,17 @@ const fetcher = (url: string, headers = {}) =>
     })
     .then((res) => res.data);
 
-export const useMeasurements = () => {
-  const { data, error } = useSWR<IMeasurementData[] | null>(
-    `/api/v1/measurements`,
+export const useMeasurements = (page?: string, itemsCount?: number) => {
+  const { data, error } = useSWR<IMeasurementPaginationData | null>(
+    `/api/v1/measurements?page=${page}&itemsCount=${itemsCount}`,
     fetcher
   );
 
   return {
-    measurements: data,
+    measurements: data?.measurements,
     measurementsLoading: !error && !data,
     measurementsError: error,
+    pagination: data?.pagination,
   };
 };
 
