@@ -37,7 +37,7 @@ const EstablishmentModal = ({ closeModal }: IEstablishmentModal) => {
     getValues,
   } = useFormContext();
 
-  const client = getValues("client");
+  const client = getValues("clientId");
   const currentEstablishment = getValues("establishmentId");
 
   const [selectedEstablishmentId, setSelectedEstablishmentId] =

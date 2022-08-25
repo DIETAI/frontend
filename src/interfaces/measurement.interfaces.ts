@@ -38,6 +38,12 @@ export interface IMeasurementData {
   shoulder_blade?: number;
   ala_of_ilium?: number;
   iliac_spine?: number;
+  //query
+  measurementClient: {
+    name: string;
+    lastName: string;
+    fullName: string;
+  };
 }
 
 export interface IMeasurementPaginationData {

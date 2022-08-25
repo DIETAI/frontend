@@ -94,7 +94,12 @@ const Meals = () => {
       return setValue("meals", newMeals);
     }
 
-    return;
+    const newMeals = meals.map((meal) => ({
+      ...meal,
+      kcal: 0,
+    }));
+
+    return setValue("meals", newMeals);
   }, [kcal, ...meals.map((item) => item.procent)]);
 
   // export const countProcent = (items: IProcentCount[]) => {

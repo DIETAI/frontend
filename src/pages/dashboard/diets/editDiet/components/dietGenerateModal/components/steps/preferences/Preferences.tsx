@@ -11,6 +11,9 @@ import { IDietGeneratePreferencesSchema } from "../../../schema/dietGenerate.sch
 import Input from "components/form/input/Input";
 import Autocomplete from "components/form/autocomplete/Autocomplete";
 import MultipleAutocomplete from "components/form/multipleAutocomplete/MultipleAutocomplete";
+import { getDiet } from "services/getDiets";
+import { useParams } from "react-router";
+import { getClient } from "services/getClients";
 
 const preferencesModalTypeOptions = [
   { id: 1, type: "dinner", name: "potrawy" },
@@ -34,6 +37,17 @@ const Preferences = () => {
     getValues,
     trigger,
   } = useFormContext();
+
+  const { dietEditId } = useParams();
+
+  if (!dietEditId) return null;
+
+  const { diet, dietLoading, dietError } = getDiet(dietEditId);
+
+  if (dietLoading) return <div>loading...</div>;
+  if (dietError || !diet) return <div>error...</div>;
+
+  const { client } = getClient(diet.clientId);
 
   const advancedPreferences = watch(
     "advancedPreferences"
@@ -69,6 +83,7 @@ const Preferences = () => {
   const checkQuickMeals = () => {
     setValue("advancedPreferences.quickMeals", !advancedPreferences.quickMeals);
   };
+  console.log({ diet });
 
   return (
     <Styled.PreferencesWrapper>
@@ -77,6 +92,7 @@ const Preferences = () => {
         lubię, wyklucz)
       </p> */}
       {/* <Styled.OptionsWrapper> */}
+      <div>clientPAL: {client?.pal}</div>
       <Styled.Option>
         <CheckBoxWrapper
           onClick={checkCheapMeals}

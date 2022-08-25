@@ -87,7 +87,7 @@ const MeasurementContent = () => {
             <Styled.IconWrapper>{section.icon}</Styled.IconWrapper>
             <h2>{section.title}</h2>
           </Styled.StepHeadingWrapper>
-          <Styled.MeasurementItemsWrapper>
+          {/* <Styled.MeasurementItemsWrapper>
             {section.keys.map(({ key, label, type }) => (
               <Styled.MeasurementItem key={key}>
                 {key === "sex" && (
@@ -114,7 +114,7 @@ const MeasurementContent = () => {
                 )}
               </Styled.MeasurementItem>
             ))}
-          </Styled.MeasurementItemsWrapper>
+          </Styled.MeasurementItemsWrapper> */}
 
           {/* {JSON.stringify(measurement)} */}
         </Styled.MeasurementStepWrapper>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { FaFolderPlus, FaFolderOpen } from "icons/icons";
 import { useTranslation } from "react-i18next";
@@ -30,6 +30,7 @@ const BasicInfo = () => {
     setValue,
     watch,
     getValues,
+    trigger,
   } = useFormContext();
 
   const { measurements, measurementsLoading, measurementsError } =
@@ -42,6 +43,7 @@ const BasicInfo = () => {
 
   const clientMeasurementCpm = watch("clientMeasurementCpm") as boolean;
   const client = watch("client") as string;
+  const measurementId = watch("measurementId") as string;
 
   const { clients, clientsError, clientsLoading } = getClients();
 
@@ -65,7 +67,29 @@ const BasicInfo = () => {
   const handleClientMeasurementCpm = (open: boolean) => {
     setValue("clientMeasurementCpm", open);
     setValue("kcal", 0);
+    setValue("measurementId", undefined);
+    trigger();
   };
+
+  const clientsData = clients?.map((client) => ({
+    _id: client._id,
+    fullName: client.name + " " + client.lastName,
+  }));
+
+  useEffect(() => {
+    if (measurementId) {
+      const selectedMeasurement = measurements.find(
+        (measurement) => measurement._id === measurementId
+      );
+
+      if (!selectedMeasurement) return;
+
+      setValue("kcal", selectedMeasurement.cpm);
+      trigger();
+    }
+
+    return;
+  }, [measurementId]);
 
   return (
     <>
@@ -86,8 +110,8 @@ const BasicInfo = () => {
         name="client"
         fullWidth
         label={`${t("dietEstablishment.form.basic_info.client")} *`}
-        options={clients as []}
-        optionLabel={"name"}
+        options={clientsData as []}
+        optionLabel={"fullName"}
         optionRender={"_id"}
       />
       <Styled.CheckBoxContainer>
@@ -133,6 +157,7 @@ const BasicInfo = () => {
                     type="number"
                     name="kcal"
                     fullWidth
+                    disabled
                   />
                 </>
               ) : (

@@ -15,6 +15,7 @@ import { IColumn } from "pages/dashboard/components/dataGridv2/DataGrid.interfac
 const columns: IColumn[] = [
   { label: "nazwa", key: "name", type: "text" },
   { label: "data", key: "createdAt", type: "text" },
+  { label: "pacjent", key: "client", type: "text" },
   { label: "kcal", key: "kcal", type: "text" },
   { label: "białka (%)", key: "proteinProcent", type: "number" },
   { label: "tłuszcze (%)", key: "fatProcent", type: "number" },
@@ -37,6 +38,7 @@ const AllDietEstablishments = () => {
   const dietEstablishmentData = dietEstablishments?.map((data) => ({
     _id: data._id,
     name: data.name,
+    client: data.patient.fullName,
     createdAt: format(new Date(data.createdAt), "dd.MM.yyyy"),
     kcal: data.kcal,
     proteinProcent: data.protein.procent,

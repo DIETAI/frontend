@@ -5,7 +5,7 @@ export const dietDataSchema = yup.object({
   daysAmount: yup.number().required("To pole jest wymagane").default(7),
   dayStart: yup.date(),
   dayEnd: yup.date(),
-  client: yup.string().required("To pole jest wymagane").default(""),
+  clientId: yup.string().required("To pole jest wymagane").default(""),
   establishmentId: yup.string().required("To pole jest wymagane").default(""),
 });
 

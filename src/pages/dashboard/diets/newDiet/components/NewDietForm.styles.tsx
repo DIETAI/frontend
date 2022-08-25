@@ -122,4 +122,51 @@ const FormBackgroundImageWrapper = styled.div(
   `
 );
 
-export { FormWrapper, FormHeading, FormBackgroundImageWrapper };
+const EstablishmentWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    display: flex;
+    /* align-items: flex-start;
+    justify-content: flex-start; */
+    width: 100%;
+    gap: 1rem;
+  `
+);
+const EstablishmentItem = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    border: 0.1rem solid ${palette.primary.light};
+    border-radius: ${border.rounded.sm};
+    width: 50rem;
+    gap: 1rem;
+    background: ${palette.common.contrast};
+
+    p {
+      font-size: ${fontSize.s};
+      font-weight: ${fontWeight.medium};
+      color: ${palette.primary.main};
+    }
+  `
+);
+
+export {
+  FormWrapper,
+  FormHeading,
+  FormBackgroundImageWrapper,
+  EstablishmentWrapper,
+  EstablishmentItem,
+};

@@ -13,8 +13,8 @@ export const establishmentBasicInfoSchema = yup.object({
     .number()
     .typeError("To pole jest wymagane")
     .required("To pole jest wymagane")
-    .positive("Wymagana wartość większa od 0")
-    .default(2000),
+    .positive("Wymagana wartość większa od 0"),
+  // .default(2000),
 });
 
 export const establishmentMealsSchema = yup.object({

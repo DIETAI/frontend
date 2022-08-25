@@ -2,6 +2,7 @@ export interface IDietData {
   _id: string;
   createdAt: string;
   updatedAt: string;
+  clientId: string;
   user: string;
   name: string;
   folder?: string;

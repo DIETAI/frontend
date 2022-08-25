@@ -27,6 +27,7 @@ import { FaFileInvoice } from "icons/icons";
 
 //context
 import { useAlert } from "layout/dashboard/context/alert.context";
+import { useDietEstablishment } from "services/useDietEstablishments";
 
 const defaultValues = dietDataSchema.cast({});
 type INewDietValues = typeof defaultValues;
@@ -79,31 +80,41 @@ const NewDietForm = () => {
   if (clientsLoading) return <div>clients loading</div>;
   if (clientsError) return <div>clients error</div>;
 
+  const clientsData = clients?.map((client) => ({
+    _id: client._id,
+    fullName: client.name + " " + client.lastName,
+  }));
+
   return (
     <Styled.FormWrapper>
       <Heading icon={<FaFileInvoice />} title="Nowa dieta" />
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onDietFormSubmit)}>
-          {JSON.stringify(watch())}
+          {/* {JSON.stringify(watch())} */}
           <Input label="nazwa" name="name" fullWidth />
-          <Input label="ilość dni" name="daysAmount" fullWidth />
-          <Input label="start diety" name="dayStart" fullWidth />
-          <Input label="koniec diety" name="dayEnd" fullWidth />
+          <Input label="ilość dni" name="daysAmount" fullWidth type="number" />
+          {/* <Input label="start diety" name="dayStart" fullWidth />
+          <Input label="koniec diety" name="dayEnd" fullWidth /> */}
           <Autocomplete
-            name="client"
+            name="clientId"
             fullWidth
             label="pacjent"
-            options={clients as []}
-            optionLabel={"name"}
+            options={clientsData as []}
+            optionLabel={"fullName"}
             optionRender={"_id"}
           />
-          <DashedSelect
-            icon={<FaFileInvoice />}
-            text="dodaj założenia"
-            onClick={openAddEstablishmentModal}
-            fullWidth
-          />
-          <p>{establishmentId}</p>
+          <Styled.EstablishmentWrapper>
+            <DashedSelect
+              icon={<FaFileInvoice />}
+              text={establishmentId ? "zmień założenia" : "dodaj założenia"}
+              onClick={openAddEstablishmentModal}
+              fullWidth
+            />
+            {establishmentId && (
+              <EstablishmentItem establishmentId={establishmentId} />
+            )}
+          </Styled.EstablishmentWrapper>
+
           <Button
             type="submit"
             variant={!isValid || isSubmitting ? "disabled" : "primary"}
@@ -122,6 +133,27 @@ const NewDietForm = () => {
         </Modal>
       </FormProvider>
     </Styled.FormWrapper>
+  );
+};
+
+const EstablishmentItem = ({
+  establishmentId,
+}: {
+  establishmentId: string;
+}) => {
+  const {
+    dietEstablishment,
+    dietEstablishmentLoading,
+    dietEstablishmentError,
+  } = useDietEstablishment(establishmentId);
+
+  if (dietEstablishmentLoading) return <div>loading..</div>;
+  if (dietEstablishmentError) return <div>error..</div>;
+
+  return (
+    <Styled.EstablishmentItem>
+      <p>{dietEstablishment?.name}</p>
+    </Styled.EstablishmentItem>
   );
 };
 

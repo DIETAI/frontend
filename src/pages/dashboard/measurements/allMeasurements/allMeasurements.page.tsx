@@ -46,14 +46,16 @@ const AllMeasurements = () => {
     }
   }, [pagination]);
 
+  if (measurementsError) return <div>measurements error</div>;
   // if (measurementsLoading) return <div>measurements loading...</div>;
-  if (measurementsError || !measurements) return <div>measurements error</div>;
 
-  const measurementsData = measurements.map((data) => ({
+  console.log({ measurements });
+
+  const measurementsData = measurements?.map((data) => ({
     _id: data._id,
     name: data.name,
     createdAt: format(new Date(data.createdAt), "dd.MM.yyyy"),
-    client: data.client,
+    client: data.measurementClient.fullName,
     weight: data.weight,
     height: data.height,
     bmi: data.bmi,

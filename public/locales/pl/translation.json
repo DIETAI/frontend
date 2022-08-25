@@ -137,7 +137,8 @@
         "addMeasurement": "dodaj pomiar",
         "addFolder": "dodaj folder",
         "dietKind": "rodzaj diety",
-        "client": "pacjent"
+        "client": "pacjent",
+        "measurementId": "pomiar"
       },
       "meals": {
         "heading": "Posiłki",

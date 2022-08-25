@@ -78,6 +78,9 @@ export interface IDietEstablishmentData {
   sodium?: IDietEstablishmentMinerals;
   calcium?: IDietEstablishmentMinerals;
   iron?: IDietEstablishmentMinerals;
+  patient: {
+    fullName: string;
+  };
 }
 
 export interface IDietEstablishmentProps {

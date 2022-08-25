@@ -73,6 +73,11 @@ const Informations = () => {
   if (clientsLoading) return <div>clients loading</div>;
   if (clientsError) return <div>clients error</div>;
 
+  const clientsData = clients?.map((client) => ({
+    _id: client._id,
+    fullName: client.name + " " + client.lastName,
+  }));
+
   return (
     <>
       <Input
@@ -90,8 +95,8 @@ const Informations = () => {
         name="client"
         fullWidth
         label={`${t("measurement.form.informations.client")} *`}
-        options={clients as []}
-        optionLabel={"name"}
+        options={clientsData as []}
+        optionLabel={"fullName"}
         optionRender={"_id"}
       />
       {/* <Autocomplete

@@ -137,7 +137,8 @@
         "addMeasurement": "add measurement",
         "addFolder": "add folder",
         "dietKind": "diet kind",
-        "client": "patient"
+        "client": "patient",
+        "measurementId": "measurement"
       },
       "meals": {
         "heading": "Meals",
