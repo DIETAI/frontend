@@ -34,6 +34,8 @@ export interface IClientData {
   expectedBodyWeight?: number;
   specificAims?: string[];
   pal: number;
+  likedProducts?: string[];
+  dislikedProducts?: string[];
 }
 
 export interface IClientPaginationData {

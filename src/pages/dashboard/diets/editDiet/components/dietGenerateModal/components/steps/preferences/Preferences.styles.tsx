@@ -134,6 +134,24 @@ const BoxItem = styled.div(
   `
 );
 
+const ProductWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 2rem;
+    border: 0.1rem solid ${palette.primary.light};
+    border-radius: ${border.rounded.md};
+  `
+);
+
 export {
   PreferencesWrapper,
   OptionsWrapper,
@@ -142,4 +160,5 @@ export {
   BoxContentWrapper,
   Box,
   BoxItem,
+  ProductWrapper,
 };

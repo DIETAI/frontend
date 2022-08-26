@@ -14,6 +14,7 @@ import MultipleAutocomplete from "components/form/multipleAutocomplete/MultipleA
 import { getDiet } from "services/getDiets";
 import { useParams } from "react-router";
 import { getClient } from "services/getClients";
+import { getProduct } from "services/getProducts";
 
 const preferencesModalTypeOptions = [
   { id: 1, type: "dinner", name: "potrawy" },
@@ -92,7 +93,22 @@ const Preferences = () => {
         lubię, wyklucz)
       </p> */}
       {/* <Styled.OptionsWrapper> */}
-      <div>clientPAL: {client?.pal}</div>
+      <h3>rodzaj diety</h3>
+      <div>
+        lubiane produkty:{" "}
+        {client?.likedProducts?.map((productId) => (
+          <Product key={productId} productId={productId} />
+        ))}
+      </div>
+      <div>
+        nielubiane produkty:{" "}
+        {client?.dislikedProducts?.map((productId) => (
+          <Product key={productId} productId={productId} />
+        ))}
+      </div>
+      (wukluczyć nieodpowiednie produkty, zwiększyć możliwość losowania jeśli
+      produkt występuje częściej lub jest lubiany)
+      <h4>częstotliwość występowania produktów w diecie</h4>
       <Styled.Option>
         <CheckBoxWrapper
           onClick={checkCheapMeals}
@@ -220,6 +236,15 @@ const Preferences = () => {
       </div> */}
     </Styled.PreferencesWrapper>
   );
+};
+
+const Product = ({ productId }: { productId: string }) => {
+  const { product, productLoading, productError } = getProduct(productId);
+
+  if (productLoading) return <div>loading...</div>;
+  if (productError) return <div>error...</div>;
+
+  return <Styled.ProductWrapper>{product?.name}</Styled.ProductWrapper>;
 };
 
 export default Preferences;

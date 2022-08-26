@@ -2,6 +2,8 @@ import React from "react";
 
 //components
 import Autocomplete from "components/form/autocomplete/Autocomplete";
+import { getProducts } from "services/getProducts";
+import MultipleAutocomplete from "components/form/multipleAutocomplete/MultipleAutocomplete";
 
 const palOptions = [
   { id: 1, value: 1.3, type: "niska", description: "niska aktywność fizyczna" },
@@ -57,6 +59,10 @@ const palOptions = [
 ];
 
 const Interview = () => {
+  const { products, productsLoading, productsError } = getProducts();
+
+  if (productsLoading) return <div>loading...</div>;
+  if (productsError) return <div>error...</div>;
   return (
     <>
       <Autocomplete
@@ -67,8 +73,23 @@ const Interview = () => {
         optionLabel={"value"}
         optionRender={"value"}
       />
-      <p>lubiane produkty</p>
-      <p>nielubiane produkty</p>
+      <MultipleAutocomplete
+        name="likedProducts"
+        fullWidth
+        label={`lubiane produkty`}
+        options={products as []}
+        optionLabel={"name"}
+        optionRender={"_id"}
+      />
+      <MultipleAutocomplete
+        name="dislikedProducts"
+        fullWidth
+        label={`nielubiane produkty`}
+        options={products as []}
+        optionLabel={"name"}
+        optionRender={"_id"}
+      />
+
       <div>
         <h3>jakościowa ocena jadłospisu</h3>
         <p>- dyscyplina sportu</p>

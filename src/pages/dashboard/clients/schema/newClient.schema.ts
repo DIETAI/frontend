@@ -139,8 +139,8 @@ export const clientNutritionalInterviewSchema = yup.object({
   //     hour: yup.number(),
   //   })
   // ),
-  // likedProducts: yup.array(yup.string()),
-  // dislikedProducts: yup.array(yup.string()),
+  likedProducts: yup.array(yup.string()).default([]),
+  dislikedProducts: yup.array(yup.string()).default([]),
 });
 
 export type IClientBasicInfo = yup.InferType<typeof clientBasicInfoSchema>;

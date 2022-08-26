@@ -45,6 +45,21 @@ const BasicInfo = () => {
   const client = watch("client") as string;
   const measurementId = watch("measurementId") as string;
 
+  useEffect(() => {
+    if (measurementId) {
+      const selectedMeasurement = measurements?.find(
+        (measurement) => measurement._id === measurementId
+      );
+
+      if (!selectedMeasurement) return;
+
+      setValue("kcal", selectedMeasurement.cpm);
+      trigger();
+    }
+
+    return;
+  }, [measurementId]);
+
   const { clients, clientsError, clientsLoading } = getClients();
 
   if (measurementsLoading) return <div>measurements loading</div>;
@@ -75,21 +90,6 @@ const BasicInfo = () => {
     _id: client._id,
     fullName: client.name + " " + client.lastName,
   }));
-
-  useEffect(() => {
-    if (measurementId) {
-      const selectedMeasurement = measurements.find(
-        (measurement) => measurement._id === measurementId
-      );
-
-      if (!selectedMeasurement) return;
-
-      setValue("kcal", selectedMeasurement.cpm);
-      trigger();
-    }
-
-    return;
-  }, [measurementId]);
 
   return (
     <>
