@@ -11,7 +11,7 @@ const AddDinnerNavWrapper = styled.ul(
   }) => css`
     display: flex;
     align-items: flex-start;
-    justify-content: flex-start;
+    justify-content: space-between;
     gap: 1rem;
     width: 100%;
     margin-bottom: 2rem;
@@ -87,11 +87,17 @@ const DinnerItem = styled(motion.li)<IActiveItem>(
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    gap: 3rem;
+    gap: 2rem;
     padding: 3rem 1rem;
     width: 100%;
     cursor: pointer;
     transition: 0.3s ease-out;
+
+    h2 {
+      color: ${palette.common.text};
+      font-weight: ${fontWeight.medium};
+      font-size: ${fontSize.s};
+    }
 
     :hover {
       background: ${palette.common.contrast};
@@ -105,7 +111,10 @@ const DinnerItem = styled(motion.li)<IActiveItem>(
     css`
       pointer-events: none;
       background: ${palette.common.contrast};
-      color: ${palette.primary.main};
+
+      h2 {
+        color: ${palette.primary.main};
+      }
     `}
   `
 );
@@ -175,6 +184,70 @@ const ItemFeature = styled.div(
   `
 );
 
+const AddDinnerNavFilterWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  `
+);
+
+const SearchWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, down },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1rem;
+    border-radius: ${border.rounded.sm};
+    background: ${palette.common.main};
+    width: 25rem;
+    min-height: 4.5rem;
+    /* border: 0.1rem solid ${palette.primary.light}; */
+
+    svg {
+      width: 1.8rem;
+      height: 1.8rem;
+      path {
+        fill: ${palette.common.slate};
+      }
+    }
+
+    input {
+      width: 100%;
+      height: 100%;
+      font-size: ${fontSize.s};
+      font-weight: ${fontWeight.light};
+      outline: none;
+      border: none;
+      background: transparent;
+      color: ${palette.common.text};
+
+      ::placeholder {
+        color: ${palette.common.slate};
+        font-size: ${fontSize.s};
+        font-weight: ${fontWeight.light};
+      }
+    }
+
+    ${down(breakpoints.lg)} {
+      width: 100%;
+    }
+  `
+);
+
 export {
   AddDinnerNavWrapper,
   AddDinnerNavItem,
@@ -183,4 +256,6 @@ export {
   ItemContent,
   ItemFeaturesWrapper,
   ItemFeature,
+  AddDinnerNavFilterWrapper,
+  SearchWrapper,
 };
