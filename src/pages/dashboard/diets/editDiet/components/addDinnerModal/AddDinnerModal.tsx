@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router";
 
 //translation
@@ -32,6 +32,14 @@ const defaultValues = dietDinnerSchema.concat(dietDinnerPortionSchema).cast({});
 const AddDinnerModal = ({ closeModal, meal }: IDinnerModalProps) => {
   const { t } = useTranslation();
 
+  const addDinnerDefaultValues = {
+    ...defaultValues,
+    dietId: meal.dietId,
+    dayId: meal.dayId,
+    dietMealId: meal._id,
+    order: 1,
+  };
+
   return (
     <Styled.DinnerModalContainer>
       <Heading
@@ -39,7 +47,10 @@ const AddDinnerModal = ({ closeModal, meal }: IDinnerModalProps) => {
         title={t("diet.form.dinner.modal.title")}
         description={t("diet.form.dinner.modal.description")}
       />
-      <MultiStepContainer defaultValues={defaultValues}>
+      <MultiStepContainer
+        defaultValues={addDinnerDefaultValues}
+        closeModal={closeModal}
+      >
         {dietDinnerSteps.map(({ step, name, icon, id, validationSchema }) => (
           <FormStep
             key={id}

@@ -34,6 +34,7 @@ const DinnerPortion = () => {
 
   const selectDinnerPortion = (dinnerPortionId: string) => {
     setValue("dinnerPortionId", dinnerPortionId);
+    trigger();
   };
 
   return (

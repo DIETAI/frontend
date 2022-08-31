@@ -43,6 +43,8 @@ const Dinner = () => {
     setSearchValue(e.currentTarget.value);
   };
 
+  //setValue dietId, dayId, dietMealId, order
+
   return (
     <>
       <Styled.AddDinnerNavWrapper>

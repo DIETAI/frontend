@@ -5,6 +5,8 @@ import { FieldValues } from "react-hook-form";
 import { IChildrenProps } from "interfaces/children.interfaces";
 import Button from "components/form/button/Button";
 import axios from "utils/api";
+import { useParams } from "react-router";
+import { mutate } from "swr";
 
 //components
 import AddDinnerNav from "../nav/AddDinnerNav";
@@ -28,10 +30,18 @@ export const FormStep = ({ children }: IFormStepProps) => {
   return <div className="w-full flex flex-wrap gap-6">{children}</div>;
 };
 
+interface IMultiStepProps {
+  children: IChildrenProps["children"];
+  defaultValues: IDefaultValues["defaultValues"];
+  closeModal: () => void;
+}
+
 const MultiStepContainer = ({
   children,
   defaultValues,
-}: IChildrenProps & IDefaultValues) => {
+  closeModal,
+}: IMultiStepProps) => {
+  const { dietEditId } = useParams();
   const [activeStep, setActiveStep] = useState(0);
 
   const childrenArray = React.Children.toArray(
@@ -81,6 +91,20 @@ const MultiStepContainer = ({
   const onSubmit = async (data: DietDinner) => {
     //stripe session
     console.log(data);
+    try {
+      const newDietDinner = await axios.post("/api/v1/dietDinners", data, {
+        withCredentials: true,
+      });
+      console.log({ newDietDinner });
+
+      //mutate dietquery obj
+      await mutate(`/api/v1/diets/${dietEditId}/query`); //correct
+
+      closeModal();
+    } catch (e) {
+      console.log(e);
+    }
+
     // console.log("create stripe session");
     // try {
     //   const stripeResp: AxiosResponse<Stripe.Checkout.Session> =
