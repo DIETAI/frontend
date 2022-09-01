@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 //styles
 import * as Styled from "../Dinner.styles";
@@ -11,9 +11,39 @@ import { useFormContext } from "react-hook-form";
 
 //services
 import { getDinners } from "services/getDinners";
+import { getDietDinners } from "services/getDietDinners";
 
 interface IRecommendDinnersProps {
   changeDinner: (dinnerId: string) => void;
+}
+
+interface IRecommendDietDinnerArg {
+  _id: string;
+  userId: string;
+  "diet._id": string;
+  "diet.name": string;
+  "diet.clientId": string;
+  "diet.clientPreferencesGroup": number;
+  "dinner._id": string;
+  "dinner.name": string;
+  "dinner.products": string[];
+  "dinner.likedProductsPoints": number;
+  "meal._id": string;
+  "meal.name": string;
+  "meal.type": string;
+}
+
+interface IRecommendDinnerData {
+  distance: number;
+  recommend_dinner: string;
+  recommend_dinner_id: string;
+  mealType: string;
+}
+
+interface IRecommendDinnersState {
+  data: IRecommendDinnerData[];
+  error: boolean;
+  loading: boolean;
 }
 
 const RecommendDinners = ({ changeDinner }: IRecommendDinnersProps) => {
@@ -27,8 +57,18 @@ const RecommendDinners = ({ changeDinner }: IRecommendDinnersProps) => {
     trigger,
   } = useFormContext();
 
+  const [recommendDinners, setRecommendDinners] =
+    useState<IRecommendDinnersState>({
+      data: [],
+      loading: false,
+      error: false,
+    });
+
   const { dinners, dinnersError, dinnersLoading } = getDinners();
   const selectedDinnerId = watch("dinnerId") as string;
+
+  //getDietDinners
+  // const {} = getDietDinners("daqdq"); //przerobić controller
 
   // useEffect(() => {
   //   if (dinnerProductsQuery && dinnerProductsQuery.length > 0) {
