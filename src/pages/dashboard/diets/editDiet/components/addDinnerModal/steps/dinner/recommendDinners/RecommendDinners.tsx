@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "utils/api";
 
 //styles
 import * as Styled from "../Dinner.styles";
@@ -11,7 +12,7 @@ import { useFormContext } from "react-hook-form";
 
 //services
 import { getDinners } from "services/getDinners";
-import { getDietDinners } from "services/getDietDinners";
+import { getDietDinners, getDietDinnersByDayId } from "services/getDietDinners";
 
 interface IRecommendDinnersProps {
   changeDinner: (dinnerId: string) => void;
@@ -66,55 +67,64 @@ const RecommendDinners = ({ changeDinner }: IRecommendDinnersProps) => {
 
   const { dinners, dinnersError, dinnersLoading } = getDinners();
   const selectedDinnerId = watch("dinnerId") as string;
+  const dayId = watch("dayId") as string;
 
   //getDietDinners
-  // const {} = getDietDinners("daqdq"); //przerobić controller
+  const { dietDinners, dietDinnersLoading, dietDinnersError } =
+    getDietDinnersByDayId(dayId); //przerobić controller getDietDinnersByDayId
 
-  // useEffect(() => {
-  //   if (dinnerProductsQuery && dinnerProductsQuery.length > 0) {
-  //     const getRecommendProducts = async () => {
-  //       const allDinnerProducts = dinnerProductsQuery.map(
-  //         (dinnerProduct) => ({
-  //           _id: dinnerProduct._id,
-  //           productId: dinnerProduct.product._id,
-  //           productName: dinnerProduct.product.name,
-  //           dinnerId: dinnerId,
-  //           user: dinnerProduct.user,
-  //         })
-  //       );
+  useEffect(() => {
+    if (dietDinners && dietDinners.length > 0) {
+      const getRecommendDinners = async () => {
+        const allDietDinners: IRecommendDietDinnerArg[] = dietDinners.map(
+          (dietDinner) => ({
+            _id: dietDinner._id,
+            userId: dietDinner.user,
+            "diet._id": dietDinner.dietId,
+            "diet.name": dietDinner.diet.name,
+            "diet.clientId": dietDinner.diet.clientId,
+            "diet.clientPreferencesGroup": 1,
+            "dinner._id": dietDinner.dinner._id,
+            "dinner.name": dietDinner.dinner.name,
+            "dinner.products": [],
+            "dinner.likedProductsPoints": 0,
+            "meal._id": dietDinner.dietMealId,
+            "meal.name": dietDinner.meal.name,
+            "meal.type": dietDinner.meal.type,
+          })
+        );
 
-  //       console.log({ allDinnerProducts });
+        console.log({ allDietDinners });
 
-  //       try {
-  //         setRecommendProducts({ ...recommendProducts, loading: true });
+        try {
+          setRecommendDinners({ ...recommendDinners, loading: true });
 
-  //         const recommendProductsRes = await axios.post<
-  //           IRecommendProductData[]
-  //         >(
-  //           "https://diet-ai-recommend-server.herokuapp.com/mvp-recommend-products",
-  //           allDinnerProducts
-  //         );
+          const recommendDinnersRes = await axios.post<IRecommendDinnerData[]>(
+            "https://diet-ai-recommend-server.herokuapp.com/mvp-recommend-dinners",
+            allDietDinners
+          );
 
-  //         setRecommendProducts({
-  //           ...recommendProducts,
-  //           data: recommendProductsRes.data,
-  //           loading: false,
-  //         });
-  //       } catch (e) {
-  //         console.log(e);
-  //         setRecommendProducts({
-  //           ...recommendProducts,
-  //           loading: false,
-  //           error: true,
-  //         });
-  //       }
-  //     };
+          setRecommendDinners({
+            ...recommendDinners,
+            data: recommendDinnersRes.data,
+            loading: false,
+          });
+        } catch (e) {
+          console.log(e);
+          setRecommendDinners({
+            ...recommendDinners,
+            loading: false,
+            error: true,
+          });
+        }
+      };
 
-  //     getRecommendProducts();
-  //   }
-  // }, [dinnerProductsQuery]);
+      getRecommendDinners();
+    }
+  }, [dietDinners]);
   return (
     <Styled.DinnerList>
+      {JSON.stringify(dietDinners)}
       {dinners?.map((dinner) => (
         <Styled.DinnerItem
           activeItem={selectedDinnerId === dinner._id}

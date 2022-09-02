@@ -4,11 +4,25 @@ import {
   IDietDinnerByPortionData,
   IDietDinnerData,
   IDietDinnerQueryData,
+  IDietDinnerByDayIdQueryData,
 } from "interfaces/diet/dietDinners.interfaces";
 
 export const getDietDinners = (mealId: string) => {
   const { data, error } = useSWR<IDietDinnerData[] | null>(
     `/api/v1/dietDinners/meal/${mealId}`,
+    fetcher
+  );
+
+  return {
+    dietDinners: data,
+    dietDinnersLoading: !error && !data,
+    dietDinnersError: error,
+  };
+};
+
+export const getDietDinnersByDayId = (dayId: string) => {
+  const { data, error } = useSWR<IDietDinnerByDayIdQueryData[] | null>(
+    `/api/v1/dietDinners/day/${dayId}`,
     fetcher
   );
 
