@@ -16,6 +16,7 @@ import { useFormContext } from "react-hook-form";
 //services
 import { getDinner, getDinners } from "services/getDinners";
 import { getDietDinners, getDietDinnersByDayId } from "services/getDietDinners";
+import { getDietDayMeal } from "services/getDietMeals";
 
 interface IRecommendDinnersProps {
   changeDinner: (dinnerId: string) => void;
@@ -71,6 +72,9 @@ const RecommendDinners = ({ changeDinner }: IRecommendDinnersProps) => {
   const { dinners, dinnersError, dinnersLoading } = getDinners();
   const selectedDinnerId = watch("dinnerId") as string;
   const dayId = watch("dayId") as string;
+  const mealId = watch("dietMealId") as string;
+
+  const { dietDayMeal } = getDietDayMeal(mealId);
 
   //getDietDinners
   const { dietDinners, dietDinnersLoading, dietDinnersError } =
@@ -100,7 +104,7 @@ const RecommendDinners = ({ changeDinner }: IRecommendDinnersProps) => {
 
         const data = {
           diet_dinners: allDietDinners,
-          mealTypeToGenerate: "second_breakfast",
+          mealTypeToGenerate: dietDayMeal?.type,
         };
 
         console.log({ data });
