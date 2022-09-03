@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "utils/api";
+import { AnimatePresence } from "framer-motion";
+import ReactLoading from "react-loading";
+import NoData from "assets/noData.svg";
 
 //styles
 import * as Styled from "../Dinner.styles";
@@ -11,7 +14,7 @@ import Image from "components/form/images/image/Image";
 import { useFormContext } from "react-hook-form";
 
 //services
-import { getDinners } from "services/getDinners";
+import { getDinner, getDinners } from "services/getDinners";
 import { getDietDinners, getDietDinnersByDayId } from "services/getDietDinners";
 
 interface IRecommendDinnersProps {
@@ -76,17 +79,18 @@ const RecommendDinners = ({ changeDinner }: IRecommendDinnersProps) => {
   useEffect(() => {
     if (dietDinners && dietDinners.length > 0) {
       const getRecommendDinners = async () => {
+        console.log({ dietDinners });
         const allDietDinners: IRecommendDietDinnerArg[] = dietDinners.map(
           (dietDinner) => ({
             _id: dietDinner._id,
             userId: dietDinner.user,
-            "diet._id": dietDinner.dietId,
+            "diet._id": dietDinner.dietId + "sed", //nie może być takie same id diety jak już dodanych dietDinners
             "diet.name": dietDinner.diet.name,
             "diet.clientId": dietDinner.diet.clientId,
             "diet.clientPreferencesGroup": 1,
             "dinner._id": dietDinner.dinner._id,
             "dinner.name": dietDinner.dinner.name,
-            "dinner.products": [],
+            "dinner.products": ["dadqdqd", "dqdwq"],
             "dinner.likedProductsPoints": 0,
             "meal._id": dietDinner.dietMealId,
             "meal.name": dietDinner.meal.name,
@@ -94,15 +98,22 @@ const RecommendDinners = ({ changeDinner }: IRecommendDinnersProps) => {
           })
         );
 
-        console.log({ allDietDinners });
+        const data = {
+          diet_dinners: allDietDinners,
+          mealTypeToGenerate: "second_breakfast",
+        };
+
+        console.log({ data });
 
         try {
           setRecommendDinners({ ...recommendDinners, loading: true });
 
           const recommendDinnersRes = await axios.post<IRecommendDinnerData[]>(
             "https://diet-ai-recommend-server.herokuapp.com/mvp-recommend-dinners",
-            allDietDinners
+            data
           );
+
+          console.log({ recommendDinnersRes });
 
           setRecommendDinners({
             ...recommendDinners,
@@ -123,21 +134,97 @@ const RecommendDinners = ({ changeDinner }: IRecommendDinnersProps) => {
     }
   }, [dietDinners]);
   return (
-    <Styled.DinnerList>
-      {JSON.stringify(dietDinners)}
-      {dinners?.map((dinner) => (
-        <Styled.DinnerItem
-          activeItem={selectedDinnerId === dinner._id}
-          key={dinner._id}
-          onClick={() => changeDinner(dinner._id)}
-        >
-          {dinner.image && (
-            <Image imageId={dinner.image} roundedDataGrid={true} />
+    <>
+      <Styled.DinnerList>
+        <AnimatePresence>
+          {recommendDinners.loading && (
+            <Styled.LoadingWrapper
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <ReactLoading type="spin" color="blue" height={50} width={50} />
+              <h2>szukanie posiłków</h2>
+            </Styled.LoadingWrapper>
           )}
-          <h2>{dinner.name}</h2>
-        </Styled.DinnerItem>
-      ))}
-    </Styled.DinnerList>
+        </AnimatePresence>
+        {/* {JSON.stringify(recommendDinners)}
+        {dinners?.map((dinner) => (
+          <Styled.DinnerItem
+            activeItem={selectedDinnerId === dinner._id}
+            key={dinner._id}
+            onClick={() => changeDinner(dinner._id)}
+          >
+            {dinner.image && (
+              <Image imageId={dinner.image} roundedDataGrid={true} />
+            )}
+            <h2>{dinner.name}</h2>
+          </Styled.DinnerItem>
+        ))} */}
+        <AnimatePresence>
+          {recommendDinners.data.length > 0 &&
+            recommendDinners.data.map((recommendDinner) => (
+              <RecommendDinner
+                key={recommendDinner.recommend_dinner_id}
+                dinnerId={recommendDinner.recommend_dinner_id}
+                selectDinner={() =>
+                  changeDinner(recommendDinner.recommend_dinner_id)
+                }
+              />
+            ))}
+        </AnimatePresence>
+        <AnimatePresence>
+          {recommendDinners.data.length < 1 && !recommendDinners.loading && (
+            <Styled.EmptyDataWrapper
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <img src={NoData} />
+              <h2>brak rekomendowanych posiłków</h2>
+            </Styled.EmptyDataWrapper>
+          )}
+        </AnimatePresence>
+      </Styled.DinnerList>
+    </>
+  );
+};
+
+const RecommendDinner = ({
+  dinnerId,
+  selectDinner,
+}: {
+  dinnerId: string;
+  selectDinner: (dinnerId: string) => void;
+}) => {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isSubmitting, isValid },
+    setValue,
+    watch,
+    getValues,
+    trigger,
+  } = useFormContext();
+
+  const { dinner, dinnerLoading, dinnerError } = getDinner(dinnerId);
+
+  if (!dinner) return null;
+
+  const selectedDinnerId = watch("dinnerId") as string;
+
+  return (
+    <Styled.DinnerItem
+      activeItem={selectedDinnerId === dinner._id}
+      key={dinner._id}
+      onClick={() => selectDinner(dinner._id)}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      {dinner.image && <Image imageId={dinner.image} roundedDataGrid={true} />}
+      <h2>{dinner.name}</h2>
+    </Styled.DinnerItem>
   );
 };
 
