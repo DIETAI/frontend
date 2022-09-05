@@ -19,12 +19,12 @@ const DayWrapper = styled.div(
     gap: 2rem;
     /* border: 0.1rem solid ${palette.common.border}; */
     border-radius: ${border.rounded.md};
-    cursor: pointer;
-    transition: 0.3s ease-out;
+    /* cursor: pointer;
+    transition: 0.3s ease-out; */
 
-    :hover {
+    /* :hover {
       box-shadow: ${palette.common["box-shadow"]};
-    }
+    } */
   `
 );
 

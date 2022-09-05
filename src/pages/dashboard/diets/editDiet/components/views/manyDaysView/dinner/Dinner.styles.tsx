@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components";
+import { motion } from "framer-motion";
 
 const DietDinnerWrapper = styled.div(
   ({
@@ -18,6 +19,7 @@ const DietDinnerWrapper = styled.div(
     /* background: ${palette.common.contrast}; */
     border: 0.1rem solid ${palette.primary.light};
     border-radius: ${border.rounded.sm};
+    position: relative;
   `
 );
 
@@ -69,4 +71,100 @@ const DietDinnerTotalWrapper = styled.div(
   `
 );
 
-export { DietDinnerWrapper, DietDinner, DietDinnerTotalWrapper };
+const DietDinnerOptionsWrapper = styled(motion.div)(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 1.5rem;
+    background: ${palette.common.main};
+    padding: 1rem;
+    border-radius: ${border.rounded.lg} ${border.rounded.lg} 0 0;
+
+    p {
+      font-size: 1.1rem;
+      font-weight: ${fontWeight.medium};
+      color: ${palette.common.text};
+    }
+  `
+);
+
+interface IOptionType {
+  optionType: "edit" | "delete" | "info";
+}
+
+const OptionWrapper = styled.div<IOptionType>(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+    optionType,
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: ${border.rounded.sm};
+    transition: 0.3s ease-out;
+
+    :hover {
+      opacity: 0.6;
+    }
+
+    svg {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+
+    ${optionType === "edit" &&
+    css`
+      background: #ffcf752f;
+      svg {
+        path {
+          fill: orange;
+        }
+      }
+    `}
+
+    ${optionType === "delete" &&
+    css`
+      background: #ff000029;
+      svg {
+        path {
+          fill: red;
+        }
+      }
+    `}
+
+    ${optionType === "info" &&
+    css`
+      background: #0000ff30;
+      svg {
+        path {
+          fill: blue;
+        }
+      }
+    `}
+  `
+);
+
+export {
+  DietDinnerWrapper,
+  DietDinner,
+  DietDinnerTotalWrapper,
+  DietDinnerOptionsWrapper,
+  OptionWrapper,
+};
