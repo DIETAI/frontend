@@ -11,6 +11,7 @@ import * as Styled from "./Dinner.styles";
 import Image from "components/form/images/image/Image";
 import DeleteDinnerModalContent from "./deleteModal/DeleteModalContent";
 import InfoModalContent from "./infoModal/InfoModalContent";
+import EditDinnerModalContent from "../../../editDinnerModal/EditDinnerModal";
 
 //icons
 import { FaEdit, FaTrash, FaInfoCircle } from "icons/icons";
@@ -23,6 +24,7 @@ interface IDietDinner {
 const Dinner = ({ dietDinner }: IDietDinner) => {
   const [openDeleteDinnerModal, setOpenDeleteDinnerModal] = useState(false);
   const [openInfoDinnerModal, setOpenInfoDinnerModal] = useState(false);
+  const [openEditDinnerModal, setOpenEditDinnerModal] = useState(false);
   const [openDinnerOptions, setOpenDinnerOptions] = useState(false);
   const { image } = dietDinner.dinnerPortion.dinner;
 
@@ -77,7 +79,10 @@ const Dinner = ({ dietDinner }: IDietDinner) => {
               >
                 <FaInfoCircle />
               </Styled.OptionWrapper>
-              <Styled.OptionWrapper optionType="edit">
+              <Styled.OptionWrapper
+                optionType="edit"
+                onClick={() => setOpenEditDinnerModal(true)}
+              >
                 <FaEdit />
               </Styled.OptionWrapper>
               <Styled.OptionWrapper
@@ -106,6 +111,15 @@ const Dinner = ({ dietDinner }: IDietDinner) => {
         <InfoModalContent
           dietDinner={dietDinner}
           closeModal={() => setOpenInfoDinnerModal(false)}
+        />
+      </Modal>
+      <Modal
+        onClose={() => setOpenEditDinnerModal(false)}
+        open={openEditDinnerModal}
+      >
+        <EditDinnerModalContent
+          dietDinner={dietDinner}
+          closeModal={() => setOpenEditDinnerModal(false)}
         />
       </Modal>
     </>
