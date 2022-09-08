@@ -44,9 +44,9 @@ const Day = ({ day, establishment }: IDay) => {
     <Styled.DayWrapper>
       <Styled.DayHeading>
         <h2>Dzień {day.order}</h2>
-        <IconModal icon={<FaEllipsisV />}>
+        {/* <IconModal icon={<FaEllipsisV />}>
           <DayEstablishmentModalContent />
-        </IconModal>
+        </IconModal> */}
       </Styled.DayHeading>
       {/* <Styled.DayTotal>
         <Styled.DayTotalItem>
@@ -75,6 +75,20 @@ const Day = ({ day, establishment }: IDay) => {
           </p>
         </Styled.DayTotalItem>
       </Styled.DayTotal> */}
+      <Styled.DayTotalWrapper>
+        <p>
+          kcal: <b>{day.total?.kcal}</b>
+        </p>
+        <p>
+          B: <b>{day.total?.protein.gram}</b>{" "}
+        </p>
+        <p>
+          T: <b>{day.total?.fat.gram}</b>{" "}
+        </p>
+        <p>
+          W: <b>{day.total?.carbohydrates.gram}</b>{" "}
+        </p>
+      </Styled.DayTotalWrapper>
       <Styled.DayMealsWrapper>
         {day.meals.length > 0 &&
           day.meals.map((meal) => <Meal key={meal._id} meal={meal} />)}

@@ -56,6 +56,7 @@ const EditDinnerModal = ({
       <MultiStepContainer
         defaultValues={editDinnerDefaultValues}
         closeModal={closeModal}
+        dietDinnerId={dietDinner._id}
       >
         {dietDinnerSteps.map(({ step, name, icon, id, validationSchema }) => (
           <FormStep

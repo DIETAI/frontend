@@ -22,6 +22,9 @@ import {
   IDietGeneratePreferencesSchema,
 } from "../../schema/dietGenerate.schema";
 
+//helpers
+import { generateDiet } from "../../helpers/generateDiet";
+
 //styles
 import * as Styled from "./MultistepContainer.styles";
 import { AxiosResponse } from "axios";
@@ -87,6 +90,15 @@ const MultiStepContainer = ({
   const onSubmit = async (data: DietGenerate) => {
     //stripe session
     console.log(`diet generate: ${data}`);
+
+    const diet = await generateDiet({
+      days: data.days,
+      generateMealsSettings: data.generateMealsSettings as any,
+      meals: data.meals as any,
+    });
+
+    //generate diet algorithm
+
     // try {
     //   const stripeResp: AxiosResponse<Stripe.Checkout.Session> =
     //     await axios.post(`/api/v1/transactions`, data, {

@@ -76,8 +76,8 @@ const ManyDaysView = () => {
       </Styled.DaysNav>
       <Styled.DaysContentContainer ref={carousel}>
         <Styled.DaysContentWrapper
-          drag="x"
-          dragConstraints={{ right: 0, left: -width }}
+        // drag="x"
+        // dragConstraints={{ right: 0, left: -width }}
         >
           {currentDays.map((day) => (
             <Day

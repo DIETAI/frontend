@@ -28,6 +28,31 @@ const DayWrapper = styled.div(
   `
 );
 
+const DayTotalWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 1rem;
+    gap: 1rem;
+    border: 0.1rem dashed ${palette.primary.light};
+    border-radius: ${border.rounded.sm};
+
+    p {
+      font-size: 1.1rem;
+      font-weight: ${fontWeight.medium};
+      color: ${palette.common.text};
+    }
+  `
+);
+
 const DayHeading = styled.div(
   ({
     theme: {
@@ -140,4 +165,11 @@ const DayMealsWrapper = styled.ul(
   `
 );
 
-export { DayWrapper, DayHeading, DayMealsWrapper, DayTotal, DayTotalItem };
+export {
+  DayWrapper,
+  DayHeading,
+  DayMealsWrapper,
+  DayTotal,
+  DayTotalItem,
+  DayTotalWrapper,
+};

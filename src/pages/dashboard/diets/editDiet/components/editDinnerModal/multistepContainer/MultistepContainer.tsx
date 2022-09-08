@@ -37,12 +37,14 @@ interface IMultiStepProps {
   children: IChildrenProps["children"];
   defaultValues: IDefaultValues["defaultValues"];
   closeModal: () => void;
+  dietDinnerId: string;
 }
 
 const MultiStepContainer = ({
   children,
   defaultValues,
   closeModal,
+  dietDinnerId,
 }: IMultiStepProps) => {
   const { dietEditId } = useParams();
   const [activeStep, setActiveStep] = useState(0);
@@ -95,9 +97,13 @@ const MultiStepContainer = ({
     //stripe session
     console.log(data);
     try {
-      const editDietDinner = await axios.put("/api/v1/dietDinners", data, {
-        withCredentials: true,
-      });
+      const editDietDinner = await axios.put(
+        `/api/v1/dietDinners/${dietDinnerId}`,
+        data,
+        {
+          withCredentials: true,
+        }
+      );
       console.log({ editDietDinner });
 
       //mutate dietquery obj

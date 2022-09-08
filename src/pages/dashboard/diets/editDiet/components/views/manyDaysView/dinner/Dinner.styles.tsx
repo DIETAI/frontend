@@ -120,6 +120,7 @@ const OptionWrapper = styled.div<IOptionType>(
     border-radius: ${border.rounded.sm};
     transition: 0.3s ease-out;
 
+    cursor: pointer;
     :hover {
       opacity: 0.6;
     }

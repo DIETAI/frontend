@@ -44,11 +44,12 @@ const DaysContentContainer = styled(motion.div)(
       layout: { border },
     },
   }) => css`
-    cursor: grab;
+    /* cursor: grab; */
     /* border: 0.1rem solid red;
     background: red; */
     /* width: 100%; */
     /* overflow: hidden; */
+    overflow-x: auto;
   `
 );
 
