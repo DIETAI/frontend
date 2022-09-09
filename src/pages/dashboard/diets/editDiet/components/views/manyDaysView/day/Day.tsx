@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { IDietDayQueryData } from "interfaces/diet/dietQuery.interfaces";
 import { getDietDayMeals } from "services/getDietMeals";
+import { AnimatePresence } from "framer-motion";
 
 //components
 import Meal from "../meal/Meal";
@@ -9,6 +10,9 @@ import DayEstablishmentModalContent from "./dayEstablishmentModal/DayEstablishme
 
 //styles
 import * as Styled from "./Day.styles";
+
+//utils
+import { procentClasses } from "../../../../utils/procentClasses";
 
 //icons
 import { FaEllipsisV } from "icons/icons";
@@ -76,22 +80,32 @@ const Day = ({ day, establishment }: IDay) => {
         </Styled.DayTotalItem>
       </Styled.DayTotal> */}
       <Styled.DayTotalWrapper>
-        <p>
-          kcal: <b>{day.total?.kcal}</b>
-        </p>
-        <p>
-          B: <b>{day.total?.protein.gram}</b>{" "}
-        </p>
-        <p>
-          T: <b>{day.total?.fat.gram}</b>{" "}
-        </p>
-        <p>
-          W: <b>{day.total?.carbohydrates.gram}</b>{" "}
-        </p>
+        <SumModal
+          macroType="kcal"
+          totalValue={day.total.kcal}
+          establishmentValue={establishment.kcal}
+        />
+        <SumModal
+          macroType="B"
+          totalValue={day.total.protein.gram}
+          establishmentValue={establishment.protein.gram}
+        />
+        <SumModal
+          macroType="T"
+          totalValue={day.total.fat.gram}
+          establishmentValue={establishment.fat.gram}
+        />
+        <SumModal
+          macroType="W"
+          totalValue={day.total.carbohydrates.gram}
+          establishmentValue={establishment.carbohydrates.gram}
+        />
       </Styled.DayTotalWrapper>
       <Styled.DayMealsWrapper>
         {day.meals.length > 0 &&
-          day.meals.map((meal) => <Meal key={meal._id} meal={meal} />)}
+          day.meals.map((meal) => (
+            <Meal key={meal._id} meal={meal} establishment={establishment} />
+          ))}
       </Styled.DayMealsWrapper>
     </Styled.DayWrapper>
 
@@ -110,6 +124,46 @@ const Day = ({ day, establishment }: IDay) => {
     //     </div>
     //   )}
     // </div>
+  );
+};
+
+export const SumModal = ({
+  totalValue,
+  establishmentValue,
+  macroType,
+}: {
+  totalValue: number;
+  establishmentValue: number;
+  macroType: string;
+}) => {
+  const [sumModalOpen, setSumModalOpen] = useState(false);
+  return (
+    <Styled.SumItem
+      onMouseEnter={() => setSumModalOpen(true)}
+      onMouseLeave={() => setSumModalOpen(false)}
+      variant={procentClasses({
+        establishment: establishmentValue,
+        total: totalValue,
+      })}
+    >
+      <p>
+        {macroType}: <b>{totalValue}</b>
+      </p>
+
+      <AnimatePresence>
+        {sumModalOpen && (
+          <Styled.SumItemModal
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <p>
+              <b>{totalValue}</b>/{establishmentValue}
+            </p>
+          </Styled.SumItemModal>
+        )}
+      </AnimatePresence>
+    </Styled.SumItem>
   );
 };
 

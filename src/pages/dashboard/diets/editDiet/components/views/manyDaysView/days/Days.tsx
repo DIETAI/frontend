@@ -74,20 +74,20 @@ const ManyDaysView = () => {
           </div>
         )}
       </Styled.DaysNav>
-      <Styled.DaysContentContainer ref={carousel}>
-        <Styled.DaysContentWrapper
-        // drag="x"
-        // dragConstraints={{ right: 0, left: -width }}
-        >
-          {currentDays.map((day) => (
-            <Day
-              key={day._id}
-              day={day}
-              establishment={dietQuery.establishment}
-            />
-          ))}
-        </Styled.DaysContentWrapper>
-      </Styled.DaysContentContainer>
+      {/* <Styled.DaysContentContainer ref={carousel}> */}
+      <Styled.DaysContentWrapper
+      // drag="x"
+      // dragConstraints={{ right: 0, left: -width }}
+      >
+        {currentDays.map((day) => (
+          <Day
+            key={day._id}
+            day={day}
+            establishment={dietQuery.establishment}
+          />
+        ))}
+      </Styled.DaysContentWrapper>
+      {/* </Styled.DaysContentContainer> */}
     </Styled.DaysContainer>
   );
 };

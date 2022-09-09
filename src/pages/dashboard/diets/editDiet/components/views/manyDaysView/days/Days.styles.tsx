@@ -14,7 +14,8 @@ const DaysContainer = styled.div(
     justify-content: flex-start;
     flex-direction: column;
     width: 100%;
-    overflow: hidden;
+    /* overflow: hidden; */
+    overflow-x: auto;
   `
 );
 
@@ -49,7 +50,7 @@ const DaysContentContainer = styled(motion.div)(
     background: red; */
     /* width: 100%; */
     /* overflow: hidden; */
-    overflow-x: auto;
+    overflow-x: scroll;
   `
 );
 
@@ -59,12 +60,14 @@ const DaysContentWrapper = styled(motion.div)(
       palette,
       typography: { fontSize, fontWeight },
       layout: { border },
+      media: { breakpoints },
     },
   }) => css`
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
     position: relative;
+
     /* width: 100%; */
     /* border: 0.1rem solid red; */
     /* width: 100%; */
@@ -75,6 +78,8 @@ const DaysContentWrapper = styled(motion.div)(
     /* cursor: grab;
     overflow: hidden; */
     /* gap: 2rem; */
+
+    overflow-x: auto;
   `
 );
 

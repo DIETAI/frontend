@@ -10,20 +10,26 @@ import AddDinnerModalContent from "../../../addDinnerModal/AddDinnerModal";
 import IconModal from "components/iconModal/IconModal";
 import MealEstablishmentModalContent from "./mealEstablishmentModal/MealEstablishmentModalContent";
 import Dinner from "../dinner/Dinner";
+import { SumModal } from "../day/Day";
 
 //icons
-import { FaEllipsisV, FaPlus } from "icons/icons";
+import { FaEllipsisV, FaPlus, FaFileAlt } from "icons/icons";
+import { IDietEstablishmentData } from "interfaces/dietEstablishment.interfaces";
 
 interface IMeal {
   meal: IDietMealQueryData;
+  establishment: IDietEstablishmentData;
 }
 
-const Meal = ({ meal }: IMeal) => {
+const Meal = ({ meal, establishment }: IMeal) => {
   const [addDinnerModalOpen, setDinnerModalOpen] = useState(false);
 
   // const { dietDinners, dietDinnersError, dietDinnersLoading } = getDietDinners(
   //   meal._id
   // );
+  const mealEstablishment = establishment.meals.find(
+    ({ _id }) => _id === meal.establishmentMealId
+  );
 
   return (
     <Styled.MealWrapper>
@@ -36,9 +42,14 @@ const Meal = ({ meal }: IMeal) => {
       </Styled.MealHeading>
 
       <Styled.MealTotalWrapper>
-        <p>
+        <SumModal
+          macroType="kcal"
+          totalValue={meal.total.kcal}
+          establishmentValue={mealEstablishment?.kcal as number}
+        />
+        {/* <p>
           kcal: <b>{meal.total?.kcal}</b>
-        </p>
+        </p> */}
         <p>
           B: <b>{meal.total?.protein.gram}</b>{" "}
         </p>
@@ -57,6 +68,12 @@ const Meal = ({ meal }: IMeal) => {
         <FaPlus />
         dodaj pozycję
       </Styled.AddDinnerButton>
+      {meal.dinners.length < 1 && (
+        <Styled.AddDinnerButton onClick={() => setDinnerModalOpen(true)}>
+          <FaFileAlt />
+          szybkie generowanie
+        </Styled.AddDinnerButton>
+      )}
 
       <Modal
         onClose={() => setDinnerModalOpen(false)}
