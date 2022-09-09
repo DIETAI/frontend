@@ -1,6 +1,9 @@
 import useSWR from "swr";
 import axios from "utils/api";
-import { IDietDayMealData } from "interfaces/diet/dietMeals.interfaces";
+import {
+  IDietDayMealData,
+  IDietMealData,
+} from "interfaces/diet/dietMeals.interfaces";
 
 const fetcher = (url: string, headers = {}) =>
   axios
@@ -9,6 +12,19 @@ const fetcher = (url: string, headers = {}) =>
       withCredentials: true,
     })
     .then((res) => res.data);
+
+export const getAllDietMeals = () => {
+  const { data, error } = useSWR<IDietMealData[] | null>(
+    `/api/v1/dietMeals`,
+    fetcher
+  );
+
+  return {
+    dietMeals: data,
+    dietMealsLoading: !error && !data,
+    dietMealsError: error,
+  };
+};
 
 export const getDietDayMeals = (dayId: string) => {
   const { data, error } = useSWR<IDietDayMealData[] | null>(

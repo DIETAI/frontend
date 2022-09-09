@@ -28,6 +28,7 @@ import { generateDiet } from "../../helpers/generateDiet";
 //styles
 import * as Styled from "./MultistepContainer.styles";
 import { AxiosResponse } from "axios";
+import { getAllDietMeals } from "services/getDietMeals";
 
 type DietGenerate = IDietGenerateDaysSchema &
   IDietGenerateMealsSchema &
@@ -41,6 +42,8 @@ const MultiStepContainer = ({
   children,
   defaultValues,
 }: IChildrenProps & IDefaultValues) => {
+  const { dietMeals } = getAllDietMeals();
+
   const [activeStep, setActiveStep] = useState(0);
 
   const childrenArray = React.Children.toArray(
@@ -91,10 +94,13 @@ const MultiStepContainer = ({
     //stripe session
     console.log(`diet generate: ${data}`);
 
+    if (!dietMeals) return;
+
     const diet = await generateDiet({
       days: data.days,
       generateMealsSettings: data.generateMealsSettings as any,
       meals: data.meals as any,
+      allDietMeals: dietMeals,
     });
 
     //generate diet algorithm
