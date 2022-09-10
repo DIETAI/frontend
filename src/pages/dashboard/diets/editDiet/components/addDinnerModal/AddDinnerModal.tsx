@@ -44,8 +44,9 @@ const AddDinnerModal = ({ closeModal, meal }: IDinnerModalProps) => {
     <Styled.DinnerModalContainer>
       <Heading
         icon={<FaUserCog />}
-        title={t("diet.form.dinner.modal.title")}
-        description={t("diet.form.dinner.modal.description")}
+        title="Dodaj posiłek"
+        // title={t("diet.form.dinner.modal.title")}
+        // description={t("diet.form.dinner.modal.description")}
       />
       <MultiStepContainer
         defaultValues={addDinnerDefaultValues}

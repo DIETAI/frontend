@@ -21,7 +21,13 @@ import { procentClasses } from "pages/dashboard/diets/editDiet/utils/procentClas
 import { useFormContext } from "react-hook-form";
 
 //icons
-import { FaPlus, FaEllipsisV } from "icons/icons";
+import {
+  FaEdit,
+  FaTrash,
+  FaInfoCircle,
+  FaPlus,
+  FaEllipsisV,
+} from "icons/icons";
 
 //styles
 import * as Styled from "./Meal.styles";
@@ -30,9 +36,15 @@ import * as Styled from "./Meal.styles";
 import Modal from "components/modal/Modal";
 import AddDinnerModalContent from "../../../addDinnerModal/AddDinnerModal";
 import Image from "components/form/images/image/Image";
+import DeleteDinnerModalContent from "../../../deleteDinnerModal/DeleteModalContent";
+import EditDinnerModalContent from "../../../editDinnerModal/EditDinnerModal";
+import InfoDinnerModalContent from "../../../infoDinnerModal/InfoModalContent";
+
+//services
 import { IDietEstablishmentData } from "interfaces/dietEstablishment.interfaces";
 import { AnimatePresence } from "framer-motion";
 import IconModal from "components/iconModal/IconModal";
+import { IDietDinnerQueryData } from "interfaces/diet/dietQuery.interfaces";
 
 const Meal = ({
   meal,
@@ -85,20 +97,7 @@ const Meal = ({
               meal.dinners.map((dinner, index) => (
                 <>
                   <Styled.DinnerWrapper key={dinner._id} className="flex">
-                    <Styled.DinnerNameWrapper>
-                      <span>
-                        {dinner.dinnerPortion.dinner.image && (
-                          <div>
-                            <Image
-                              roundedDataGrid={true}
-                              imageId={dinner.dinnerPortion.dinner.image}
-                            />
-                          </div>
-                        )}
-                        {dinner.dinnerPortion.dinner.name}
-                      </span>
-                    </Styled.DinnerNameWrapper>
-
+                    <DinnerNameWrapper dinner={dinner} />
                     <Styled.DinnerProductsWrapper>
                       {dinner.dinnerPortion.dinnerProducts.length > 0 &&
                         dinner.dinnerPortion.dinnerProducts.map(
@@ -271,6 +270,89 @@ const Meal = ({
 //   }
 //   return "text-yellow-400";
 // };
+
+const DinnerNameWrapper = ({ dinner }: { dinner: IDietDinnerQueryData }) => {
+  const [openDeleteDinnerModal, setOpenDeleteDinnerModal] = useState(false);
+  const [openInfoDinnerModal, setOpenInfoDinnerModal] = useState(false);
+  const [openEditDinnerModal, setOpenEditDinnerModal] = useState(false);
+  const [openDinnerOptions, setOpenDinnerOptions] = useState(false);
+
+  return (
+    <>
+      <Styled.DinnerNameWrapper
+        onMouseEnter={() => setOpenDinnerOptions(true)}
+        onMouseLeave={() => setOpenDinnerOptions(false)}
+      >
+        <span>
+          {dinner.dinnerPortion.dinner.image && (
+            <div>
+              <Image
+                roundedDataGrid={true}
+                imageId={dinner.dinnerPortion.dinner.image}
+              />
+            </div>
+          )}
+          {dinner.dinnerPortion.dinner.name}
+        </span>
+        <AnimatePresence>
+          {openDinnerOptions && (
+            <Styled.DietDinnerOptionsWrapper
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <Styled.OptionWrapper
+                optionType="info"
+                onClick={() => setOpenInfoDinnerModal(true)}
+              >
+                <FaInfoCircle />
+              </Styled.OptionWrapper>
+              <Styled.OptionWrapper
+                optionType="edit"
+                onClick={() => setOpenEditDinnerModal(true)}
+              >
+                <FaEdit />
+              </Styled.OptionWrapper>
+              <Styled.OptionWrapper
+                optionType="delete"
+                onClick={() => setOpenDeleteDinnerModal(true)}
+              >
+                <FaTrash />
+              </Styled.OptionWrapper>
+            </Styled.DietDinnerOptionsWrapper>
+          )}
+        </AnimatePresence>
+      </Styled.DinnerNameWrapper>
+      <Modal
+        open={openDeleteDinnerModal}
+        onClose={() => setOpenDeleteDinnerModal(false)}
+      >
+        <DeleteDinnerModalContent
+          dietDinner={dinner}
+          closeModal={() => setOpenDeleteDinnerModal(false)}
+        />
+      </Modal>
+      <Modal
+        open={openInfoDinnerModal}
+        onClose={() => setOpenInfoDinnerModal(false)}
+      >
+        <InfoDinnerModalContent
+          dietDinner={dinner}
+          closeModal={() => setOpenInfoDinnerModal(false)}
+        />
+      </Modal>
+      <Modal
+        onClose={() => setOpenEditDinnerModal(false)}
+        open={openEditDinnerModal}
+      >
+        <EditDinnerModalContent
+          dietDinner={dinner}
+          closeModal={() => setOpenEditDinnerModal(false)}
+        />
+      </Modal>
+    </>
+  );
+};
 
 const SumModal = ({
   totalValue,
