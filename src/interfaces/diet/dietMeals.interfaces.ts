@@ -1,4 +1,7 @@
+import { IDietEstablishmentData } from "interfaces/dietEstablishment.interfaces";
 import { IDinnerData } from "interfaces/dinner/dinner.interfaces";
+import { IDinnerProductData } from "interfaces/dinner/dinnerProducts.interfaces";
+import { IProductData } from "interfaces/product.interfaces";
 import { IDietDinnerData } from "./dietDinners.interfaces";
 
 export interface IMacrohydratesTotal {
@@ -31,8 +34,13 @@ export interface IDietDayMealData {
 
 //diet generate
 
+export interface IDietMealDinnerProductQuery extends IDinnerProductData {
+  product: IProductData;
+}
+
 export interface IDietMealDinner extends IDietDinnerData {
   dinner: IDinnerData;
+  dinnerProducts: IDietMealDinnerProductQuery[];
 }
 
 export interface IDietMealData {
@@ -41,6 +49,7 @@ export interface IDietMealData {
   updatedAt: string;
   user: string;
   establishmentMealId: string;
+  mealEstablishment: IDietEstablishmentData["meals"][0];
   dietId: string;
   dayId: string;
   name: string;

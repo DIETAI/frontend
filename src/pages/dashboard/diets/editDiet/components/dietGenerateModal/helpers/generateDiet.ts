@@ -4,6 +4,11 @@ import {
   IDietMealDinner,
 } from "interfaces/diet/dietMeals.interfaces";
 
+//helpers
+import { randomDietMeal } from "./randomDietMeal/randomDietMeal";
+import { getMealDinnersPortionsMacro } from "./portionsMacro/getDinnerPortionsMacro";
+import { cartesianDinners } from "./cartesianDinners/cartesianDinners";
+
 export interface IGenerateDiet {
   days: string[];
   allDietMeals: IDietMealData[];
@@ -75,39 +80,86 @@ const generateDietDay = async ({
     setTimeout(() => {
       console.log("generate diet day");
 
-      const randomDietMeals = mealsTypes.map((meal) => {
+      const randomDayMeals = mealsTypes.map((meal) => {
         const filteredDietMealsByType = allDietMeals.filter(
           ({ type }) => type === meal.type
         );
+        const randomMeal = randomDietMeal({
+          currentDayId,
+          mealType: meal.type,
+          filteredDietMealsByType,
+        });
+        return randomMeal;
+      });
 
-        if (filteredDietMealsByType.length < 1) {
+      const mealsDinnersPortionsMacro = randomDayMeals.map(
+        ({ randomDietMeal }) => {
+          const dinnerPortionsMacro = randomDietMeal.dinners.map((dinner) => {
+            const dinnerMacroPortion = getMealDinnersPortionsMacro(dinner);
+
+            return {
+              ...dinner,
+              dinnerMacroPortion,
+            };
+          });
+
           return {
-            mealType: meal.type,
-            randomDietMeal: null,
+            ...randomDietMeal,
+            dinnerPortionsMacro,
           };
         }
+      );
 
-        const randomDietMeal =
-          filteredDietMealsByType[
-            Math.floor(Math.random() * filteredDietMealsByType.length)
-          ];
+      const mealDinners = mealsDinnersPortionsMacro.map((meal) => {
+        const allMealDinnerProductsWithPortions = meal.dinnerPortionsMacro.map(
+          ({ dinnerMacroPortion }) => {
+            const portions = dinnerMacroPortion.dinnerProductsPortions;
 
-        console.log(
-          `Wylosowane posiłki dla dnia ${currentDayId} - ${
-            meal.type
-          } to ${randomDietMeal.dinners.map(
-            (dietDinner) => dietDinner.dinner.name
-          )}`
+            return portions;
+          }
         );
+
+        console.log({ allMealDinnerProductsWithPortions });
+
+        const concatMealDinnersPortions =
+          allMealDinnerProductsWithPortions.flatMap(
+            (mealDinners) => mealDinners
+          );
+
+        console.log({ concatMealDinnersPortions });
+
+        //złączenie wszystkich produktów w posiłku (odróżnienie za pomocą dinnerId)
+        //concatMealDinners => algorytm kartezjański
+
         return {
-          mealType: meal.type,
-          randomDietMeal: randomDietMeal,
+          ...meal,
+          concatMealDinnersPortions,
         };
       });
 
-      console.log({ currentDayId, randomDietMeals });
+      console.time("cartesianProduct");
+      //połączone porcje wszystkich dań posiłków np (danie główne i danie uzupełniające)
+      const dinnersCartesianGroups = mealDinners.map((meal) => ({
+        mealId: meal._id,
+        mealName: meal.name,
+        mealsType: meal.type,
+        mealEstablishment: meal.mealEstablishment,
+        groups: cartesianDinners(
+          meal.mealEstablishment, //get establishment
+          ...meal.concatMealDinnersPortions
+        ),
+      }));
+      console.timeEnd("cartesianProduct");
 
-      return resolve(randomDietMeals);
+      console.log({
+        currentDayId,
+        randomDayMeals,
+        mealsDinnersPortionsMacro,
+        mealDinners,
+        dinnersCartesianGroups,
+      });
+
+      return resolve(randomDayMeals);
     }, 4000);
   });
 
