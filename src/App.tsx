@@ -25,6 +25,10 @@ import { defaultTheme, darkTheme } from "theme/theme";
 //auth
 import { useSession } from "utils/firebase";
 
+//store
+import { store } from "store/store";
+import { Provider as StoreProvider } from "react-redux";
+
 const App = () => {
   // useSession();
   const { darkMode } = useDarkMode();
@@ -41,20 +45,22 @@ const App = () => {
   return (
     <>
       <GlobalStyle />
-      <ThemeProvider theme={theme}>
-        <Router>
-          <Routes>
-            <Route path="/*" element={<HomeRoutes />} />
-            <Route path="/auth/*" element={<AuthRoutes />} />
-            <Route path="/verify/*" element={<VerifyRoutes />} />
-            <Route
-              path="/subscription-plans/*"
-              element={<SubscriptionPlanRoutes />}
-            />
-            <Route path="/dashboard/*" element={<DashboardRoutes />} />
-          </Routes>
-        </Router>
-      </ThemeProvider>
+      <StoreProvider store={store}>
+        <ThemeProvider theme={theme}>
+          <Router>
+            <Routes>
+              <Route path="/*" element={<HomeRoutes />} />
+              <Route path="/auth/*" element={<AuthRoutes />} />
+              <Route path="/verify/*" element={<VerifyRoutes />} />
+              <Route
+                path="/subscription-plans/*"
+                element={<SubscriptionPlanRoutes />}
+              />
+              <Route path="/dashboard/*" element={<DashboardRoutes />} />
+            </Routes>
+          </Router>
+        </ThemeProvider>
+      </StoreProvider>
     </>
   );
 };

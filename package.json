@@ -5,6 +5,7 @@
   "dependencies": {
     "@hookform/resolvers": "^2.8.8",
     "@react-pdf/renderer": "^2.1.1",
+    "@reduxjs/toolkit": "^1.8.5",
     "@stripe/stripe-js": "^1.32.0",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.1.1",

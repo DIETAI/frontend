@@ -8,7 +8,7 @@ import {
 import { randomDietMeal } from "./randomDietMeal/randomDietMeal";
 import { getMealDinnersPortionsMacro } from "./portionsMacro/getDinnerPortionsMacro";
 import { cartesianDinners } from "./cartesianDinners/cartesianDinners";
-import { selectGroups } from "./selectGroups";
+import { ISelectedGroups, selectGroups } from "./selectGroups";
 
 export interface IGenerateDiet {
   days: string[];

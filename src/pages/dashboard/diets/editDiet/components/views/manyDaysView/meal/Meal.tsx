@@ -11,6 +11,7 @@ import IconModal from "components/iconModal/IconModal";
 import MealEstablishmentModalContent from "./mealEstablishmentModal/MealEstablishmentModalContent";
 import Dinner from "../dinner/Dinner";
 import { SumModal } from "../day/Day";
+import MealGenerateModalContent from "../../../mealGenerateModal/MealGenerateModal";
 
 //icons
 import { FaEllipsisV, FaPlus, FaFileAlt } from "icons/icons";
@@ -23,6 +24,7 @@ interface IMeal {
 
 const Meal = ({ meal, establishment }: IMeal) => {
   const [addDinnerModalOpen, setDinnerModalOpen] = useState(false);
+  const [generateMealModalOpen, setGenerateMealModalOpen] = useState(false);
 
   // const { dietDinners, dietDinnersError, dietDinnersLoading } = getDietDinners(
   //   meal._id
@@ -69,7 +71,7 @@ const Meal = ({ meal, establishment }: IMeal) => {
         dodaj pozycję
       </Styled.AddDinnerButton>
       {meal.dinners.length < 1 && (
-        <Styled.AddDinnerButton onClick={() => setDinnerModalOpen(true)}>
+        <Styled.AddDinnerButton onClick={() => setGenerateMealModalOpen(true)}>
           <FaFileAlt />
           szybkie generowanie
         </Styled.AddDinnerButton>
@@ -82,6 +84,15 @@ const Meal = ({ meal, establishment }: IMeal) => {
         <AddDinnerModalContent
           meal={meal}
           closeModal={() => setDinnerModalOpen(false)}
+        />
+      </Modal>
+      <Modal
+        onClose={() => setGenerateMealModalOpen(false)}
+        open={generateMealModalOpen}
+      >
+        <MealGenerateModalContent
+          meal={meal}
+          closeModal={() => setGenerateMealModalOpen(false)}
         />
       </Modal>
     </Styled.MealWrapper>
