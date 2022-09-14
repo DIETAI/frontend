@@ -103,6 +103,8 @@ const MultiStepContainer = ({
       allDietMeals: dietMeals,
     });
 
+    console.log({ generatedDiet: diet });
+
     //generate diet algorithm
 
     // try {

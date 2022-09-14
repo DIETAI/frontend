@@ -50,6 +50,7 @@ export interface IDietMealData {
   user: string;
   establishmentMealId: string;
   mealEstablishment: IDietEstablishmentData["meals"][0];
+  dietEstablishment: IDietEstablishmentData;
   dietId: string;
   dayId: string;
   name: string;

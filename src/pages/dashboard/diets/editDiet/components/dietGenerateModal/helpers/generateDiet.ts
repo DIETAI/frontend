@@ -8,6 +8,7 @@ import {
 import { randomDietMeal } from "./randomDietMeal/randomDietMeal";
 import { getMealDinnersPortionsMacro } from "./portionsMacro/getDinnerPortionsMacro";
 import { cartesianDinners } from "./cartesianDinners/cartesianDinners";
+import { selectGroups } from "./selectGroups";
 
 export interface IGenerateDiet {
   days: string[];
@@ -50,6 +51,8 @@ export const generateDiet = async ({
       mealsTypes: meals,
       allDietMeals,
     });
+
+    console.log({ generatedDietDayMeals });
 
     if (dayId === days[days.length - 1]) {
       // return changeDietGenerateAction(0, false, "", [0]);
@@ -138,7 +141,8 @@ const generateDietDay = async ({
       });
 
       console.time("cartesianProduct");
-      //połączone porcje wszystkich dań posiłków np (danie główne i danie uzupełniające)
+      // połączone porcje wszystkich dań posiłków np (danie główne i danie uzupełniające)
+
       const dinnersCartesianGroups = mealDinners.map((meal) => ({
         mealId: meal._id,
         mealName: meal.name,
@@ -146,10 +150,17 @@ const generateDietDay = async ({
         mealEstablishment: meal.mealEstablishment,
         groups: cartesianDinners(
           meal.mealEstablishment, //get establishment
+          meal.dietEstablishment,
           ...meal.concatMealDinnersPortions
         ),
       }));
       console.timeEnd("cartesianProduct");
+
+      const selectedDinners = dinnersCartesianGroups.map((meal) => ({
+        mealId: meal.mealId,
+        mealName: meal.mealName,
+        groups: selectGroups(meal.groups),
+      }));
 
       console.log({
         currentDayId,
@@ -157,10 +168,11 @@ const generateDietDay = async ({
         mealsDinnersPortionsMacro,
         mealDinners,
         dinnersCartesianGroups,
+        selectedDinners,
       });
 
-      return resolve(randomDayMeals);
-    }, 4000);
+      return resolve(selectedDinners);
+    }, 100);
   });
 
   return generate;
