@@ -33,6 +33,8 @@ const Meal = ({ meal, establishment }: IMeal) => {
     ({ _id }) => _id === meal.establishmentMealId
   );
 
+  if (!mealEstablishment) return null;
+
   return (
     <Styled.MealWrapper>
       <Styled.MealHeading>
@@ -92,6 +94,8 @@ const Meal = ({ meal, establishment }: IMeal) => {
       >
         <MealGenerateModalContent
           meal={meal}
+          mealEstablishment={mealEstablishment}
+          dietEstablishment={establishment}
           closeModal={() => setGenerateMealModalOpen(false)}
         />
       </Modal>

@@ -9,8 +9,12 @@ import { generateMeal } from "./helpers/generateMeal";
 import { addDietMealGenerate } from "store/dietMealGenerate";
 import { RootState } from "store/store";
 import { useSelector, useDispatch } from "react-redux";
+import {
+  IDietEstablishmentData,
+  IDietEstablishmentMeal,
+} from "interfaces/dietEstablishment.interfaces";
 
-interface IMealGenerateAction {
+export interface IMealGenerateAction {
   actionType: string;
   actionMessage: string;
   loading: boolean;
@@ -20,9 +24,13 @@ interface IMealGenerateAction {
 
 const MealGenerateModal = ({
   meal,
+  mealEstablishment,
+  dietEstablishment,
   closeModal,
 }: {
   meal: IDietMealQueryData;
+  mealEstablishment: IDietEstablishmentMeal;
+  dietEstablishment: IDietEstablishmentData;
   closeModal: () => void;
 }) => {
   const [mealGenerateAction, setMealGenerateAction] =
@@ -35,7 +43,7 @@ const MealGenerateModal = ({
     });
 
   const dispatch = useDispatch();
-  const { mealDinners, dietMeal } = useSelector(
+  const { mealDinners, dietMeal, selectedMealGroup } = useSelector(
     (state: RootState) => state.dietMealGenerate
   );
 
@@ -47,6 +55,12 @@ const MealGenerateModal = ({
     const generatedDietMeal = await generateMeal({
       mealToGenerate: meal,
       allDietMeals: dietMeals,
+      dispatch,
+      addDietMealGenerate,
+      mealGenerateAction,
+      setMealGenerateAction,
+      dietEstablishment,
+      mealEstablishment,
     });
 
     // dispatch(addDietMealGenerate({}));
@@ -55,9 +69,41 @@ const MealGenerateModal = ({
   return (
     <div>
       <h1>generuj posiłek</h1>
-      <button type="button" onClick={handleGenerateDietMeal}>
-        generuj posiłek
-      </button>
+      {mealGenerateAction.loading && (
+        <div>
+          <h2>loading...</h2>
+          <p>{mealGenerateAction.actionMessage}</p>
+        </div>
+      )}
+
+      {!mealGenerateAction.loading ||
+        (mealDinners.length < 1 && (
+          <div>
+            <button type="button" onClick={handleGenerateDietMeal}>
+              generuj posiłek
+            </button>
+          </div>
+        ))}
+
+      {mealDinners.length > 0 && (
+        <div>
+          <h3>razem: {selectedMealGroup?.macroTotalCount.total_kcal} kcal</h3>
+
+          <h3>wygenerowane posiłki</h3>
+          {mealDinners.map((mealDinner) => (
+            <div key={mealDinner.dinnerId}>
+              <li>{mealDinner.dinnerName}</li>
+              <h4>porcje produktów</h4>
+              {mealDinner.dinnerProducts.map((dinnerProduct) => (
+                <div key={dinnerProduct.productId}>
+                  <p>produkt: {dinnerProduct.productName}</p>
+                  <h5>porcja: {dinnerProduct.portion} g</h5>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

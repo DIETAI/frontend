@@ -1,4 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { ISelectGroupInfo } from "pages/dashboard/diets/editDiet/components/mealGenerateModal/helpers/selectGroups";
+import { ICartesianResult } from "pages/dashboard/diets/editDiet/components/mealGenerateModal/helpers/cartesianDinners/cartesianDinners";
 
 export interface IDietMealGenerate {
   dietMeal?: {
@@ -6,10 +8,18 @@ export interface IDietMealGenerate {
     dayId: string;
     dietId: string;
   };
+  selectedMealGroup?: {
+    type: string;
+    name: string;
+    description: string;
+    macroTotalCount: ICartesianResult["macroTotalCount"];
+    missingProcentCount: ICartesianResult["missingProcentCount"];
+  };
   mealDinners: {
     _id: string;
     dinnerId: string;
     dinnerName: string;
+    dinnerProducts: ICartesianResult["products"];
   }[];
 }
 
@@ -23,6 +33,7 @@ export const dietMealGenerateSlice = createSlice({
   reducers: {
     addDietMealGenerate: (state, action: PayloadAction<IDietMealGenerate>) => {
       state.dietMeal = action.payload.dietMeal;
+      state.selectedMealGroup = action.payload.selectedMealGroup;
       state.mealDinners = action.payload.mealDinners;
     },
   },
