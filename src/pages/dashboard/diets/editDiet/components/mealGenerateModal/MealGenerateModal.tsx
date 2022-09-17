@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { IDietMealQueryData } from "interfaces/diet/dietQuery.interfaces";
 import { getAllDietMeals } from "services/getDietMeals";
 import { getDinnerPortionsQuery } from "services/getDinnerPortions";
+import { procentClasses } from "../../utils/procentClasses";
 
 //helpers
 import { generateMeal } from "./helpers/generateMeal";
@@ -19,12 +20,17 @@ import {
 
 //components
 import Heading from "components/heading/Heading";
+import Button from "components/form/button/Button";
+import ReactLoading from "react-loading";
 
 //icons
 import { FaUserCog } from "icons/icons";
 
 //styles
 import * as Styled from "./MealGenerateModal.styles";
+
+//images
+import GenerateMealImage from "assets/generateMeal.svg";
 
 import axios from "utils/api";
 import { useParams } from "react-router";
@@ -34,6 +40,8 @@ import {
   IDinnerPortionQueryData,
 } from "interfaces/dinner/dinnerPortions.interfaces";
 import { IDinnerPortion } from "pages/dashboard/dinners/components/form/steps/portions/addDinnerPortionModal/schema/dinnerPortion.schema";
+import { AnimatePresence } from "framer-motion";
+import { roundMacro } from "./helpers/cartesianDinners/cartesianDinners";
 
 export interface IMealGenerateAction {
   actionType: string;
@@ -297,43 +305,114 @@ const MealGenerateModal = ({
         // title={t("diet.form.dinner.modal.title")}
         // description={t("diet.form.dinner.modal.description")}
       />
-      {mealGenerateAction.loading && (
-        <div>
-          <h2>loading...</h2>
-          <p>{mealGenerateAction.actionMessage}</p>
-        </div>
-      )}
+      <Styled.MealGenerateContentWrapper>
+        <AnimatePresence>
+          {mealGenerateAction.loading && (
+            <Styled.LoadingWrapper
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <ReactLoading type="spin" color="blue" height={50} width={50} />
+              <h2>{mealGenerateAction.actionMessage}</h2>
+            </Styled.LoadingWrapper>
+          )}
+        </AnimatePresence>
 
-      {(!mealGenerateAction.loading || mealDinners.length < 1) && (
-        <div>
-          <button type="button" onClick={handleGenerateDietMeal}>
-            generuj posiłek
-          </button>
-        </div>
-      )}
+        {mealDinners.length < 1 && (
+          <Styled.ContentWrapper>
+            <img src={GenerateMealImage} />
+            <Button type="button" onClick={handleGenerateDietMeal as any}>
+              generuj posiłek
+            </Button>
+          </Styled.ContentWrapper>
+        )}
 
-      {mealDinners.length > 0 && (
-        <div>
-          <h3>
-            razem: {selectedMealGroup?.macroTotalCount.total_kcal} /{" "}
-            {mealEstablishment.kcal} kcal
-          </h3>
+        {mealDinners.length > 0 && !mealGenerateAction.loading && (
+          <>
+            <Styled.GeneratedMealNavWrapper>
+              <h3>{meal.name}</h3>
+              <Styled.GeneratedMealNavButtonsWrapper>
+                <Button
+                  type="button"
+                  onClick={handleGenerateDietMeal as any}
+                  variant="secondary"
+                >
+                  generuj ponownie posiłek
+                </Button>
+                <Button type="button" onClick={addMealToDiet as any}>
+                  dodaj posiłek do diety
+                </Button>
+              </Styled.GeneratedMealNavButtonsWrapper>
+            </Styled.GeneratedMealNavWrapper>
+            <Styled.OneDayViewTotalWrapper>
+              <Styled.OneDayViewTotalItem>
+                <h2>B (g):</h2>
+                <p>
+                  <b>{selectedMealGroup?.macroTotalCount.total_protein_gram}</b>
+                </p>
+              </Styled.OneDayViewTotalItem>
+              <Styled.OneDayViewTotalItem>
+                <h2>T (g):</h2>
+                <p>
+                  <b>{selectedMealGroup?.macroTotalCount.total_fat_gram}</b>
+                </p>
+              </Styled.OneDayViewTotalItem>
+              <Styled.OneDayViewTotalItem>
+                <h2>W (g):</h2>
+                <p>
+                  <b>
+                    {
+                      selectedMealGroup?.macroTotalCount
+                        .total_carbohydrates_gram
+                    }
+                  </b>
+                </p>
+              </Styled.OneDayViewTotalItem>
+              {/* <Styled.OneDayViewTotalItem
+                variant={procentClasses({
+                  establishment: dietQuery.establishment.fiber.gram,
+                  total: currentDay?.total.fiber.gram || 0,
+                })}
+              >
+                <h2>Bł (g):</h2>
+                <p>
+                  <b>{currentDay?.total.fiber.gram}</b>/
+                  {dietQuery.establishment.fiber.gram}
+                </p>
+              </Styled.OneDayViewTotalItem> */}
+              <Styled.OneDayViewTotalItem
+                variant={procentClasses({
+                  establishment: mealEstablishment.kcal,
+                  total: selectedMealGroup?.macroTotalCount.total_kcal || 0,
+                })}
+              >
+                <h2>Kcal:</h2>
+                <p>
+                  <b>{selectedMealGroup?.macroTotalCount.total_kcal}</b>/
+                  {mealEstablishment.kcal}
+                </p>
+              </Styled.OneDayViewTotalItem>
+            </Styled.OneDayViewTotalWrapper>
+            {/* <Styled.GeneratedMealTotalWrapper>
+              <h3>
+                razem: {selectedMealGroup?.macroTotalCount.total_kcal} /{" "}
+                {mealEstablishment.kcal} kcal
+              </h3>
+            </Styled.GeneratedMealTotalWrapper> */}
 
-          <h3>wygenerowane posiłki</h3>
-          <Styled.PortionsWrapper>
-            {mealDinners.map((mealDinner, dinnerIndex) => (
-              <DinnerPortion
-                key={mealDinner.dinnerId}
-                mealDinner={mealDinner}
-                dinnerIndex={dinnerIndex}
-              />
-            ))}
-          </Styled.PortionsWrapper>
-          <button onClick={addMealToDiet} type="button">
-            dodaj posiłek do diety
-          </button>
-        </div>
-      )}
+            <Styled.PortionsWrapper>
+              {mealDinners.map((mealDinner, dinnerIndex) => (
+                <DinnerPortion
+                  key={mealDinner.dinnerId}
+                  mealDinner={mealDinner}
+                  dinnerIndex={dinnerIndex}
+                />
+              ))}
+            </Styled.PortionsWrapper>
+          </>
+        )}
+      </Styled.MealGenerateContentWrapper>
     </Styled.GenerateMealModalContainer>
   );
 };

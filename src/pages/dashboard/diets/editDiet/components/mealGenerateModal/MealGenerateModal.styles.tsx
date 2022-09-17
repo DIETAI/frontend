@@ -15,6 +15,39 @@ const GenerateMealModalContainer = styled.div(
   `
 );
 
+const ContentWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+
+    img {
+      width: 20rem;
+      height: 20rem;
+      object-fit: contain;
+    }
+
+    h2 {
+      font-size: ${fontSize.l};
+      font-weight: ${fontWeight.semibold};
+      color: ${palette.common.text};
+    }
+
+    button {
+      margin-top: 2rem;
+    }
+  `
+);
+
 const PortionsWrapper = styled.div(
   ({
     theme: {
@@ -26,6 +59,7 @@ const PortionsWrapper = styled.div(
     display: flex;
     flex-direction: column;
     gap: 2rem;
+    width: 100%;
   `
 );
 
@@ -310,8 +344,179 @@ const ProductTotalFeature = styled.li(
   `
 );
 
+const MealGenerateContentWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    min-height: 30rem;
+    width: 100%;
+    gap: 2rem;
+  `
+);
+
+const LoadingWrapper = styled(motion.div)(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 30rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    gap: 2rem;
+    padding: 2rem;
+    border-radius: ${border.rounded.sm};
+    border: 0.1rem solid ${palette.primary.light};
+    background: ${palette.common.main};
+
+    h2 {
+      color: ${palette.primary.main};
+      font-weight: ${fontWeight.medium};
+      font-size: ${fontSize.m};
+    }
+  `
+);
+
+const GeneratedMealNavWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    h3 {
+      color: ${palette.common.text};
+      font-weight: ${fontWeight.light};
+      font-size: ${fontSize.m};
+    }
+  `
+);
+
+const GeneratedMealNavButtonsWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  `
+);
+
+const GeneratedMealTotalWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  `
+);
+
+const OneDayViewTotalWrapper = styled.ul(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 1rem;
+    margin-bottom: 3rem;
+    width: 100%;
+  `
+);
+
+interface ITotalVariant {
+  variant?: "red" | "yellow" | "green";
+}
+
+const OneDayViewTotalItem = styled.li<ITotalVariant>(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+    variant,
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 2rem;
+    border: 0.1rem solid ${palette.primary.light};
+    border-radius: ${border.rounded.md};
+    gap: 1rem;
+    flex-grow: 1;
+
+    h2 {
+      color: ${palette.common.text};
+      font-size: 1.4rem;
+      font-weight: ${fontWeight.medium};
+    }
+
+    p {
+      color: ${palette.common.text};
+      font-size: 1.4rem;
+      font-weight: ${fontWeight.medium};
+    }
+
+    ${variant === "green" &&
+    css`
+      b {
+        color: lightgreen;
+      }
+    `}
+
+    ${variant === "yellow" &&
+    css`
+      b {
+        color: orange;
+      }
+    `}
+
+    ${variant === "red" &&
+    css`
+      b {
+        color: red;
+      }
+    `}
+  `
+);
+
 export {
   GenerateMealModalContainer,
+  ContentWrapper,
   PortionsWrapper,
   PortionWrapper,
   PortionHeadingWrapper,
@@ -327,4 +532,11 @@ export {
   ProductPortionItem,
   ProductTotalFeaturesWrapper,
   ProductTotalFeature,
+  MealGenerateContentWrapper,
+  LoadingWrapper,
+  GeneratedMealNavWrapper,
+  GeneratedMealNavButtonsWrapper,
+  GeneratedMealTotalWrapper,
+  OneDayViewTotalWrapper,
+  OneDayViewTotalItem,
 };
