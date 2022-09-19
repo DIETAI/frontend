@@ -19,7 +19,7 @@ const Modal = ({ open, children, onClose }: IModalProps & IChildrenProps) => {
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
-      if (!modalRef.current?.contains(e.target as Node)) {
+      if (!modalRef.current?.contains(e.target as Node) && onClose) {
         document.body.style.overflowY = "visible";
         onClose();
       }

@@ -89,7 +89,7 @@ const Meal = ({ meal, establishment }: IMeal) => {
         />
       </Modal>
       <Modal
-        onClose={() => setGenerateMealModalOpen(false)}
+        // onClose={() => setGenerateMealModalOpen(false)}
         open={generateMealModalOpen}
       >
         <MealGenerateModalContent

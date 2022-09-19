@@ -48,6 +48,19 @@ const ContentWrapper = styled.div(
   `
 );
 
+const ContentButtonsWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    display: flex;
+    gap: 2rem;
+  `
+);
+
 const PortionsWrapper = styled.div(
   ({
     theme: {
@@ -517,6 +530,7 @@ const OneDayViewTotalItem = styled.li<ITotalVariant>(
 export {
   GenerateMealModalContainer,
   ContentWrapper,
+  ContentButtonsWrapper,
   PortionsWrapper,
   PortionWrapper,
   PortionHeadingWrapper,

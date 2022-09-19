@@ -30,9 +30,28 @@ import * as Styled from "./MultistepContainer.styles";
 import { AxiosResponse } from "axios";
 import { getAllDietMeals } from "services/getDietMeals";
 
+//store
+import { RootState } from "store/store";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  addDietGenerate,
+  IDietGenerate,
+  removeDietGenerate,
+} from "store/dietGenerate";
+
 type DietGenerate = IDietGenerateDaysSchema &
   IDietGenerateMealsSchema &
   IDietGeneratePreferencesSchema;
+
+export interface IDietGenerateAction {
+  dayId: string;
+  generatedDays: string[];
+  actionType: string;
+  actionMessage: string;
+  loading: boolean;
+  error: boolean;
+  errorMessage: string;
+}
 
 export const FormStep = ({ children }: IFormStepProps) => {
   return <div className="w-full flex flex-wrap gap-6">{children}</div>;
@@ -42,6 +61,22 @@ const MultiStepContainer = ({
   children,
   defaultValues,
 }: IChildrenProps & IDefaultValues) => {
+  const [dietGenerateAction, setDietGenerateAction] =
+    useState<IDietGenerateAction>({
+      dayId: "",
+      generatedDays: [],
+      actionType: "",
+      actionMessage: "",
+      loading: false,
+      error: false,
+      errorMessage: "",
+    });
+
+  const dispatch = useDispatch();
+  const { generatedDays } = useSelector(
+    (state: RootState) => state.dietGenerate
+  );
+
   const { dietMeals } = getAllDietMeals();
 
   const [activeStep, setActiveStep] = useState(0);
@@ -96,14 +131,25 @@ const MultiStepContainer = ({
 
     if (!dietMeals) return;
 
-    const diet = await generateDiet({
+    // const diet = await generateDiet({
+    //   days: data.days,
+    //   generateMealsSettings: data.generateMealsSettings as any,
+    //   meals: data.meals as any,
+    //   allDietMeals: dietMeals,
+    // });
+
+    const generatedDiet = await generateDiet({
       days: data.days,
       generateMealsSettings: data.generateMealsSettings as any,
       meals: data.meals as any,
       allDietMeals: dietMeals,
+      dispatch,
+      addDietGenerate,
+      dietGenerateAction,
+      setDietGenerateAction,
     });
 
-    console.log({ generatedDiet: diet });
+    console.log({ generatedDiet: generatedDiet });
 
     //generate diet algorithm
 
@@ -134,6 +180,34 @@ const MultiStepContainer = ({
     //tablica z walidowanymi stronami
     checkIsValid();
   }, [activeStep]);
+
+  if (dietGenerateAction.loading) {
+    return (
+      <div>
+        <h3>generowanie diety dla dnia {dietGenerateAction.dayId}</h3>
+        <h3>
+          wygenerowane dni : {JSON.stringify(dietGenerateAction.generatedDays)}
+        </h3>
+      </div>
+    );
+  }
+
+  if (generatedDays.length > 0) {
+    return (
+      <div>
+        {generatedDays.map((day) => (
+          <div key={day._id}>
+            <h3>{day.name}</h3>
+            <div>
+              {day.meals.map((meal) => (
+                <div key={meal._id}>{meal.name}</div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  }
 
   return (
     <Styled.MultistepWrapper>

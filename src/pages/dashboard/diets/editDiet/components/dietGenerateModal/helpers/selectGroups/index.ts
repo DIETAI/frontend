@@ -28,6 +28,13 @@ export interface ISelectGroupInfo {
   description: string;
 }
 
+export interface ISelectMainGroupInfo {
+  group: ICartesianResult;
+  type: string;
+  name: string;
+  description: string;
+}
+
 // export interface IMainGroup extends ISelectGroupInfo {
 //   group: IGroup;
 // }
@@ -109,7 +116,7 @@ export const selectGroups = (
   };
 
   return {
-    main: selectMainGroup(),
+    main: selectMainGroup() as ISelectMainGroupInfo,
     perfectProcent,
     minMissingProcentPerfectKcal,
     twoMacroPerfectProcent,

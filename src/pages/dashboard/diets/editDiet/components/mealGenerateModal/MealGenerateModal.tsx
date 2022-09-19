@@ -10,7 +10,11 @@ import { countTotal } from "helpers/countTotal";
 import { sumTotal } from "helpers/sumTotal";
 
 //store
-import { addDietMealGenerate, IDietMealGenerate } from "store/dietMealGenerate";
+import {
+  addDietMealGenerate,
+  IDietMealGenerate,
+  removeMealGenerate,
+} from "store/dietMealGenerate";
 import { RootState } from "store/store";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -254,6 +258,7 @@ const MealGenerateModal = ({
 
           console.log({ newDietDinner });
 
+          dispatch(removeMealGenerate());
           closeModal();
           return newDietDinner;
         }
@@ -276,7 +281,7 @@ const MealGenerateModal = ({
         );
 
         console.log({ newDietDinner });
-
+        dispatch(removeMealGenerate());
         closeModal();
         return newDietDinner;
       })
@@ -295,6 +300,11 @@ const MealGenerateModal = ({
     // } catch (e) {
     //   console.log(e);
     // }
+  };
+
+  const handleCloseModal = () => {
+    dispatch(removeMealGenerate());
+    closeModal();
   };
 
   return (
@@ -322,9 +332,14 @@ const MealGenerateModal = ({
         {mealDinners.length < 1 && (
           <Styled.ContentWrapper>
             <img src={GenerateMealImage} />
-            <Button type="button" onClick={handleGenerateDietMeal as any}>
-              generuj posiłek
-            </Button>
+            <Styled.ContentButtonsWrapper>
+              <Button type="button" onClick={handleGenerateDietMeal as any}>
+                generuj posiłek
+              </Button>
+              <Button type="button" onClick={closeModal} variant="secondary">
+                anuluj
+              </Button>
+            </Styled.ContentButtonsWrapper>
           </Styled.ContentWrapper>
         )}
 
@@ -342,6 +357,13 @@ const MealGenerateModal = ({
                 </Button>
                 <Button type="button" onClick={addMealToDiet as any}>
                   dodaj posiłek do diety
+                </Button>
+                <Button
+                  type="button"
+                  onClick={handleCloseModal}
+                  variant="secondary"
+                >
+                  anuluj
                 </Button>
               </Styled.GeneratedMealNavButtonsWrapper>
             </Styled.GeneratedMealNavWrapper>
@@ -394,6 +416,10 @@ const MealGenerateModal = ({
                 </p>
               </Styled.OneDayViewTotalItem>
             </Styled.OneDayViewTotalWrapper>
+            <p>
+              założenia makroskładników w przedziale np. białko 11 - 15%, na
+              końcu obliczyć jaki dokładny procent diety stanowi
+            </p>
             {/* <Styled.GeneratedMealTotalWrapper>
               <h3>
                 razem: {selectedMealGroup?.macroTotalCount.total_kcal} /{" "}

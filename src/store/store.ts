@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import dietMealGenerateReducer from "./dietMealGenerate";
+import dietGenerateReducer from "./dietGenerate";
 
 export const store = configureStore({
   reducer: {
     dietMealGenerate: dietMealGenerateReducer,
+    dietGenerate: dietGenerateReducer,
   },
 });
 

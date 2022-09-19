@@ -7,6 +7,7 @@ import { DinnerPortionsMacro } from "../portionsMacro/getDinnerPortionsMacro";
 export const cartesianDinners = (
   mealEstablishment: IDietEstablishmentMeal,
   dietEstablishment: IDietEstablishmentData,
+  maxCartesianGroups: number,
   ...portions: DinnerPortionsMacro["dinnerProductsPortions"]
 ) => {
   const result: Array<ICartesianResult> = [];
@@ -31,7 +32,7 @@ export const cartesianDinners = (
 
         loop = loop + 1;
 
-        if (result.length === 100) {
+        if (result.length === maxCartesianGroups) {
           return;
         }
 

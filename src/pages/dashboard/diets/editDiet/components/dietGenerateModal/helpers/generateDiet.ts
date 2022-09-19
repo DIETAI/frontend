@@ -3,11 +3,20 @@ import {
   IDietMealData,
   IDietMealDinner,
 } from "interfaces/diet/dietMeals.interfaces";
+import { IDietGenerateAction } from "../components/multistepContainer/MultistepContainer";
+
+import { Dispatch } from "@reduxjs/toolkit";
+import { Dispatch as StateDispatch, SetStateAction } from "react";
+import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
+import { IDietGenerate } from "store/dietGenerate";
 
 //helpers
 import { randomDietMeal } from "./randomDietMeal/randomDietMeal";
 import { getMealDinnersPortionsMacro } from "./portionsMacro/getDinnerPortionsMacro";
-import { cartesianDinners } from "./cartesianDinners/cartesianDinners";
+import {
+  cartesianDinners,
+  ICartesianResult,
+} from "./cartesianDinners/cartesianDinners";
 import { ISelectedGroups, selectGroups } from "./selectGroups";
 
 export interface IGenerateDiet {
@@ -21,6 +30,13 @@ export interface IGenerateDiet {
     uid: string;
     type: "breakfast" | "second_breakfast" | "lunch" | "snack" | "dinner";
   }[];
+  dispatch: Dispatch;
+  addDietGenerate: ActionCreatorWithPayload<
+    IDietGenerate["generatedDays"][0],
+    string
+  >;
+  dietGenerateAction: IDietGenerateAction;
+  setDietGenerateAction: StateDispatch<SetStateAction<IDietGenerateAction>>;
 }
 
 export const generateDiet = async ({
@@ -28,6 +44,10 @@ export const generateDiet = async ({
   generateMealsSettings,
   meals,
   allDietMeals,
+  dispatch,
+  addDietGenerate,
+  dietGenerateAction,
+  setDietGenerateAction,
 }: IGenerateDiet) => {
   const generatedLoopDays = [];
 
@@ -40,6 +60,16 @@ export const generateDiet = async ({
     //   generatedLoopDays
     // );
 
+    setDietGenerateAction({
+      dayId,
+      generatedDays: generatedLoopDays,
+      actionType: "Random meal",
+      actionMessage: "Wybieranie posiłków",
+      loading: true,
+      error: false,
+      errorMessage: "",
+    });
+
     // const currentDay = dietDays.filter(({ id }) => id === day)[0];
     // const dayMeals = meals.filter(({ dayId }) => dayId === day);
 
@@ -50,12 +80,23 @@ export const generateDiet = async ({
       currentDayId: dayId,
       mealsTypes: meals,
       allDietMeals,
+      dispatch,
+      addDietGenerate,
     });
 
     console.log({ generatedDietDayMeals });
 
     if (dayId === days[days.length - 1]) {
       // return changeDietGenerateAction(0, false, "", [0]);
+      setDietGenerateAction({
+        dayId: "",
+        generatedDays: generatedLoopDays,
+        actionType: "",
+        actionMessage: "",
+        loading: false,
+        error: false,
+        errorMessage: "",
+      });
 
       return false;
     }
@@ -72,14 +113,21 @@ export interface IGenerateDietDay {
     uid: string;
     type: "breakfast" | "second_breakfast" | "lunch" | "snack" | "dinner";
   }[];
+  dispatch: Dispatch;
+  addDietGenerate: ActionCreatorWithPayload<
+    IDietGenerate["generatedDays"][0],
+    string
+  >;
 }
 
 const generateDietDay = async ({
   currentDayId,
   mealsTypes,
   allDietMeals,
+  dispatch,
+  addDietGenerate,
 }: IGenerateDietDay) => {
-  const generate = new Promise((resolve) => {
+  const generate = new Promise<IDietGenerate["generatedDays"][0]>((resolve) => {
     setTimeout(() => {
       console.log("generate diet day");
 
@@ -171,7 +219,49 @@ const generateDietDay = async ({
         selectedDinners,
       });
 
-      return resolve(selectedDinners);
+      const generatedMeals: IDietGenerate["generatedDays"][0]["meals"] =
+        selectedDinners.map((meal) => {
+          const randomMeal = randomDayMeals.filter(
+            (randomMeal) => randomMeal.randomDietMeal._id === meal.mealId
+          )[0];
+          const mealDinners = randomMeal.randomDietMeal.dinners.map(
+            (dietDinner) => ({
+              _id: dietDinner._id,
+              dinnerId: dietDinner.dinner._id,
+              dinnerName: dietDinner.dinner.name,
+              dinnerProducts: meal.groups.main.group.products.filter(
+                ({ dinnerId }) => dinnerId === dietDinner.dinner._id
+              ),
+            })
+          );
+
+          const mealObj: IDietGenerate["generatedDays"][0]["meals"][0] = {
+            _id: meal.mealId,
+            name: meal.mealName,
+            type: "breakfast",
+            selectedGroup: {
+              type: meal.groups.main.type,
+              name: meal.groups.main.name,
+              description: meal.groups.main.description,
+              macroTotalCount: meal.groups.main.group?.macroTotalCount,
+              missingProcentCount: meal.groups.main.group?.missingProcentCount,
+            },
+            dinners: mealDinners as any,
+          };
+
+          return mealObj;
+        });
+
+      const dietDayGenerateObj: IDietGenerate["generatedDays"][0] = {
+        _id: currentDayId,
+        dietId: "dasd",
+        name: `dzień ${currentDayId}`,
+        meals: generatedMeals,
+      };
+
+      dispatch(addDietGenerate(dietDayGenerateObj));
+
+      return resolve(dietDayGenerateObj);
     }, 100);
   });
 

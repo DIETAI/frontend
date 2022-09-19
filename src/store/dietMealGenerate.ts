@@ -36,10 +36,16 @@ export const dietMealGenerateSlice = createSlice({
       state.selectedMealGroup = action.payload.selectedMealGroup;
       state.mealDinners = action.payload.mealDinners;
     },
+    removeMealGenerate: (state) => {
+      state.dietMeal = undefined;
+      state.selectedMealGroup = undefined;
+      state.mealDinners = [];
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { addDietMealGenerate } = dietMealGenerateSlice.actions;
+export const { addDietMealGenerate, removeMealGenerate } =
+  dietMealGenerateSlice.actions;
 
 export default dietMealGenerateSlice.reducer;

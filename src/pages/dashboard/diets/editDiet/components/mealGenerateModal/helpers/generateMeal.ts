@@ -104,9 +104,12 @@ export const generateMeal = async ({
       console.time("cartesianProduct");
       //    // połączone porcje wszystkich dań posiłków np (danie główne i danie uzupełniające)
 
+      const maxCartesianGroups = mealDinners.length < 6 ? 50000 : 100;
+
       const dinnersCartesianGroups = cartesianDinners(
         mealEstablishment,
         dietEstablishment,
+        maxCartesianGroups,
         ...mealDinners
       );
 
