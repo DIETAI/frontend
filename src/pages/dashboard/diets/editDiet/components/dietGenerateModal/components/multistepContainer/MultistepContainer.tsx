@@ -9,6 +9,7 @@ import axios from "utils/api";
 //components
 import DietGenerateNav from "../nav/DietGenerateNav";
 import Heading from "components/heading/Heading";
+import GeneratedDays from "./generatedDays/GeneratedDays";
 
 //interfaces
 import {
@@ -193,20 +194,7 @@ const MultiStepContainer = ({
   }
 
   if (generatedDays.length > 0) {
-    return (
-      <div>
-        {generatedDays.map((day) => (
-          <div key={day._id}>
-            <h3>{day.name}</h3>
-            <div>
-              {day.meals.map((meal) => (
-                <div key={meal._id}>{meal.name}</div>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
-    );
+    return <GeneratedDays />;
   }
 
   return (
