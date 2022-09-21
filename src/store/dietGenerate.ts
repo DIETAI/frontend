@@ -33,8 +33,21 @@ export interface IDietGenerate {
         _id: string;
         dinnerId: string;
         dinnerName: string;
+        dinnerImage?: string;
         dinnerProducts: ICartesianResult["products"];
-      };
+        total: {
+          kcal: number;
+          protein: {
+            gram: number;
+          };
+          fat: {
+            gram: number;
+          };
+          carbohydrates: {
+            gram: number;
+          };
+        };
+      }[];
     }[];
   }[];
 }

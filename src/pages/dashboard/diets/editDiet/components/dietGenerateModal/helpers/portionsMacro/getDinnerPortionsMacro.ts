@@ -16,6 +16,7 @@ export const getMealDinnersPortionsMacro = (
       return macroForPortions.map((macroPortion) => ({
         ...macroPortion,
         dinnerId,
+        dinnerImage: randomMealDinner.dinner.image,
         dietDinnerId: randomMealDinner._id,
       }));
     }

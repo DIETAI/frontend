@@ -207,6 +207,9 @@ const generateDietDay = async ({
       const selectedDinners = dinnersCartesianGroups.map((meal) => ({
         mealId: meal.mealId,
         mealName: meal.mealName,
+        mealType: randomDayMeals.filter(
+          (randomMeal) => randomMeal.randomDietMeal._id === meal.mealId
+        )[0].mealType,
         groups: selectGroups(meal.groups),
       }));
 
@@ -229,16 +232,50 @@ const generateDietDay = async ({
               _id: dietDinner._id,
               dinnerId: dietDinner.dinner._id,
               dinnerName: dietDinner.dinner.name,
+              dinnerImage: dietDinner.dinner.image,
               dinnerProducts: meal.groups.main.group.products.filter(
                 ({ dinnerId }) => dinnerId === dietDinner.dinner._id
               ),
+              total: {
+                kcal: roundValue(
+                  meal.groups.main.group.products.reduce(
+                    (acc, field) => acc + Number(field.portionKcal),
+                    0
+                  )
+                ),
+                protein: {
+                  gram: roundValue(
+                    meal.groups.main.group.products.reduce(
+                      (acc, field) => acc + Number(field.portionProteinGram),
+                      0
+                    )
+                  ),
+                },
+                fat: {
+                  gram: roundValue(
+                    meal.groups.main.group.products.reduce(
+                      (acc, field) => acc + Number(field.portionFatGram),
+                      0
+                    )
+                  ),
+                },
+                carbohydrates: {
+                  gram: roundValue(
+                    meal.groups.main.group.products.reduce(
+                      (acc, field) =>
+                        acc + Number(field.portionCarbohydratesGram),
+                      0
+                    )
+                  ),
+                },
+              },
             })
           );
 
           const mealObj: IDietGenerate["generatedDays"][0]["meals"][0] = {
             _id: meal.mealId,
             name: meal.mealName,
-            type: "breakfast",
+            type: meal.mealType,
             selectedGroup: {
               type: meal.groups.main.type,
               name: meal.groups.main.name,
@@ -246,7 +283,7 @@ const generateDietDay = async ({
               macroTotalCount: meal.groups.main.group?.macroTotalCount,
               missingProcentCount: meal.groups.main.group?.missingProcentCount,
             },
-            dinners: mealDinners as any,
+            dinners: mealDinners,
           };
 
           return mealObj;

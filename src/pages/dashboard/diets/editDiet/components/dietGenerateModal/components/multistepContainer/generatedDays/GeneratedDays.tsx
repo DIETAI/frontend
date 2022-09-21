@@ -11,6 +11,14 @@ import { useSelector, useDispatch } from "react-redux";
 import * as Styled from "./GeneratedDays.styles";
 import { IDietEstablishmentData } from "interfaces/dietEstablishment.interfaces";
 import { getDietQuery } from "services/getDiets";
+import {
+  IDietDayQueryData,
+  IDietQueryData,
+} from "interfaces/diet/dietQuery.interfaces";
+import { IDietGenerate } from "store/dietGenerate";
+
+//components
+import Image from "components/form/images/image/Image";
 
 const GeneratedDays = () => {
   const { dietEditId } = useParams();
@@ -25,12 +33,22 @@ const GeneratedDays = () => {
 
   if (!dietQuery) return null;
 
+  const mealEstablishment = (
+    meal: IDietGenerate["generatedDays"][0]["meals"][0]
+  ) => {
+    const mealEst = dietQuery.establishment.meals.filter(
+      ({ type }) => type === meal.type
+    )[0];
+
+    return mealEst;
+  };
+
   return (
     <Styled.DaysContainer>
-      {generatedDays.map((day) => (
+      {generatedDays.map((day, dayIndex) => (
         <Styled.DayWrapper key={day._id}>
           <Styled.DayHeading>
-            <h2>{day.name}</h2>
+            <h2>Dzień {dayIndex + 1}</h2>
           </Styled.DayHeading>
           <Styled.DayTotalWrapper>
             <SumModal
@@ -54,12 +72,79 @@ const GeneratedDays = () => {
               establishmentValue={dietQuery.establishment.carbohydrates.gram}
             />
           </Styled.DayTotalWrapper>
+          <Styled.DayMealsWrapper>
+            {day.meals.length > 0 &&
+              day.meals.map((meal) => (
+                <Styled.MealWrapper key={meal._id}>
+                  <Styled.MealHeading>
+                    <h3>{meal.name}</h3>
+                    <h3>8.00</h3>
+                  </Styled.MealHeading>
 
-          <div>
-            {day.meals.map((meal) => (
-              <div key={meal._id}>{meal.name}</div>
-            ))}
-          </div>
+                  <Styled.MealTotalWrapper>
+                    <SumModal
+                      macroType="kcal"
+                      totalValue={
+                        meal.selectedGroup.macroTotalCount?.total_kcal || 0
+                      }
+                      establishmentValue={mealEstablishment(meal).kcal}
+                    />
+
+                    <p>
+                      B:
+                      <b>
+                        {meal.selectedGroup.macroTotalCount?.total_protein_gram}
+                      </b>
+                    </p>
+                    <p>
+                      T:
+                      <b>
+                        {meal.selectedGroup.macroTotalCount?.total_fat_gram}
+                      </b>
+                    </p>
+                    <p>
+                      W:{" "}
+                      <b>
+                        {
+                          meal.selectedGroup.macroTotalCount
+                            ?.total_carbohydrates_gram
+                        }
+                      </b>
+                    </p>
+                  </Styled.MealTotalWrapper>
+
+                  {meal.dinners.map((generateDinner) => (
+                    <Styled.DietDinnerWrapper key={generateDinner._id}>
+                      <Styled.DietDinner>
+                        {generateDinner.dinnerImage && (
+                          <div>
+                            <Image
+                              roundedDataGrid={true}
+                              imageId={generateDinner.dinnerImage}
+                            />
+                          </div>
+                        )}
+                        <h4>{generateDinner.dinnerName}</h4>
+                      </Styled.DietDinner>
+                      <Styled.DietDinnerTotalWrapper>
+                        <p>
+                          B: <b>{generateDinner.total.protein.gram}</b>
+                        </p>
+                        <p>
+                          T: <b>{generateDinner.total.fat.gram}</b>
+                        </p>
+                        <p>
+                          W: <b>{generateDinner.total.carbohydrates.gram}</b>
+                        </p>
+                        <p>
+                          kcal: <b>{generateDinner.total.kcal}</b>
+                        </p>
+                      </Styled.DietDinnerTotalWrapper>
+                    </Styled.DietDinnerWrapper>
+                  ))}
+                </Styled.MealWrapper>
+              ))}
+          </Styled.DayMealsWrapper>
         </Styled.DayWrapper>
       ))}
     </Styled.DaysContainer>
