@@ -83,4 +83,35 @@ const DaysContentWrapper = styled(motion.div)(
   `
 );
 
-export { DaysContainer, DaysNav, DaysContentContainer, DaysContentWrapper };
+const DaysLoadingWrapper = styled(motion.div)(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    height: 60rem;
+    gap: 2rem;
+
+    h3 {
+      font-size: ${fontSize.m};
+      font-weight: ${fontWeight.medium};
+      color: ${palette.common.text};
+    }
+  `
+);
+
+export {
+  DaysContainer,
+  DaysNav,
+  DaysContentContainer,
+  DaysContentWrapper,
+  DaysLoadingWrapper,
+};

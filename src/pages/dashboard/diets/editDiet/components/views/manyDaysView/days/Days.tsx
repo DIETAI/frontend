@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useParams } from "react-router";
 import { getDietDays } from "services/getDietDays";
 import { getDietQuery } from "services/getDiets";
+import ReactLoading from "react-loading";
 
 //components
 import Day from "../day/Day";
@@ -35,7 +36,14 @@ const ManyDaysView = () => {
 
   console.log({ dietQuery });
 
-  if (dietQueryLoading) return <div>dietDays loading...</div>;
+  if (dietQueryLoading)
+    return (
+      <Styled.DaysLoadingWrapper>
+        <ReactLoading type="spin" color="blue" height={50} width={50} />
+        <h3>pobieranie dni</h3>
+      </Styled.DaysLoadingWrapper>
+    );
+
   if (dietQueryError || !dietQuery) return <div>diet query error</div>;
 
   // const { dietDays, dietDaysError, dietDaysLoading } = getDietDays(dietEditId);

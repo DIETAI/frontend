@@ -10,6 +10,7 @@ import axios from "utils/api";
 import DietGenerateNav from "../nav/DietGenerateNav";
 import Heading from "components/heading/Heading";
 import GeneratedDays from "./generatedDays/GeneratedDays";
+import GeneratedDaysLoading from "./generatedDaysLoading/GeneratedDaysLoading";
 
 //interfaces
 import {
@@ -111,6 +112,8 @@ const MultiStepContainer = ({ children, defaultValues }: IMultiStepProps) => {
     watch,
   } = methods;
 
+  const daysToGenerate = watch("days") as string[];
+
   const handleNext = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const isStepValid = await trigger();
@@ -187,12 +190,10 @@ const MultiStepContainer = ({ children, defaultValues }: IMultiStepProps) => {
 
   if (dietGenerateAction.loading) {
     return (
-      <div>
-        <h3>generowanie diety dla dnia {dietGenerateAction.dayId}</h3>
-        <h3>
-          wygenerowane dni : {JSON.stringify(dietGenerateAction.generatedDays)}
-        </h3>
-      </div>
+      <GeneratedDaysLoading
+        dietGenerateAction={dietGenerateAction}
+        daysToGenerate={daysToGenerate}
+      />
     );
   }
 

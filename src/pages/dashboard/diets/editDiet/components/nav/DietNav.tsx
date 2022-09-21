@@ -1,6 +1,11 @@
 import React, { useState } from "react";
+import { useParams } from "react-router";
 
 import * as Styled from "./DietNav.styles";
+
+import { useNavigate } from "react-router";
+import axios from "utils/api";
+import { useAlert } from "layout/dashboard/context/alert.context";
 
 //icons
 import {
@@ -8,24 +13,33 @@ import {
   FaCalendarWeek,
   FaCalendarPlus,
   FaFileAlt,
+  FaTrash,
 } from "icons/icons";
 
 //interfaces
 import { DaysView } from "../../EditDiet.page";
+import { IDietData } from "interfaces/diet/diet.interfaces";
 
 //components
 import IconButton from "components/iconButton/IconButton";
 import Modal from "components/modal/Modal";
 import DietGenerateModal from "../dietGenerateModal/DietGenerateModal";
+import DeleteModalContent from "pages/dashboard/components/deleteModal/DeleteModal";
 
 const DietNav = ({
   setView,
   view,
+  diet,
 }: {
   setView: (day: DaysView) => void;
   view: DaysView;
+  diet: IDietData;
 }) => {
   const [dietGenerateModalOpen, setDietGenerateModalOpen] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+
+  const { handleAlert } = useAlert();
+  const navigate = useNavigate();
 
   const openDietEstablishment = () => {
     console.log("openDietEstablishment");
@@ -41,6 +55,22 @@ const DietNav = ({
 
   const changeManyDaysView = () => {
     setView("manyDays");
+  };
+
+  const deleteDiet = async () => {
+    //open delete item popup
+    try {
+      await axios.delete(`/api/v1/diets/${diet._id}`, {
+        withCredentials: true,
+      });
+
+      console.log("usunięto dietę");
+      handleAlert("success", "Usunięto dietę");
+      navigate("/dashboard/diets");
+    } catch (e) {
+      console.log("nie udało się usunąć diety");
+      handleAlert("error", "Usuwanie diety nie powiodło się");
+    }
   };
   return (
     <Styled.DietNavWrapper>
@@ -69,6 +99,11 @@ const DietNav = ({
           onClick={openGenerateDietModal}
           modalText="generuj dietę"
         />
+        <IconButton
+          icon={<FaTrash />}
+          onClick={() => setOpenDeleteModal(true)}
+          modalText="usuń dietę"
+        />
       </Styled.OptionsWrapper>
 
       <Modal
@@ -76,6 +111,12 @@ const DietNav = ({
         open={dietGenerateModalOpen}
       >
         <DietGenerateModal closeModal={() => setDietGenerateModalOpen(false)} />
+      </Modal>
+      <Modal open={openDeleteModal} onClose={() => setOpenDeleteModal(false)}>
+        <DeleteModalContent
+          deleteItemName={diet.name}
+          deleteAction={deleteDiet}
+        />
       </Modal>
     </Styled.DietNavWrapper>
   );

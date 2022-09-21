@@ -11,7 +11,7 @@ import OneDayView from "./components/views/oneDayView/OneDayView";
 export type DaysView = "oneDay" | "manyDays";
 
 const EditDiet = () => {
-  const [view, setView] = useState<DaysView>("oneDay");
+  const [view, setView] = useState<DaysView>("manyDays");
   const { dietEditId } = useParams();
   console.log({ dietEditId });
 
@@ -19,11 +19,11 @@ const EditDiet = () => {
 
   const { diet, dietError, dietLoading } = getDiet(dietEditId);
 
-  if (dietLoading) return <div>diet loading...</div>;
+  // if (dietLoading) return <div>diet loading...</div>;
   if (dietError || !diet) return <div>diet error</div>;
   return (
     <>
-      <DietNav setView={setView} view={view} />
+      <DietNav setView={setView} view={view} diet={diet} />
       <DietContent>
         {view === "oneDay" ? <OneDayView /> : <ManyDaysView />}
       </DietContent>
