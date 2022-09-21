@@ -39,6 +39,7 @@ import {
   IDietGenerate,
   removeDietGenerate,
 } from "store/dietGenerate";
+import { IDietEstablishmentData } from "interfaces/dietEstablishment.interfaces";
 
 type DietGenerate = IDietGenerateDaysSchema &
   IDietGenerateMealsSchema &
@@ -58,10 +59,12 @@ export const FormStep = ({ children }: IFormStepProps) => {
   return <div className="w-full flex flex-wrap gap-6">{children}</div>;
 };
 
-const MultiStepContainer = ({
-  children,
-  defaultValues,
-}: IChildrenProps & IDefaultValues) => {
+interface IMultiStepProps {
+  children: IChildrenProps["children"];
+  defaultValues: IDefaultValues["defaultValues"];
+}
+
+const MultiStepContainer = ({ children, defaultValues }: IMultiStepProps) => {
   const [dietGenerateAction, setDietGenerateAction] =
     useState<IDietGenerateAction>({
       dayId: "",

@@ -6,6 +6,18 @@ export interface IDietGenerate {
     _id: string;
     name: string;
     dietId: string;
+    total: {
+      kcal: number;
+      protein: {
+        gram: number;
+      };
+      fat: {
+        gram: number;
+      };
+      carbohydrates: {
+        gram: number;
+      };
+    };
     meals: {
       _id: string;
       name: string;

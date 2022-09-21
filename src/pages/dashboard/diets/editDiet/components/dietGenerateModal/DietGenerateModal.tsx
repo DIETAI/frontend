@@ -23,6 +23,7 @@ import {
 
 // //utils
 import { dietGenerateSteps } from "./utils/steps";
+import { IDietEstablishmentData } from "interfaces/dietEstablishment.interfaces";
 
 const defaultValues = dietGenerateDaysSchema
   .concat(dietGenerateMealsSchema)

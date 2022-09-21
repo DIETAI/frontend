@@ -257,6 +257,50 @@ const generateDietDay = async ({
         dietId: "dasd",
         name: `dzień ${currentDayId}`,
         meals: generatedMeals,
+        total: {
+          kcal: roundValue(
+            generatedMeals.reduce(
+              (acc, field) =>
+                acc + Number(field.selectedGroup.macroTotalCount?.total_kcal),
+              0
+            )
+          ),
+          protein: {
+            gram: roundValue(
+              generatedMeals.reduce(
+                (acc, field) =>
+                  acc +
+                  Number(
+                    field.selectedGroup.macroTotalCount?.total_protein_gram
+                  ),
+                0
+              )
+            ),
+          },
+          fat: {
+            gram: roundValue(
+              generatedMeals.reduce(
+                (acc, field) =>
+                  acc +
+                  Number(field.selectedGroup.macroTotalCount?.total_fat_gram),
+                0
+              )
+            ),
+          },
+          carbohydrates: {
+            gram: roundValue(
+              generatedMeals.reduce(
+                (acc, field) =>
+                  acc +
+                  Number(
+                    field.selectedGroup.macroTotalCount
+                      ?.total_carbohydrates_gram
+                  ),
+                0
+              )
+            ),
+          },
+        },
       };
 
       dispatch(addDietGenerate(dietDayGenerateObj));
@@ -266,4 +310,8 @@ const generateDietDay = async ({
   });
 
   return generate;
+};
+
+const roundValue = (value: number) => {
+  return Math.round(value * 1e2) / 1e2;
 };
