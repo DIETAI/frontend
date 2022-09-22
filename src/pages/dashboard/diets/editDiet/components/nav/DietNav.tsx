@@ -138,7 +138,9 @@ const DietNav = ({
         />
       </Modal>
       <Modal open={generatedDietModalOpen} width="1536px">
-        <GeneratedDietModal />
+        <GeneratedDietModal
+          closeModal={() => setGeneratedDietModalOpen(false)}
+        />
       </Modal>
     </Styled.DietNavWrapper>
   );

@@ -19,6 +19,31 @@ const GeneratedDietModalContainer = styled.div(
   `
 );
 
+const LoadingWrapper = styled(motion.div)(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 2rem;
+    width: 100%;
+    height: 60rem;
+
+    h3 {
+      color: ${palette.common.text};
+      font-size: ${fontSize.m};
+      font-weight: ${fontWeight.semibold};
+    }
+  `
+);
+
 const DaysContainer = styled(motion.div)(
   ({
     theme: {
@@ -66,4 +91,46 @@ const DayWrapper = styled.div(
   `
 );
 
-export { GeneratedDietModalContainer, DaysContainer, DayWrapper };
+const GeneratedDietNavWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+
+    h3 {
+      color: ${palette.common.text};
+      font-weight: ${fontWeight.light};
+      font-size: ${fontSize.m};
+    }
+  `
+);
+
+const GeneratedDietNavButtonsWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  `
+);
+
+export {
+  GeneratedDietModalContainer,
+  DaysContainer,
+  DayWrapper,
+  LoadingWrapper,
+  GeneratedDietNavWrapper,
+  GeneratedDietNavButtonsWrapper,
+};
