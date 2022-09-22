@@ -11,6 +11,7 @@ import { selectByLess10Procent } from "./selectByLess10Procent";
 import { selectByProtein } from "./selectByPerfectProtein";
 import { selectByFat } from "./selectByPerfectFat";
 import { selectByCarbohydrates } from "./selectByPerfectCarbohydrates";
+import { selectByPerfectKcal } from "./selectByPerfectKcal";
 
 // import { TMealEstablishment } from "../../components/form/FormInfoPopup";
 
@@ -52,6 +53,7 @@ export const selectGroups = (
   const proteinPerfectProcent = selectByProtein(cartesianGroups);
   const fatPerfectProcent = selectByFat(cartesianGroups);
   const carbohydratesPerfectProcent = selectByCarbohydrates(cartesianGroups);
+  const perfectKcal = selectByPerfectKcal(cartesianGroups);
 
   const selectMainGroup = () => {
     // if (mealEstablishment?.automaticEstablishment) {
@@ -104,6 +106,9 @@ export const selectGroups = (
     }
     if (minMissingProcentPerfectKcal.group) {
       return minMissingProcentPerfectKcal;
+    }
+    if (perfectKcal.group) {
+      return perfectKcal;
     }
     if (twoMacroPerfectProcent.group) {
       return twoMacroPerfectProcent;

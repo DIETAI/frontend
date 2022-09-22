@@ -25,13 +25,18 @@ const ModalContainer = styled.div(
   `
 );
 
-const ModalContentWrapper = styled.div(
+interface IModalContentWidth {
+  modalWidth?: string;
+}
+
+const ModalContentWrapper = styled.div<IModalContentWidth>(
   ({
     theme: {
       palette,
       layout: { border },
       media: { breakpoints, up },
     },
+    modalWidth,
   }) => css`
     max-width: ${breakpoints.lg};
     background: ${palette.common.main};
@@ -40,6 +45,11 @@ const ModalContentWrapper = styled.div(
     margin: auto;
     padding: 3rem;
     z-index: 40;
+
+    ${modalWidth &&
+    css`
+      max-width: ${modalWidth};
+    `}
 
     ${up(breakpoints.sm)} {
       padding: 5rem;

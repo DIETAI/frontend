@@ -14,7 +14,7 @@ export const selectByMissingProcentPerfectKcal = (
 
   const selectedGroupsByPerfectKcal = cartesianGroups.filter(
     ({ missingProcentCount }) =>
-      Math.abs(missingProcentCount.missingKcalProcent) <= 5
+      Math.abs(missingProcentCount.missingKcalProcent) <= 1
   );
 
   if (selectedGroupsByPerfectKcal.length < 1) {

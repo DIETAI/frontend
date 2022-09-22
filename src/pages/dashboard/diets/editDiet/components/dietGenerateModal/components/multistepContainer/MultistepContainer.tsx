@@ -26,6 +26,7 @@ import {
 
 //helpers
 import { generateDiet } from "../../helpers/generateDiet";
+import { generateDiet as generateDietV2 } from "../../helpers/generateDietV2";
 
 //styles
 import * as Styled from "./MultistepContainer.styles";
@@ -37,6 +38,9 @@ import { RootState } from "store/store";
 import { useSelector, useDispatch } from "react-redux";
 import {
   addDietGenerate,
+  addDietGenerateAction,
+  addDietDaysGenerate,
+  addDaysGenerate,
   IDietGenerate,
   removeDietGenerate,
 } from "store/dietGenerate";
@@ -63,9 +67,14 @@ export const FormStep = ({ children }: IFormStepProps) => {
 interface IMultiStepProps {
   children: IChildrenProps["children"];
   defaultValues: IDefaultValues["defaultValues"];
+  closeModal: () => void;
 }
 
-const MultiStepContainer = ({ children, defaultValues }: IMultiStepProps) => {
+const MultiStepContainer = ({
+  children,
+  defaultValues,
+  closeModal,
+}: IMultiStepProps) => {
   const [dietGenerateAction, setDietGenerateAction] =
     useState<IDietGenerateAction>({
       dayId: "",
@@ -78,7 +87,7 @@ const MultiStepContainer = ({ children, defaultValues }: IMultiStepProps) => {
     });
 
   const dispatch = useDispatch();
-  const { generatedDays } = useSelector(
+  const { generatedDays, generateDietLoading } = useSelector(
     (state: RootState) => state.dietGenerate
   );
 
@@ -136,16 +145,24 @@ const MultiStepContainer = ({ children, defaultValues }: IMultiStepProps) => {
     //stripe session
     console.log(`diet generate: ${data}`);
 
+    console.log({ generateDietLoading });
+
     if (!dietMeals) return;
 
-    // const diet = await generateDiet({
-    //   days: data.days,
-    //   generateMealsSettings: data.generateMealsSettings as any,
-    //   meals: data.meals as any,
-    //   allDietMeals: dietMeals,
-    // });
+    // const initialStateGenerateDays = data.days.map((dayId) => ({
+    //   loading: true,
+    //   error: false,
+    //   generated: false,
+    //   _id: dayId,
+    //   name: `Dzień ${dayId}`,
+    //   dietId: "",
+    // }));
 
-    const generatedDiet = await generateDiet({
+    closeModal();
+    dispatch(addDietGenerateAction(true));
+    // dispatch(addDaysGenerate(initialStateGenerateDays));
+
+    const generatedDiet = generateDietV2({
       days: data.days,
       generateMealsSettings: data.generateMealsSettings as any,
       meals: data.meals as any,
@@ -154,9 +171,23 @@ const MultiStepContainer = ({ children, defaultValues }: IMultiStepProps) => {
       addDietGenerate,
       dietGenerateAction,
       setDietGenerateAction,
+      addDietGenerateAction,
+      addDietDaysGenerate,
     });
 
-    console.log({ generatedDiet: generatedDiet });
+    // const generatedDiet = await generateDiet({
+    //   days: data.days,
+    //   generateMealsSettings: data.generateMealsSettings as any,
+    //   meals: data.meals as any,
+    //   allDietMeals: dietMeals,
+    //   dispatch,
+    //   addDietGenerate,
+    //   dietGenerateAction,
+    //   setDietGenerateAction,
+    //   addDietGenerateAction,
+    // });
+
+    // console.log({ generatedDiet: generatedDiet });
 
     //generate diet algorithm
 
@@ -188,18 +219,18 @@ const MultiStepContainer = ({ children, defaultValues }: IMultiStepProps) => {
     checkIsValid();
   }, [activeStep]);
 
-  if (dietGenerateAction.loading) {
-    return (
-      <GeneratedDaysLoading
-        dietGenerateAction={dietGenerateAction}
-        daysToGenerate={daysToGenerate}
-      />
-    );
-  }
+  // if (dietGenerateAction.loading) {
+  //   return (
+  //     <GeneratedDaysLoading
+  //       dietGenerateAction={dietGenerateAction}
+  //       daysToGenerate={daysToGenerate}
+  //     />
+  //   );
+  // }
 
-  if (generatedDays.length > 0) {
-    return <GeneratedDays />;
-  }
+  // if (generatedDays.length > 0) {
+  //   return <GeneratedDays />;
+  // }
 
   return (
     <Styled.MultistepWrapper>

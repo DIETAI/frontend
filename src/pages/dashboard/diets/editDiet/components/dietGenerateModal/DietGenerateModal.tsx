@@ -40,7 +40,7 @@ const DietGenerateModal = ({ closeModal }: { closeModal: () => void }) => {
         title="Generuj dietę"
         // description={t("dinner.form.products.modal.description")}
       />
-      <MultiStepContainer defaultValues={defaultValues}>
+      <MultiStepContainer defaultValues={defaultValues} closeModal={closeModal}>
         {dietGenerateSteps.map(({ step, name, icon, id, validationSchema }) => (
           <FormStep
             key={id}

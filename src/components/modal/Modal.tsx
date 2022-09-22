@@ -8,7 +8,12 @@ import { IChildrenProps } from "interfaces/children.interfaces";
 //styles
 import * as Styles from "./Modal.styles";
 
-const Modal = ({ open, children, onClose }: IModalProps & IChildrenProps) => {
+const Modal = ({
+  open,
+  children,
+  onClose,
+  width,
+}: IModalProps & IChildrenProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -37,7 +42,7 @@ const Modal = ({ open, children, onClose }: IModalProps & IChildrenProps) => {
   return ReactDom.createPortal(
     <>
       <Styles.ModalContainer>
-        <Styles.ModalContentWrapper ref={modalRef}>
+        <Styles.ModalContentWrapper ref={modalRef} modalWidth={width}>
           {children}
         </Styles.ModalContentWrapper>
       </Styles.ModalContainer>

@@ -35,6 +35,7 @@ export interface IGenerateDiet {
     IDietGenerate["generatedDays"][0],
     string
   >;
+  addDietGenerateAction: ActionCreatorWithPayload<boolean>;
   dietGenerateAction: IDietGenerateAction;
   setDietGenerateAction: StateDispatch<SetStateAction<IDietGenerateAction>>;
 }
@@ -46,6 +47,7 @@ export const generateDiet = async ({
   allDietMeals,
   dispatch,
   addDietGenerate,
+  addDietGenerateAction,
   dietGenerateAction,
   setDietGenerateAction,
 }: IGenerateDiet) => {
@@ -76,6 +78,7 @@ export const generateDiet = async ({
     //znaleść najbardziej pasujący dietDayMealObject z już dodanych diet admina i wyszukać wszystkie dostępne dinner portions
     // => najpierw wyszukanie najlepszego dietMeal w algorytmie rekomendacji
     // => później wybranie idealnego zestawu porcji
+
     const generatedDietDayMeals = await generateDietDay({
       currentDayId: dayId,
       mealsTypes: meals,
@@ -222,7 +225,7 @@ const generateDietDay = async ({
         selectedDinners,
       });
 
-      const generatedMeals: IDietGenerate["generatedDays"][0]["meals"] =
+      const generatedMeals: IDietGenerate["generatedDays"][0]["day"]["meals"] =
         selectedDinners.map((meal) => {
           const randomMeal = randomDayMeals.filter(
             (randomMeal) => randomMeal.randomDietMeal._id === meal.mealId
@@ -272,70 +275,76 @@ const generateDietDay = async ({
             })
           );
 
-          const mealObj: IDietGenerate["generatedDays"][0]["meals"][0] = {
-            _id: meal.mealId,
-            name: meal.mealName,
-            type: meal.mealType,
-            selectedGroup: {
-              type: meal.groups.main.type,
-              name: meal.groups.main.name,
-              description: meal.groups.main.description,
-              macroTotalCount: meal.groups.main.group?.macroTotalCount,
-              missingProcentCount: meal.groups.main.group?.missingProcentCount,
-            },
-            dinners: mealDinners,
-          };
+          const mealObj: IDietGenerate["generatedDays"][0]["day"]["meals"][0] =
+            {
+              _id: meal.mealId,
+              name: meal.mealName,
+              type: meal.mealType,
+              selectedGroup: {
+                type: meal.groups.main.type,
+                name: meal.groups.main.name,
+                description: meal.groups.main.description,
+                macroTotalCount: meal.groups.main.group?.macroTotalCount,
+                missingProcentCount:
+                  meal.groups.main.group?.missingProcentCount,
+              },
+              dinners: mealDinners,
+            };
 
           return mealObj;
         });
 
       const dietDayGenerateObj: IDietGenerate["generatedDays"][0] = {
-        _id: currentDayId,
-        dietId: "dasd",
-        name: `dzień ${currentDayId}`,
-        meals: generatedMeals,
-        total: {
-          kcal: roundValue(
-            generatedMeals.reduce(
-              (acc, field) =>
-                acc + Number(field.selectedGroup.macroTotalCount?.total_kcal),
-              0
-            )
-          ),
-          protein: {
-            gram: roundValue(
+        loading: false,
+        error: false,
+        day: {
+          _id: currentDayId,
+          dietId: "dasd",
+          name: `dzień ${currentDayId}`,
+          meals: generatedMeals,
+          total: {
+            kcal: roundValue(
               generatedMeals.reduce(
                 (acc, field) =>
-                  acc +
-                  Number(
-                    field.selectedGroup.macroTotalCount?.total_protein_gram
-                  ),
+                  acc + Number(field.selectedGroup.macroTotalCount?.total_kcal),
                 0
               )
             ),
-          },
-          fat: {
-            gram: roundValue(
-              generatedMeals.reduce(
-                (acc, field) =>
-                  acc +
-                  Number(field.selectedGroup.macroTotalCount?.total_fat_gram),
-                0
-              )
-            ),
-          },
-          carbohydrates: {
-            gram: roundValue(
-              generatedMeals.reduce(
-                (acc, field) =>
-                  acc +
-                  Number(
-                    field.selectedGroup.macroTotalCount
-                      ?.total_carbohydrates_gram
-                  ),
-                0
-              )
-            ),
+            protein: {
+              gram: roundValue(
+                generatedMeals.reduce(
+                  (acc, field) =>
+                    acc +
+                    Number(
+                      field.selectedGroup.macroTotalCount?.total_protein_gram
+                    ),
+                  0
+                )
+              ),
+            },
+            fat: {
+              gram: roundValue(
+                generatedMeals.reduce(
+                  (acc, field) =>
+                    acc +
+                    Number(field.selectedGroup.macroTotalCount?.total_fat_gram),
+                  0
+                )
+              ),
+            },
+            carbohydrates: {
+              gram: roundValue(
+                generatedMeals.reduce(
+                  (acc, field) =>
+                    acc +
+                    Number(
+                      field.selectedGroup.macroTotalCount
+                        ?.total_carbohydrates_gram
+                    ),
+                  0
+                )
+              ),
+            },
           },
         },
       };

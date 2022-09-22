@@ -189,6 +189,7 @@ export const generateMeal = async ({
     });
 
     dispatch(addDietMealGenerate(data));
+    return data;
   });
 
   return generatedMeal;

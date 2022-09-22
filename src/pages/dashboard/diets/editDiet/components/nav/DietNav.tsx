@@ -1,5 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
+
+//store
+import { RootState } from "store/store";
+import { useSelector, useDispatch } from "react-redux";
 
 import * as Styled from "./DietNav.styles";
 
@@ -25,6 +29,7 @@ import IconButton from "components/iconButton/IconButton";
 import Modal from "components/modal/Modal";
 import DietGenerateModal from "../dietGenerateModal/DietGenerateModal";
 import DeleteModalContent from "pages/dashboard/components/deleteModal/DeleteModal";
+import GeneratedDietModal from "../generatedDietModal/GeneratedDietModal";
 
 const DietNav = ({
   setView,
@@ -35,11 +40,25 @@ const DietNav = ({
   view: DaysView;
   diet: IDietData;
 }) => {
+  const { generatedDays, generateDietLoading } = useSelector(
+    (state: RootState) => state.dietGenerate
+  );
+
   const [dietGenerateModalOpen, setDietGenerateModalOpen] = useState(false);
+  const [generatedDietModalOpen, setGeneratedDietModalOpen] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
   const { handleAlert } = useAlert();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log({ generateDietLoading });
+    if (generateDietLoading) {
+      return setGeneratedDietModalOpen(true);
+    }
+
+    return;
+  }, [generateDietLoading]);
 
   const openDietEstablishment = () => {
     console.log("openDietEstablishment");
@@ -117,6 +136,9 @@ const DietNav = ({
           deleteItemName={diet.name}
           deleteAction={deleteDiet}
         />
+      </Modal>
+      <Modal open={generatedDietModalOpen} width="1536px">
+        <GeneratedDietModal />
       </Modal>
     </Styled.DietNavWrapper>
   );
