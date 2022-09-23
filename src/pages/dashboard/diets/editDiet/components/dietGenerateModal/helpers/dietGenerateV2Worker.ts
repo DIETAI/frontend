@@ -18,6 +18,10 @@ import { ISelectedGroups, selectGroups } from "./selectGroups";
 interface IDietGenerateWorker {
   days: string[];
   allDietMeals: IDietMealData[];
+  generateMealsSettings:
+    | "changeAmountAddedMeals"
+    | "saveAddedMeals"
+    | "newMeals";
   meals: {
     uid: string;
     type: "breakfast" | "second_breakfast" | "lunch" | "snack" | "dinner";
@@ -26,7 +30,7 @@ interface IDietGenerateWorker {
 
 addEventListener("message", (e: MessageEvent<IDietGenerateWorker>) => {
   const {
-    data: { days, meals, allDietMeals },
+    data: { days, meals, allDietMeals, generateMealsSettings },
   } = e;
 
   const generatedDays: IDietGenerate["generatedDays"] = [];
@@ -34,6 +38,58 @@ addEventListener("message", (e: MessageEvent<IDietGenerateWorker>) => {
   for (let dayIndex = 0, l = days.length; dayIndex < l; dayIndex++) {
     //generatedDays[dayIndex - 1].meals nie mogą być takie same jak w tym dniu
     const currentDayId = days[dayIndex];
+
+    //opcje zachowania już dodanych posiłków
+    const addedDayMeals = allDietMeals.filter(
+      (dietMeal) => dietMeal.dayId === currentDayId
+    );
+
+    console.log({ addedDayMeals });
+
+    const checkMeals = [] as IDietMealData[];
+    for (
+      let mealIndex = 0, length = addedDayMeals.length;
+      mealIndex < length;
+      mealIndex++
+    ) {
+      const dayMeal = addedDayMeals[mealIndex];
+      const checkMealInGenerate = meals.find(
+        (mealType) => mealType.type === dayMeal.type
+      );
+      if (checkMealInGenerate) {
+        checkMeals.push(dayMeal);
+      }
+    }
+
+    addedDayMeals.map((dayMeal) => {
+      const checkMealInGenerate = meals.find(
+        (mealType) => mealType.type === dayMeal.type
+      );
+      if (checkMealInGenerate) {
+        return dayMeal;
+      }
+    });
+
+    console.log({ checkMeals });
+
+    // if (generateMealsSettings === "saveAddedMeals") {
+
+    //   const mealTypesFiltered = meals.map((mealType) => {
+    //     const addedDayMealsType = addedDayMeals.map(
+    //       (addedMealType) => addedMealType.type
+    //     );
+    //     if (addedDayMealsType.includes(mealType.type)) {
+    //       return mealType;
+    //     }
+
+    //     return undefined;
+    //   });
+    // }
+    // const addedDayMeals = allDietMeals.filter(
+    //   (dietMeal) => dietMeal.dayId === currentDayId
+    // );
+    //odczytać już dodane posiłki do dnia, jesli opcja => zachowaj => uwzględnij ich porcje i nie losuj => jeśli dostosuj ilość => zmienić porcje
+    // const addedDayMeals = [{_id: "dwqdq", dayId: "dasda", dinners: ["Płatki", "Sok"]}];
 
     const randomDayMeals = meals.map((meal) => {
       const filteredDietMealsByType = allDietMeals.filter(

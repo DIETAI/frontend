@@ -58,7 +58,7 @@ export const generateDiet = ({
 }: IGenerateDiet) => {
   const cartesianWorkerProps = {
     days,
-    // generateMealsSettings,
+    generateMealsSettings,
     meals,
     allDietMeals,
     // dispatch,
