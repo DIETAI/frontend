@@ -56,11 +56,16 @@ export const generateDiet = ({
   setDietGenerateAction,
   addDietDaysGenerate,
 }: IGenerateDiet) => {
+  const availableDietMealsToRandom = allDietMeals.filter(
+    (dietMeal) => dietMeal.dinners.length > 0
+  );
+
   const cartesianWorkerProps = {
     days,
     generateMealsSettings,
     meals,
     allDietMeals,
+    availableDietMealsToRandom,
     // dispatch,
     // addDietGenerate,
     // addDietGenerateAction,

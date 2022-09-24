@@ -30,6 +30,7 @@ export interface IDietDayMealData {
   name: string;
   type: "breakfast" | "second_breakfast" | "lunch" | "snack" | "dinner";
   total: IDietMealTotal;
+  order: number;
 }
 
 //diet generate
@@ -57,4 +58,5 @@ export interface IDietMealData {
   type: "breakfast" | "second_breakfast" | "lunch" | "snack" | "dinner";
   total: IDietMealTotal;
   dinners: IDietMealDinner[];
+  order: number;
 }
