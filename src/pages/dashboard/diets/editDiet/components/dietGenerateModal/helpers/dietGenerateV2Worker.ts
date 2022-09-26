@@ -42,10 +42,12 @@ const generateMeals = ({
   mealsToGenerate,
   availableMealsToRandom,
   currentDayId,
+  allDietMeals,
 }: {
   mealsToGenerate: IMealToRandom[];
   availableMealsToRandom: IDietMealData[];
   currentDayId: string;
+  allDietMeals: IDietMealData[];
 }) => {
   const randomDayMeals = mealsToGenerate.map((meal) => {
     if (meal.generatedType === "addedChangePortion") {
@@ -202,7 +204,10 @@ const generateMeals = ({
     }));
 
     const mealObj: IDietGenerateMeal = {
-      _id: meal.mealId,
+      _id: allDietMeals.filter(
+        (dietMeal) =>
+          dietMeal.dayId === currentDayId && dietMeal.type === meal.mealType
+      )[0]._id, //meal danego dnia
       name: meal.mealName,
       type: meal.mealType,
       generatedType: meal.generatedType,
@@ -315,6 +320,7 @@ addEventListener("message", (e: MessageEvent<IDietGenerateWorker>) => {
         mealsToGenerate: mealsToRandom,
         availableMealsToRandom: availableDietMealsToRandom,
         currentDayId,
+        allDietMeals,
       });
 
       const dietDayGenerateObj: IDietGenerateDay = {
@@ -367,6 +373,7 @@ addEventListener("message", (e: MessageEvent<IDietGenerateWorker>) => {
         mealsToGenerate: mealsToRandom,
         availableMealsToRandom: availableDietMealsToRandom,
         currentDayId,
+        allDietMeals,
       });
 
       const dietDayGenerateObj: IDietGenerateDay = {
@@ -431,6 +438,7 @@ addEventListener("message", (e: MessageEvent<IDietGenerateWorker>) => {
         mealsToGenerate: mealsToRandom,
         availableMealsToRandom: availableDietMealsToRandom,
         currentDayId,
+        allDietMeals,
       });
 
       const savedMealsCheck: IDietGenerateMeal[] = savedMeals.map((meal) => ({

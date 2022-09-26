@@ -5,7 +5,7 @@ export const getMealDinnersPortionsMacro = (
   randomMealDinner: RandomMeal["randomDietMeal"]["dinners"][0]
 ) => {
   const dinnerProductsPortions = randomMealDinner.dinnerProducts.map(
-    ({ dinnerId, defaultAmount, portionsGram, product }) => {
+    ({ dinnerId, defaultAmount, portionsGram, product, _id }) => {
       //getProduct by productId aby obliczyć makro dla każdej porcji
 
       const macroForPortions = portionsGram.map((portionGram) => {
@@ -16,6 +16,8 @@ export const getMealDinnersPortionsMacro = (
       return macroForPortions.map((macroPortion) => ({
         ...macroPortion,
         dinnerId,
+        product,
+        dinnerProductId: _id,
         dinnerImage: randomMealDinner.dinner.image,
         dietDinnerId: randomMealDinner._id,
       }));

@@ -1,5 +1,16 @@
 import React from "react";
 import ReactLoading from "react-loading";
+import axios from "utils/api";
+import { useParams } from "react-router";
+
+import {
+  IDinnerPortionData,
+  IDinnerPortionQueryData,
+} from "interfaces/dinner/dinnerPortions.interfaces";
+
+//helpers
+import { countTotal } from "helpers/countTotal";
+import { sumTotal } from "helpers/sumTotal";
 
 //components
 import GeneratedDays from "./generatedDays/GeneratedDays";
@@ -18,6 +29,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { removeDietGenerate } from "store/dietGenerate";
 
 const GeneratedDietModal = ({ closeModal }: { closeModal: () => void }) => {
+  const { dietEditId } = useParams();
   const dispatch = useDispatch();
 
   const { generatedDays, generateDietLoading } = useSelector(
@@ -29,8 +41,82 @@ const GeneratedDietModal = ({ closeModal }: { closeModal: () => void }) => {
     closeModal();
   };
 
-  const addDaysToDiet = () => {
+  const addDaysToDiet = async () => {
     console.log("add diet dinners and dietDayMeals to diet");
+
+    const newDietDietMeals = await Promise.all(
+      generatedDays.map(async (day) => {
+        const filteredNewMeals = day.meals.filter(
+          (meal) =>
+            meal.generatedType === "new" ||
+            meal.generatedType === "addedChangePortion"
+        );
+
+        console.log({ filteredNewMeals });
+
+        const newDietDinners = await Promise.all(
+          filteredNewMeals.map(async (meal) => {
+            const mealDinners = meal.generatedDinners;
+
+            if (!mealDinners) return;
+
+            const newDinners = await Promise.all(
+              mealDinners.map(async (mealDinner) => {
+                const newDinnerPortionProductsData =
+                  mealDinner.dinnerProducts.map((dinnerProduct) => ({
+                    dinnerProductId: dinnerProduct.dinnerProductId,
+                    portion: dinnerProduct.portion,
+                    total: countTotal({
+                      product: dinnerProduct.product,
+                      portion: dinnerProduct.portion,
+                    }),
+                  }));
+                // IDinnerPortion
+                const newDinnerPortionData = {
+                  type: "custom",
+                  dinnerId: mealDinner.dinnerId,
+                  total: sumTotal({
+                    dinnerPortionProducts: newDinnerPortionProductsData,
+                  }),
+                  dinnerProducts: newDinnerPortionProductsData,
+                };
+
+                const newDinnerPortion = await axios.post<IDinnerPortionData>(
+                  "/api/v1/dinnerPortions",
+                  newDinnerPortionData,
+                  {
+                    withCredentials: true,
+                  }
+                );
+
+                console.log({ newDinnerPortion });
+
+                const newDietDinnerData = {
+                  dietId: dietEditId,
+                  dayId: day._id,
+                  dietMealId: meal._id,
+                  order: 1,
+                  dinnerId: mealDinner.dinnerId,
+                  dinnerPortionId: newDinnerPortion.data._id,
+                };
+
+                const newDietDinner = await axios.post(
+                  "/api/v1/dietDinners",
+                  newDietDinnerData,
+                  {
+                    withCredentials: true,
+                  }
+                );
+
+                console.log({ newDietDinner });
+
+                handleCloseModal();
+              })
+            );
+          })
+        );
+      })
+    );
   };
 
   const handleGenerateDiet = () => {

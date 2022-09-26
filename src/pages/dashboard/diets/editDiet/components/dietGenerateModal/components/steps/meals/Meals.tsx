@@ -71,7 +71,7 @@ const Meals = () => {
 
   return (
     <Styled.GenerateMealsWrapper>
-      {JSON.stringify(watch())}
+      {/* {JSON.stringify(watch())} */}
       {/* <Styled.OptionsWrapper>
         <Styled.Option>
           <CheckBoxWrapper

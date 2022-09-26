@@ -40,6 +40,7 @@ const Meal = ({ meal, establishment }: IMeal) => {
       <Styled.MealHeading>
         <h3>{meal.name}</h3>
         <h3>8.00</h3>
+
         {/* <IconModal icon={<FaEllipsisV />}>
           <MealEstablishmentModalContent />
         </IconModal> */}
