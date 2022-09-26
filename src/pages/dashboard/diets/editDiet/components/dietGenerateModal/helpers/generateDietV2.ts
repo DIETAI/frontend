@@ -32,16 +32,10 @@ export interface IGenerateDiet {
   }[];
   dispatch: Dispatch;
   addDietGenerate: ActionCreatorWithPayload<
-    IDietGenerate["generatedDays"][0],
-    string
-  >;
-  addDietGenerateAction: ActionCreatorWithPayload<boolean>;
-  dietGenerateAction: IDietGenerateAction;
-  setDietGenerateAction: StateDispatch<SetStateAction<IDietGenerateAction>>;
-  addDietDaysGenerate: ActionCreatorWithPayload<
     IDietGenerate["generatedDays"],
     string
   >;
+  addDietGenerateAction: ActionCreatorWithPayload<boolean>;
 }
 
 export const generateDiet = ({
@@ -52,9 +46,6 @@ export const generateDiet = ({
   dispatch,
   addDietGenerate,
   addDietGenerateAction,
-  dietGenerateAction,
-  setDietGenerateAction,
-  addDietDaysGenerate,
 }: IGenerateDiet) => {
   const availableDietMealsToRandom = allDietMeals.filter(
     (dietMeal) => dietMeal.dinners.length > 0
@@ -66,11 +57,6 @@ export const generateDiet = ({
     meals,
     allDietMeals,
     availableDietMealsToRandom,
-    // dispatch,
-    // addDietGenerate,
-    // addDietGenerateAction,
-    // dietGenerateAction,
-    // setDietGenerateAction,
   };
 
   const cartesianWorker = new Worker(
@@ -89,7 +75,7 @@ export const generateDiet = ({
     //     time,
     //     fibNum,
     //   });
-    dispatch(addDietDaysGenerate(data));
+    dispatch(addDietGenerate(data));
     dispatch(addDietGenerateAction(false));
     cartesianWorker.terminate();
   };

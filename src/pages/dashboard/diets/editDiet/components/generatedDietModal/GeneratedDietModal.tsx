@@ -20,7 +20,7 @@ import { removeDietGenerate } from "store/dietGenerate";
 const GeneratedDietModal = ({ closeModal }: { closeModal: () => void }) => {
   const dispatch = useDispatch();
 
-  const { generatedDays, days, generateDietLoading } = useSelector(
+  const { generatedDays, generateDietLoading } = useSelector(
     (state: RootState) => state.dietGenerate
   );
 
@@ -49,7 +49,20 @@ const GeneratedDietModal = ({ closeModal }: { closeModal: () => void }) => {
     <Styled.GeneratedDietModalContainer>
       <Heading icon={<FaCarrot />} title="Wygenerowane dni" />
       <Styled.GeneratedDietNavWrapper>
-        <h3></h3>
+        <Styled.GeneratedDietLegendWrapper>
+          <Styled.GeneratedDietLegendItem generatedType="added">
+            <span />
+            <p>Dodane już posiłki do diety</p>
+          </Styled.GeneratedDietLegendItem>
+          <Styled.GeneratedDietLegendItem generatedType="addedChangePortion">
+            <span />
+            <p>Dodane posiłki do diety z dostosowanymi porcjami</p>
+          </Styled.GeneratedDietLegendItem>
+          <Styled.GeneratedDietLegendItem generatedType="new">
+            <span />
+            <p>Nowe wygenerowane posiłki</p>
+          </Styled.GeneratedDietLegendItem>
+        </Styled.GeneratedDietLegendWrapper>
         <Styled.GeneratedDietNavButtonsWrapper>
           {/* <Button
             type="button"

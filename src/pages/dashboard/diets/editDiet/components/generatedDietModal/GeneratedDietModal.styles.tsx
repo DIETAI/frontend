@@ -112,6 +112,72 @@ const GeneratedDietNavWrapper = styled.div(
   `
 );
 
+const GeneratedDietLegendWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 2rem;
+  `
+);
+
+interface IMealGeneratedType {
+  generatedType: "added" | "new" | "addedChangePortion";
+}
+
+const GeneratedDietLegendItem = styled.div<IMealGeneratedType>(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+    generatedType,
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+
+    span {
+      width: 3rem;
+    }
+
+    p {
+      font-size: ${fontSize.xs};
+      font-weight: ${fontWeight.medium};
+      color: ${palette.common.text};
+    }
+
+    ${generatedType === "added" &&
+    css`
+      span {
+        border-bottom: 0.2rem dashed ${palette.primary.main};
+      }
+    `}
+
+    ${generatedType === "new" &&
+    css`
+      span {
+        border-bottom: 0.2rem dashed lightgreen;
+      }
+    `}
+
+    ${generatedType === "addedChangePortion" &&
+    css`
+      span {
+        border-bottom: 0.2rem dashed orange;
+      }
+    `}
+  `
+);
+
 const GeneratedDietNavButtonsWrapper = styled.div(
   ({
     theme: {
@@ -132,5 +198,7 @@ export {
   DayWrapper,
   LoadingWrapper,
   GeneratedDietNavWrapper,
+  GeneratedDietLegendWrapper,
+  GeneratedDietLegendItem,
   GeneratedDietNavButtonsWrapper,
 };

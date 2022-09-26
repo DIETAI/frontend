@@ -255,13 +255,18 @@ const DayMealsWrapper = styled.ul(
   `
 );
 
-const MealWrapper = styled.div(
+interface IMealGeneratedType {
+  generatedType: "added" | "new" | "addedChangePortion";
+}
+
+const MealWrapper = styled.div<IMealGeneratedType>(
   ({
     theme: {
       palette,
       typography: { fontSize, fontWeight },
       layout: { border },
     },
+    generatedType,
   }) => css`
     display: flex;
     align-items: flex-start;
@@ -273,6 +278,21 @@ const MealWrapper = styled.div(
     gap: 1rem;
     border: 0.1rem solid ${palette.primary.light};
     border-radius: ${border.rounded.sm};
+
+    ${generatedType === "added" &&
+    css`
+      border: 0.1rem dashed ${palette.primary.main};
+    `}
+
+    ${generatedType === "new" &&
+    css`
+      border: 0.1rem dashed lightgreen;
+    `}
+
+    ${generatedType === "addedChangePortion" &&
+    css`
+      border: 0.1rem dashed orange;
+    `}
   `
 );
 

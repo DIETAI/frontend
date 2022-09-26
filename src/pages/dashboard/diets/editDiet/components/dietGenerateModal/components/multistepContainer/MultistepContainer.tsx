@@ -25,7 +25,7 @@ import {
 } from "../../schema/dietGenerate.schema";
 
 //helpers
-import { generateDiet } from "../../helpers/generateDiet";
+// import { generateDiet } from "../../helpers/generateDiet";
 import { generateDiet as generateDietV2 } from "../../helpers/generateDietV2";
 
 //styles
@@ -36,14 +36,7 @@ import { getAllDietMeals } from "services/getDietMeals";
 //store
 import { RootState } from "store/store";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  addDietGenerate,
-  addDietGenerateAction,
-  addDietDaysGenerate,
-  addDaysGenerate,
-  IDietGenerate,
-  removeDietGenerate,
-} from "store/dietGenerate";
+import { addDietGenerate, addDietGenerateAction } from "store/dietGenerate";
 import { IDietEstablishmentData } from "interfaces/dietEstablishment.interfaces";
 
 type DietGenerate = IDietGenerateDaysSchema &
@@ -169,10 +162,7 @@ const MultiStepContainer = ({
       allDietMeals: dietMeals,
       dispatch,
       addDietGenerate,
-      dietGenerateAction,
-      setDietGenerateAction,
       addDietGenerateAction,
-      addDietDaysGenerate,
     });
 
     // const generatedDiet = await generateDiet({

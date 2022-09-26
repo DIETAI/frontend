@@ -19,10 +19,12 @@ import { IDietGenerate } from "store/dietGenerate";
 
 //components
 import Image from "components/form/images/image/Image";
+import { IDietMealDinner } from "interfaces/diet/dietMeals.interfaces";
+import { getDinnerPortion } from "services/getDinnerPortions";
 
 const GeneratedDays = () => {
   const { dietEditId } = useParams();
-  const { generatedDays, days, generateDietLoading } = useSelector(
+  const { generatedDays, generateDietLoading } = useSelector(
     (state: RootState) => state.dietGenerate
   );
   console.log({ dietEditId });
@@ -34,7 +36,7 @@ const GeneratedDays = () => {
   if (!dietQuery) return null;
 
   const mealEstablishment = (
-    meal: IDietGenerate["generatedDays"][0]["day"]["meals"][0]
+    meal: IDietGenerate["generatedDays"][0]["meals"][0]
   ) => {
     const mealEst = dietQuery.establishment.meals.filter(
       ({ type }) => type === meal.type
@@ -47,7 +49,7 @@ const GeneratedDays = () => {
 
   return (
     <Styled.DaysContainer>
-      {generatedDays.map(({ loading, day }, dayIndex) => (
+      {generatedDays.map((day, dayIndex) => (
         <Styled.DayWrapper key={day._id}>
           <Styled.DayHeading>
             <h2>Dzień {dayIndex + 1}</h2>
@@ -77,7 +79,10 @@ const GeneratedDays = () => {
           <Styled.DayMealsWrapper>
             {day.meals.length > 0 &&
               day.meals.map((meal) => (
-                <Styled.MealWrapper key={meal._id}>
+                <Styled.MealWrapper
+                  key={meal._id}
+                  generatedType={meal.generatedType}
+                >
                   <Styled.MealHeading>
                     <h3>{meal.name}</h3>
                     <h3>8.00</h3>
@@ -86,70 +91,100 @@ const GeneratedDays = () => {
                   <Styled.MealTotalWrapper>
                     <SumModal
                       macroType="kcal"
-                      totalValue={
-                        meal.selectedGroup.macroTotalCount?.total_kcal || 0
-                      }
+                      totalValue={meal.total.kcal}
                       establishmentValue={mealEstablishment(meal).kcal}
                     />
 
                     <p>
                       B:
-                      <b>
-                        {meal.selectedGroup.macroTotalCount?.total_protein_gram}
-                      </b>
+                      <b>{meal.total.protein.gram}</b>
                     </p>
                     <p>
                       T:
-                      <b>
-                        {meal.selectedGroup.macroTotalCount?.total_fat_gram}
-                      </b>
+                      <b>{meal.total.fat.gram}</b>
                     </p>
                     <p>
-                      W:{" "}
-                      <b>
-                        {
-                          meal.selectedGroup.macroTotalCount
-                            ?.total_carbohydrates_gram
-                        }
-                      </b>
+                      W: <b>{meal.total.carbohydrates.gram}</b>
                     </p>
                   </Styled.MealTotalWrapper>
 
-                  {meal.dinners.map((generateDinner) => (
-                    <Styled.DietDinnerWrapper key={generateDinner._id}>
-                      <Styled.DietDinner>
-                        {generateDinner.dinnerImage && (
-                          <div>
-                            <Image
-                              roundedDataGrid={true}
-                              imageId={generateDinner.dinnerImage}
-                            />
-                          </div>
-                        )}
-                        <h4>{generateDinner.dinnerName}</h4>
-                      </Styled.DietDinner>
-                      <Styled.DietDinnerTotalWrapper>
-                        <p>
-                          B: <b>{generateDinner.total.protein.gram}</b>
-                        </p>
-                        <p>
-                          T: <b>{generateDinner.total.fat.gram}</b>
-                        </p>
-                        <p>
-                          W: <b>{generateDinner.total.carbohydrates.gram}</b>
-                        </p>
-                        <p>
-                          kcal: <b>{generateDinner.total.kcal}</b>
-                        </p>
-                      </Styled.DietDinnerTotalWrapper>
-                    </Styled.DietDinnerWrapper>
-                  ))}
+                  {meal.addedMealObj &&
+                    meal.addedMealObj.dinners.map((dietDinner) => (
+                      <AddedDietDinner
+                        key={dietDinner._id}
+                        dietDinner={dietDinner}
+                      />
+                    ))}
+
+                  {meal.generatedDinners &&
+                    meal.generatedDinners.map((generateDinner) => (
+                      <Styled.DietDinnerWrapper key={generateDinner._id}>
+                        <Styled.DietDinner>
+                          {generateDinner.dinnerImage && (
+                            <div>
+                              <Image
+                                roundedDataGrid={true}
+                                imageId={generateDinner.dinnerImage}
+                              />
+                            </div>
+                          )}
+                          <h4>{generateDinner.dinnerName}</h4>
+                        </Styled.DietDinner>
+                        <Styled.DietDinnerTotalWrapper>
+                          <p>
+                            B: <b>{generateDinner.total.protein.gram}</b>
+                          </p>
+                          <p>
+                            T: <b>{generateDinner.total.fat.gram}</b>
+                          </p>
+                          <p>
+                            W: <b>{generateDinner.total.carbohydrates.gram}</b>
+                          </p>
+                          <p>
+                            kcal: <b>{generateDinner.total.kcal}</b>
+                          </p>
+                        </Styled.DietDinnerTotalWrapper>
+                      </Styled.DietDinnerWrapper>
+                    ))}
                 </Styled.MealWrapper>
               ))}
           </Styled.DayMealsWrapper>
         </Styled.DayWrapper>
       ))}
     </Styled.DaysContainer>
+  );
+};
+
+const AddedDietDinner = ({ dietDinner }: { dietDinner: IDietMealDinner }) => {
+  const { dinnerPortion } = getDinnerPortion(dietDinner.dinnerPortionId);
+
+  if (!dinnerPortion) return null;
+
+  return (
+    <Styled.DietDinnerWrapper key={dietDinner._id}>
+      <Styled.DietDinner>
+        {dietDinner.dinner.image && (
+          <div>
+            <Image roundedDataGrid={true} imageId={dietDinner.dinner.image} />
+          </div>
+        )}
+        <h4>{dietDinner.dinner.name}</h4>
+      </Styled.DietDinner>
+      <Styled.DietDinnerTotalWrapper>
+        <p>
+          B: <b>{dinnerPortion.total.protein.gram}</b>
+        </p>
+        <p>
+          T: <b>{dinnerPortion.total.fat.gram}</b>
+        </p>
+        <p>
+          W: <b>{dinnerPortion.total.carbohydrates.gram}</b>
+        </p>
+        <p>
+          kcal: <b>{dinnerPortion.total.kcal}</b>
+        </p>
+      </Styled.DietDinnerTotalWrapper>
+    </Styled.DietDinnerWrapper>
   );
 };
 
