@@ -108,6 +108,18 @@ const GeneratedDietModal = ({ closeModal }: { closeModal: () => void }) => {
                   }
                 );
 
+                //deleteDinner
+                if (meal.generatedType === "addedChangePortion") {
+                  const deleteDinner = await axios.delete(
+                    `/api/v1/dietDinners/${mealDinner._id}`,
+                    {
+                      withCredentials: true,
+                    }
+                  );
+
+                  console.log({ deleteDinner });
+                }
+
                 console.log({ newDietDinner });
 
                 handleCloseModal();
