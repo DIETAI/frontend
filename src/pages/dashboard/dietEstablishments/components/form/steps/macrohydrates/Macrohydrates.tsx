@@ -50,6 +50,26 @@ const mainMacrohydrates = [
       name: "protein.max_procent",
       disabled: false,
     },
+    min_gram: {
+      label: "minimalna wartość gram",
+      name: "protein.min_gram",
+      disabled: true,
+    },
+    max_gram: {
+      label: "maksymalna wartość gram",
+      name: "protein.max_gram",
+      disabled: true,
+    },
+    min_kcal: {
+      label: "minimalna wartość kcal",
+      name: "protein.min_kcal",
+      disabled: true,
+    },
+    max_kcal: {
+      label: "maksymalna wartość kcal",
+      name: "protein.max_kcal",
+      disabled: true,
+    },
   },
   {
     id: 2,
@@ -80,6 +100,26 @@ const mainMacrohydrates = [
       name: "fat.max_procent",
       disabled: false,
     },
+    min_gram: {
+      label: "minimalna wartość gram",
+      name: "fat.min_gram",
+      disabled: true,
+    },
+    max_gram: {
+      label: "maksymalna wartość gram",
+      name: "fat.max_gram",
+      disabled: true,
+    },
+    min_kcal: {
+      label: "minimalna wartość kcal",
+      name: "fat.min_kcal",
+      disabled: true,
+    },
+    max_kcal: {
+      label: "maksymalna wartość kcal",
+      name: "fat.max_kcal",
+      disabled: true,
+    },
   },
   {
     id: 3,
@@ -109,6 +149,26 @@ const mainMacrohydrates = [
       label: "maksymalna wartość procentowa",
       name: "carbohydrates.max_procent",
       disabled: false,
+    },
+    min_gram: {
+      label: "minimalna wartość gram",
+      name: "carbohydrates.min_gram",
+      disabled: true,
+    },
+    max_gram: {
+      label: "maksymalna wartość gram",
+      name: "carbohydrates.max_gram",
+      disabled: true,
+    },
+    min_kcal: {
+      label: "minimalna wartość kcal",
+      name: "carbohydrates.min_kcal",
+      disabled: true,
+    },
+    max_kcal: {
+      label: "maksymalna wartość kcal",
+      name: "carbohydrates.max_kcal",
+      disabled: true,
     },
   },
   {
@@ -285,6 +345,67 @@ const Macrohydrates = () => {
     setValue("proteinFatExchangers", 0);
   }, [kcal, carbohydrates.kcal]);
 
+  useEffect(() => {
+    if (kcal && protein.min_procent && protein.max_procent) {
+      const proteinMinKcal = round2((protein.min_procent * kcal) / 100);
+      const proteinMaxKcal = round2((protein.max_procent * kcal) / 100);
+      const proteinMinGram = round2(proteinMinKcal / 4);
+      const proteinMaxGram = round2(proteinMaxKcal / 4);
+
+      setValue("protein.min_gram", proteinMinGram);
+      setValue("protein.max_gram", proteinMaxGram);
+      setValue("protein.min_kcal", proteinMinKcal);
+      return setValue("protein.max_kcal", proteinMaxKcal);
+    }
+
+    setValue("protein.min_gram", 0);
+    setValue("protein.max_gram", 0);
+    setValue("protein.min_kcal", 0);
+    setValue("protein.max_kcal", 0);
+  }, [kcal, protein.min_procent, protein.max_procent]);
+
+  useEffect(() => {
+    if (kcal && fat.min_procent && fat.max_procent) {
+      const fatMinKcal = round2((fat.min_procent * kcal) / 100);
+      const fatMaxKcal = round2((fat.max_procent * kcal) / 100);
+      const fatMinGram = round2(fatMinKcal / 9);
+      const fatMaxGram = round2(fatMaxKcal / 9);
+
+      setValue("fat.min_gram", fatMinGram);
+      setValue("fat.max_gram", fatMaxGram);
+      setValue("fat.min_kcal", fatMinKcal);
+      return setValue("fat.max_kcal", fatMaxKcal);
+    }
+
+    setValue("fat.min_gram", 0);
+    setValue("fat.max_gram", 0);
+    setValue("fat.min_kcal", 0);
+    setValue("fat.max_kcal", 0);
+  }, [kcal, fat.min_procent, fat.max_procent]);
+
+  useEffect(() => {
+    if (kcal && carbohydrates.min_procent && carbohydrates.max_procent) {
+      const carbohydratesMinKcal = round2(
+        (carbohydrates.min_procent * kcal) / 100
+      );
+      const carbohydratesMaxKcal = round2(
+        (carbohydrates.max_procent * kcal) / 100
+      );
+      const carbohydratesMinGram = round2(carbohydratesMinKcal / 4);
+      const carbohydratesMaxGram = round2(carbohydratesMaxKcal / 4);
+
+      setValue("carbohydrates.min_gram", carbohydratesMinGram);
+      setValue("carbohydrates.max_gram", carbohydratesMaxGram);
+      setValue("carbohydrates.min_kcal", carbohydratesMinKcal);
+      return setValue("carbohydrates.max_kcal", carbohydratesMaxKcal);
+    }
+
+    setValue("carbohydrates.min_gram", 0);
+    setValue("carbohydrates.max_gram", 0);
+    setValue("carbohydrates.min_kcal", 0);
+    setValue("carbohydrates.max_kcal", 0);
+  }, [kcal, carbohydrates.min_procent, carbohydrates.max_procent]);
+
   const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
     // const value = !e.currentTarget.value
     //   ? e.currentTarget.value
@@ -385,6 +506,42 @@ const Macrohydrates = () => {
                   type="number"
                   name={macrohydrate.max_procent.name}
                   disabled={macrohydrate.max_procent.disabled}
+                  onChange={handleChange}
+                  controlled
+                  fullWidth
+                />
+                <Input
+                  label={macrohydrate.min_gram.label}
+                  type="number"
+                  name={macrohydrate.min_gram.name}
+                  disabled={macrohydrate.min_gram.disabled}
+                  onChange={handleChange}
+                  controlled
+                  fullWidth
+                />
+                <Input
+                  label={macrohydrate.max_gram.label}
+                  type="number"
+                  name={macrohydrate.max_gram.name}
+                  disabled={macrohydrate.max_gram.disabled}
+                  onChange={handleChange}
+                  controlled
+                  fullWidth
+                />
+                <Input
+                  label={macrohydrate.min_kcal.label}
+                  type="number"
+                  name={macrohydrate.min_kcal.name}
+                  disabled={macrohydrate.min_kcal.disabled}
+                  onChange={handleChange}
+                  controlled
+                  fullWidth
+                />
+                <Input
+                  label={macrohydrate.max_kcal.label}
+                  type="number"
+                  name={macrohydrate.max_kcal.name}
+                  disabled={macrohydrate.max_kcal.disabled}
                   onChange={handleChange}
                   controlled
                   fullWidth

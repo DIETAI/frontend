@@ -13,10 +13,15 @@ export interface IDietEstablishmentMacrohydrate {
   procent: number;
 }
 
+//dodać minGram, maxGram, minKcal, maxKcal
 export interface IDietEstablishmentMacrohydrateMinMax
   extends IDietEstablishmentMacrohydrate {
   min_procent: number;
   max_procent: number;
+  min_gram: number;
+  max_gram: number;
+  min_kcal: number;
+  max_kcal: number;
 }
 
 export interface IDietEstablishmentVitamin {

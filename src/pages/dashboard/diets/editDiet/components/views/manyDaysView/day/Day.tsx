@@ -12,11 +12,15 @@ import DayEstablishmentModalContent from "./dayEstablishmentModal/DayEstablishme
 import * as Styled from "./Day.styles";
 
 //utils
-import { procentClasses } from "../../../../utils/procentClasses";
+import {
+  procentClasses,
+  percentageRangeClasses,
+} from "../../../../utils/procentClasses";
 
 //icons
 import { FaEllipsisV } from "icons/icons";
 import { IDietEstablishmentData } from "interfaces/dietEstablishment.interfaces";
+import CheckBoxWrapper from "components/checkbox/CheckboxWrapper";
 
 interface IDay {
   day: IDietDayQueryData;
@@ -89,16 +93,25 @@ const Day = ({ day, establishment }: IDay) => {
           macroType="B"
           totalValue={day.total.protein.gram}
           establishmentValue={establishment.protein.gram}
+          establishmentMinGram={establishment.protein.min_gram}
+          establishmentMaxGram={establishment.protein.max_gram}
+          optionType="percentageRange"
         />
         <SumModal
           macroType="T"
           totalValue={day.total.fat.gram}
           establishmentValue={establishment.fat.gram}
+          establishmentMinGram={establishment.fat.min_gram}
+          establishmentMaxGram={establishment.fat.max_gram}
+          optionType="percentageRange"
         />
         <SumModal
           macroType="W"
           totalValue={day.total.carbohydrates.gram}
           establishmentValue={establishment.carbohydrates.gram}
+          establishmentMinGram={establishment.carbohydrates.min_gram}
+          establishmentMaxGram={establishment.carbohydrates.max_gram}
+          optionType="percentageRange"
         />
       </Styled.DayTotalWrapper>
       <Styled.DayMealsWrapper>
@@ -127,24 +140,42 @@ const Day = ({ day, establishment }: IDay) => {
   );
 };
 
+type ISumModalEstablishmentOption = "perfectProcent" | "percentageRange";
+
 export const SumModal = ({
   totalValue,
   establishmentValue,
   macroType,
+  establishmentMinGram,
+  establishmentMaxGram,
+  optionType,
 }: {
   totalValue: number;
   establishmentValue: number;
   macroType: string;
+  establishmentMinGram?: number;
+  establishmentMaxGram?: number;
+  optionType?: ISumModalEstablishmentOption;
 }) => {
   const [sumModalOpen, setSumModalOpen] = useState(false);
+  const [option, setOption] =
+    useState<ISumModalEstablishmentOption>("percentageRange");
   return (
     <Styled.SumItem
       onMouseEnter={() => setSumModalOpen(true)}
       onMouseLeave={() => setSumModalOpen(false)}
-      variant={procentClasses({
-        establishment: establishmentValue,
-        total: totalValue,
-      })}
+      variant={
+        optionType === "percentageRange"
+          ? percentageRangeClasses({
+              value: totalValue,
+              minValue: establishmentMinGram || 0,
+              maxValue: establishmentMaxGram || 0,
+            })
+          : procentClasses({
+              establishment: establishmentValue,
+              total: totalValue,
+            })
+      }
     >
       <p>
         {macroType}: <b>{totalValue}</b>
@@ -157,9 +188,79 @@ export const SumModal = ({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
-            <p>
-              <b>{totalValue}</b>/{establishmentValue}
-            </p>
+            {!establishmentMinGram && (
+              <Styled.PerfectProcent
+                variant={procentClasses({
+                  establishment: establishmentValue,
+                  total: totalValue,
+                })}
+              >
+                <p>
+                  <b>{totalValue}</b>/{establishmentValue}
+                </p>
+              </Styled.PerfectProcent>
+            )}
+
+            {establishmentMinGram && (
+              <>
+                {/* <Styled.SumItemNav>
+                  <Styled.SumItemNavOption>
+                    <CheckBoxWrapper
+                      checked={option === "perfectProcent"}
+                      onClick={() => setOption("perfectProcent")}
+                    />
+                    <p>
+                      licz do preferowanej wartości procentowej z odchyleniem 5%
+                    </p>
+                  </Styled.SumItemNavOption>
+                  <Styled.SumItemNavOption>
+                    <CheckBoxWrapper
+                      checked={option === "percentageRange"}
+                      onClick={() => setOption("percentageRange")}
+                    />
+                    <p>licz do przedziału %</p>
+                  </Styled.SumItemNavOption>
+                </Styled.SumItemNav> */}
+                {option === "percentageRange" && (
+                  // <div>
+                  //   <p>przedział procentowy: 10-22%</p>
+                  //   <p>preferowana wartość %: 15%</p>
+                  //   <p>obecna wartość %: 5%</p>
+                  // </div>
+                  <Styled.PercentageRangeWrapper
+                    variant={percentageRangeClasses({
+                      value: totalValue,
+                      minValue: establishmentMinGram || 0,
+                      maxValue: establishmentMaxGram || 0,
+                    })}
+                  >
+                    <Styled.PercentageRangeItem>
+                      <p>
+                        <b>{totalValue}</b> g
+                      </p>
+                    </Styled.PercentageRangeItem>
+                    <Styled.PercentageRangeItem>
+                      <p>
+                        /{establishmentMinGram} - {establishmentMaxGram} g
+                      </p>
+                    </Styled.PercentageRangeItem>
+                  </Styled.PercentageRangeWrapper>
+                )}
+
+                {option === "perfectProcent" && (
+                  <Styled.PerfectProcent
+                    variant={procentClasses({
+                      establishment: establishmentValue,
+                      total: totalValue,
+                    })}
+                  >
+                    <p>
+                      <b>{totalValue}</b>/{establishmentValue}
+                    </p>
+                  </Styled.PerfectProcent>
+                )}
+              </>
+            )}
           </Styled.SumItemModal>
         )}
       </AnimatePresence>

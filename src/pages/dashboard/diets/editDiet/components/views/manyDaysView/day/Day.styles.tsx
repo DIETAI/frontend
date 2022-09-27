@@ -298,18 +298,171 @@ const SumItemModal = styled(motion.div)(
     top: 110%;
     /* width: 100%; */
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
     z-index: 10;
     padding: 1rem 2rem;
     background: ${palette.common.main};
     border: 0.1rem solid ${palette.primary.light};
     border-radius: ${border.rounded.sm};
     box-shadow: ${palette.common["box-shadow"]};
+    gap: 2rem;
     p {
       color: ${palette.common.text};
       font-size: ${fontSize.xs};
       font-weight: ${fontWeight.medium};
+    }
+  `
+);
+
+const SumItemNav = styled(motion.div)(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 1rem;
+
+    p {
+      color: ${palette.common.text};
+      font-size: ${fontSize.xs};
+      font-weight: ${fontWeight.medium};
+    }
+  `
+);
+
+const SumItemNavOption = styled(motion.div)(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+
+    p {
+      color: ${palette.common.text};
+      font-size: ${fontSize.xs};
+      font-weight: ${fontWeight.medium};
+    }
+  `
+);
+
+const PerfectProcent = styled(motion.div)<ISumItemVariant>(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+    variant,
+  }) => css`
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 1rem;
+
+    p {
+      font-size: 1.1rem;
+      font-weight: ${fontWeight.medium};
+      color: ${palette.common.text};
+    }
+
+    ${variant === "green" &&
+    css`
+      b {
+        color: lightgreen;
+      }
+    `}
+
+    ${variant === "yellow" &&
+    css`
+      b {
+        color: orange;
+      }
+    `}
+
+    ${variant === "red" &&
+    css`
+      b {
+        color: red;
+      }
+    `}
+  `
+);
+
+const PercentageRangeWrapper = styled(motion.div)<ISumItemVariant>(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+    variant,
+  }) => css`
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    width: 10rem;
+
+    p {
+      font-size: 1.1rem;
+      font-weight: ${fontWeight.medium};
+      color: ${palette.common.text};
+    }
+
+    ${variant === "green" &&
+    css`
+      b {
+        color: lightgreen;
+      }
+    `}
+
+    ${variant === "yellow" &&
+    css`
+      b {
+        color: orange;
+      }
+    `}
+
+    ${variant === "red" &&
+    css`
+      b {
+        color: red;
+      }
+    `}
+  `
+);
+
+const PercentageRangeItem = styled(motion.div)(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 1rem;
+
+    p {
+      font-size: 1.1rem;
+      font-weight: ${fontWeight.medium};
+      color: ${palette.common.text};
     }
   `
 );
@@ -324,4 +477,9 @@ export {
   OneDayViewTotalItem,
   SumItem,
   SumItemModal,
+  SumItemNav,
+  SumItemNavOption,
+  PerfectProcent,
+  PercentageRangeWrapper,
+  PercentageRangeItem,
 };

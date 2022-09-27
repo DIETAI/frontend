@@ -17,3 +17,22 @@ export const procentClasses = ({ establishment, total }: IProcentClasses) => {
   }
   return "yellow";
 };
+
+interface IPercentageRange {
+  minValue: number;
+  maxValue: number;
+  value: number;
+}
+
+export const percentageRangeClasses = ({
+  minValue,
+  maxValue,
+  value,
+}: IPercentageRange) => {
+  //procent
+  if (value < minValue || value > maxValue) {
+    return "red";
+  }
+
+  return "green";
+};
