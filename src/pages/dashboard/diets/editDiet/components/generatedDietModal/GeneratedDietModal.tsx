@@ -26,7 +26,68 @@ import * as Styled from "./GeneratedDietModal.styles";
 //store
 import { RootState } from "store/store";
 import { useSelector, useDispatch } from "react-redux";
-import { removeDietGenerate } from "store/dietGenerate";
+import {
+  removeDietGenerate,
+  IDietGenerateMeal,
+  IGenerateDinner,
+} from "store/dietGenerate";
+import { ICartesianResult } from "../dietGenerateModal/helpers/cartesianDinners/cartesianDinners";
+
+interface IValidPortion {
+  dinnerPortionsQuery: IDinnerPortionQueryData[];
+  mealDinner: IGenerateDinner;
+}
+
+const validPortion = ({ dinnerPortionsQuery, mealDinner }: IValidPortion) => {
+  const allPortionsComb = dinnerPortionsQuery?.map((portionQuery) => {
+    const portionId = portionQuery._id;
+    const portionComb = portionQuery.dinnerProducts
+      .map((product) =>
+        (product.dinnerProduct.productId + ":" + product.portion).trim()
+      )
+      .join("-");
+
+    return {
+      portionId,
+      portionComb,
+    };
+  });
+
+  const selectedProductsCombinationId = mealDinner.dinnerProducts
+    .map((product) => (product.productId + ":" + product.portion).trim())
+    .join("-");
+
+  // console.log({
+  //   allPortionsComb,
+  //   combination: selectedProductsCombinationId,
+  // });
+
+  const findPortion = allPortionsComb.find(
+    (portion) => portion.portionComb === selectedProductsCombinationId
+  );
+
+  if (findPortion) {
+    return {
+      valid: false,
+      dinnerPortionId: findPortion.portionId,
+    };
+  }
+
+  return {
+    valid: true,
+    // dinnerPortionId: undefined,
+  };
+
+  // if (
+  //   allPortionsComb
+  //     ?.map(({ portionComb }) => portionComb)
+  //     .includes(selectedProductsCombinationId)
+  // ) {
+  //   return false;
+  // }
+
+  // return true;
+};
 
 const GeneratedDietModal = ({ closeModal }: { closeModal: () => void }) => {
   const { dietEditId } = useParams();
@@ -60,53 +121,123 @@ const GeneratedDietModal = ({ closeModal }: { closeModal: () => void }) => {
 
             if (!mealDinners) return;
 
-            const newDinners = await Promise.all(
+            const validMealDinnersPortions = await Promise.all(
               mealDinners.map(async (mealDinner) => {
-                const newDinnerPortionProductsData =
-                  mealDinner.dinnerProducts.map((dinnerProduct) => ({
-                    dinnerProductId: dinnerProduct.dinnerProductId,
-                    portion: dinnerProduct.portion,
-                    total: countTotal({
-                      product: dinnerProduct.product,
+                const dinnerPortions = await axios.get<
+                  IDinnerPortionQueryData[]
+                >(
+                  `/api/v1/dinnerPortions/dinner/${mealDinner.dinnerId}/query`,
+                  { withCredentials: true }
+                );
+
+                console.log({ dinnerPortions });
+
+                // const { dinnerPortionsQuery } = getDinnerPortionsQuery(
+                //   mealDinner.dinnerId
+                // );
+
+                // console.log({ dinnerPortionsQuery });
+
+                // if (!dinnerPortionsQuery)
+                //   return {
+                //     ...mealDinner,
+                //     validatePortion: false,
+                //     portionId: "",
+                //   };
+
+                const validatePortion = validPortion({
+                  dinnerPortionsQuery: dinnerPortions.data,
+                  mealDinner,
+                });
+
+                //if !validPortion => getPortionId
+                const portionId = !validatePortion.valid
+                  ? validatePortion.dinnerPortionId
+                  : undefined;
+
+                return {
+                  ...mealDinner,
+                  validatePortion: validatePortion.valid,
+                  portionId,
+                };
+              })
+            );
+
+            console.log({ validMealDinnersPortions });
+
+            //add portion validation
+
+            const newDinners = await Promise.all(
+              validMealDinnersPortions.map(async (mealDinner) => {
+                if (mealDinner?.validatePortion) {
+                  const newDinnerPortionProductsData =
+                    mealDinner.dinnerProducts.map((dinnerProduct) => ({
+                      dinnerProductId: dinnerProduct.dinnerProductId,
                       portion: dinnerProduct.portion,
+                      total: countTotal({
+                        product: dinnerProduct.product,
+                        portion: dinnerProduct.portion,
+                      }),
+                    }));
+
+                  // IDinnerPortion
+                  const newDinnerPortionData = {
+                    type: "custom",
+                    dinnerId: mealDinner.dinnerId,
+                    total: sumTotal({
+                      dinnerPortionProducts: newDinnerPortionProductsData,
                     }),
-                  }));
-                // IDinnerPortion
-                const newDinnerPortionData = {
-                  type: "custom",
-                  dinnerId: mealDinner.dinnerId,
-                  total: sumTotal({
-                    dinnerPortionProducts: newDinnerPortionProductsData,
-                  }),
-                  dinnerProducts: newDinnerPortionProductsData,
-                };
+                    dinnerProducts: newDinnerPortionProductsData,
+                  };
 
-                const newDinnerPortion = await axios.post<IDinnerPortionData>(
-                  "/api/v1/dinnerPortions",
-                  newDinnerPortionData,
-                  {
-                    withCredentials: true,
-                  }
-                );
+                  const newDinnerPortion = await axios.post<IDinnerPortionData>(
+                    "/api/v1/dinnerPortions",
+                    newDinnerPortionData,
+                    {
+                      withCredentials: true,
+                    }
+                  );
 
-                console.log({ newDinnerPortion });
+                  console.log({ newDinnerPortion });
 
-                const newDietDinnerData = {
-                  dietId: dietEditId,
-                  dayId: day._id,
-                  dietMealId: meal._id,
-                  order: 1,
-                  dinnerId: mealDinner.dinnerId,
-                  dinnerPortionId: newDinnerPortion.data._id,
-                };
+                  const newDietDinnerData = {
+                    dietId: dietEditId,
+                    dayId: day._id,
+                    dietMealId: meal._id,
+                    order: 1,
+                    dinnerId: mealDinner.dinnerId,
+                    dinnerPortionId: newDinnerPortion.data._id,
+                  };
 
-                const newDietDinner = await axios.post(
-                  "/api/v1/dietDinners",
-                  newDietDinnerData,
-                  {
-                    withCredentials: true,
-                  }
-                );
+                  const newDietDinner = await axios.post(
+                    "/api/v1/dietDinners",
+                    newDietDinnerData,
+                    {
+                      withCredentials: true,
+                    }
+                  );
+
+                  console.log({ newDietDinner });
+                } else {
+                  const newDietDinnerData = {
+                    dietId: dietEditId,
+                    dayId: day._id,
+                    dietMealId: meal._id,
+                    order: 1,
+                    dinnerId: mealDinner.dinnerId,
+                    dinnerPortionId: mealDinner.portionId as string,
+                  };
+
+                  const newDietDinner = await axios.post(
+                    "/api/v1/dietDinners",
+                    newDietDinnerData,
+                    {
+                      withCredentials: true,
+                    }
+                  );
+
+                  console.log({ newDietDinner });
+                }
 
                 //deleteDinner
                 if (meal.generatedType === "addedChangePortion") {
@@ -119,8 +250,6 @@ const GeneratedDietModal = ({ closeModal }: { closeModal: () => void }) => {
 
                   console.log({ deleteDinner });
                 }
-
-                console.log({ newDietDinner });
 
                 handleCloseModal();
               })

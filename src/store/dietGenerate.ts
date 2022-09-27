@@ -3,6 +3,26 @@ import { ICartesianResult } from "pages/dashboard/diets/editDiet/components/diet
 import { IDietMealTotal } from "interfaces/diet/dietMeals.interfaces";
 import { IDietMealData } from "interfaces/diet/dietMeals.interfaces";
 
+export interface IGenerateDinner {
+  _id: string;
+  dinnerId: string;
+  dinnerName: string;
+  dinnerImage?: string;
+  dinnerProducts: ICartesianResult["products"];
+  total: {
+    kcal: number;
+    protein: {
+      gram: number;
+    };
+    fat: {
+      gram: number;
+    };
+    carbohydrates: {
+      gram: number;
+    };
+  };
+}
+
 export interface IDietGenerateMeal {
   _id: string; //dietDayMealID to generate,
   name: string;
@@ -16,25 +36,7 @@ export interface IDietGenerateMeal {
     missingProcentCount?: ICartesianResult["missingProcentCount"];
   };
   total: IDietMealTotal; //albo dodane już meal total albo przerobić generatedMacroTotalCount
-  generatedDinners?: {
-    _id: string;
-    dinnerId: string;
-    dinnerName: string;
-    dinnerImage?: string;
-    dinnerProducts: ICartesianResult["products"];
-    total: {
-      kcal: number;
-      protein: {
-        gram: number;
-      };
-      fat: {
-        gram: number;
-      };
-      carbohydrates: {
-        gram: number;
-      };
-    };
-  }[];
+  generatedDinners?: IGenerateDinner[];
   addedMealObj?: IDietMealData; //or undefined when new,
 }
 
