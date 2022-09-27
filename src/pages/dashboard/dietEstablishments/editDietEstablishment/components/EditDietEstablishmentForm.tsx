@@ -63,9 +63,14 @@ const EditDietEstablishmentForm = ({
     }
   };
 
+  const defaultEst = {
+    ...dietEstablishment,
+    vitaminB1: { amount: 1.3, unit: "mg" },
+  };
+
   return (
     <MultiStepFormContent
-      defaultValues={dietEstablishment}
+      defaultValues={defaultEst}
       onSubmitAction={onDietEstablishmentFormSubmit}
       validationSchema={allDietEstablishmentSchemas}
       itemId={dietEstablishment._id}

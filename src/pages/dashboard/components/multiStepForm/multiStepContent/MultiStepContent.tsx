@@ -73,6 +73,7 @@ const MultiStepContent = ({
             type="submit"
             onClick={handleSubmit(onSubmitAction) as () => void}
             variant={!isValid || isSubmitting ? "disabled" : "primary"}
+            // variant="primary"
           >
             {itemId ? t("formOptions.edit") : t("formOptions.save")}
           </Button>

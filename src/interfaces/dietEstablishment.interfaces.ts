@@ -13,6 +13,12 @@ export interface IDietEstablishmentMacrohydrate {
   procent: number;
 }
 
+export interface IDietEstablishmentMacrohydrateMinMax
+  extends IDietEstablishmentMacrohydrate {
+  min_procent: number;
+  max_procent: number;
+}
+
 export interface IDietEstablishmentVitamin {
   amount: number;
   unit: "mg" | "uq" | "j.";
@@ -40,9 +46,9 @@ export interface IDietEstablishmentData {
   //meals
   meals: IDietEstablishmentMeal[];
   //macrohydrates
-  protein: IDietEstablishmentMacrohydrate;
-  fat: IDietEstablishmentMacrohydrate;
-  carbohydrates: IDietEstablishmentMacrohydrate;
+  protein: IDietEstablishmentMacrohydrateMinMax;
+  fat: IDietEstablishmentMacrohydrateMinMax;
+  carbohydrates: IDietEstablishmentMacrohydrateMinMax;
   digestableCarbohydrates: Omit<IDietEstablishmentMacrohydrate, "procent">;
   fiber: Omit<IDietEstablishmentMacrohydrate, "procent">;
   animalProtein: IDietEstablishmentMacrohydrate;

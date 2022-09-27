@@ -40,6 +40,16 @@ const mainMacrohydrates = [
       name: "protein.procent",
       disabled: false,
     },
+    min_procent: {
+      label: "minimalna wartość procentowa",
+      name: "protein.min_procent",
+      disabled: false,
+    },
+    max_procent: {
+      label: "maksymalna wartość procentowa",
+      name: "protein.max_procent",
+      disabled: false,
+    },
   },
   {
     id: 2,
@@ -60,6 +70,16 @@ const mainMacrohydrates = [
       name: "fat.procent",
       disabled: false,
     },
+    min_procent: {
+      label: "minimalna wartość procentowa",
+      name: "fat.min_procent",
+      disabled: false,
+    },
+    max_procent: {
+      label: "maksymalna wartość procentowa",
+      name: "fat.max_procent",
+      disabled: false,
+    },
   },
   {
     id: 3,
@@ -78,6 +98,16 @@ const mainMacrohydrates = [
     procent: {
       label: "dietEstablishment.form.macrohydrates.procent",
       name: "carbohydrates.procent",
+      disabled: false,
+    },
+    min_procent: {
+      label: "minimalna wartość procentowa",
+      name: "carbohydrates.min_procent",
+      disabled: false,
+    },
+    max_procent: {
+      label: "maksymalna wartość procentowa",
+      name: "carbohydrates.max_procent",
       disabled: false,
     },
   },
@@ -305,7 +335,7 @@ const Macrohydrates = () => {
         <p>wartość % makroskładników</p>
         <h3>{totalMacrohydratesProcent} %</h3>
       </Styled.TotalProcentWrapper>
-
+      {/* {JSON.stringify(watch())} */}
       {mainMacrohydrates.length > 1 &&
         mainMacrohydrates.map((macrohydrate) => (
           <Styled.FieldWrapper key={macrohydrate.id}>
@@ -339,6 +369,28 @@ const Macrohydrates = () => {
               disabled={macrohydrate.kcal.disabled}
               fullWidth
             />
+            {macrohydrate.min_procent && macrohydrate.max_procent && (
+              <>
+                <Input
+                  label={macrohydrate.min_procent.label}
+                  type="number"
+                  name={macrohydrate.min_procent.name}
+                  disabled={macrohydrate.min_procent.disabled}
+                  onChange={handleChange}
+                  controlled
+                  fullWidth
+                />
+                <Input
+                  label={macrohydrate.max_procent.label}
+                  type="number"
+                  name={macrohydrate.max_procent.name}
+                  disabled={macrohydrate.max_procent.disabled}
+                  onChange={handleChange}
+                  controlled
+                  fullWidth
+                />
+              </>
+            )}
           </Styled.FieldWrapper>
         ))}
 

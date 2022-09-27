@@ -113,6 +113,26 @@ export const establishmentMacrohydratesSchema = yup.object({
       .positive("Wymagana wartość większa od 0")
       .required("To pole jest wymagane")
       .default(15),
+    min_procent: yup
+      .number()
+      .typeError("To pole jest wymagane")
+      .positive("Wymagana wartość większa od 0")
+      .required("To pole jest wymagane")
+      .default(10)
+      .lessThan(
+        yup.ref("max_procent"),
+        "wartość musi być mniejsza niż maksymalna ilość przedziału"
+      ),
+    max_procent: yup
+      .number()
+      .typeError("To pole jest wymagane")
+      .positive("Wymagana wartość większa od 0")
+      .required("To pole jest wymagane")
+      .default(22)
+      .moreThan(
+        yup.ref("min_procent"),
+        "wartość musi być większa niż minimalna ilość przedziału"
+      ),
   }),
   fat: yup.object({
     gram: yup
@@ -131,6 +151,26 @@ export const establishmentMacrohydratesSchema = yup.object({
       .positive("Wymagana wartość większa od 0")
       .required("To pole jest wymagane")
       .default(35),
+    min_procent: yup
+      .number()
+      .typeError("To pole jest wymagane")
+      .positive("Wymagana wartość większa od 0")
+      .required("To pole jest wymagane")
+      .default(25)
+      .lessThan(
+        yup.ref("max_procent"),
+        "wartość musi być mniejsza niż maksymalna ilość przedziału"
+      ),
+    max_procent: yup
+      .number()
+      .typeError("To pole jest wymagane")
+      .positive("Wymagana wartość większa od 0")
+      .required("To pole jest wymagane")
+      .default(38)
+      .moreThan(
+        yup.ref("min_procent"),
+        "wartość musi być większa niż minimalna ilość przedziału"
+      ),
   }),
   carbohydrates: yup.object({
     gram: yup
@@ -149,6 +189,26 @@ export const establishmentMacrohydratesSchema = yup.object({
       .positive("Wymagana wartość większa od 0")
       .required("To pole jest wymagane")
       .default(50),
+    min_procent: yup
+      .number()
+      .typeError("To pole jest wymagane")
+      .positive("Wymagana wartość większa od 0")
+      .required("To pole jest wymagane")
+      .default(40)
+      .lessThan(
+        yup.ref("max_procent"),
+        "wartość musi być mniejsza niż maksymalna ilość przedziału"
+      ),
+    max_procent: yup
+      .number()
+      .typeError("To pole jest wymagane")
+      .positive("Wymagana wartość większa od 0")
+      .required("To pole jest wymagane")
+      .default(65)
+      .moreThan(
+        yup.ref("min_procent"),
+        "wartość musi być większa niż minimalna ilość przedziału"
+      ),
   }),
   digestableCarbohydrates: yup.object({
     gram: yup
