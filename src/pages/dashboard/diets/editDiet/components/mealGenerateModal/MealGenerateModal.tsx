@@ -425,9 +425,27 @@ const MealGenerateModal = ({
               </Styled.OneDayViewTotalItem>
             </Styled.OneDayViewTotalWrapper>
             <p>
-              założenia makroskładników w przedziale np. białko 11 - 15%, na
-              końcu obliczyć jaki dokładny procent diety stanowi
+              wybrana grupa na podstawie:{" "}
+              <b> {selectedMealGroup?.description}</b>
             </p>
+            <h3>
+              {" "}
+              B:
+              {dietEstablishment.protein.min_procent} -
+              {dietEstablishment.protein.max_procent}%
+            </h3>
+            <h3>
+              {" "}
+              T:
+              {dietEstablishment.fat.min_procent} -
+              {dietEstablishment.fat.max_procent}%
+            </h3>
+            <h3>
+              {" "}
+              W:
+              {dietEstablishment.carbohydrates.min_procent} -
+              {dietEstablishment.carbohydrates.max_procent}%
+            </h3>
             {/* <Styled.GeneratedMealTotalWrapper>
               <h3>
                 razem: {selectedMealGroup?.macroTotalCount.total_kcal} /{" "}

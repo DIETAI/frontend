@@ -12,6 +12,7 @@ import { selectByProtein } from "./selectByPerfectProtein";
 import { selectByFat } from "./selectByPerfectFat";
 import { selectByCarbohydrates } from "./selectByPerfectCarbohydrates";
 import { selectByPerfectKcal } from "./selectByPerfectKcal";
+import { selectByEstablishmentMacroPercentageRange } from "./selectByEstablishmentMacroPercentageRange";
 
 // import { TMealEstablishment } from "../../components/form/FormInfoPopup";
 
@@ -45,6 +46,8 @@ export const selectGroups = (
   // mealEstablishment: DietDays["meals"][0]["establishments"]
 ) => {
   const perfectProcent = selectByPerfectProcent(cartesianGroups);
+  const macroPercentageRange =
+    selectByEstablishmentMacroPercentageRange(cartesianGroups);
   const minMissingProcentPerfectKcal =
     selectByMissingProcentPerfectKcal(cartesianGroups);
   const minMissingProcent = selectByMissingProcent(cartesianGroups);
@@ -101,6 +104,9 @@ export const selectGroups = (
 
     //main procent
 
+    if (macroPercentageRange.group) {
+      return macroPercentageRange;
+    }
     if (perfectProcent.group) {
       return perfectProcent;
     }

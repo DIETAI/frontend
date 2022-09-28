@@ -84,19 +84,38 @@ const cartesianGroupTotalCount = (groups: MacroForPortions) => {
   const total_protein_gram = roundMacro(
     countCartesianMacroTotal(groups, "portionProteinGram")
   );
+  const total_protein_kcal = roundMacro(total_protein_gram * 4);
+  const total_protein_procent = roundMacro(
+    (total_protein_kcal * 100) / total_kcal
+  );
+
   const total_fat_gram = roundMacro(
     countCartesianMacroTotal(groups, "portionFatGram")
   );
+  const total_fat_kcal = roundMacro(total_fat_gram * 9);
+  const total_fat_procent = roundMacro((total_fat_kcal * 100) / total_kcal);
+
   const total_carbohydrates_gram = roundMacro(
     countCartesianMacroTotal(groups, "portionCarbohydratesGram")
+  );
+
+  const total_carbohydrates_kcal = roundMacro(total_carbohydrates_gram * 4);
+  const total_carbohydrates_procent = roundMacro(
+    (total_carbohydrates_kcal * 100) / total_kcal
   );
 
   return {
     total_kcal,
     total_gram,
     total_protein_gram,
+    total_protein_kcal,
+    total_protein_procent,
     total_fat_gram,
+    total_fat_kcal,
+    total_fat_procent,
     total_carbohydrates_gram,
+    total_carbohydrates_kcal,
+    total_carbohydrates_procent,
   };
 };
 
