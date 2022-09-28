@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import { IDietMealQueryData } from "interfaces/diet/dietQuery.interfaces";
 import { getAllDietMeals } from "services/getDietMeals";
 import { getDinnerPortionsQuery } from "services/getDinnerPortions";
-import { procentClasses } from "../../utils/procentClasses";
+import {
+  procentClasses,
+  percentageRangeClasses,
+} from "../../utils/procentClasses";
 
 //helpers
 import { generateMeal } from "./helpers/generateMealV3";
@@ -376,41 +379,57 @@ const MealGenerateModal = ({
               </Styled.GeneratedMealNavButtonsWrapper>
             </Styled.GeneratedMealNavWrapper>
             <Styled.OneDayViewTotalWrapper>
-              <Styled.OneDayViewTotalItem>
-                <h2>B (g):</h2>
-                <p>
-                  <b>{selectedMealGroup?.macroTotalCount.total_protein_gram}</b>
-                </p>
-              </Styled.OneDayViewTotalItem>
-              <Styled.OneDayViewTotalItem>
-                <h2>T (g):</h2>
-                <p>
-                  <b>{selectedMealGroup?.macroTotalCount.total_fat_gram}</b>
-                </p>
-              </Styled.OneDayViewTotalItem>
-              <Styled.OneDayViewTotalItem>
-                <h2>W (g):</h2>
-                <p>
-                  <b>
-                    {
-                      selectedMealGroup?.macroTotalCount
-                        .total_carbohydrates_gram
-                    }
-                  </b>
-                </p>
-              </Styled.OneDayViewTotalItem>
-              {/* <Styled.OneDayViewTotalItem
-                variant={procentClasses({
-                  establishment: dietQuery.establishment.fiber.gram,
-                  total: currentDay?.total.fiber.gram || 0,
+              <TotalItem
+                macroType="B (g)"
+                variant={percentageRangeClasses({
+                  minValue: dietEstablishment.protein.min_procent,
+                  maxValue: dietEstablishment.protein.max_procent,
+                  value:
+                    selectedMealGroup?.macroTotalCount.total_protein_procent ||
+                    0,
                 })}
-              >
-                <h2>Bł (g):</h2>
-                <p>
-                  <b>{currentDay?.total.fiber.gram}</b>/
-                  {dietQuery.establishment.fiber.gram}
-                </p>
-              </Styled.OneDayViewTotalItem> */}
+                macroProcent={
+                  selectedMealGroup?.macroTotalCount.total_protein_procent
+                }
+                totalValue={
+                  selectedMealGroup?.macroTotalCount.total_protein_gram
+                }
+                modalContent={`${dietEstablishment.protein.min_procent} - ${dietEstablishment.protein.max_procent} %`}
+              />
+
+              <TotalItem
+                macroType="T (g)"
+                variant={percentageRangeClasses({
+                  minValue: dietEstablishment.fat.min_procent,
+                  maxValue: dietEstablishment.fat.max_procent,
+                  value:
+                    selectedMealGroup?.macroTotalCount.total_fat_procent || 0,
+                })}
+                macroProcent={
+                  selectedMealGroup?.macroTotalCount.total_fat_procent
+                }
+                totalValue={selectedMealGroup?.macroTotalCount.total_fat_gram}
+                modalContent={`${dietEstablishment.fat.min_procent} - ${dietEstablishment.fat.max_procent} %`}
+              />
+
+              <TotalItem
+                macroType="W (g)"
+                variant={percentageRangeClasses({
+                  minValue: dietEstablishment.carbohydrates.min_procent,
+                  maxValue: dietEstablishment.carbohydrates.max_procent,
+                  value:
+                    selectedMealGroup?.macroTotalCount
+                      .total_carbohydrates_procent || 0,
+                })}
+                macroProcent={
+                  selectedMealGroup?.macroTotalCount.total_carbohydrates_procent
+                }
+                totalValue={
+                  selectedMealGroup?.macroTotalCount.total_carbohydrates_gram
+                }
+                modalContent={`${dietEstablishment.carbohydrates.min_procent} - ${dietEstablishment.carbohydrates.max_procent} %`}
+              />
+
               <Styled.OneDayViewTotalItem
                 variant={procentClasses({
                   establishment: mealEstablishment.kcal,
@@ -424,28 +443,11 @@ const MealGenerateModal = ({
                 </p>
               </Styled.OneDayViewTotalItem>
             </Styled.OneDayViewTotalWrapper>
-            <p>
-              wybrana grupa na podstawie:{" "}
-              <b> {selectedMealGroup?.description}</b>
-            </p>
-            <h3>
-              {" "}
-              B:
-              {dietEstablishment.protein.min_procent} -
-              {dietEstablishment.protein.max_procent}%
-            </h3>
-            <h3>
-              {" "}
-              T:
-              {dietEstablishment.fat.min_procent} -
-              {dietEstablishment.fat.max_procent}%
-            </h3>
-            <h3>
-              {" "}
-              W:
-              {dietEstablishment.carbohydrates.min_procent} -
-              {dietEstablishment.carbohydrates.max_procent}%
-            </h3>
+            <Styled.SelectedGroupInfo>
+              <p>wybrana grupa na podstawie: </p>
+              <h3> {selectedMealGroup?.description}</h3>
+            </Styled.SelectedGroupInfo>
+
             {/* <Styled.GeneratedMealTotalWrapper>
               <h3>
                 razem: {selectedMealGroup?.macroTotalCount.total_kcal} /{" "}
@@ -466,6 +468,52 @@ const MealGenerateModal = ({
         )}
       </Styled.MealGenerateContentWrapper>
     </Styled.GenerateMealModalContainer>
+  );
+};
+
+const TotalItem = ({
+  macroType,
+  macroProcent,
+  totalValue,
+  modalContent,
+  variant,
+}: {
+  macroType: string;
+  macroProcent?: number;
+  totalValue?: number;
+  modalContent: string;
+  variant?: "red" | "yellow" | "green";
+}) => {
+  const [totalItemModalOpen, setTotalItemModalOpen] = useState(false);
+  return (
+    <Styled.TotalItem
+      onMouseEnter={() => setTotalItemModalOpen(true)}
+      onMouseLeave={() => setTotalItemModalOpen(false)}
+      variant={variant}
+    >
+      <h2>{macroType}:</h2>
+      <p>
+        <b>{totalValue}</b>
+      </p>
+      {macroProcent && (
+        <h3>
+          ({macroProcent}
+          %)
+        </h3>
+      )}
+
+      <AnimatePresence>
+        {totalItemModalOpen && (
+          <Styled.TotalItemModal
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <p>{modalContent}</p>
+          </Styled.TotalItemModal>
+        )}
+      </AnimatePresence>
+    </Styled.TotalItem>
   );
 };
 

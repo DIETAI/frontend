@@ -465,7 +465,7 @@ const OneDayViewTotalWrapper = styled.ul(
     align-items: flex-start;
     justify-content: flex-start;
     gap: 1rem;
-    margin-bottom: 3rem;
+    margin-top: 2rem;
     width: 100%;
   `
 );
@@ -527,6 +527,121 @@ const OneDayViewTotalItem = styled.li<ITotalVariant>(
   `
 );
 
+const TotalItem = styled.li<ITotalVariant>(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+    variant,
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 2rem;
+    border: 0.1rem solid ${palette.primary.light};
+    border-radius: ${border.rounded.md};
+    gap: 0.5rem;
+    flex-grow: 1;
+    position: relative;
+
+    h2,
+    h3 {
+      color: ${palette.common.text};
+      font-size: 1.4rem;
+      font-weight: ${fontWeight.medium};
+    }
+
+    p {
+      color: ${palette.common.text};
+      font-size: 1.4rem;
+      font-weight: ${fontWeight.medium};
+    }
+
+    ${variant === "green" &&
+    css`
+      h3 {
+        color: lightgreen;
+      }
+    `}
+
+    ${variant === "yellow" &&
+    css`
+      h3 {
+        color: orange;
+      }
+    `}
+
+    ${variant === "red" &&
+    css`
+      h3 {
+        color: red;
+      }
+    `}
+  `
+);
+
+const TotalItemModal = styled(motion.div)(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    position: absolute;
+    top: 110%;
+    left: 0;
+    width: 100%;
+    background: ${palette.common.main};
+    border-radius: ${border.rounded.sm};
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-shadow: ${palette.common["box-shadow"]};
+
+    p {
+      color: ${palette.common.text};
+      font-size: 1.4rem;
+      font-weight: ${fontWeight.medium};
+    }
+  `
+);
+
+const SelectedGroupInfo = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    gap: 1rem;
+    border-radius: ${border.rounded.md};
+    border: 0.1rem solid ${palette.primary.light};
+    padding: 2rem;
+
+    p {
+      color: ${palette.common.text};
+      font-size: 1.4rem;
+      font-weight: ${fontWeight.light};
+    }
+
+    h3 {
+      color: ${palette.common.text};
+      font-size: ${fontSize.s};
+      font-weight: ${fontWeight.medium};
+    }
+  `
+);
+
 export {
   GenerateMealModalContainer,
   ContentWrapper,
@@ -553,4 +668,7 @@ export {
   GeneratedMealTotalWrapper,
   OneDayViewTotalWrapper,
   OneDayViewTotalItem,
+  TotalItem,
+  TotalItemModal,
+  SelectedGroupInfo,
 };
