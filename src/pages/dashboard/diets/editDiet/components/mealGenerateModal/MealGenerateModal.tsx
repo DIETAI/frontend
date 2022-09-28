@@ -5,8 +5,9 @@ import { getDinnerPortionsQuery } from "services/getDinnerPortions";
 import { procentClasses } from "../../utils/procentClasses";
 
 //helpers
+import { generateMeal } from "./helpers/generateMealV3";
 // import { generateMeal } from "./helpers/generateMeal";
-import { generateMeal } from "./helpers/generateMealV2";
+// import { generateMeal } from "./helpers/generateMealV2";
 import { countTotal } from "helpers/countTotal";
 import { sumTotal } from "helpers/sumTotal";
 
@@ -154,7 +155,7 @@ const MealGenerateModal = ({
       mealEstablishment,
     };
 
-    const generatedDietMeal = await generateMeal({
+    const generatedDietMeal = generateMeal({
       ...generateMealInitialData,
     });
 
