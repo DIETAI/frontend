@@ -206,6 +206,36 @@ const EstablishmentButton = styled.button<IButtonVariant>(
   `
 );
 
+const EstablishmentEmptyWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 2rem;
+    width: 100%;
+    min-height: 30rem;
+
+    img {
+      width: 20rem;
+      height: 20rem;
+      object-fit: contain;
+    }
+
+    h2 {
+      font-size: ${fontSize.l};
+      font-weight: ${fontWeight.semibold};
+      color: ${palette.common.text};
+    }
+  `
+);
+
 export {
   EstablishmentModalContainer,
   EstablishmentModalNav,
@@ -215,4 +245,5 @@ export {
   EstablishmentItemMacroList,
   EstablishmentButtonWrapper,
   EstablishmentButton,
+  EstablishmentEmptyWrapper,
 };
