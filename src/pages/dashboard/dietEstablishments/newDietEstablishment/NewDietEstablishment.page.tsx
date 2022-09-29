@@ -1,5 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { useParams } from "react-router";
+import { useSearchParams } from "react-router-dom";
 
 //icon
 import { FaCarrot, FaUtensils } from "icons/icons";
@@ -27,6 +29,13 @@ const dietEstablishmentSidebarPages = [
 
 const NewDietEstablishment = () => {
   const { t } = useTranslation();
+
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const patientIdParam = searchParams.get("patientId"); //from newDiet
+  const newDietNameParam = searchParams.get("dietName"); //from newDiet
+  const newDietDaysAmountParam = searchParams.get("daysAmount"); //from newDiet
+
   return (
     <>
       <MultiStepContainer>

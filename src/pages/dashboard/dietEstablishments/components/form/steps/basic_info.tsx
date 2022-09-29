@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 
 import { FaFolderPlus, FaFolderOpen } from "icons/icons";
 import { useTranslation } from "react-i18next";
@@ -32,6 +33,19 @@ const BasicInfo = () => {
     getValues,
     trigger,
   } = useFormContext();
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const patientIdParam = searchParams.get("patientId"); //from newDiet
+  const newDietNameParam = searchParams.get("dietName"); //from newDiet
+  const newDietDaysAmountParam = searchParams.get("daysAmount"); //from newDiet
+
+  useEffect(() => {
+    if (patientIdParam) {
+      return setValue("client", patientIdParam);
+    }
+
+    return;
+  }, [patientIdParam]);
 
   const { measurements, measurementsLoading, measurementsError } =
     useMeasurements();
@@ -91,6 +105,11 @@ const BasicInfo = () => {
     fullName: client.name + " " + client.lastName,
   }));
 
+  const clientObjParam =
+    clients &&
+    patientIdParam &&
+    clients.find((client) => client._id === patientIdParam);
+
   return (
     <>
       <Input
@@ -106,14 +125,26 @@ const BasicInfo = () => {
         fullWidth
         textarea
       />
-      <Autocomplete
-        name="client"
-        fullWidth
-        label={`${t("dietEstablishment.form.basic_info.client")} *`}
-        options={clientsData as []}
-        optionLabel={"fullName"}
-        optionRender={"_id"}
-      />
+      {clientObjParam ? (
+        <Input
+          label={`${t("dietEstablishment.form.basic_info.client")}`}
+          type="text"
+          name="client"
+          fullWidth
+          disabled
+          customValue={`${clientObjParam.name} ${clientObjParam.lastName}`}
+        />
+      ) : (
+        <Autocomplete
+          name="client"
+          fullWidth
+          label={`${t("dietEstablishment.form.basic_info.client")} *`}
+          options={clientsData as []}
+          optionLabel={"fullName"}
+          optionRender={"_id"}
+        />
+      )}
+
       <Styled.CheckBoxContainer>
         <Styled.CheckBoxWrapper>
           <CheckBox

@@ -10,4 +10,5 @@ export interface IInputProps {
   fullWidth?: boolean;
   textarea?: boolean;
   step?: string;
+  customValue?: string;
 }

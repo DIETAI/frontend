@@ -8,6 +8,7 @@ export const cartesianDinners = (
   mealEstablishment: IDietEstablishmentMeal,
   dietEstablishment: IDietEstablishmentData,
   maxCartesianGroups: number,
+  currentProcent?: number,
   ...portions: DinnerPortionsMacro["dinnerProductsPortions"]
 ) => {
   const result: Array<ICartesianResult> = [];
@@ -32,7 +33,7 @@ export const cartesianDinners = (
 
         loop = loop + 1;
 
-        if (result.length === maxCartesianGroups) {
+        if (result.length === 500000) {
           return;
         }
 
@@ -50,7 +51,7 @@ export const cartesianDinners = (
           missingProcentCount,
         };
 
-        if (Math.abs(missingProcentCount.missingKcalProcent) <= 10) {
+        if (Math.abs(missingProcentCount.missingKcalProcent) <= 2) {
           return result.push(cartesianProductGroup);
         }
 

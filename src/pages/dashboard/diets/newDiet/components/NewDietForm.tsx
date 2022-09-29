@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "utils/api";
 import { useNavigate } from "react-router";
 import { getClients } from "services/getClients";
+import { useSearchParams } from "react-router-dom";
 
 //styles
 import * as Styled from "./NewDietForm.styles";
@@ -33,6 +34,12 @@ const defaultValues = dietDataSchema.cast({});
 type INewDietValues = typeof defaultValues;
 
 const NewDietForm = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const patientIdParam = searchParams.get("patientId"); //from newDiet
+  const establishmentIdParam = searchParams.get("establishmentId"); //from newDiet
+  const newDietNameParam = searchParams.get("dietName"); //from newDiet
+  const newDietDaysAmountParam = searchParams.get("daysAmount"); //from newDiet
+
   const { clients, clientsError, clientsLoading } = getClients();
   const [establishmentModal, setEstablishmentModal] = useState(false);
   const navigate = useNavigate();
@@ -52,8 +59,23 @@ const NewDietForm = () => {
     reset,
     setFocus,
     getValues,
+    setValue,
     watch,
   } = methods;
+
+  useEffect(() => {
+    if (establishmentIdParam) {
+      setValue("establishmentId", establishmentIdParam);
+      setValue("clientId", patientIdParam || "");
+      setValue("daysAmount", parseInt(newDietDaysAmountParam || "7"));
+      setValue("name", newDietNameParam || "");
+    }
+  }, [
+    patientIdParam,
+    establishmentIdParam,
+    newDietNameParam,
+    newDietDaysAmountParam,
+  ]);
 
   const establishmentId = getValues("establishmentId");
 

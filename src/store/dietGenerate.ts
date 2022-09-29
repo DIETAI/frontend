@@ -28,6 +28,7 @@ export interface IDietGenerateMeal {
   name: string;
   type: "breakfast" | "second_breakfast" | "lunch" | "snack" | "dinner";
   generatedType: "new" | "added" | "addedChangePortion"; //or added or addedChangePortion,
+  totalGroups?: number;
   selectedGroup?: {
     type: string;
     name: string;

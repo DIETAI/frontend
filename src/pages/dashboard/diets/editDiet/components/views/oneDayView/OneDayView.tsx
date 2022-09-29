@@ -5,9 +5,13 @@ import {
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { getDietQuery } from "services/getDiets";
+import { AnimatePresence } from "framer-motion";
 
 //utils
 import { procentClasses } from "../../../utils/procentClasses";
+
+//helpers
+import { percentageRangeClasses } from "../../../utils/procentClasses";
 
 //csv
 // import { CSVLink } from "react-csv";
@@ -115,7 +119,40 @@ const OneDayView = () => {
         ))}
       </Styled.OneDayViewNav>
       <Styled.OneDayViewTotalWrapper>
-        <Styled.OneDayViewTotalItem
+        <TotalItem
+          macroType="B (g)"
+          // macroProcent={currentDay?.total.protein.procent}
+          variant={percentageRangeClasses({
+            minValue: dietQuery.establishment.protein.min_gram,
+            maxValue: dietQuery.establishment.protein.max_gram,
+            value: currentDay?.total.protein.gram || 0,
+          })}
+          totalValue={currentDay?.total.protein.gram || 0}
+          modalContent={`${dietQuery.establishment.protein.min_gram} - ${dietQuery.establishment.protein.max_gram} g`}
+        />
+        <TotalItem
+          macroType="T (g)"
+          // macroProcent={currentDay?.total.fat.procent}
+          variant={percentageRangeClasses({
+            minValue: dietQuery.establishment.fat.min_gram,
+            maxValue: dietQuery.establishment.fat.max_gram,
+            value: currentDay?.total.fat.gram || 0,
+          })}
+          totalValue={currentDay?.total.fat.gram || 0}
+          modalContent={`${dietQuery.establishment.fat.min_gram} - ${dietQuery.establishment.fat.max_gram} g`}
+        />
+        <TotalItem
+          macroType="W (g)"
+          // macroProcent={currentDay?.total.carbohydrates.procent}
+          variant={percentageRangeClasses({
+            minValue: dietQuery.establishment.carbohydrates.min_gram,
+            maxValue: dietQuery.establishment.carbohydrates.max_gram,
+            value: currentDay?.total.carbohydrates.gram || 0,
+          })}
+          totalValue={currentDay?.total.carbohydrates.gram || 0}
+          modalContent={`${dietQuery.establishment.carbohydrates.min_gram} - ${dietQuery.establishment.carbohydrates.max_gram} g`}
+        />
+        {/* <Styled.OneDayViewTotalItem
           variant={procentClasses({
             establishment: dietQuery.establishment.protein.gram,
             total: currentDay?.total.protein.gram || 0,
@@ -126,8 +163,8 @@ const OneDayView = () => {
             <b>{currentDay?.total.protein.gram}</b>/
             {dietQuery.establishment.protein.gram}
           </p>
-        </Styled.OneDayViewTotalItem>
-        <Styled.OneDayViewTotalItem
+        </Styled.OneDayViewTotalItem> */}
+        {/* <Styled.OneDayViewTotalItem
           variant={procentClasses({
             establishment: dietQuery.establishment.fat.gram,
             total: currentDay?.total.fat.gram || 0,
@@ -150,7 +187,7 @@ const OneDayView = () => {
             <b>{currentDay?.total.carbohydrates.gram}</b>/
             {dietQuery.establishment.carbohydrates.gram}
           </p>
-        </Styled.OneDayViewTotalItem>
+        </Styled.OneDayViewTotalItem> */}
         <Styled.OneDayViewTotalItem
           variant={procentClasses({
             establishment: dietQuery.establishment.fiber.gram,
@@ -237,6 +274,52 @@ const OneDayView = () => {
         )} */}
       </Styled.OneDayViewTableWrapper>
     </Styled.OneDayViewContainer>
+  );
+};
+
+const TotalItem = ({
+  macroType,
+  macroProcent,
+  totalValue,
+  modalContent,
+  variant,
+}: {
+  macroType: string;
+  macroProcent?: number;
+  totalValue?: number;
+  modalContent: string;
+  variant?: "red" | "yellow" | "green";
+}) => {
+  const [totalItemModalOpen, setTotalItemModalOpen] = useState(false);
+  return (
+    <Styled.TotalItem
+      onMouseEnter={() => setTotalItemModalOpen(true)}
+      onMouseLeave={() => setTotalItemModalOpen(false)}
+      variant={variant}
+    >
+      <h2>{macroType}:</h2>
+      <h3>
+        <b>{totalValue}</b>
+      </h3>
+      {macroProcent && (
+        <h3>
+          ({macroProcent}
+          %)
+        </h3>
+      )}
+
+      <AnimatePresence>
+        {totalItemModalOpen && (
+          <Styled.TotalItemModal
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <p>{modalContent}</p>
+          </Styled.TotalItemModal>
+        )}
+      </AnimatePresence>
+    </Styled.TotalItem>
   );
 };
 

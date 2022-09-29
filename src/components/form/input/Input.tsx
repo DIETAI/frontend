@@ -18,6 +18,7 @@ const Input = ({
   controlled,
   textarea,
   step,
+  customValue,
 }: IInputProps) => {
   const { t } = useTranslation();
   const {
@@ -37,6 +38,10 @@ const Input = ({
   if (controlled && onChange) {
     inputProps.value = field.value !== 0 ? field.value : "";
     inputProps.onChange = onChange;
+  }
+
+  if (customValue) {
+    inputProps.value = customValue;
   }
 
   return (

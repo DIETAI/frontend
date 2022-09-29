@@ -71,10 +71,30 @@ addEventListener("message", (e: MessageEvent<IMealGenerateWorker>) => {
 
   const maxCartesianGroups = mealDinners.length < 6 ? 50000 : 100;
 
+  // //zabezpieczenie przed brakiem grup (zmiana procenta)
+  // const cartesianResultGroups = [];
+
+  // for (let currentProcent = 1, l = 10; currentProcent < l; currentProcent++) {
+  //   const dinnersCartesianGroups = cartesianDinners(
+  //     mealEstablishment,
+  //     dietEstablishment,
+  //     maxCartesianGroups,
+  //     currentProcent,
+  //     ...mealDinners
+  //   );
+
+  //   if (dinnersCartesianGroups.length > 0) {
+  //     cartesianResultGroups.push(dinnersCartesianGroups);
+  //     break;
+  //   }
+  // }
+
+  const currentProcent = 5;
   const dinnersCartesianGroups = cartesianDinners(
     mealEstablishment,
     dietEstablishment,
     maxCartesianGroups,
+    currentProcent,
     ...mealDinners
   );
 
@@ -113,6 +133,7 @@ addEventListener("message", (e: MessageEvent<IMealGenerateWorker>) => {
       missingProcentCount: selectedDinnersGroups.main.group.missingProcentCount,
     },
     mealDinners: selectedMealDinners,
+    totalGroups: dinnersCartesianGroups.length,
   };
 
   console.log({ selectedDinnersGroups });

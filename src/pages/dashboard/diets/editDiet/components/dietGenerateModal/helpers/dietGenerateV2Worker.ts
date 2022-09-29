@@ -61,6 +61,8 @@ const generateMeals = ({
       ({ type }) => type === meal.type
     );
 
+    //for filteredDietMealsByType.length
+    //pętla posiłków (jeśli posiłki nie spełniają założeń kcal i przedziału makroskładników to wylosować nowe)
     const randomMeal = randomDietMeal({
       currentDayId,
       mealType: meal.type,
@@ -74,6 +76,8 @@ const generateMeals = ({
         generatedType: meal.generatedType,
       },
     };
+
+    //cartesianProduct for random Meal tutaj => sprawdzić czy dany posiłek spełnia założenia
 
     return randomMealWithGeneratedType;
   });
@@ -211,6 +215,9 @@ const generateMeals = ({
       name: meal.mealName,
       type: meal.mealType,
       generatedType: meal.generatedType,
+      totalGroups: dinnersCartesianGroups.find(
+        (cartesianGroup) => cartesianGroup.mealsType === meal.mealType
+      )?.groups.length,
       selectedGroup: {
         type: meal.groups.main.type,
         name: meal.groups.main.name,

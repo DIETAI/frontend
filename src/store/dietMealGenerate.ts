@@ -21,6 +21,7 @@ export interface IDietMealGenerate {
     dinnerName: string;
     dinnerProducts: ICartesianResult["products"];
   }[];
+  totalGroups?: number;
 }
 
 const initialState: IDietMealGenerate = {

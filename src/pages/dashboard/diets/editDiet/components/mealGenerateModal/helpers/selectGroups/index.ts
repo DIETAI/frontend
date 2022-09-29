@@ -103,13 +103,13 @@ export const selectGroups = (
     // }
 
     //main procent
-
-    if (macroPercentageRange.group) {
-      return macroPercentageRange;
-    }
     if (perfectProcent.group) {
       return perfectProcent;
     }
+    if (macroPercentageRange.group) {
+      return macroPercentageRange;
+    }
+
     if (minMissingProcentPerfectKcal.group) {
       return minMissingProcentPerfectKcal;
     }
@@ -128,6 +128,7 @@ export const selectGroups = (
 
   return {
     main: selectMainGroup() as ISelectMainGroupInfo,
+    macroPercentageRange,
     perfectProcent,
     minMissingProcentPerfectKcal,
     twoMacroPerfectProcent,

@@ -18,6 +18,7 @@ import {
   FaCalendarPlus,
   FaFileAlt,
   FaTrash,
+  FaCog,
 } from "icons/icons";
 
 //interfaces
@@ -30,6 +31,7 @@ import Modal from "components/modal/Modal";
 import DietGenerateModal from "../dietGenerateModal/DietGenerateModal";
 import DeleteModalContent from "pages/dashboard/components/deleteModal/DeleteModal";
 import GeneratedDietModal from "../generatedDietModal/GeneratedDietModal";
+import DietSettingsModal from "../dietSettingsModal/DietSettingsModal";
 
 const DietNav = ({
   setView,
@@ -47,6 +49,7 @@ const DietNav = ({
   const [dietGenerateModalOpen, setDietGenerateModalOpen] = useState(false);
   const [generatedDietModalOpen, setGeneratedDietModalOpen] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [openSettingsModal, setOpenSettingsModal] = useState(false);
 
   const { handleAlert } = useAlert();
   const navigate = useNavigate();
@@ -62,6 +65,10 @@ const DietNav = ({
 
   const openDietEstablishment = () => {
     console.log("openDietEstablishment");
+  };
+  const openDietSettings = () => {
+    console.log("openDietSettings");
+    setOpenSettingsModal(true);
   };
   const openGenerateDietModal = () => {
     console.log("openGenerateDietModal");
@@ -109,6 +116,11 @@ const DietNav = ({
       </Styled.OptionsWrapper>
       <Styled.OptionsWrapper>
         <IconButton
+          icon={<FaCog />}
+          onClick={openDietSettings}
+          modalText="ustawienia diety"
+        />
+        <IconButton
           icon={<FaFileAlt />}
           onClick={openDietEstablishment}
           modalText="założenia diety"
@@ -136,6 +148,12 @@ const DietNav = ({
           deleteItemName={diet.name}
           deleteAction={deleteDiet}
         />
+      </Modal>
+      <Modal
+        open={openSettingsModal}
+        onClose={() => setOpenSettingsModal(false)}
+      >
+        <DietSettingsModal />
       </Modal>
       <Modal open={generatedDietModalOpen} width="1536px">
         <GeneratedDietModal

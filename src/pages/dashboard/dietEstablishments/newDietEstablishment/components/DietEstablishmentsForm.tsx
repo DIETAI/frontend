@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import axios from "utils/api";
 import { useNavigate } from "react-router";
+import { useSearchParams, createSearchParams } from "react-router-dom";
 
 //components
 import MultiStepFormContent from "../../../components/multiStepForm/multiStepContent/MultiStepContent";
@@ -33,6 +34,11 @@ const defaultDietEstablishmentsValues = allDietEstablishmentSchemas.cast({});
 type IDietEstablishmentValues = typeof defaultDietEstablishmentsValues;
 
 const DietEstablishmentForm = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const patientIdParam = searchParams.get("patientId"); //from newDiet
+  const newDietNameParam = searchParams.get("dietName"); //from newDiet
+  const newDietDaysAmountParam = searchParams.get("daysAmount"); //from newDiet
+
   const navigate = useNavigate();
   const { handleAlert } = useAlert();
 
@@ -54,9 +60,23 @@ const DietEstablishmentForm = () => {
       );
       console.log({ newDietEstablishment });
       handleAlert("success", "Dodano nowe założenia żywieniowe");
-      navigate(
-        `/dashboard/diet-establishments/edit/${newDietEstablishment.data._id}`
-      );
+
+      if (patientIdParam) {
+        const newDietParams = {
+          dietName: newDietNameParam || "",
+          patientId: patientIdParam || "",
+          daysAmount: newDietDaysAmountParam || "",
+          establishmentId: newDietEstablishment.data._id as string,
+        };
+        navigate({
+          pathname: `/dashboard/diets/new`,
+          search: `?${createSearchParams(newDietParams)}`,
+        });
+      } else {
+        navigate(
+          `/dashboard/diet-establishments/edit/${newDietEstablishment.data._id}`
+        );
+      }
     } catch (e) {
       console.log(e);
       handleAlert("error", "Dodawanie założeń żywieniowych nie powiodło się");
