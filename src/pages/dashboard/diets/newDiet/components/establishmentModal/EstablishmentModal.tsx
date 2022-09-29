@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { useDietEstablishments } from "services/useDietEstablishments";
 import { useNavigate } from "react-router";
 import { createSearchParams } from "react-router-dom";
+import { IDietEstablishmentData } from "interfaces/dietEstablishment.interfaces";
 
 //icons
-import { FaUserCog } from "icons/icons";
+import { FaUserCog, FaFileAlt } from "icons/icons";
 
 //components
 import Heading from "components/heading/Heading";
@@ -24,9 +25,26 @@ import { FaPlus, FaSearch } from "icons/icons";
 
 //images
 import NoDataImg from "assets/noData.svg";
+
 interface IEstablishmentModal {
   closeModal: () => void;
 }
+
+const optionFilter = (
+  searchValue: string,
+  establishments?: IDietEstablishmentData[]
+) => {
+  if (!establishments) return [];
+  if (
+    establishments.find((establishment) => establishment.name === searchValue)
+  ) {
+    return establishments;
+  }
+
+  return establishments.filter((establishment) =>
+    establishment.name.toLowerCase().includes(searchValue.toLowerCase())
+  );
+};
 
 const EstablishmentModal = ({ closeModal }: IEstablishmentModal) => {
   const navigate = useNavigate();
@@ -73,12 +91,18 @@ const EstablishmentModal = ({ closeModal }: IEstablishmentModal) => {
 
   const params = { dietName, patientId: client, daysAmount };
 
+  const renderDietEstablishments = optionFilter(
+    searchContent,
+    clientEstablishments
+  );
+
   return (
     <Styled.EstablishmentModalContainer>
       <Heading
-        icon={<FaUserCog />}
-        title={t("diets.establishment.modal.title")}
-        description={t("diets.establishment.modal.description")}
+        icon={<FaFileAlt />}
+        title="Dodaj założenia"
+        // title={t("diets.establishment.modal.title")}
+        // description={t("diets.establishment.modal.description")}
       />
 
       <Styled.EstablishmentModalNav>
@@ -109,7 +133,7 @@ const EstablishmentModal = ({ closeModal }: IEstablishmentModal) => {
 
       {clientEstablishments && clientEstablishments.length > 0 && (
         <Styled.EstablishmentList>
-          {clientEstablishments.map((establishment) => (
+          {renderDietEstablishments.map((establishment) => (
             <Styled.EstablishmentItem
               key={establishment._id}
               activeItem={currentEstablishment === establishment._id}
