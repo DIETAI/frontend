@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { getDinners } from "services/getDinners";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router";
+import { createSearchParams } from "react-router-dom";
+import { useParams } from "react-router";
 
 //styles
 import * as Styled from "./Dinner.styles";
@@ -13,10 +16,13 @@ import { FaSearch } from "icons/icons";
 import Image from "components/form/images/image/Image";
 import AllDinners from "./allDinners/AllDinners";
 import RecommendDinners from "./recommendDinners/RecommendDinners";
+import Button from "components/form/button/Button";
 
 type IFilterOption = "recommend" | "all";
 
 const Dinner = () => {
+  const { dietEditId } = useParams();
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const [searchValue, setSearchValue] = useState("");
   const [filterOption, setFilterOption] = useState<IFilterOption>("recommend");
@@ -44,6 +50,10 @@ const Dinner = () => {
   };
 
   //setValue dietId, dayId, dietMealId, order
+  const newDietDinnerParams = {
+    dietId: dietEditId || "",
+    editDinnerId: selectedDinnerId || "",
+  };
 
   return (
     <>
@@ -56,21 +66,33 @@ const Dinner = () => {
             value={searchValue}
           />
         </Styled.SearchWrapper>
-        <Styled.AddDinnerNavFilterWrapper>
-          <Styled.AddDinnerNavItem
-            activeOption={filterOption === "recommend"}
-            onClick={() => setFilterOption("recommend")}
-          >
-            rekomendowane
-          </Styled.AddDinnerNavItem>
-          <Styled.AddDinnerNavItem
-            activeOption={filterOption === "all"}
-            onClick={() => setFilterOption("all")}
-          >
-            wszystkie
-          </Styled.AddDinnerNavItem>
-        </Styled.AddDinnerNavFilterWrapper>
+        <Button
+          variant="primary"
+          type="button"
+          onClick={() =>
+            navigate({
+              pathname: `/dashboard/dinners/new`,
+              search: `?${createSearchParams(newDietDinnerParams)}`,
+            })
+          }
+        >
+          stwórz posiłek
+        </Button>
       </Styled.AddDinnerNavWrapper>
+      <Styled.AddDinnerNavFilterWrapper>
+        <Styled.AddDinnerNavItem
+          activeOption={filterOption === "recommend"}
+          onClick={() => setFilterOption("recommend")}
+        >
+          rekomendowane
+        </Styled.AddDinnerNavItem>
+        <Styled.AddDinnerNavItem
+          activeOption={filterOption === "all"}
+          onClick={() => setFilterOption("all")}
+        >
+          wszystkie
+        </Styled.AddDinnerNavItem>
+      </Styled.AddDinnerNavFilterWrapper>
       {filterOption === "recommend" && (
         <RecommendDinners changeDinner={changeDinner} />
       )}

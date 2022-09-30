@@ -29,6 +29,7 @@ import { v4 as uuidv4 } from "uuid";
 
 //icons
 import { FaFileAlt } from "icons/icons";
+import { mutate } from "swr";
 
 const defaultValues = addFileSchema.cast({});
 
@@ -72,6 +73,7 @@ const AddFileForm = ({ closeForm }: IAddFileFormProps) => {
       });
       console.log({ newAsset });
       handleAlert("success", "Dodano nowe zdjęcie");
+      await mutate(`/api/v1/assets`);
       closeForm();
     } catch (e) {
       console.log(e);
@@ -83,6 +85,14 @@ const AddFileForm = ({ closeForm }: IAddFileFormProps) => {
     event.preventDefault();
     fileInputRef.current?.click();
   };
+  // rules_version = '2';
+  // service firebase.storage {
+  //   match /b/{bucket}/o {
+  //     match /{allPaths=**} {
+  //       allow read, write: if request.auth != null;
+  //     }
+  //   }
+  // }
 
   const onChangeImage = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];

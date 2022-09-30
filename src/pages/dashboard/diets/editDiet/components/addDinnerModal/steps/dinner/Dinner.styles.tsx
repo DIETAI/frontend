@@ -74,6 +74,7 @@ const DinnerList = styled.ul(
 
 interface IActiveItem {
   activeItem: boolean;
+  disabled?: boolean;
 }
 
 const DinnerItem = styled(motion.li)<IActiveItem>(
@@ -84,14 +85,15 @@ const DinnerItem = styled(motion.li)<IActiveItem>(
       layout: { border },
     },
     activeItem,
+    disabled,
   }) => css`
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    flex-direction: column;
     gap: 2rem;
     padding: 3rem 1rem;
     width: 100%;
-    cursor: pointer;
     transition: 0.3s ease-out;
 
     h2 {
@@ -110,11 +112,131 @@ const DinnerItem = styled(motion.li)<IActiveItem>(
 
     ${activeItem &&
     css`
-      pointer-events: none;
+      /* pointer-events: none; */
       background: ${palette.common.contrast};
 
       h2 {
         color: ${palette.primary.main};
+      }
+    `}
+
+    ${disabled &&
+    css`
+      pointer-events: none;
+    `}
+  `
+);
+
+const DinnerItemContent = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    width: 100%;
+  `
+);
+
+const DinnerItemName = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+  `
+);
+
+const DinnerItemOptionsWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    display: flex;
+    gap: 1rem;
+  `
+);
+
+interface IButtonVariant {
+  buttonVariant: "edit" | "view" | "add";
+}
+
+const DinnerItemButton = styled.button<IButtonVariant>(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+    buttonVariant,
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: ${border.rounded.sm};
+    cursor: pointer;
+    transition: 0.3s ease-out;
+
+    :disabled {
+      pointer-events: none;
+      opacity: 0.5;
+    }
+
+    :hover {
+      opacity: 0.8;
+    }
+
+    svg {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+
+    ${buttonVariant === "add" &&
+    css`
+      background: ${palette.primary.main};
+      border: 0.1rem solid ${palette.primary.main};
+      svg {
+        path {
+          fill: white;
+        }
+      }
+    `}
+
+    ${buttonVariant === "view" &&
+    css`
+      background: ${palette.common.contrast};
+      border: 0.1rem solid ${palette.primary.light};
+      svg {
+        path {
+          fill: ${palette.primary.main};
+        }
+      }
+    `}
+
+    ${buttonVariant === "edit" &&
+    css`
+      background: #ffa60028;
+      border: 0.1rem solid #ffa6003a;
+      svg {
+        path {
+          fill: orange;
+        }
       }
     `}
   `
@@ -162,6 +284,12 @@ const ItemFeaturesWrapper = styled.div(
     gap: 1rem;
     width: 100%;
     flex-wrap: wrap;
+
+    p {
+      color: red;
+      font-weight: ${fontWeight.light};
+      font-size: 1.4rem;
+    }
   `
 );
 
@@ -196,6 +324,7 @@ const AddDinnerNavFilterWrapper = styled.div(
     display: flex;
     align-items: center;
     gap: 2rem;
+    margin: 2rem 0;
   `
 );
 
@@ -329,4 +458,8 @@ export {
   SearchWrapper,
   LoadingWrapper,
   EmptyDataWrapper,
+  DinnerItemName,
+  DinnerItemOptionsWrapper,
+  DinnerItemButton,
+  DinnerItemContent,
 };

@@ -3,6 +3,7 @@ import axios from "utils/api";
 import { AnimatePresence } from "framer-motion";
 import ReactLoading from "react-loading";
 import NoData from "assets/noData.svg";
+import { useNavigate } from "react-router";
 
 //styles
 import * as Styled from "../Dinner.styles";
@@ -17,6 +18,13 @@ import { useFormContext } from "react-hook-form";
 import { getDinner, getDinners } from "services/getDinners";
 import { getDietDinners, getDietDinnersByDayId } from "services/getDietDinners";
 import { getDietDayMeal } from "services/getDietMeals";
+
+//icons
+import { FaSearch, FaEdit } from "icons/icons";
+import {
+  getDinnerProducts,
+  getDinnerProductsQuery,
+} from "services/getDinnerProducts";
 
 interface IRecommendDinnersProps {
   changeDinner: (dinnerId: string) => void;
@@ -210,8 +218,10 @@ const RecommendDinner = ({
     getValues,
     trigger,
   } = useFormContext();
+  const navigate = useNavigate();
 
   const { dinner, dinnerLoading, dinnerError } = getDinner(dinnerId);
+  const { dinnerProductsQuery } = getDinnerProductsQuery(dinnerId);
 
   if (!dinner) return null;
 
@@ -226,8 +236,37 @@ const RecommendDinner = ({
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      {dinner.image && <Image imageId={dinner.image} roundedDataGrid={true} />}
-      <h2>{dinner.name}</h2>
+      <Styled.DinnerItemContent>
+        <Styled.DinnerItemName>
+          {dinner.image && (
+            <Image imageId={dinner.image} roundedDataGrid={true} />
+          )}
+          <h2>{dinner.name}</h2>
+        </Styled.DinnerItemName>
+        <Styled.DinnerItemOptionsWrapper>
+          <Styled.DinnerItemButton
+            buttonVariant="view"
+            // onClick={() =>
+            //   navigate(`/dashboard/diet-establishments/${establishment._id}`)
+            // }
+          >
+            <FaSearch />
+          </Styled.DinnerItemButton>
+          <Styled.DinnerItemButton
+            buttonVariant="edit"
+            // onClick={() => addEstablishment(establishment._id)}
+          >
+            <FaEdit />
+          </Styled.DinnerItemButton>
+        </Styled.DinnerItemOptionsWrapper>
+      </Styled.DinnerItemContent>
+      <Styled.ItemFeaturesWrapper>
+        {dinnerProductsQuery?.map((dinnerProduct) => (
+          <Styled.ItemFeature key={dinnerProduct._id}>
+            {dinnerProduct.product.name}
+          </Styled.ItemFeature>
+        ))}
+      </Styled.ItemFeaturesWrapper>
     </Styled.DinnerItem>
   );
 };

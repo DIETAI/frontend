@@ -13,7 +13,7 @@ import Heading from "components/heading/Heading";
 import * as Styled from "./AddDinnerModal.styles";
 
 //icons
-import { FaUserCog } from "icons/icons";
+import { FaUtensils } from "icons/icons";
 
 //utils
 import { dietDinnerSteps } from "./utils/steps";
@@ -43,7 +43,7 @@ const AddDinnerModal = ({ closeModal, meal }: IDinnerModalProps) => {
   return (
     <Styled.DinnerModalContainer>
       <Heading
-        icon={<FaUserCog />}
+        icon={<FaUtensils />}
         title="Dodaj posiłek"
         // title={t("diet.form.dinner.modal.title")}
         // description={t("diet.form.dinner.modal.description")}

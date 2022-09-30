@@ -16,7 +16,7 @@ export const dietDinnerSteps = [
   {
     id: 1,
     icon: <FaBuffer />,
-    name: "posiłek",
+    name: "posiłek/produkt",
     step: <Step.Dinner />,
     validationSchema: dietDinnerSchema,
   },

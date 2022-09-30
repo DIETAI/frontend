@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "utils/api";
 import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
+import { useSearchParams, createSearchParams } from "react-router-dom";
 
 //styles
 import * as Styled from "./NewDinnerForm.styles";
@@ -36,6 +37,9 @@ const NewDinnerForm = () => {
   const navigate = useNavigate();
   const { handleAlert } = useAlert();
 
+  const [searchParams, setSearchParams] = useSearchParams();
+  const dietId = searchParams.get("dietId"); //from newDiet
+
   const methods = useForm({
     resolver: yupResolver(basicInfoSchema),
     shouldUnregister: false,
@@ -62,7 +66,14 @@ const NewDinnerForm = () => {
       });
       console.log({ newDinner });
       handleAlert("success", "Stworzono posiłek");
-      navigate(`/dashboard/dinners/edit/${newDinner.data._id}`);
+      if (dietId) {
+        navigate({
+          pathname: `/dashboard/dinners/edit/${newDinner.data._id}`,
+          search: `?${createSearchParams({ dietId })}`,
+        });
+      } else {
+        navigate(`/dashboard/dinners/edit/${newDinner.data._id}`);
+      }
     } catch (e) {
       console.log(e);
       handleAlert("error", "Dodawanie posiłku nie powiodło się");
