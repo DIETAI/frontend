@@ -37,7 +37,7 @@ const AddDinnerModal = ({ closeModal, meal }: IDinnerModalProps) => {
     dietId: meal.dietId,
     dayId: meal.dayId,
     dietMealId: meal._id,
-    order: 1,
+    order: meal.dinners.length + 1,
   };
 
   return (

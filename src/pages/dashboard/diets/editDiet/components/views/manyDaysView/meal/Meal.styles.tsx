@@ -71,6 +71,23 @@ const MealHeading = styled.div(
   `
 );
 
+const MealDinnersList = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 2rem;
+    width: 100%;
+  `
+);
+
 const AddDinnerButton = styled.button(
   ({
     theme: {
@@ -116,4 +133,10 @@ const AddDinnerButton = styled.button(
   `
 );
 
-export { MealWrapper, MealTotalWrapper, MealHeading, AddDinnerButton };
+export {
+  MealWrapper,
+  MealTotalWrapper,
+  MealHeading,
+  AddDinnerButton,
+  MealDinnersList,
+};

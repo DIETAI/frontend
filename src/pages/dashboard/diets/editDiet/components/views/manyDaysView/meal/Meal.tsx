@@ -1,5 +1,10 @@
 import React, { useState } from "react";
 import { IDietMealQueryData } from "interfaces/diet/dietQuery.interfaces";
+import axios from "utils/api";
+import { mutate } from "swr";
+
+//react-beautiful-dnd
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 //styles
 import * as Styled from "./Meal.styles";
@@ -25,6 +30,7 @@ interface IMeal {
 const Meal = ({ meal, establishment }: IMeal) => {
   const [addDinnerModalOpen, setDinnerModalOpen] = useState(false);
   const [generateMealModalOpen, setGenerateMealModalOpen] = useState(false);
+  const [mealDinners, setMealDinners] = useState(meal.dinners);
 
   // const { dietDinners, dietDinnersError, dietDinnersLoading } = getDietDinners(
   //   meal._id
@@ -35,11 +41,46 @@ const Meal = ({ meal, establishment }: IMeal) => {
 
   if (!mealEstablishment) return null;
 
+  const handleOnDragDinnersEnd = async (result: any) => {
+    console.log(result);
+    if (!result.destination) return;
+
+    const newMealDinners = Array.from(mealDinners);
+    const [reorderedItem] = newMealDinners.splice(result.source.index, 1);
+    newMealDinners.splice(result.destination.index, 0, reorderedItem);
+
+    setMealDinners(newMealDinners);
+
+    //edit dietDinnersOrder == dinnerIndex + 1
+
+    const newDietDinnersOrder = await Promise.all(
+      newMealDinners.map(async (mealDinner, mealDinnerIndex) => {
+        const newMealDinner = { ...mealDinner, order: mealDinnerIndex + 1 };
+        try {
+          const editDietDinner = await axios.put(
+            `/api/v1/dietDinners/${newMealDinner._id}`,
+            newMealDinner,
+            {
+              withCredentials: true,
+            }
+          );
+
+          console.log({ newMealDinner, editDietDinner });
+
+          //mutate dietquery obj
+          await mutate(`/api/v1/diets/${mealDinner.dietId}/query`); //correct
+        } catch (e) {
+          console.log(e);
+        }
+      })
+    );
+  };
+
   return (
     <Styled.MealWrapper>
       <Styled.MealHeading>
         <h3>{meal.name}</h3>
-        <h3>8.00</h3>
+        <h3>{mealEstablishment.time}</h3>
 
         {/* <IconModal icon={<FaEllipsisV />}>
           <MealEstablishmentModalContent />
@@ -66,9 +107,33 @@ const Meal = ({ meal, establishment }: IMeal) => {
         </p>
       </Styled.MealTotalWrapper>
 
-      {meal.dinners?.map((dietDinner) => (
+      <DragDropContext onDragEnd={handleOnDragDinnersEnd}>
+        <Droppable droppableId="dinnersOrder">
+          {(provided) => (
+            <Styled.MealDinnersList
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+            >
+              {mealDinners.map((dietDinner, index) => (
+                <Draggable
+                  key={dietDinner._id}
+                  draggableId={dietDinner._id}
+                  index={index}
+                >
+                  {(provided) => (
+                    <Dinner provided={provided} dietDinner={dietDinner} />
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+            </Styled.MealDinnersList>
+          )}
+        </Droppable>
+      </DragDropContext>
+
+      {/* {sortedMealDinners.map((dietDinner) => (
         <Dinner key={dietDinner._id} dietDinner={dietDinner} />
-      ))}
+      ))} */}
       <Styled.AddDinnerButton onClick={() => setDinnerModalOpen(true)}>
         <FaPlus />
         dodaj pozycję

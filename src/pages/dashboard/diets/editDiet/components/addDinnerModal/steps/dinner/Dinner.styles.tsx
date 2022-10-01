@@ -88,13 +88,20 @@ const DinnerItem = styled(motion.li)<IActiveItem>(
     disabled,
   }) => css`
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: flex-start;
     flex-direction: column;
-    gap: 2rem;
+    gap: 0.7rem;
     padding: 3rem 1rem;
     width: 100%;
     transition: 0.3s ease-out;
+
+    p {
+      color: ${palette.common.text};
+      font-weight: ${fontWeight.medium};
+      font-size: 1.4rem;
+      margin-top: 1.5rem;
+    }
 
     h2 {
       color: ${palette.common.text};

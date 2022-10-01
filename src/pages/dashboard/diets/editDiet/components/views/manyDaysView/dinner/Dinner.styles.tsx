@@ -16,10 +16,11 @@ const DietDinnerWrapper = styled.div(
     flex-direction: column;
     width: 100%;
     gap: 1rem;
-    /* background: ${palette.common.contrast}; */
+    background: ${palette.common.main};
     border: 0.1rem solid ${palette.primary.light};
     border-radius: ${border.rounded.sm};
     position: relative;
+    cursor: grab;
   `
 );
 

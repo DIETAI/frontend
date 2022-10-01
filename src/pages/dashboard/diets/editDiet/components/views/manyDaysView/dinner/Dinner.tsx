@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { AnimatePresence } from "framer-motion";
 
+import { DraggableProvided } from "react-beautiful-dnd";
+
 //interfaces
 import { IDietDinnerQueryData } from "interfaces/diet/dietQuery.interfaces";
 
@@ -14,14 +16,15 @@ import InfoModalContent from "./infoModal/InfoModalContent";
 import EditDinnerModalContent from "../../../editDinnerModal/EditDinnerModal";
 
 //icons
-import { FaEdit, FaTrash, FaInfoCircle } from "icons/icons";
+import { FaEdit, FaTrash, FaInfoCircle, FaLongArrowAltUp } from "icons/icons";
 import Modal from "components/modal/Modal";
 
 interface IDietDinner {
   dietDinner: IDietDinnerQueryData;
+  provided: DraggableProvided;
 }
 
-const Dinner = ({ dietDinner }: IDietDinner) => {
+const Dinner = ({ dietDinner, provided }: IDietDinner) => {
   const [openDeleteDinnerModal, setOpenDeleteDinnerModal] = useState(false);
   const [openInfoDinnerModal, setOpenInfoDinnerModal] = useState(false);
   const [openEditDinnerModal, setOpenEditDinnerModal] = useState(false);
@@ -33,6 +36,9 @@ const Dinner = ({ dietDinner }: IDietDinner) => {
       <Styled.DietDinnerWrapper
         onMouseEnter={() => setOpenDinnerOptions(true)}
         onMouseLeave={() => setOpenDinnerOptions(false)}
+        {...provided.draggableProps}
+        {...provided.dragHandleProps}
+        ref={provided.innerRef}
       >
         <Styled.DietDinner>
           {image && (

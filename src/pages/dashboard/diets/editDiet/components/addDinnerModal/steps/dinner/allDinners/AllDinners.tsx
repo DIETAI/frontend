@@ -1,5 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router";
+import { createSearchParams } from "react-router-dom";
+import { useParams } from "react-router";
 
 //styles
 import * as Styled from "../Dinner.styles";
@@ -17,6 +19,14 @@ import { FaSearch, FaEdit, FaPlus } from "react-icons/fa";
 import { getDinners } from "services/getDinners";
 import { IDinnerData } from "interfaces/dinner/dinner.interfaces";
 import { getDinnerProductsQuery } from "services/getDinnerProducts";
+
+const renderMealType = (mealType: IDinnerData["mealTypes"][0]) => {
+  if (mealType === "breakfast") return "Śniadanie";
+  if (mealType === "second_breakfast") return "II śniadanie";
+  if (mealType === "lunch") return "Obiad";
+  if (mealType === "snack") return "Przekąska";
+  return "Kolacja";
+};
 
 interface IAllDinnersProps {
   changeDinner: (dinnerId: string) => void;
@@ -82,12 +92,18 @@ const Dinner = ({
     getValues,
     trigger,
   } = useFormContext();
+  const { dietEditId } = useParams();
   const navigate = useNavigate();
 
   const { dinnerProductsQuery } = getDinnerProductsQuery(dinner._id);
   const selectedDinnerId = watch("dinnerId") as string;
 
   if (!dinnerProductsQuery) return null;
+
+  const dietDinnerParams = {
+    dietId: dietEditId || "",
+    editDinnerId: selectedDinnerId || "",
+  };
 
   return (
     <Styled.DinnerItem
@@ -121,6 +137,12 @@ const Dinner = ({
           <Styled.DinnerItemButton
             buttonVariant="view"
             type="button"
+            onClick={() =>
+              navigate({
+                pathname: `/dashboard/dinners/${dinner._id}`,
+                search: `?${createSearchParams(dietDinnerParams)}`,
+              })
+            }
             // onClick={() =>
             //   navigate(`/dashboard/diet-establishments/${establishment._id}`)
             // }
@@ -130,12 +152,27 @@ const Dinner = ({
           <Styled.DinnerItemButton
             buttonVariant="edit"
             type="button"
+            onClick={() =>
+              navigate({
+                pathname: `/dashboard/dinners/edit/${dinner._id}`,
+                search: `?${createSearchParams(dietDinnerParams)}`,
+              })
+            }
             // onClick={() => addEstablishment(establishment._id)}
           >
             <FaEdit />
           </Styled.DinnerItemButton>
         </Styled.DinnerItemOptionsWrapper>
       </Styled.DinnerItemContent>
+      <p>Rodzaj posiłku:</p>
+      <Styled.ItemFeaturesWrapper>
+        {dinner.mealTypes.map((mealType) => (
+          <Styled.ItemFeature key={mealType}>
+            {renderMealType(mealType)}
+          </Styled.ItemFeature>
+        ))}
+      </Styled.ItemFeaturesWrapper>
+      <p>Produkty:</p>
       <Styled.ItemFeaturesWrapper>
         {dinnerProductsQuery.length > 0 &&
           dinnerProductsQuery.map((dinnerProduct) => (

@@ -14,9 +14,9 @@ const root = ReactDOM.createRoot(
 //react strict mode - problem z beautiful dnd
 root.render(
   <DarkModeProvider>
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
+    {/* <React.StrictMode> */}
+    <App />
+    {/* </React.StrictMode> */}
   </DarkModeProvider>
 );
 

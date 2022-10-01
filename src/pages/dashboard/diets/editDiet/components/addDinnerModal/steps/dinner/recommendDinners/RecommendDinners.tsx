@@ -4,6 +4,8 @@ import { AnimatePresence } from "framer-motion";
 import ReactLoading from "react-loading";
 import NoData from "assets/noData.svg";
 import { useNavigate } from "react-router";
+import { createSearchParams } from "react-router-dom";
+import { useParams } from "react-router";
 
 //styles
 import * as Styled from "../Dinner.styles";
@@ -20,7 +22,7 @@ import { getDietDinners, getDietDinnersByDayId } from "services/getDietDinners";
 import { getDietDayMeal } from "services/getDietMeals";
 
 //icons
-import { FaSearch, FaEdit } from "icons/icons";
+import { FaSearch, FaEdit, FaPlus } from "icons/icons";
 import {
   getDinnerProducts,
   getDinnerProductsQuery,
@@ -219,19 +221,25 @@ const RecommendDinner = ({
     trigger,
   } = useFormContext();
   const navigate = useNavigate();
+  const { dietEditId } = useParams();
 
   const { dinner, dinnerLoading, dinnerError } = getDinner(dinnerId);
   const { dinnerProductsQuery } = getDinnerProductsQuery(dinnerId);
 
   if (!dinner) return null;
+  if (!dinnerProductsQuery) return null;
 
   const selectedDinnerId = watch("dinnerId") as string;
+
+  const dietDinnerParams = {
+    dietId: dietEditId || "",
+    editDinnerId: selectedDinnerId || "",
+  };
 
   return (
     <Styled.DinnerItem
       activeItem={selectedDinnerId === dinner._id}
       key={dinner._id}
-      onClick={() => selectDinner(dinner._id)}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -245,7 +253,27 @@ const RecommendDinner = ({
         </Styled.DinnerItemName>
         <Styled.DinnerItemOptionsWrapper>
           <Styled.DinnerItemButton
+            buttonVariant="add"
+            onClick={() => selectDinner(dinner._id)}
+            type="button"
+            disabled={
+              dinnerProductsQuery.length < 1 || selectedDinnerId === dinner._id
+            }
+            // onClick={() =>
+            //   navigate(`/dashboard/diet-establishments/${establishment._id}`)
+            // }
+          >
+            <FaPlus />
+          </Styled.DinnerItemButton>
+          <Styled.DinnerItemButton
             buttonVariant="view"
+            type="button"
+            onClick={() =>
+              navigate({
+                pathname: `/dashboard/dinners/${dinner._id}`,
+                search: `?${createSearchParams(dietDinnerParams)}`,
+              })
+            }
             // onClick={() =>
             //   navigate(`/dashboard/diet-establishments/${establishment._id}`)
             // }
@@ -254,6 +282,13 @@ const RecommendDinner = ({
           </Styled.DinnerItemButton>
           <Styled.DinnerItemButton
             buttonVariant="edit"
+            type="button"
+            onClick={() =>
+              navigate({
+                pathname: `/dashboard/dinners/edit/${dinner._id}`,
+                search: `?${createSearchParams(dietDinnerParams)}`,
+              })
+            }
             // onClick={() => addEstablishment(establishment._id)}
           >
             <FaEdit />
