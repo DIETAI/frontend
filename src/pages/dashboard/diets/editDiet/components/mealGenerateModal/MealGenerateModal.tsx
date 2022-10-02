@@ -51,6 +51,7 @@ import {
 import { IDinnerPortion } from "pages/dashboard/dinners/components/form/steps/portions/addDinnerPortionModal/schema/dinnerPortion.schema";
 import { AnimatePresence } from "framer-motion";
 import { roundMacro } from "./helpers/cartesianDinners/cartesianDinners";
+import { IDietMealData } from "interfaces/diet/dietMeals.interfaces";
 
 export interface IMealGenerateAction {
   actionType: string;
@@ -142,14 +143,29 @@ const MealGenerateModal = ({
     (state: RootState) => state.dietMealGenerate
   );
 
-  const { dietMeals } = getAllDietMeals();
+  // const { dietMeals, dietMealsLoading, dietMealsError } = getAllDietMeals();
 
-  if (!dietMeals) return null;
+  // if (!dietMeals) return null;
 
   const handleGenerateDietMeal = async () => {
+    setMealGenerateAction({
+      actionType: "Selected meal",
+      actionMessage: "Wybieranie posiłku",
+      loading: true,
+      error: false,
+      errorMessage: "",
+    });
+    const allDietMeals = await axios.get<IDietMealData[]>(`/api/v1/dietMeals`, {
+      withCredentials: true,
+    });
+
+    if (!allDietMeals.data) {
+      return;
+    }
+
     const generateMealInitialData = {
       mealToGenerate: meal,
-      allDietMeals: dietMeals,
+      allDietMeals: allDietMeals.data,
       dispatch,
       addDietMealGenerate,
       mealGenerateAction,
@@ -327,19 +343,6 @@ const MealGenerateModal = ({
         // description={t("diet.form.dinner.modal.description")}
       />
       <Styled.MealGenerateContentWrapper>
-        <AnimatePresence>
-          {mealGenerateAction.loading && (
-            <Styled.LoadingWrapper
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
-              <ReactLoading type="spin" color="blue" height={50} width={50} />
-              <h2>{mealGenerateAction.actionMessage}</h2>
-            </Styled.LoadingWrapper>
-          )}
-        </AnimatePresence>
-
         {mealDinners.length < 1 && (
           <Styled.ContentWrapper>
             <img src={GenerateMealImage} />
@@ -353,6 +356,18 @@ const MealGenerateModal = ({
             </Styled.ContentButtonsWrapper>
           </Styled.ContentWrapper>
         )}
+        <AnimatePresence>
+          {mealGenerateAction.loading && (
+            <Styled.LoadingWrapper
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <ReactLoading type="spin" color="blue" height={50} width={50} />
+              <h2>{mealGenerateAction.actionMessage}</h2>
+            </Styled.LoadingWrapper>
+          )}
+        </AnimatePresence>
 
         {mealDinners.length > 0 && !mealGenerateAction.loading && (
           <>
