@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import { useParams } from "react-router";
 import { getDiet, getDietQuery } from "services/getDiets";
+import ReactLoading from "react-loading";
 
 //components
 import DietNav from "./components/nav/DietNav";
 import DietContent from "./components/content/DietContent";
 import ManyDaysView from "./components/views/manyDaysView/days/Days";
 import OneDayView from "./components/views/oneDayView/OneDayView";
+
+//styles
+import * as Styled from "./EditDietPage.styles";
 
 export type DaysView = "oneDay" | "manyDays";
 
@@ -19,8 +23,25 @@ const EditDiet = () => {
 
   const { diet, dietError, dietLoading } = getDiet(dietEditId);
 
-  // if (dietLoading) return <div>diet loading...</div>;
-  if (dietError || !diet) return <div>diet error</div>;
+  if (dietLoading)
+    return (
+      <Styled.LoadingWrapper
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      >
+        <ReactLoading type="spin" color="blue" height={50} width={50} />
+        <h2>Pobieranie diety</h2>
+      </Styled.LoadingWrapper>
+    );
+
+  if (dietError || !diet)
+    return (
+      <Styled.EmptyDataWrapper>
+        <h2>pobieranie danych diety nie powiodło się</h2>
+      </Styled.EmptyDataWrapper>
+    );
+
   return (
     <>
       <DietNav setView={setView} view={view} diet={diet} />

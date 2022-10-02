@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router";
+import ReactLoading from "react-loading";
 
 //form
 import { useFormContext } from "react-hook-form";
@@ -71,8 +72,26 @@ const PlanLength = () => {
     return trigger();
   };
 
-  if (dietDaysLoading) return <div>loading...</div>;
-  if (dietDaysError) return <div>error...</div>;
+  if (dietDaysLoading)
+    return (
+      <Styled.LoadingWrapper
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      >
+        <ReactLoading type="spin" color="blue" height={50} width={50} />
+        <h2>Pobieranie dni</h2>
+      </Styled.LoadingWrapper>
+    );
+  if (dietDaysError)
+    return (
+      <Styled.EmptyDataWrapper>
+        <h2>
+          pobieranie dni nie powiodło się, spróbuj ponownie później wygenerować
+          dietę
+        </h2>
+      </Styled.EmptyDataWrapper>
+    );
 
   return (
     <Styled.DietGenerateDaysContainer>

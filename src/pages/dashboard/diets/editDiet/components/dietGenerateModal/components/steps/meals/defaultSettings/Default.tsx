@@ -4,6 +4,7 @@ import { useParams } from "react-router";
 import { useDietEstablishment } from "services/useDietEstablishments";
 import { useFormContext, useFieldArray } from "react-hook-form";
 import { AnimatePresence, AnimateSharedLayout, motion } from "framer-motion";
+import ReactLoading from "react-loading";
 
 //styles
 import * as Styled from "./Default.styles";
@@ -44,9 +45,12 @@ const Default = () => {
 
   const { diet, dietError, dietLoading } = getDiet(dietEditId);
   if (!diet) return <div>not found</div>;
-  const { dietEstablishment } = useDietEstablishment(
-    diet.establishmentId as string
-  );
+
+  const {
+    dietEstablishment,
+    dietEstablishmentError,
+    dietEstablishmentLoading,
+  } = useDietEstablishment(diet.establishmentId as string);
 
   useEffect(() => {
     if (dietEstablishment) {
@@ -58,8 +62,34 @@ const Default = () => {
           dinnerTypes: [],
         }))
       );
+      trigger();
     }
   }, [dietEstablishment]);
+
+  if (dietEstablishmentLoading) {
+    return (
+      <Styled.LoadingWrapper
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      >
+        <ReactLoading type="spin" color="blue" height={50} width={50} />
+        <h2>Pobieranie założeń</h2>
+      </Styled.LoadingWrapper>
+    );
+  }
+
+  if (dietEstablishmentError) {
+    return (
+      <Styled.EmptyDataWrapper
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      >
+        <h2>Pobieranie założeń nie powiodło się</h2>
+      </Styled.EmptyDataWrapper>
+    );
+  }
 
   return (
     // <AnimateSharedLayout>
