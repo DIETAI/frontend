@@ -16,10 +16,11 @@ export const product_basic_info_schema = yup.object().shape({
     .oneOf(["g", "l"])
     .required("To pole jest wymagane")
     .default("g"), //litr, gram
-  dietKindsExclude: yup.array(yup.string()),
+  dietKindsExclude: yup.array(yup.string().required()).default([]),
   season: yup.string().oneOf(["zima", "wiosna", "lato", "jesień"]),
   image: yup.string(),
   gallery: yup.array(yup.string().required("To pole jest wymagane")),
+  tags: yup.array(yup.string().oneOf(["nogluten", "lactose-free"])).default([]), //array(yup.string()) wegetarianski, weganski, bezmleczny, bezglutenowy wyswietlone jako checkbox
   //grupa | dodaj grupę
   //folder
 });

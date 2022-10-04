@@ -5,7 +5,7 @@ import { FaFolderPlus, FaFolderOpen } from "icons/icons";
 import { useTranslation } from "react-i18next";
 
 //interfaces
-import { IProductBasicInfo } from "../../../schema/productFormSchema";
+import { IProductBasicInfo } from "../../../../schema/productFormSchema";
 
 //context
 import { useFileLibrary } from "layout/dashboard/context/fileLibrary.context";
@@ -23,6 +23,10 @@ import FilesLibrary from "components/filesLibrary/FilesLibrary";
 //icons
 import { FaFileAlt } from "icons/icons";
 
+import MultipleAutocomplete from "components/form/multipleAutocomplete/MultipleAutocomplete";
+import ExcludeDietKindsModal from "./excludeDietKindsModal/ExcludeDietKindsModal";
+import { getDietKinds } from "services/getDietKinds";
+
 const season = [
   { id: 1, name: "zima" },
   { id: 2, name: "wiosna" },
@@ -30,11 +34,28 @@ const season = [
   { id: 4, name: "jesień" },
 ];
 
+const tagOptions = [
+  { id: 1, name: "bezglutenu", type: "nogluten" },
+  { id: 2, name: "bezlaktozy", type: "lactose-free" },
+];
+
 const BasicInfo = () => {
+  const [dietKindsExcludeModalOpen, setDietKindsExcludeModalOpen] =
+    useState(false);
+  const { dietKinds, dietKindsError, dietKindsLoading } = getDietKinds();
   const { t } = useTranslation();
-  const openAddFolderModal = () => {
-    console.log("dodaj folder");
+  const openExcludeDietKindModal = () => {
+    setDietKindsExcludeModalOpen(true);
   };
+
+  if (dietKindsLoading) return <div>loading...</div>;
+  if (dietKindsError || !dietKinds) return <div>error...</div>;
+
+  // const dietKindsAutocompleteData = dietKinds.map((dietKind) => ({
+  //   _id: dietKind._id,
+  //   name: dietKind.name,
+  //   type: dietKind.type,
+  // }));
 
   return (
     <>
@@ -51,7 +72,23 @@ const BasicInfo = () => {
         fullWidth
         textarea
       />
-      <DashedSelect
+      <MultipleAutocomplete
+        name="dietKindsExclude"
+        label="produkt wykluczony w rodzajach diety"
+        options={dietKinds as any}
+        optionLabel="name"
+        optionRender="_id"
+        fullWidth
+      />
+      <MultipleAutocomplete
+        name="tags"
+        label={`${t("product.form.basic_info.tags")}`}
+        options={tagOptions}
+        optionLabel="name"
+        optionRender="type"
+        fullWidth
+      />
+      {/* <DashedSelect
         icon={<FaFolderPlus />}
         text={`${t("product.form.basic_info.addFolder")}`}
         onClick={openAddFolderModal}
@@ -62,21 +99,22 @@ const BasicInfo = () => {
         text={`${t("product.form.basic_info.group")}`}
         onClick={openAddFolderModal}
         fullWidth
-      />
+      /> */}
       <DashedSelect
         icon={<FaFolderPlus />}
         text={`${t("product.form.basic_info.dietKind")}`}
-        onClick={openAddFolderModal}
+        onClick={openExcludeDietKindModal}
         fullWidth
       />
-      <DashedSelect
-        icon={<FaFolderPlus />}
-        text={`${t("product.form.basic_info.tags")}`}
-        onClick={openAddFolderModal}
-        fullWidth
-      />
+
       <ProductMainImage />
       <ProductGallery />
+      <Modal
+        open={dietKindsExcludeModalOpen}
+        onClose={() => setDietKindsExcludeModalOpen(false)}
+      >
+        <ExcludeDietKindsModal />
+      </Modal>
     </>
   );
 };

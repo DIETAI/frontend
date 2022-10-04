@@ -1,4 +1,4 @@
-import BasicInfo from "./basic_info";
+import BasicInfo from "./basicInfo/basic_info";
 import Macrohydrates from "./macrohydrates";
 import FattyAcids from "./fatty-acids";
 import Vitamins from "./vitamins";

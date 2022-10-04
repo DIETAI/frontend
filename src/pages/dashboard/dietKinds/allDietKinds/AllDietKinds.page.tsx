@@ -22,6 +22,18 @@ const columns: IColumn[] = [
   { label: "typ", key: "type", type: "text" },
 ];
 
+const dietKindTypeRender = (type: "healing" | "unconventional" | "other") => {
+  if (type === "healing") {
+    return "lecznicza";
+  }
+  if (type === "unconventional") {
+    return "niekonwencjonalna";
+  }
+  if (type === "other") {
+    return "inna";
+  }
+};
+
 const AllDietKinds = () => {
   const { t } = useTranslation();
   // const [page, setPage] = useState(1);
@@ -51,7 +63,7 @@ const AllDietKinds = () => {
   const dietKindsData = dietKinds?.map((data) => ({
     _id: data._id,
     name: data.name,
-    type: data.type,
+    type: dietKindTypeRender(data.type),
   }));
 
   const deleteDietKind = () => {
