@@ -151,7 +151,7 @@ const MultipleAutocomplete = ({
             ))}
 
           <input
-            placeholder={label}
+            // placeholder={label}
             onFocus={() => setAutocompletePopup(true)}
             autoComplete="off"
             {...inputProps}

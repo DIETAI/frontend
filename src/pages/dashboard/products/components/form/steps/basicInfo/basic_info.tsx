@@ -100,12 +100,12 @@ const BasicInfo = () => {
         onClick={openAddFolderModal}
         fullWidth
       /> */}
-      <DashedSelect
+      {/* <DashedSelect
         icon={<FaFolderPlus />}
         text={`${t("product.form.basic_info.dietKind")}`}
         onClick={openExcludeDietKindModal}
         fullWidth
-      />
+      /> */}
 
       <ProductMainImage />
       <ProductGallery />

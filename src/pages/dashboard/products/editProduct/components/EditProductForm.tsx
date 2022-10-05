@@ -61,9 +61,15 @@ const EditProductForm = ({ product }: IProductProps) => {
     }
   };
 
+  const defaultEditProductValues = {
+    ...product,
+    dietKindsExclude: product.dietKindsExclude || [],
+    tags: product.tags || [],
+  };
+
   return (
     <MultiStepFormContent
-      defaultValues={product}
+      defaultValues={defaultEditProductValues}
       onSubmitAction={onProductFormSubmit}
       validationSchema={allProductSchemas}
       itemId={product._id}

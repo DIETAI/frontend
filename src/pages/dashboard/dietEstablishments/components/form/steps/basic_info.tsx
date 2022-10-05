@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
+import { getDietKinds } from "services/getDietKinds";
 
 import { FaFolderPlus, FaFolderOpen } from "icons/icons";
 import { useTranslation } from "react-i18next";
@@ -38,6 +39,8 @@ const BasicInfo = () => {
   const patientIdParam = searchParams.get("patientId"); //from newDiet
   const newDietNameParam = searchParams.get("dietName"); //from newDiet
   const newDietDaysAmountParam = searchParams.get("daysAmount"); //from newDiet
+
+  const { dietKinds, dietKindsError, dietKindsLoading } = getDietKinds();
 
   useEffect(() => {
     if (patientIdParam) {
@@ -81,6 +84,9 @@ const BasicInfo = () => {
 
   if (clientsLoading) return <div>clients loading</div>;
   if (clientsError) return <div>clients error</div>;
+
+  if (dietKindsLoading) return <div>loading...</div>;
+  if (dietKindsError || !dietKinds) return <div>error...</div>;
 
   //getClientMeasurements
 
@@ -220,10 +226,18 @@ const BasicInfo = () => {
         </>
       )}
 
-      <DashedSelect
+      {/* <DashedSelect
         icon={<FaFolderPlus />}
         text={`${t("dietEstablishment.form.basic_info.dietKind")}`}
         onClick={openAddFolderModal}
+        fullWidth
+      /> */}
+      <Autocomplete
+        name="dietKind"
+        label={`${t("dietEstablishment.form.basic_info.dietKind")}`}
+        options={dietKinds as any}
+        optionLabel="name"
+        optionRender="_id"
         fullWidth
       />
     </>
