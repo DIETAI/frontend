@@ -20,6 +20,37 @@ import { getDinners } from "services/getDinners";
 import { IDinnerData } from "interfaces/dinner/dinner.interfaces";
 import { getDinnerProductsQuery } from "services/getDinnerProducts";
 
+import { IProductData } from "interfaces/product.interfaces";
+import { IDietEstablishmentData } from "interfaces/dietEstablishment.interfaces";
+import { useDietEstablishment } from "services/useDietEstablishments";
+import { getDiet } from "services/getDiets";
+
+const checkDietKindProduct = ({
+  product,
+  dietEstablishment,
+}: {
+  product: IProductData;
+  dietEstablishment: IDietEstablishmentData;
+}) => {
+  if (!product.dietKindsExclude || !dietEstablishment.dietKind) {
+    return {
+      info: "Brak rodzaju diety",
+      valid: true,
+    };
+  }
+  if (product.dietKindsExclude.includes(dietEstablishment.dietKind)) {
+    return {
+      info: "Produkt niedostępny w tym rodzaju diety",
+      valid: false,
+    };
+  }
+
+  return {
+    info: "Produkt dostępny w rodzaju diety",
+    valid: true,
+  };
+};
+
 const renderMealType = (mealType: IDinnerData["mealTypes"][0]) => {
   if (mealType === "breakfast") return "Śniadanie";
   if (mealType === "second_breakfast") return "II śniadanie";
@@ -94,15 +125,44 @@ const Dinner = ({
   } = useFormContext();
   const { dietEditId } = useParams();
   const navigate = useNavigate();
-
-  const { dinnerProductsQuery } = getDinnerProductsQuery(dinner._id);
   const selectedDinnerId = watch("dinnerId") as string;
+
+  if (!dietEditId) return null;
+  const { diet } = getDiet(dietEditId);
+
+  if (!diet) return null;
+
+  const { dietEstablishment } = useDietEstablishment(diet.establishmentId);
+  const { dinnerProductsQuery } = getDinnerProductsQuery(dinner._id);
+
+  if (!dietEstablishment) return null;
 
   if (!dinnerProductsQuery) return null;
 
   const dietDinnerParams = {
     dietId: dietEditId || "",
     editDinnerId: selectedDinnerId || "",
+  };
+
+  const checkDinnerProductsDietKind = () => {
+    const validProducts = dinnerProductsQuery.map((dinnerProduct) => {
+      const validProduct = checkDietKindProduct({
+        product: dinnerProduct.product,
+        dietEstablishment: dietEstablishment,
+      });
+
+      if (!validProduct.valid) {
+        return false;
+      }
+
+      return true;
+    });
+
+    if (validProducts.includes(false)) {
+      return false;
+    }
+
+    return true;
   };
 
   return (
@@ -112,14 +172,17 @@ const Dinner = ({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
+      // dinnerDietKindCheck={checkDinnerProductsDietKind()}
     >
       <Styled.DinnerItemContent>
         <Styled.DinnerItemName>
           {dinner.image && (
             <Image imageId={dinner.image} roundedDataGrid={true} />
           )}
+
           <h2>{dinner.name}</h2>
         </Styled.DinnerItemName>
+
         <Styled.DinnerItemOptionsWrapper>
           <Styled.DinnerItemButton
             buttonVariant="add"
@@ -164,6 +227,12 @@ const Dinner = ({
           </Styled.DinnerItemButton>
         </Styled.DinnerItemOptionsWrapper>
       </Styled.DinnerItemContent>
+      <Styled.ErrorWrapper>
+        {!checkDinnerProductsDietKind() && (
+          <p>Posiłek zawiera produkty niezalecane w tym rodzaju diety</p>
+        )}
+      </Styled.ErrorWrapper>
+
       <p>Rodzaj posiłku:</p>
       <Styled.ItemFeaturesWrapper>
         {dinner.mealTypes.map((mealType) => (
@@ -176,7 +245,14 @@ const Dinner = ({
       <Styled.ItemFeaturesWrapper>
         {dinnerProductsQuery.length > 0 &&
           dinnerProductsQuery.map((dinnerProduct) => (
-            <Styled.ItemFeature key={dinnerProduct._id}>
+            <Styled.ItemFeature
+              key={dinnerProduct._id}
+              // checkDietKindProduct={
+              //   checkDietKindProduct({
+              //     product: dinnerProduct.product,
+              //     dietEstablishment: dietEstablishment,
+              //   })}
+            >
               {dinnerProduct.product.name}
             </Styled.ItemFeature>
           ))}

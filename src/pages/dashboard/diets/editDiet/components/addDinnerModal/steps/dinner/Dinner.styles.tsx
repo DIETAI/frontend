@@ -75,6 +75,7 @@ const DinnerList = styled.ul(
 interface IActiveItem {
   activeItem: boolean;
   disabled?: boolean;
+  dinnerDietKindCheck?: boolean;
 }
 
 const DinnerItem = styled(motion.li)<IActiveItem>(
@@ -86,6 +87,7 @@ const DinnerItem = styled(motion.li)<IActiveItem>(
     },
     activeItem,
     disabled,
+    dinnerDietKindCheck,
   }) => css`
     display: flex;
     align-items: flex-start;
@@ -130,7 +132,10 @@ const DinnerItem = styled(motion.li)<IActiveItem>(
     ${disabled &&
     css`
       pointer-events: none;
-    `}
+    `} /* ${!dinnerDietKindCheck &&
+    css`
+      background: #ff00001f;
+    `} */
   `
 );
 
@@ -147,6 +152,22 @@ const DinnerItemContent = styled.div(
     justify-content: space-between;
     gap: 2rem;
     width: 100%;
+  `
+);
+
+const ErrorWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    p {
+      font-size: 1.4rem;
+      font-weight: ${fontWeight.medium};
+      color: red;
+    }
   `
 );
 
@@ -300,13 +321,18 @@ const ItemFeaturesWrapper = styled.div(
   `
 );
 
-const ItemFeature = styled.div(
+interface ICheckProductDietKind {
+  checkDietKindProduct?: boolean;
+}
+
+const ItemFeature = styled.div<ICheckProductDietKind>(
   ({
     theme: {
       palette,
       typography: { fontSize, fontWeight },
       layout: { border },
     },
+    checkDietKindProduct,
   }) => css`
     display: flex;
     gap: 1rem;
@@ -317,6 +343,13 @@ const ItemFeature = styled.div(
     color: ${palette.primary.main};
     font-weight: ${fontWeight.medium};
     font-size: 1.3rem;
+
+    /* ${!checkDietKindProduct &&
+    css`
+      background: #ff000019;
+      border: 0.1rem solid red;
+      color: red;
+    `} */
   `
 );
 
@@ -469,4 +502,5 @@ export {
   DinnerItemOptionsWrapper,
   DinnerItemButton,
   DinnerItemContent,
+  ErrorWrapper,
 };
