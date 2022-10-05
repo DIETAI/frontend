@@ -23,11 +23,44 @@ const InfoModalContent = ({
     <Styled.ModalContentWrapper>
       <Heading
         icon={<FaUtensils />}
-        title={dietDinner.dinnerPortion.dinner.name}
+        title="Potrawa"
         // description={t("dinner.form.products.modal.description")}
       />
-      <Styled.PortionWrapper>
-        <Styled.PortionHeadingWrapper>
+      <Styled.PortionTotalWrapper>
+        <Styled.PortionTotalFeaturesWrapper>
+          <Styled.PortionTotalFeature>
+            Kcal: <b>{dinnerPortion.total.kcal}</b>
+          </Styled.PortionTotalFeature>
+          <Styled.PortionTotalFeature>
+            B (g): <b>{dinnerPortion.total.protein.gram}</b>
+          </Styled.PortionTotalFeature>
+          <Styled.PortionTotalFeature>
+            T (g): <b>{dinnerPortion.total.fat.gram}</b>
+          </Styled.PortionTotalFeature>
+          <Styled.PortionTotalFeature>
+            W (g): <b>{dinnerPortion.total.carbohydrates.gram}</b>
+          </Styled.PortionTotalFeature>
+          <Styled.PortionTotalFeature>
+            Wp (g): <b>{dinnerPortion.total.digestableCarbohydrates.gram}</b>
+          </Styled.PortionTotalFeature>
+          <Styled.PortionTotalFeature>
+            Bł (g): <b>{dinnerPortion.total.fiber.gram}</b>
+          </Styled.PortionTotalFeature>
+        </Styled.PortionTotalFeaturesWrapper>
+      </Styled.PortionTotalWrapper>
+      <Styled.DinnerWrapper>
+        <Styled.DinnerNameWrapper>
+          {dietDinner.dinnerPortion.dinner.image && (
+            <Image
+              imageId={dietDinner.dinnerPortion.dinner.image}
+              roundedLarge
+            />
+          )}
+
+          <h2>{dietDinner.dinnerPortion.dinner.name}</h2>
+        </Styled.DinnerNameWrapper>
+        <Styled.PortionWrapper>
+          {/* <Styled.PortionHeadingWrapper>
           <Styled.PortionHeading>
             <Styled.FieldNumberWrapper>
               <p>1</p>
@@ -36,83 +69,64 @@ const InfoModalContent = ({
               {dinnerPortion.type === "default" ? "domyślny" : "własny"} zestaw
             </h2>
           </Styled.PortionHeading>
-        </Styled.PortionHeadingWrapper>
-        <Styled.PortionTotalWrapper>
-          <Styled.PortionTotalFeaturesWrapper>
-            <Styled.PortionTotalFeature>
-              Kcal: <b>{dinnerPortion.total.kcal}</b>
-            </Styled.PortionTotalFeature>
-            <Styled.PortionTotalFeature>
-              B (g): <b>{dinnerPortion.total.protein.gram}</b>
-            </Styled.PortionTotalFeature>
-            <Styled.PortionTotalFeature>
-              T (g): <b>{dinnerPortion.total.fat.gram}</b>
-            </Styled.PortionTotalFeature>
-            <Styled.PortionTotalFeature>
-              W (g): <b>{dinnerPortion.total.carbohydrates.gram}</b>
-            </Styled.PortionTotalFeature>
-            <Styled.PortionTotalFeature>
-              Wp (g): <b>{dinnerPortion.total.digestableCarbohydrates.gram}</b>
-            </Styled.PortionTotalFeature>
-            <Styled.PortionTotalFeature>
-              Bł (g): <b>{dinnerPortion.total.fiber.gram}</b>
-            </Styled.PortionTotalFeature>
-          </Styled.PortionTotalFeaturesWrapper>
-        </Styled.PortionTotalWrapper>
+        </Styled.PortionHeadingWrapper> */}
 
-        <Styled.ProductsWrapper>
-          {dinnerPortion.dinnerProducts.map((dinnerPortionProduct) => (
-            <Styled.ProductWrapper key={dinnerPortionProduct.dinnerProductId}>
-              <Styled.ProductMainWrapper>
-                {dinnerPortionProduct.dinnerProduct.product.image && (
-                  <div>
-                    <Image
-                      roundedDataGrid={true}
-                      imageId={dinnerPortionProduct.dinnerProduct.product.image}
-                    />
-                  </div>
-                )}
-
-                <Styled.ProductContentWrapper>
-                  <h3>{dinnerPortionProduct.dinnerProduct.product.name}</h3>
-
-                  <Styled.ProductTotalFeaturesWrapper>
-                    <Styled.ProductTotalFeature>
-                      Kcal: <b>{dinnerPortionProduct.total.kcal}</b>
-                    </Styled.ProductTotalFeature>
-                    <Styled.ProductTotalFeature>
-                      B (g): <b>{dinnerPortionProduct.total.protein.gram}</b>
-                    </Styled.ProductTotalFeature>
-                    <Styled.ProductTotalFeature>
-                      T (g): <b>{dinnerPortionProduct.total.fat.gram}</b>
-                    </Styled.ProductTotalFeature>
-                    <Styled.ProductTotalFeature>
-                      W (g):{" "}
-                      <b>{dinnerPortionProduct.total.carbohydrates.gram}</b>
-                    </Styled.ProductTotalFeature>
-                    <Styled.ProductTotalFeature>
-                      Wp (g):{" "}
-                      <b>
-                        {
-                          dinnerPortionProduct.total.digestableCarbohydrates
-                            .gram
+          <Styled.ProductsWrapper>
+            {dinnerPortion.dinnerProducts.map((dinnerPortionProduct) => (
+              <Styled.ProductWrapper key={dinnerPortionProduct.dinnerProductId}>
+                <Styled.ProductMainWrapper>
+                  {dinnerPortionProduct.dinnerProduct.product.image && (
+                    <div>
+                      <Image
+                        roundedDataGrid={true}
+                        imageId={
+                          dinnerPortionProduct.dinnerProduct.product.image
                         }
-                      </b>
-                    </Styled.ProductTotalFeature>
-                    <Styled.ProductTotalFeature>
-                      Bł (g): <b>{dinnerPortionProduct.total.fiber.gram}</b>
-                    </Styled.ProductTotalFeature>
-                  </Styled.ProductTotalFeaturesWrapper>
-                </Styled.ProductContentWrapper>
-              </Styled.ProductMainWrapper>
+                      />
+                    </div>
+                  )}
 
-              <Styled.ProductPortionItem>
-                {dinnerPortionProduct.portion} g
-              </Styled.ProductPortionItem>
-            </Styled.ProductWrapper>
-          ))}
-        </Styled.ProductsWrapper>
-      </Styled.PortionWrapper>
+                  <Styled.ProductContentWrapper>
+                    <h3>{dinnerPortionProduct.dinnerProduct.product.name}</h3>
+
+                    <Styled.ProductTotalFeaturesWrapper>
+                      <Styled.ProductTotalFeature>
+                        Kcal: <b>{dinnerPortionProduct.total.kcal}</b>
+                      </Styled.ProductTotalFeature>
+                      <Styled.ProductTotalFeature>
+                        B (g): <b>{dinnerPortionProduct.total.protein.gram}</b>
+                      </Styled.ProductTotalFeature>
+                      <Styled.ProductTotalFeature>
+                        T (g): <b>{dinnerPortionProduct.total.fat.gram}</b>
+                      </Styled.ProductTotalFeature>
+                      <Styled.ProductTotalFeature>
+                        W (g):{" "}
+                        <b>{dinnerPortionProduct.total.carbohydrates.gram}</b>
+                      </Styled.ProductTotalFeature>
+                      <Styled.ProductTotalFeature>
+                        Wp (g):{" "}
+                        <b>
+                          {
+                            dinnerPortionProduct.total.digestableCarbohydrates
+                              .gram
+                          }
+                        </b>
+                      </Styled.ProductTotalFeature>
+                      <Styled.ProductTotalFeature>
+                        Bł (g): <b>{dinnerPortionProduct.total.fiber.gram}</b>
+                      </Styled.ProductTotalFeature>
+                    </Styled.ProductTotalFeaturesWrapper>
+                  </Styled.ProductContentWrapper>
+                </Styled.ProductMainWrapper>
+
+                <Styled.ProductPortionItem>
+                  {dinnerPortionProduct.portion} g
+                </Styled.ProductPortionItem>
+              </Styled.ProductWrapper>
+            ))}
+          </Styled.ProductsWrapper>
+        </Styled.PortionWrapper>
+      </Styled.DinnerWrapper>
     </Styled.ModalContentWrapper>
   );
 };

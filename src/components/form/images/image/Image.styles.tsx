@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 import { IImageProps } from "./Image";
 
 const ImageWrapper = styled.div<
-  Pick<IImageProps, "roundedDataGrid" | "roundedSelect">
+  Pick<IImageProps, "roundedDataGrid" | "roundedSelect" | "roundedLarge">
 >(
   ({
     theme: {
@@ -13,6 +13,7 @@ const ImageWrapper = styled.div<
     },
     roundedDataGrid,
     roundedSelect,
+    roundedLarge,
   }) => css`
     display: flex;
     align-items: center;
@@ -51,6 +52,18 @@ const ImageWrapper = styled.div<
     css`
       width: 8rem;
       height: 8rem;
+      border: none;
+      border-radius: 50%;
+
+      img {
+        border-radius: 50%;
+      }
+    `}
+
+    ${roundedLarge &&
+    css`
+      width: 30rem;
+      height: 30rem;
       border: none;
       border-radius: 50%;
 

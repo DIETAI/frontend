@@ -59,7 +59,6 @@ const InfoModalContent = ({
             </Styled.PortionTotalFeature>
           </Styled.PortionTotalFeaturesWrapper>
         </Styled.PortionTotalWrapper>
-
         <Styled.ProductsWrapper>
           {dinnerPortion.dinnerProducts.map((dinnerPortionProduct) => (
             <Styled.ProductWrapper key={dinnerPortionProduct.dinnerProductId}>

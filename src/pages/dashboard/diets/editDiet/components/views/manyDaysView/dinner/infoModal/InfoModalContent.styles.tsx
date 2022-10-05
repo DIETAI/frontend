@@ -15,6 +15,45 @@ const ModalContentWrapper = styled.div(
   `
 );
 
+const DinnerWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 6rem;
+    width: 100%;
+  `
+);
+
+const DinnerNameWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 4rem;
+    width: 50rem;
+
+    h2 {
+      font-size: ${fontSize.l};
+      font-weight: ${fontWeight.semibold};
+      color: ${palette.common.text};
+    }
+  `
+);
+
 const PortionWrapper = styled.div(
   ({
     theme: {
@@ -26,9 +65,9 @@ const PortionWrapper = styled.div(
     display: flex;
     flex-direction: column;
     gap: 2rem;
-    padding: 3rem;
-    border-radius: ${border.rounded.md};
-    border: 0.1rem dashed ${palette.primary.light};
+    /* padding: 3rem; */
+    /* border-radius: ${border.rounded.md};
+    border: 0.1rem dashed ${palette.primary.light}; */
   `
 );
 
@@ -217,7 +256,6 @@ const PortionTotalFeaturesWrapper = styled.ul(
     gap: 1rem;
     width: 100%;
     flex-wrap: wrap;
-    margin: 2rem 0;
   `
 );
 
@@ -240,6 +278,7 @@ const PortionTotalFeature = styled.li(
     color: ${palette.primary.main};
     font-weight: ${fontWeight.medium};
     font-size: 1.3rem;
+    flex-grow: 1;
   `
 );
 
@@ -378,6 +417,8 @@ const ProductTotalFeature = styled.li(
 
 export {
   ModalContentWrapper,
+  DinnerWrapper,
+  DinnerNameWrapper,
   PortionWrapper,
   PortionHeadingWrapper,
   PortionHeading,

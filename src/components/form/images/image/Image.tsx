@@ -13,9 +13,15 @@ export interface IImageProps {
   imageId: string;
   roundedDataGrid?: boolean;
   roundedSelect?: boolean;
+  roundedLarge?: boolean;
 }
 
-const Image = ({ imageId, roundedDataGrid, roundedSelect }: IImageProps) => {
+const Image = ({
+  imageId,
+  roundedDataGrid,
+  roundedSelect,
+  roundedLarge,
+}: IImageProps) => {
   const { asset, assetLoading, assetError } = getAsset(imageId);
 
   if (assetLoading)
@@ -30,6 +36,7 @@ const Image = ({ imageId, roundedDataGrid, roundedSelect }: IImageProps) => {
     <Styled.ImageWrapper
       roundedDataGrid={roundedDataGrid}
       roundedSelect={roundedSelect}
+      roundedLarge={roundedLarge}
     >
       {asset && <img src={asset.imageURL} />}
     </Styled.ImageWrapper>
