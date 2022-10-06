@@ -16,7 +16,7 @@ export interface IDinnerData {
   mealTypesKind: "soup" | "mainCourse" | "drink";
   description?: string;
   recipe?: string;
-  dietKinds?: string[];
+  dietKindsExclude?: string[];
   tags?: string[];
   preparation_time?: string;
 }

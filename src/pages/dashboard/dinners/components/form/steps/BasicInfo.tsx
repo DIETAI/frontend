@@ -3,6 +3,7 @@ import { FaFolderPlus, FaFolderOpen } from "icons/icons";
 import { useTranslation } from "react-i18next";
 import { useFileLibrary } from "layout/dashboard/context/fileLibrary.context";
 import { useFormContext } from "react-hook-form";
+import { getDietKinds } from "services/getDietKinds";
 
 //components
 import Input from "components/form/input/Input";
@@ -66,6 +67,10 @@ export const preparationTimeOptions = [
 
 const BasicInfo = () => {
   const { t } = useTranslation();
+  const { dietKinds, dietKindsError, dietKindsLoading } = getDietKinds();
+
+  if (dietKindsLoading) return <div>loading...</div>;
+  if (dietKindsError || !dietKinds) return <div>error...</div>;
 
   const openAddFolderModal = () => {
     console.log("dodaj folder");
@@ -102,7 +107,14 @@ const BasicInfo = () => {
         optionRender="type"
         fullWidth
       />
-
+      {/* <MultipleAutocomplete
+        name="dietKindsExclude"
+        label="posiłek wykluczony w rodzajach diety"
+        options={dietKinds as any}
+        optionLabel="name"
+        optionRender="_id"
+        fullWidth
+      /> */}
       <MultipleAutocomplete
         name="mealTypes"
         label={`${t("dinner.form.basic_info.mealTypes")}`}
@@ -119,6 +131,7 @@ const BasicInfo = () => {
         optionRender="type"
         fullWidth
       />
+
       <MultipleAutocomplete
         name="tags"
         label={`${t("dinner.form.basic_info.tags")}`}
@@ -128,12 +141,12 @@ const BasicInfo = () => {
         fullWidth
       />
 
-      <DashedSelect
+      {/* <DashedSelect
         icon={<FaFolderPlus />}
         text={`${t("dinner.form.basic_info.dietKinds")}`}
         onClick={openAddFolderModal}
         fullWidth
-      />
+      /> */}
 
       <DinnerMainImage />
       <DinnerGallery />

@@ -93,6 +93,10 @@ const AddProductModal = ({ closeModal }: IProductModalProps) => {
         // description={t("dinner.form.products.modal.description")}
       />
       {/* {JSON.stringify(watch())} */}
+      {/* <p>
+        dodać informacje (produkt niezalecany w rodzajach diety - łatwostrawna -
+        dodanie wtedy tej wykluczonej diety do posiłku)
+      </p> */}
       <FormProvider {...addProductFormMethods}>
         <form onSubmit={addProduct}>
           <AddProductFormContent />

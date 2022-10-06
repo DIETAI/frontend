@@ -321,11 +321,31 @@ const ItemFeaturesWrapper = styled.div(
   `
 );
 
+const ItemFeature = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    display: flex;
+    gap: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: ${border.rounded.sm};
+    border: 0.1rem solid ${palette.primary.light};
+    /* background: ${palette.common.contrast}; */
+    color: ${palette.primary.main};
+    font-weight: ${fontWeight.medium};
+    font-size: 1.3rem;
+  `
+);
+
 interface ICheckProductDietKind {
   checkDietKindProduct?: boolean;
 }
 
-const ItemFeature = styled.div<ICheckProductDietKind>(
+const ProductWrapper = styled.div<ICheckProductDietKind>(
   ({
     theme: {
       palette,
@@ -344,12 +364,12 @@ const ItemFeature = styled.div<ICheckProductDietKind>(
     font-weight: ${fontWeight.medium};
     font-size: 1.3rem;
 
-    /* ${!checkDietKindProduct &&
+    ${!checkDietKindProduct &&
     css`
       background: #ff000019;
-      border: 0.1rem solid red;
+      border: 0.1rem solid #ff00005e;
       color: red;
-    `} */
+    `}
   `
 );
 
@@ -494,6 +514,7 @@ export {
   ItemContent,
   ItemFeaturesWrapper,
   ItemFeature,
+  ProductWrapper,
   AddDinnerNavFilterWrapper,
   SearchWrapper,
   LoadingWrapper,

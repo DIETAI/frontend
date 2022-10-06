@@ -76,6 +76,7 @@ const EditDinnerForm = ({ dinner }: IDinnerProps) => {
 
   const dinnerDefaultValues = {
     ...dinner,
+    dietKindsExclude: dinner.dietKindsExclude || [],
   };
 
   return (

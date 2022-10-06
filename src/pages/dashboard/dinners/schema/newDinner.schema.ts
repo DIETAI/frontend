@@ -19,7 +19,7 @@ export const basicInfoSchema = yup.object({
     .required("To pole jest wymagane"),
   description: yup.string().default(""),
   recipe: yup.string().default(""),
-  dietKinds: yup.array(yup.string()),
+  dietKindsExclude: yup.array(yup.string().required()).default([]),
   tags: yup.array(yup.string().oneOf(["nogluten", "lactose-free"])), //array(yup.string()) wegetarianski, weganski, bezmleczny, bezglutenowy wyswietlone jako checkbox
   preparation_time: yup.string().required("To pole jest wymagane"), // w zależności od czasu dodać opcje szybki, sredni, wolny
   // image: yup.mixed(),

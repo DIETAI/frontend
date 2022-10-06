@@ -245,16 +245,17 @@ const Dinner = ({
       <Styled.ItemFeaturesWrapper>
         {dinnerProductsQuery.length > 0 &&
           dinnerProductsQuery.map((dinnerProduct) => (
-            <Styled.ItemFeature
+            <Styled.ProductWrapper
               key={dinnerProduct._id}
-              // checkDietKindProduct={
-              //   checkDietKindProduct({
-              //     product: dinnerProduct.product,
-              //     dietEstablishment: dietEstablishment,
-              //   })}
+              checkDietKindProduct={
+                checkDietKindProduct({
+                  product: dinnerProduct.product,
+                  dietEstablishment: dietEstablishment,
+                }).valid
+              }
             >
               {dinnerProduct.product.name}
-            </Styled.ItemFeature>
+            </Styled.ProductWrapper>
           ))}
         {dinnerProductsQuery.length < 1 && (
           <p>
