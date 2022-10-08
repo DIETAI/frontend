@@ -334,6 +334,45 @@ const MealGenerateModal = ({
     closeModal();
   };
 
+  const generateMealFromServer = async () => {
+    setMealGenerateAction({
+      actionType: "Selected meal",
+      actionMessage: "Wybieranie posiłku",
+      loading: true,
+      error: false,
+      errorMessage: "",
+    });
+    try {
+      const generatedMeal = await axios.post(
+        "/api/v1/dietGenerate/meal",
+        { mealId: meal._id },
+        {
+          withCredentials: true,
+        }
+      );
+      console.log({ generatedMeal });
+
+      setMealGenerateAction({
+        actionType: "",
+        actionMessage: "",
+        loading: false,
+        error: false,
+        errorMessage: "",
+      });
+
+      dispatch(addDietMealGenerate(generatedMeal.data.generatedMealObj));
+    } catch (e) {
+      console.log(e);
+      setMealGenerateAction({
+        actionType: "",
+        actionMessage: "",
+        loading: false,
+        error: true,
+        errorMessage: "Nie udało się wygenerować posiłku",
+      });
+    }
+  };
+
   return (
     <Styled.GenerateMealModalContainer>
       <Heading
@@ -347,9 +386,12 @@ const MealGenerateModal = ({
           <Styled.ContentWrapper>
             <img src={GenerateMealImage} />
             <Styled.ContentButtonsWrapper>
-              <Button type="button" onClick={handleGenerateDietMeal as any}>
+              <Button type="button" onClick={generateMealFromServer as any}>
                 generuj posiłek
               </Button>
+              {/* <Button type="button" onClick={handleGenerateDietMeal as any}>
+                generuj posiłek
+              </Button> */}
               <Button type="button" onClick={closeModal} variant="secondary">
                 anuluj
               </Button>
