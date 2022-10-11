@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useFormContext, useFieldArray } from "react-hook-form";
 import { getSubscriptionPlan } from "services/getSubscriptionPlans";
+import axios from "utils/api";
 
 //styles
 import * as Styled from "./Preferences.styles";
@@ -15,6 +16,7 @@ import { getDiet } from "services/getDiets";
 import { useParams } from "react-router";
 import { getClient } from "services/getClients";
 import { getProduct } from "services/getProducts";
+import Button from "components/form/button/Button";
 
 const preferencesModalTypeOptions = [
   { id: 1, type: "dinner", name: "potrawy" },
@@ -54,6 +56,10 @@ const Preferences = () => {
     "advancedPreferences"
   ) as IDietGeneratePreferencesSchema["advancedPreferences"];
 
+  const days = watch("days") as string[];
+  const meals = watch("meals");
+  const generateMealsSettings = watch("generateMealsSettings");
+
   // const preferencesSettingType = watch(
   //   "preferencesSettingType"
   // ) as IDietGeneratePreferencesSchema["preferencesSettingType"];
@@ -86,6 +92,56 @@ const Preferences = () => {
   };
   console.log({ diet });
 
+  const generateDayFromServer = async () => {
+    // setMealGenerateAction({
+    //   actionType: "Selected meal",
+    //   actionMessage: "Wybieranie posiłku",
+    //   loading: true,
+    //   error: false,
+    //   errorMessage: "",
+    // });
+
+    const generatedDays = await Promise.all(
+      days.map(async (day) => {
+        const generateArgs = {
+          currentDayId: day,
+          mealsToGenerate: meals,
+          generateMealsSettings: generateMealsSettings,
+        };
+
+        try {
+          const generatedDay = await axios.post(
+            "/api/v1/dietGenerate/day",
+            generateArgs,
+            {
+              withCredentials: true,
+            }
+          );
+          console.log({ generatedDay, day });
+
+          // setMealGenerateAction({
+          //   actionType: "",
+          //   actionMessage: "",
+          //   loading: false,
+          //   error: false,
+          //   errorMessage: "",
+          // });
+
+          // dispatch(addDietMealGenerate(generatedMeal.data.generatedMealObj));
+        } catch (e) {
+          console.log(e);
+          // setMealGenerateAction({
+          //   actionType: "",
+          //   actionMessage: "",
+          //   loading: false,
+          //   error: true,
+          //   errorMessage: "Nie udało się wygenerować posiłku",
+          // });
+        }
+      })
+    );
+  };
+
   return (
     <Styled.PreferencesWrapper>
       {/* <p>
@@ -94,6 +150,9 @@ const Preferences = () => {
       </p> */}
       {/* <Styled.OptionsWrapper> */}
       <h3>rodzaj diety</h3>
+      <Button onClick={generateDayFromServer as any} type="button">
+        generuj dietę z serwera
+      </Button>
       <div>
         lubiane produkty:{" "}
         {client?.likedProducts?.map((productId) => (
