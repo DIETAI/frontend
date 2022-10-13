@@ -107,11 +107,11 @@ const GeneratedDietModal = ({ closeModal }: { closeModal: () => void }) => {
 
     const newDietDietMeals = await Promise.all(
       generatedDays.map(async (day) => {
-        const filteredNewMeals = day.meals.filter(
+        const filteredNewMeals = day.meals?.filter(
           (meal) =>
             meal.generatedType === "new" ||
             meal.generatedType === "addedChangePortion"
-        );
+        ) as IDietGenerateMeal[];
 
         console.log({ filteredNewMeals });
 
@@ -264,13 +264,13 @@ const GeneratedDietModal = ({ closeModal }: { closeModal: () => void }) => {
     console.log("generate diet");
   };
 
-  if (generateDietLoading)
-    return (
-      <Styled.LoadingWrapper>
-        <ReactLoading type="spin" color="blue" height={50} width={50} />
-        <h3>generowanie diety</h3>
-      </Styled.LoadingWrapper>
-    );
+  // if (generateDietLoading)
+  //   return (
+  //     <Styled.LoadingWrapper>
+  //       <ReactLoading type="spin" color="blue" height={50} width={50} />
+  //       <h3>generowanie diety</h3>
+  //     </Styled.LoadingWrapper>
+  //   );
 
   return (
     <Styled.GeneratedDietModalContainer>

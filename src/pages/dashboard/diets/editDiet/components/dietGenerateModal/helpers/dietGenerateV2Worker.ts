@@ -331,6 +331,7 @@ addEventListener("message", (e: MessageEvent<IDietGenerateWorker>) => {
       });
 
       const dietDayGenerateObj: IDietGenerateDay = {
+        action: "generated",
         _id: currentDayId,
         total: {
           kcal: roundValue(
@@ -384,6 +385,7 @@ addEventListener("message", (e: MessageEvent<IDietGenerateWorker>) => {
       });
 
       const dietDayGenerateObj: IDietGenerateDay = {
+        action: "generated",
         _id: currentDayId,
         total: {
           kcal: roundValue(
@@ -464,6 +466,7 @@ addEventListener("message", (e: MessageEvent<IDietGenerateWorker>) => {
       console.log({ allMeals });
 
       const dietDayGenerateObj: IDietGenerateDay = {
+        action: "generated",
         _id: currentDayId,
         total: {
           kcal: roundValue(

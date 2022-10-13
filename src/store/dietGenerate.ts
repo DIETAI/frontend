@@ -42,8 +42,9 @@ export interface IDietGenerateMeal {
 }
 
 export interface IDietGenerateDay {
+  action: "loading" | "error" | "generated";
   _id: string;
-  total: {
+  total?: {
     kcal: number;
     protein: {
       gram: number;
@@ -55,7 +56,7 @@ export interface IDietGenerateDay {
       gram: number;
     };
   };
-  meals: IDietGenerateMeal[];
+  meals?: IDietGenerateMeal[];
 }
 
 export interface IDietGenerate {
@@ -81,6 +82,23 @@ export const dietGenerateSlice = createSlice({
     ) => {
       state.generatedDays = action.payload;
     },
+    addDietDaysToGenerate: (
+      state,
+      action: PayloadAction<
+        Pick<IDietGenerate["generatedDays"][0], "_id" | "action">[]
+      >
+    ) => {
+      state.generatedDays = action.payload;
+    }, //from server
+    addDietGenerateDay: (
+      state,
+      action: PayloadAction<IDietGenerate["generatedDays"][0]>
+    ) => {
+      const addedDays = state.generatedDays.filter(
+        (day) => day._id !== action.payload._id
+      );
+      state.generatedDays = [...addedDays, action.payload];
+    }, //from server
     removeDietGenerate: (state) => {
       state.generatedDays = [];
     },
@@ -88,7 +106,12 @@ export const dietGenerateSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { addDietGenerateAction, addDietGenerate, removeDietGenerate } =
-  dietGenerateSlice.actions;
+export const {
+  addDietGenerateAction,
+  addDietGenerate,
+  removeDietGenerate,
+  addDietGenerateDay,
+  addDietDaysToGenerate,
+} = dietGenerateSlice.actions;
 
 export default dietGenerateSlice.reducer;

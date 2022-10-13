@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useParams } from "react-router";
 import { AnimatePresence } from "framer-motion";
 import { procentClasses } from "pages/dashboard/diets/editDiet/utils/procentClasses";
+import ReactLoading from "react-loading";
 
 //store
 import { RootState } from "store/store";
@@ -15,7 +16,7 @@ import {
   IDietDayQueryData,
   IDietQueryData,
 } from "interfaces/diet/dietQuery.interfaces";
-import { IDietGenerate } from "store/dietGenerate";
+import { IDietGenerate, IDietGenerateMeal } from "store/dietGenerate";
 
 //components
 import Image from "components/form/images/image/Image";
@@ -35,9 +36,7 @@ const GeneratedDays = () => {
 
   if (!dietQuery) return null;
 
-  const mealEstablishment = (
-    meal: IDietGenerate["generatedDays"][0]["meals"][0]
-  ) => {
+  const mealEstablishment = (meal: IDietGenerateMeal) => {
     const mealEst = dietQuery.establishment.meals.filter(
       ({ type }) => type === meal.type
     )[0];
@@ -54,101 +53,115 @@ const GeneratedDays = () => {
           <Styled.DayHeading>
             <h2>Dzień {dayIndex + 1}</h2>
           </Styled.DayHeading>
-          <Styled.DayTotalWrapper>
-            <SumModal
-              macroType="kcal"
-              totalValue={day.total.kcal}
-              establishmentValue={dietQuery.establishment.kcal}
-            />
-            <SumModal
-              macroType="B"
-              totalValue={day.total.protein.gram}
-              establishmentValue={dietQuery.establishment.protein.gram}
-            />
-            <SumModal
-              macroType="T"
-              totalValue={day.total.fat.gram}
-              establishmentValue={dietQuery.establishment.fat.gram}
-            />
-            <SumModal
-              macroType="W"
-              totalValue={day.total.carbohydrates.gram}
-              establishmentValue={dietQuery.establishment.carbohydrates.gram}
-            />
-          </Styled.DayTotalWrapper>
-          <Styled.DayMealsWrapper>
-            {day.meals.length > 0 &&
-              day.meals.map((meal) => (
-                <Styled.MealWrapper
-                  key={meal._id}
-                  generatedType={meal.generatedType}
-                >
-                  <Styled.MealHeading>
-                    <h3>{meal.name}</h3>
-                    <h3>8.00</h3>
-                  </Styled.MealHeading>
+          {day.action === "loading" && (
+            <Styled.DayLoadingWrapper>
+              <ReactLoading type="spin" color="blue" height={50} width={50} />
+              {/* <h3>generowanie diety</h3> */}
+            </Styled.DayLoadingWrapper>
+          )}
 
-                  <Styled.MealTotalWrapper>
-                    <SumModal
-                      macroType="kcal"
-                      totalValue={meal.total.kcal}
-                      establishmentValue={mealEstablishment(meal).kcal}
-                    />
+          {day.action === "generated" && day.total && day.meals && (
+            <>
+              <Styled.DayTotalWrapper>
+                <SumModal
+                  macroType="kcal"
+                  totalValue={day.total.kcal}
+                  establishmentValue={dietQuery.establishment.kcal}
+                />
+                <SumModal
+                  macroType="B"
+                  totalValue={day.total.protein.gram}
+                  establishmentValue={dietQuery.establishment.protein.gram}
+                />
+                <SumModal
+                  macroType="T"
+                  totalValue={day.total.fat.gram}
+                  establishmentValue={dietQuery.establishment.fat.gram}
+                />
+                <SumModal
+                  macroType="W"
+                  totalValue={day.total.carbohydrates.gram}
+                  establishmentValue={
+                    dietQuery.establishment.carbohydrates.gram
+                  }
+                />
+              </Styled.DayTotalWrapper>
+              <Styled.DayMealsWrapper>
+                {day.meals.length > 0 &&
+                  day.meals.map((meal) => (
+                    <Styled.MealWrapper
+                      key={meal._id}
+                      generatedType={meal.generatedType}
+                    >
+                      <Styled.MealHeading>
+                        <h3>{meal.name}</h3>
+                        <h3>8.00</h3>
+                      </Styled.MealHeading>
 
-                    <p>
-                      B:
-                      <b>{meal.total.protein.gram}</b>
-                    </p>
-                    <p>
-                      T:
-                      <b>{meal.total.fat.gram}</b>
-                    </p>
-                    <p>
-                      W: <b>{meal.total.carbohydrates.gram}</b>
-                    </p>
-                  </Styled.MealTotalWrapper>
+                      <Styled.MealTotalWrapper>
+                        <SumModal
+                          macroType="kcal"
+                          totalValue={meal.total.kcal}
+                          establishmentValue={mealEstablishment(meal).kcal}
+                        />
 
-                  {meal.addedMealObj &&
-                    meal.addedMealObj.dinners.map((dietDinner) => (
-                      <AddedDietDinner
-                        key={dietDinner._id}
-                        dietDinner={dietDinner}
-                      />
-                    ))}
+                        <p>
+                          B:
+                          <b>{meal.total.protein.gram}</b>
+                        </p>
+                        <p>
+                          T:
+                          <b>{meal.total.fat.gram}</b>
+                        </p>
+                        <p>
+                          W: <b>{meal.total.carbohydrates.gram}</b>
+                        </p>
+                      </Styled.MealTotalWrapper>
 
-                  {meal.generatedDinners &&
-                    meal.generatedDinners.map((generateDinner) => (
-                      <Styled.DietDinnerWrapper key={generateDinner._id}>
-                        <Styled.DietDinner>
-                          {generateDinner.dinnerImage && (
-                            <div>
-                              <Image
-                                roundedDataGrid={true}
-                                imageId={generateDinner.dinnerImage}
-                              />
-                            </div>
-                          )}
-                          <h4>{generateDinner.dinnerName}</h4>
-                        </Styled.DietDinner>
-                        <Styled.DietDinnerTotalWrapper>
-                          <p>
-                            B: <b>{generateDinner.total.protein.gram}</b>
-                          </p>
-                          <p>
-                            T: <b>{generateDinner.total.fat.gram}</b>
-                          </p>
-                          <p>
-                            W: <b>{generateDinner.total.carbohydrates.gram}</b>
-                          </p>
-                          <p>
-                            kcal: <b>{generateDinner.total.kcal}</b>
-                          </p>
-                        </Styled.DietDinnerTotalWrapper>
-                      </Styled.DietDinnerWrapper>
-                    ))}
-                </Styled.MealWrapper>
-              ))}
-          </Styled.DayMealsWrapper>
+                      {meal.addedMealObj &&
+                        meal.addedMealObj.dinners.map((dietDinner) => (
+                          <AddedDietDinner
+                            key={dietDinner._id}
+                            dietDinner={dietDinner}
+                          />
+                        ))}
+
+                      {meal.generatedDinners &&
+                        meal.generatedDinners.map((generateDinner) => (
+                          <Styled.DietDinnerWrapper key={generateDinner._id}>
+                            <Styled.DietDinner>
+                              {generateDinner.dinnerImage && (
+                                <div>
+                                  <Image
+                                    roundedDataGrid={true}
+                                    imageId={generateDinner.dinnerImage}
+                                  />
+                                </div>
+                              )}
+                              <h4>{generateDinner.dinnerName}</h4>
+                            </Styled.DietDinner>
+                            <Styled.DietDinnerTotalWrapper>
+                              <p>
+                                B: <b>{generateDinner.total.protein.gram}</b>
+                              </p>
+                              <p>
+                                T: <b>{generateDinner.total.fat.gram}</b>
+                              </p>
+                              <p>
+                                W:{" "}
+                                <b>{generateDinner.total.carbohydrates.gram}</b>
+                              </p>
+                              <p>
+                                kcal: <b>{generateDinner.total.kcal}</b>
+                              </p>
+                            </Styled.DietDinnerTotalWrapper>
+                          </Styled.DietDinnerWrapper>
+                        ))}
+                    </Styled.MealWrapper>
+                  ))}
+              </Styled.DayMealsWrapper>
+            </>
+          )}
         </Styled.DayWrapper>
       ))}
     </Styled.DaysContainer>

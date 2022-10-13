@@ -36,7 +36,13 @@ import { getAllDietMeals } from "services/getDietMeals";
 //store
 import { RootState } from "store/store";
 import { useSelector, useDispatch } from "react-redux";
-import { addDietGenerate, addDietGenerateAction } from "store/dietGenerate";
+import {
+  addDietDaysToGenerate,
+  addDietGenerate,
+  addDietGenerateAction,
+  addDietGenerateDay,
+  IDietGenerateDay,
+} from "store/dietGenerate";
 import { IDietEstablishmentData } from "interfaces/dietEstablishment.interfaces";
 
 type DietGenerate = IDietGenerateDaysSchema &
@@ -153,50 +159,85 @@ const MultiStepContainer = ({
 
     closeModal();
     dispatch(addDietGenerateAction(true));
+
+    const dietActionState: Pick<IDietGenerateDay, "_id" | "action">[] =
+      data.days.map((day) => ({
+        _id: day,
+        action: "loading",
+      }));
+
+    dispatch(addDietDaysToGenerate(dietActionState));
     // dispatch(addDaysGenerate(initialStateGenerateDays));
 
-    const generatedDiet = generateDietV2({
-      days: data.days,
-      generateMealsSettings: data.generateMealsSettings as any,
-      meals: data.meals as any,
-      allDietMeals: dietMeals,
-      dispatch,
-      addDietGenerate,
-      addDietGenerateAction,
-    });
+    for (const day of data.days) {
+      const generateArgs = {
+        currentDayId: day,
+        mealsToGenerate: data.meals,
+        generateMealsSettings: data.generateMealsSettings,
+      };
 
-    // const generatedDiet = await generateDiet({
+      try {
+        const generatedDay = await axios.post(
+          "/api/v1/dietGenerate/day",
+          generateArgs,
+          {
+            withCredentials: true,
+          }
+        );
+        console.log({ generatedDay, day });
+        const newDay: IDietGenerateDay = {
+          ...generatedDay.data,
+          action: "generated",
+        };
+
+        dispatch(addDietGenerateDay(newDay));
+        dispatch(addDietGenerateAction(false));
+      } catch (e) {
+        console.log(e);
+        const errorDay: IDietGenerateDay = {
+          _id: day,
+          action: "error",
+        };
+        dispatch(addDietGenerateDay(errorDay));
+        dispatch(addDietGenerateAction(false));
+      }
+    }
+
+    // const generatedDays = await Promise.all(
+    //   data.days.map(async (day) => {
+    //     const generateArgs = {
+    //       currentDayId: day,
+    //       mealsToGenerate: data.meals,
+    //       generateMealsSettings: data.generateMealsSettings,
+    //     };
+
+    //     try {
+    //       const generatedDay = await axios.post(
+    //         "/api/v1/dietGenerate/day",
+    //         generateArgs,
+    //         {
+    //           withCredentials: true,
+    //         }
+    //       );
+    //       console.log({ generatedDay, day });
+    //       dispatch(addDietGenerateDay(generatedDay.data));
+    //       dispatch(addDietGenerateAction(false));
+    //     } catch (e) {
+    //       console.log(e);
+    //       dispatch(addDietGenerateAction(false));
+    //     }
+    //   })
+    // );
+
+    // const generatedDiet = generateDietV2({
     //   days: data.days,
     //   generateMealsSettings: data.generateMealsSettings as any,
     //   meals: data.meals as any,
     //   allDietMeals: dietMeals,
     //   dispatch,
     //   addDietGenerate,
-    //   dietGenerateAction,
-    //   setDietGenerateAction,
     //   addDietGenerateAction,
     // });
-
-    // console.log({ generatedDiet: generatedDiet });
-
-    //generate diet algorithm
-
-    // try {
-    //   const stripeResp: AxiosResponse<Stripe.Checkout.Session> =
-    //     await axios.post(`/api/v1/transactions`, data, {
-    //       withCredentials: true,
-    //     });
-    //   console.log({ stripeResp });
-    //   const { id } = stripeResp.data;
-    //   const stripe = await stripePromise;
-
-    //   if (stripe) {
-    //     const { error } = await stripe.redirectToCheckout({ sessionId: id });
-    //     console.log(error);
-    //   }
-    // } catch (e) {
-    //   console.log(e);
-    // }
   };
 
   // check isValid after change step

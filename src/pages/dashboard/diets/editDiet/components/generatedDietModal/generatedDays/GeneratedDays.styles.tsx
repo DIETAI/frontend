@@ -48,6 +48,31 @@ const DayWrapper = styled.div(
   `
 );
 
+const DayLoadingWrapper = styled(motion.div)(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 2rem;
+    width: 100%;
+    height: 50rem;
+
+    h3 {
+      color: ${palette.common.text};
+      font-size: ${fontSize.m};
+      font-weight: ${fontWeight.semibold};
+    }
+  `
+);
+
 const DayTotalWrapper = styled.div(
   ({
     theme: {
@@ -432,4 +457,5 @@ export {
   DietDinnerWrapper,
   DietDinner,
   DietDinnerTotalWrapper,
+  DayLoadingWrapper,
 };

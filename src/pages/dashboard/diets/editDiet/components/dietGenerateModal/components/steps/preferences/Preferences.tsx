@@ -150,9 +150,9 @@ const Preferences = () => {
       </p> */}
       {/* <Styled.OptionsWrapper> */}
       <h3>rodzaj diety</h3>
-      <Button onClick={generateDayFromServer as any} type="button">
+      {/* <Button onClick={generateDayFromServer as any} type="button">
         generuj dietę z serwera
-      </Button>
+      </Button> */}
       <div>
         lubiane produkty:{" "}
         {client?.likedProducts?.map((productId) => (
