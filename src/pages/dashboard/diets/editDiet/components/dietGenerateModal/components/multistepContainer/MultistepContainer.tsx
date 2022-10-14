@@ -21,7 +21,7 @@ import {
 import {
   IDietGenerateDaysSchema,
   IDietGenerateMealsSchema,
-  IDietGeneratePreferencesSchema,
+  // IDietGeneratePreferencesSchema,
 } from "../../schema/dietGenerate.schema";
 
 //helpers
@@ -44,10 +44,10 @@ import {
   IDietGenerateDay,
 } from "store/dietGenerate";
 import { IDietEstablishmentData } from "interfaces/dietEstablishment.interfaces";
+import { getDietDay } from "services/getDietDays";
 
-type DietGenerate = IDietGenerateDaysSchema &
-  IDietGenerateMealsSchema &
-  IDietGeneratePreferencesSchema;
+type DietGenerate = IDietGenerateDaysSchema & IDietGenerateMealsSchema;
+// IDietGeneratePreferencesSchema;
 
 export interface IDietGenerateAction {
   dayId: string;
@@ -160,11 +160,22 @@ const MultiStepContainer = ({
     closeModal();
     dispatch(addDietGenerateAction(true));
 
-    const dietActionState: Pick<IDietGenerateDay, "_id" | "action">[] =
-      data.days.map((day) => ({
-        _id: day,
-        action: "loading",
-      }));
+    const dietActionState: Pick<
+      IDietGenerateDay,
+      "_id" | "action" | "order"
+    >[] = await Promise.all(
+      data.days.map(async (day) => {
+        const currentDay = await axios.get(`/api/v1/dietDays/${day}`, {
+          withCredentials: true,
+        });
+
+        return {
+          _id: day,
+          order: currentDay.data.order,
+          action: "loading",
+        };
+      })
+    );
 
     dispatch(addDietDaysToGenerate(dietActionState));
     // dispatch(addDaysGenerate(initialStateGenerateDays));

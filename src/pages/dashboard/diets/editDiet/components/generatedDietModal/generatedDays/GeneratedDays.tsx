@@ -51,7 +51,7 @@ const GeneratedDays = () => {
       {generatedDays.map((day, dayIndex) => (
         <Styled.DayWrapper key={day._id}>
           <Styled.DayHeading>
-            <h2>Dzień {dayIndex + 1}</h2>
+            <h2>Dzień {day.order}</h2>
           </Styled.DayHeading>
           {day.action === "loading" && (
             <Styled.DayLoadingWrapper>

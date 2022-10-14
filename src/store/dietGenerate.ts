@@ -44,6 +44,7 @@ export interface IDietGenerateMeal {
 export interface IDietGenerateDay {
   action: "loading" | "error" | "generated";
   _id: string;
+  order?: number;
   total?: {
     kcal: number;
     protein: {
@@ -85,10 +86,12 @@ export const dietGenerateSlice = createSlice({
     addDietDaysToGenerate: (
       state,
       action: PayloadAction<
-        Pick<IDietGenerate["generatedDays"][0], "_id" | "action">[]
+        Pick<IDietGenerate["generatedDays"][0], "_id" | "action" | "order">[]
       >
     ) => {
-      state.generatedDays = action.payload;
+      state.generatedDays = [...action.payload].sort(
+        (a, b) => Number(a.order) - Number(b.order)
+      );
     }, //from server
     addDietGenerateDay: (
       state,
@@ -97,7 +100,10 @@ export const dietGenerateSlice = createSlice({
       const addedDays = state.generatedDays.filter(
         (day) => day._id !== action.payload._id
       );
-      state.generatedDays = [...addedDays, action.payload];
+
+      state.generatedDays = [...addedDays, action.payload].sort(
+        (a, b) => Number(a.order) - Number(b.order)
+      );
     }, //from server
     removeDietGenerate: (state) => {
       state.generatedDays = [];

@@ -48,55 +48,55 @@ export const dietGenerateMealsSchema = yup.object({
   //   .min(1, "Wybierz posiłki"),
 });
 
-export const dietGeneratePreferencesSchema = yup.object({
-  // preferencesSettingType: yup
-  //   .string()
-  //   .oneOf(["custom", "default"])
-  //   .required("To pole jest wymagane")
-  //   .default("default"),
-  // preferencesDinners: yup.array(
-  //   yup.object({
-  //     dinnerId: yup.string().required("To pole jest wymagane"),
-  //   })
-  // ),
-  // basicPreferences: yup
-  //   .array(
-  //     yup.object({
-  //       modelType: yup
-  //         .string()
-  //         .oneOf([
-  //           "dinner",
-  //           "dinnerGroup",
-  //           "product",
-  //           "productGroup",
-  //           "supplement",
-  //         ])
-  //         .required("To pole jest wymagane"),
-  //       product: yup.string().required("To pole jest wymagane"), //dowolna
-  //       action: yup
-  //         .string()
-  //         .oneOf(["exclude", "always", "often", "rarely"])
-  //         .required("To pole jest wymagane"),
-  //       meals: yup.array(
-  //         yup
-  //           .string()
-  //           .oneOf([
-  //             "all",
-  //             "breakfast",
-  //             "second_breakfast",
-  //             "lunch",
-  //             "snack",
-  //             "dinner",
-  //           ])
-  //       ),
-  //     })
-  //   )
-  //   .default([]),
-  advancedPreferences: yup.object({
-    cheapMeals: yup.boolean().default(false),
-    quickMeals: yup.boolean().default(false),
-  }),
-});
+// export const dietGeneratePreferencesSchema = yup.object({
+//   // preferencesSettingType: yup
+//   //   .string()
+//   //   .oneOf(["custom", "default"])
+//   //   .required("To pole jest wymagane")
+//   //   .default("default"),
+//   // preferencesDinners: yup.array(
+//   //   yup.object({
+//   //     dinnerId: yup.string().required("To pole jest wymagane"),
+//   //   })
+//   // ),
+//   // basicPreferences: yup
+//   //   .array(
+//   //     yup.object({
+//   //       modelType: yup
+//   //         .string()
+//   //         .oneOf([
+//   //           "dinner",
+//   //           "dinnerGroup",
+//   //           "product",
+//   //           "productGroup",
+//   //           "supplement",
+//   //         ])
+//   //         .required("To pole jest wymagane"),
+//   //       product: yup.string().required("To pole jest wymagane"), //dowolna
+//   //       action: yup
+//   //         .string()
+//   //         .oneOf(["exclude", "always", "often", "rarely"])
+//   //         .required("To pole jest wymagane"),
+//   //       meals: yup.array(
+//   //         yup
+//   //           .string()
+//   //           .oneOf([
+//   //             "all",
+//   //             "breakfast",
+//   //             "second_breakfast",
+//   //             "lunch",
+//   //             "snack",
+//   //             "dinner",
+//   //           ])
+//   //       ),
+//   //     })
+//   //   )
+//   //   .default([]),
+//   advancedPreferences: yup.object({
+//     cheapMeals: yup.boolean().default(false),
+//     quickMeals: yup.boolean().default(false),
+//   }),
+// });
 
 export type IDietGenerateDaysSchema = yup.InferType<
   typeof dietGenerateDaysSchema
@@ -104,6 +104,6 @@ export type IDietGenerateDaysSchema = yup.InferType<
 export type IDietGenerateMealsSchema = yup.InferType<
   typeof dietGenerateMealsSchema
 >;
-export type IDietGeneratePreferencesSchema = yup.InferType<
-  typeof dietGeneratePreferencesSchema
->;
+// export type IDietGeneratePreferencesSchema = yup.InferType<
+//   typeof dietGeneratePreferencesSchema
+// >;

@@ -8,7 +8,7 @@ import * as Styled from "./Preferences.styles";
 
 //components
 import CheckBoxWrapper from "components/checkbox/CheckboxWrapper";
-import { IDietGeneratePreferencesSchema } from "../../../schema/dietGenerate.schema";
+// import { IDietGeneratePreferencesSchema } from "../../../schema/dietGenerate.schema";
 import Input from "components/form/input/Input";
 import Autocomplete from "components/form/autocomplete/Autocomplete";
 import MultipleAutocomplete from "components/form/multipleAutocomplete/MultipleAutocomplete";
@@ -52,9 +52,9 @@ const Preferences = () => {
 
   const { client } = getClient(diet.clientId);
 
-  const advancedPreferences = watch(
-    "advancedPreferences"
-  ) as IDietGeneratePreferencesSchema["advancedPreferences"];
+  // const advancedPreferences = watch(
+  //   "advancedPreferences"
+  // ) as IDietGeneratePreferencesSchema["advancedPreferences"];
 
   const days = watch("days") as string[];
   const meals = watch("meals");
@@ -84,12 +84,12 @@ const Preferences = () => {
   //   append({ modelType: "", product: "", action: "", meals: [] });
   // };
 
-  const checkCheapMeals = () => {
-    setValue("advancedPreferences.cheapMeals", !advancedPreferences.cheapMeals);
-  };
-  const checkQuickMeals = () => {
-    setValue("advancedPreferences.quickMeals", !advancedPreferences.quickMeals);
-  };
+  // const checkCheapMeals = () => {
+  //   setValue("advancedPreferences.cheapMeals", !advancedPreferences.cheapMeals);
+  // };
+  // const checkQuickMeals = () => {
+  //   setValue("advancedPreferences.quickMeals", !advancedPreferences.quickMeals);
+  // };
   console.log({ diet });
 
   const generateDayFromServer = async () => {
@@ -168,7 +168,7 @@ const Preferences = () => {
       (wukluczyć nieodpowiednie produkty, zwiększyć możliwość losowania jeśli
       produkt występuje częściej lub jest lubiany)
       <h4>częstotliwość występowania produktów w diecie</h4>
-      <Styled.Option>
+      {/* <Styled.Option>
         <CheckBoxWrapper
           onClick={checkCheapMeals}
           checked={advancedPreferences.cheapMeals}
@@ -181,7 +181,7 @@ const Preferences = () => {
           checked={advancedPreferences.quickMeals}
         />
         <span>szybkie posiłki</span>
-      </Styled.Option>
+      </Styled.Option> */}
       {/* </Styled.OptionsWrapper> */}
       {/* <button type="button" onClick={addBasicPreference}>
         dodaj własną preferencję

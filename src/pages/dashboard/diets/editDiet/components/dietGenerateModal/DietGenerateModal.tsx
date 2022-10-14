@@ -15,7 +15,7 @@ import { FaCalendarPlus } from "icons/icons";
 import {
   dietGenerateDaysSchema,
   dietGenerateMealsSchema,
-  dietGeneratePreferencesSchema,
+  // dietGeneratePreferencesSchema,
 } from "./schema/dietGenerate.schema";
 
 // //styles
@@ -27,7 +27,7 @@ import { IDietEstablishmentData } from "interfaces/dietEstablishment.interfaces"
 
 const defaultValues = dietGenerateDaysSchema
   .concat(dietGenerateMealsSchema)
-  .concat(dietGeneratePreferencesSchema)
+  // .concat(dietGeneratePreferencesSchema)
   .cast({});
 
 export type IDietGenerateValues = typeof defaultValues;

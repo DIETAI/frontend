@@ -17,7 +17,7 @@ import * as Step from "../components/steps";
 import {
   dietGenerateDaysSchema,
   dietGenerateMealsSchema,
-  dietGeneratePreferencesSchema,
+  // dietGeneratePreferencesSchema,
 } from "../schema/dietGenerate.schema";
 
 export const dietGenerateSteps = [
@@ -35,11 +35,11 @@ export const dietGenerateSteps = [
     step: <Step.Meals />,
     validationSchema: dietGenerateMealsSchema,
   },
-  {
-    id: 3,
-    icon: <FaHeart />,
-    name: "preferencje",
-    step: <Step.Preferences />,
-    validationSchema: dietGeneratePreferencesSchema,
-  },
+  // {
+  //   id: 3,
+  //   icon: <FaHeart />,
+  //   name: "preferencje",
+  //   step: <Step.Preferences />,
+  //   validationSchema: dietGeneratePreferencesSchema,
+  // },
 ];
