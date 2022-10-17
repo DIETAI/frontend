@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { useParams } from "react-router";
 import { AnimatePresence } from "framer-motion";
-import { procentClasses } from "pages/dashboard/diets/editDiet/utils/procentClasses";
+import {
+  procentClasses,
+  percentageRangeClasses,
+} from "pages/dashboard/diets/editDiet/utils/procentClasses";
 import ReactLoading from "react-loading";
 
 //store
@@ -72,6 +75,47 @@ const GeneratedDays = () => {
                   macroType="B"
                   totalValue={day.total.protein.gram}
                   establishmentValue={dietQuery.establishment.protein.gram}
+                  establishmentMinGram={
+                    dietQuery.establishment.protein.min_gram
+                  }
+                  establishmentMaxGram={
+                    dietQuery.establishment.protein.max_gram
+                  }
+                  optionType="percentageRange"
+                />
+                <SumModal
+                  macroType="T"
+                  totalValue={day.total.fat.gram}
+                  establishmentValue={dietQuery.establishment.fat.gram}
+                  establishmentMinGram={dietQuery.establishment.fat.min_gram}
+                  establishmentMaxGram={dietQuery.establishment.fat.max_gram}
+                  optionType="percentageRange"
+                />
+                <SumModal
+                  macroType="W"
+                  totalValue={day.total.carbohydrates.gram}
+                  establishmentValue={
+                    dietQuery.establishment.carbohydrates.gram
+                  }
+                  establishmentMinGram={
+                    dietQuery.establishment.carbohydrates.min_gram
+                  }
+                  establishmentMaxGram={
+                    dietQuery.establishment.carbohydrates.max_gram
+                  }
+                  optionType="percentageRange"
+                />
+              </Styled.DayTotalWrapper>
+              {/* <Styled.DayTotalWrapper>
+                <SumModal
+                  macroType="kcal"
+                  totalValue={day.total.kcal}
+                  establishmentValue={dietQuery.establishment.kcal}
+                />
+                <SumModal
+                  macroType="B"
+                  totalValue={day.total.protein.gram}
+                  establishmentValue={dietQuery.establishment.protein.gram}
                 />
                 <SumModal
                   macroType="T"
@@ -85,7 +129,7 @@ const GeneratedDays = () => {
                     dietQuery.establishment.carbohydrates.gram
                   }
                 />
-              </Styled.DayTotalWrapper>
+              </Styled.DayTotalWrapper> */}
               <Styled.DayMealsWrapper>
                 {day.meals.length > 0 &&
                   day.meals.map((meal) => (
@@ -201,24 +245,42 @@ const AddedDietDinner = ({ dietDinner }: { dietDinner: IDietMealDinner }) => {
   );
 };
 
+type ISumModalEstablishmentOption = "perfectProcent" | "percentageRange";
+
 export const SumModal = ({
   totalValue,
   establishmentValue,
   macroType,
+  establishmentMinGram,
+  establishmentMaxGram,
+  optionType,
 }: {
   totalValue: number;
   establishmentValue: number;
   macroType: string;
+  establishmentMinGram?: number;
+  establishmentMaxGram?: number;
+  optionType?: ISumModalEstablishmentOption;
 }) => {
   const [sumModalOpen, setSumModalOpen] = useState(false);
+  const [option, setOption] =
+    useState<ISumModalEstablishmentOption>("percentageRange");
   return (
     <Styled.SumItem
       onMouseEnter={() => setSumModalOpen(true)}
       onMouseLeave={() => setSumModalOpen(false)}
-      variant={procentClasses({
-        establishment: establishmentValue,
-        total: totalValue,
-      })}
+      variant={
+        optionType === "percentageRange"
+          ? percentageRangeClasses({
+              value: totalValue,
+              minValue: establishmentMinGram || 0,
+              maxValue: establishmentMaxGram || 0,
+            })
+          : procentClasses({
+              establishment: establishmentValue,
+              total: totalValue,
+            })
+      }
     >
       <p>
         {macroType}: <b>{totalValue}</b>
@@ -231,14 +293,124 @@ export const SumModal = ({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
-            <p>
-              <b>{totalValue}</b>/{establishmentValue}
-            </p>
+            {!establishmentMinGram && (
+              <Styled.PerfectProcent
+                variant={procentClasses({
+                  establishment: establishmentValue,
+                  total: totalValue,
+                })}
+              >
+                <p>
+                  <b>{totalValue}</b>/{establishmentValue}
+                </p>
+              </Styled.PerfectProcent>
+            )}
+
+            {establishmentMinGram && (
+              <>
+                {/* <Styled.SumItemNav>
+                  <Styled.SumItemNavOption>
+                    <CheckBoxWrapper
+                      checked={option === "perfectProcent"}
+                      onClick={() => setOption("perfectProcent")}
+                    />
+                    <p>
+                      licz do preferowanej wartości procentowej z odchyleniem 5%
+                    </p>
+                  </Styled.SumItemNavOption>
+                  <Styled.SumItemNavOption>
+                    <CheckBoxWrapper
+                      checked={option === "percentageRange"}
+                      onClick={() => setOption("percentageRange")}
+                    />
+                    <p>licz do przedziału %</p>
+                  </Styled.SumItemNavOption>
+                </Styled.SumItemNav> */}
+                {option === "percentageRange" && (
+                  // <div>
+                  //   <p>przedział procentowy: 10-22%</p>
+                  //   <p>preferowana wartość %: 15%</p>
+                  //   <p>obecna wartość %: 5%</p>
+                  // </div>
+                  <Styled.PercentageRangeWrapper
+                    variant={percentageRangeClasses({
+                      value: totalValue,
+                      minValue: establishmentMinGram || 0,
+                      maxValue: establishmentMaxGram || 0,
+                    })}
+                  >
+                    <Styled.PercentageRangeItem>
+                      <p>
+                        <b>{totalValue}</b> g
+                      </p>
+                    </Styled.PercentageRangeItem>
+                    <Styled.PercentageRangeItem>
+                      <p>
+                        /{establishmentMinGram} - {establishmentMaxGram} g
+                      </p>
+                    </Styled.PercentageRangeItem>
+                  </Styled.PercentageRangeWrapper>
+                )}
+
+                {option === "perfectProcent" && (
+                  <Styled.PerfectProcent
+                    variant={procentClasses({
+                      establishment: establishmentValue,
+                      total: totalValue,
+                    })}
+                  >
+                    <p>
+                      <b>{totalValue}</b>/{establishmentValue}
+                    </p>
+                  </Styled.PerfectProcent>
+                )}
+              </>
+            )}
           </Styled.SumItemModal>
         )}
       </AnimatePresence>
     </Styled.SumItem>
   );
 };
+
+// export const SumModal = ({
+//   totalValue,
+//   establishmentValue,
+//   macroType,
+// }: {
+//   totalValue: number;
+//   establishmentValue: number;
+//   macroType: string;
+// }) => {
+//   const [sumModalOpen, setSumModalOpen] = useState(false);
+//   return (
+//     <Styled.SumItem
+//       onMouseEnter={() => setSumModalOpen(true)}
+//       onMouseLeave={() => setSumModalOpen(false)}
+//       variant={procentClasses({
+//         establishment: establishmentValue,
+//         total: totalValue,
+//       })}
+//     >
+//       <p>
+//         {macroType}: <b>{totalValue}</b>
+//       </p>
+
+//       <AnimatePresence>
+//         {sumModalOpen && (
+//           <Styled.SumItemModal
+//             initial={{ opacity: 0 }}
+//             animate={{ opacity: 1 }}
+//             exit={{ opacity: 0 }}
+//           >
+//             <p>
+//               <b>{totalValue}</b>/{establishmentValue}
+//             </p>
+//           </Styled.SumItemModal>
+//         )}
+//       </AnimatePresence>
+//     </Styled.SumItem>
+//   );
+// };
 
 export default GeneratedDays;

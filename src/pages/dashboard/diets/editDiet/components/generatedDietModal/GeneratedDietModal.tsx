@@ -272,9 +272,14 @@ const GeneratedDietModal = ({ closeModal }: { closeModal: () => void }) => {
   //     </Styled.LoadingWrapper>
   //   );
 
+  const generatedDaysValid = generatedDays.every(
+    (day) => day.action === "generated"
+  );
+
   return (
     <Styled.GeneratedDietModalContainer>
       <Heading icon={<FaCarrot />} title="Wygenerowane dni" />
+
       <Styled.GeneratedDietNavWrapper>
         <Styled.GeneratedDietLegendWrapper>
           <Styled.GeneratedDietLegendItem generatedType="added">
@@ -298,7 +303,11 @@ const GeneratedDietModal = ({ closeModal }: { closeModal: () => void }) => {
           >
             generuj ponownie dietę
           </Button> */}
-          <Button type="button" onClick={addDaysToDiet as any}>
+          <Button
+            type="button"
+            onClick={addDaysToDiet as any}
+            variant={generatedDaysValid ? "primary" : "disabled"}
+          >
             dodaj wygenerowane dni do diety
           </Button>
           <Button type="button" onClick={handleCloseModal} variant="secondary">

@@ -15,6 +15,7 @@ const DaysContainer = styled(motion.div)(
     justify-content: flex-start;
     position: relative;
     gap: 1.5rem;
+    width: 100%;
 
     overflow-x: auto;
   `
@@ -265,6 +266,114 @@ const SumItemModal = styled(motion.div)(
   `
 );
 
+const PerfectProcent = styled(motion.div)<ISumItemVariant>(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+    variant,
+  }) => css`
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 1rem;
+
+    p {
+      font-size: 1.1rem;
+      font-weight: ${fontWeight.medium};
+      color: ${palette.common.text};
+    }
+
+    ${variant === "green" &&
+    css`
+      b {
+        color: lightgreen;
+      }
+    `}
+
+    ${variant === "yellow" &&
+    css`
+      b {
+        color: orange;
+      }
+    `}
+
+    ${variant === "red" &&
+    css`
+      b {
+        color: red;
+      }
+    `}
+  `
+);
+
+const PercentageRangeWrapper = styled(motion.div)<ISumItemVariant>(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+    variant,
+  }) => css`
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    width: 10rem;
+
+    p {
+      font-size: 1.1rem;
+      font-weight: ${fontWeight.medium};
+      color: ${palette.common.text};
+    }
+
+    ${variant === "green" &&
+    css`
+      b {
+        color: lightgreen;
+      }
+    `}
+
+    ${variant === "yellow" &&
+    css`
+      b {
+        color: orange;
+      }
+    `}
+
+    ${variant === "red" &&
+    css`
+      b {
+        color: red;
+      }
+    `}
+  `
+);
+
+const PercentageRangeItem = styled(motion.div)(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 1rem;
+
+    p {
+      font-size: 1.1rem;
+      font-weight: ${fontWeight.medium};
+      color: ${palette.common.text};
+    }
+  `
+);
+
 const DayMealsWrapper = styled.ul(
   ({
     theme: {
@@ -458,4 +567,7 @@ export {
   DietDinner,
   DietDinnerTotalWrapper,
   DayLoadingWrapper,
+  PerfectProcent,
+  PercentageRangeWrapper,
+  PercentageRangeItem,
 };
