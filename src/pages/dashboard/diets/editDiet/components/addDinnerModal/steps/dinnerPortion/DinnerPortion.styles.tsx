@@ -14,6 +14,58 @@ const PortionsWrapper = styled.div(
   `
 );
 
+const PortionFilterWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin: 2rem 0;
+  `
+);
+
+interface IActiveOption {
+  activeOption: boolean;
+}
+
+const PortionNavItem = styled.li<IActiveOption>(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+    activeOption,
+  }) => css`
+    display: flex;
+    gap: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: ${border.rounded.sm};
+    border: 0.1rem solid ${palette.primary.light};
+    background: ${palette.common.contrast};
+    color: ${palette.primary.main};
+    font-weight: ${fontWeight.medium};
+    font-size: 1.4rem;
+    transition: 0.3s ease-out;
+    cursor: pointer;
+
+    ${activeOption &&
+    css`
+      background: ${palette.primary.main};
+      color: white;
+    `}
+
+    :hover {
+      opacity: 0.7;
+    }
+  `
+);
+
 interface IActivePortion {
   active: boolean;
 }
@@ -323,4 +375,6 @@ export {
   ProductPortionItem,
   ProductTotalFeaturesWrapper,
   ProductTotalFeature,
+  PortionFilterWrapper,
+  PortionNavItem,
 };

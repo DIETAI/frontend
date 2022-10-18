@@ -19,6 +19,7 @@ import {
   FaFileAlt,
   FaTrash,
   FaCog,
+  FaDownload,
 } from "icons/icons";
 
 //interfaces
@@ -32,6 +33,7 @@ import DietGenerateModal from "../dietGenerateModal/DietGenerateModal";
 import DeleteModalContent from "pages/dashboard/components/deleteModal/DeleteModal";
 import GeneratedDietModal from "../generatedDietModal/GeneratedDietModal";
 import DietSettingsModal from "../dietSettingsModal/DietSettingsModal";
+import ExportDietModal from "../exportPdfModal/ExportPdfModal";
 
 const DietNav = ({
   setView,
@@ -50,6 +52,7 @@ const DietNav = ({
   const [generatedDietModalOpen, setGeneratedDietModalOpen] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openSettingsModal, setOpenSettingsModal] = useState(false);
+  const [openDietExportModal, setOpenDietExportModal] = useState(false);
 
   const { handleAlert } = useAlert();
   const navigate = useNavigate();
@@ -121,6 +124,11 @@ const DietNav = ({
           modalText="ustawienia diety"
         />
         <IconButton
+          icon={<FaDownload />}
+          onClick={() => setOpenDietExportModal(true)}
+          modalText="exportuj dietę"
+        />
+        <IconButton
           icon={<FaFileAlt />}
           onClick={openDietEstablishment}
           modalText="założenia diety"
@@ -159,6 +167,12 @@ const DietNav = ({
         <GeneratedDietModal
           closeModal={() => setGeneratedDietModalOpen(false)}
         />
+      </Modal>
+      <Modal
+        onClose={() => setOpenDietExportModal(false)}
+        open={openDietExportModal}
+      >
+        <ExportDietModal />
       </Modal>
     </Styled.DietNavWrapper>
   );

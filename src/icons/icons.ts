@@ -61,6 +61,7 @@ import {
   FaHeart,
   FaDisease,
   FaClipboardList,
+  FaDownload,
 } from "react-icons/fa";
 
 export {
@@ -126,4 +127,5 @@ export {
   FaHeart,
   FaDisease,
   FaClipboardList,
+  FaDownload,
 };

@@ -1,5 +1,6 @@
 import React from "react";
 import { useFormContext } from "react-hook-form";
+import { useState } from "react";
 
 import { getDinnerPortions } from "services/getDinnerPortions";
 import { getDinnerPortionsQuery } from "services/getDinnerPortions";
@@ -9,6 +10,8 @@ import * as Styled from "./DinnerPortion.styles";
 
 //components
 import Image from "components/form/images/image/Image";
+
+type IDinnerPortionOption = "added" | "recommend" | "new";
 
 const DinnerPortion = () => {
   const {
@@ -20,6 +23,8 @@ const DinnerPortion = () => {
     getValues,
     trigger,
   } = useFormContext();
+  const [dinnerPortionOption, setDinnerPortionOption] =
+    useState<IDinnerPortionOption>("added");
   const selectedDinnerId = watch("dinnerId") as string;
   const selectedDinnerPortionId = watch("dinnerPortionId") as string;
 
@@ -39,6 +44,26 @@ const DinnerPortion = () => {
 
   return (
     <Styled.PortionsWrapper>
+      <Styled.PortionFilterWrapper>
+        <Styled.PortionNavItem
+          activeOption={dinnerPortionOption === "added"}
+          onClick={() => setDinnerPortionOption("added")}
+        >
+          wszystkie porcje
+        </Styled.PortionNavItem>
+        <Styled.PortionNavItem
+          activeOption={dinnerPortionOption === "recommend"}
+          onClick={() => setDinnerPortionOption("recommend")}
+        >
+          rekomendowane porcje
+        </Styled.PortionNavItem>
+        <Styled.PortionNavItem
+          activeOption={dinnerPortionOption === "new"}
+          onClick={() => setDinnerPortionOption("new")}
+        >
+          stwórz porcję
+        </Styled.PortionNavItem>
+      </Styled.PortionFilterWrapper>
       {dinnerPortionsQuery?.map((dinnerPortion, dinnerPortionIndex) => (
         <Styled.PortionWrapper
           key={dinnerPortion._id}

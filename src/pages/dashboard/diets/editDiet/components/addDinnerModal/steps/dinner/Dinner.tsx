@@ -25,7 +25,7 @@ const Dinner = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const [searchValue, setSearchValue] = useState("");
-  const [filterOption, setFilterOption] = useState<IFilterOption>("recommend");
+  const [filterOption, setFilterOption] = useState<IFilterOption>("all");
   const {
     control,
     handleSubmit,
@@ -81,16 +81,16 @@ const Dinner = () => {
       </Styled.AddDinnerNavWrapper>
       <Styled.AddDinnerNavFilterWrapper>
         <Styled.AddDinnerNavItem
-          activeOption={filterOption === "recommend"}
-          onClick={() => setFilterOption("recommend")}
-        >
-          rekomendowane
-        </Styled.AddDinnerNavItem>
-        <Styled.AddDinnerNavItem
           activeOption={filterOption === "all"}
           onClick={() => setFilterOption("all")}
         >
-          wszystkie
+          wszystkie posiłki
+        </Styled.AddDinnerNavItem>
+        <Styled.AddDinnerNavItem
+          activeOption={filterOption === "recommend"}
+          onClick={() => setFilterOption("recommend")}
+        >
+          rekomendowane posiłki
         </Styled.AddDinnerNavItem>
       </Styled.AddDinnerNavFilterWrapper>
       {filterOption === "recommend" && (

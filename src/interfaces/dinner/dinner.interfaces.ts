@@ -1,3 +1,5 @@
+import { IAssetData } from "interfaces/asset.interfaces";
+
 export interface IDinnerData {
   _id: string;
   createdAt: string;
@@ -5,6 +7,7 @@ export interface IDinnerData {
   user: string;
   name: string;
   image?: string;
+  imageObj?: IAssetData;
   gallery?: string[];
   mealTypes: (
     | "breakfast"
