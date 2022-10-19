@@ -38,12 +38,18 @@ const Dinner = () => {
 
   const { dinners, dinnersError, dinnersLoading } = getDinners();
 
+  const selectedDinnerId = watch("dinnerId") as string;
+  const selectedDinnerPortionId = watch("dinnerPortionId") as string;
+
   const changeDinner = (dinnerId: string) => {
     setValue("dinnerId", dinnerId);
+
+    if (selectedDinnerPortionId) {
+      setValue("dinnerPortionId", undefined);
+    }
+
     trigger();
   };
-
-  const selectedDinnerId = watch("dinnerId") as string;
 
   const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
     setSearchValue(e.currentTarget.value);

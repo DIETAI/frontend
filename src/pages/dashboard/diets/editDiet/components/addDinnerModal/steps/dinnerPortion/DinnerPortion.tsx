@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import { useState } from "react";
 
@@ -36,6 +36,16 @@ const DinnerPortion = () => {
     dinnerPortionsErrorQuery,
     dinnerPortionsLoadingQuery,
   } = getDinnerPortionsQuery(selectedDinnerId);
+
+  useEffect(() => {
+    if (dinnerPortionsQuery && !selectedDinnerPortionId) {
+      const defaultPortion = dinnerPortionsQuery.find(
+        (portion) => portion.type === "default"
+      );
+      setValue("dinnerPortionId", defaultPortion?._id);
+      trigger();
+    }
+  }, [dinnerPortionsQuery, selectedDinnerPortionId]);
 
   if (dinnerPortionsLoadingQuery)
     return (

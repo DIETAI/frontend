@@ -1,11 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as Styled from "../DinnerPortionMacroTotal.styles";
 import { useFormContext } from "react-hook-form";
 import { getDietDay } from "services/getDietDays";
 import { useDietEstablishment } from "services/useDietEstablishments";
 import { getDiet } from "services/getDiets";
+import { getDinnerPortion } from "services/getDinnerPortions";
 
 import { SumModal } from "../sumModal/SumModal";
+
+const roundValue = (value: number) => {
+  return Math.round(value * 1e2) / 1e2;
+};
 
 const DinnerPortionMacroTotal = () => {
   const {
@@ -18,8 +23,14 @@ const DinnerPortionMacroTotal = () => {
     trigger,
   } = useFormContext();
 
+  const [dayTotalAfterAddedPortion, setDayTotalAfterAddedPortion] =
+    useState<any>();
+
   const dayId = watch("dayId") as string;
   const dietId = watch("dietId") as string;
+  const selectedDinnerPortionId = watch("dinnerPortionId") as string;
+
+  const { dinnerPortion } = getDinnerPortion(selectedDinnerPortionId);
 
   const { diet } = getDiet(dietId);
 
@@ -30,6 +41,29 @@ const DinnerPortionMacroTotal = () => {
     diet.establishmentId
   );
 
+  useEffect(() => {
+    if (dinnerPortion && dietDay) {
+      const kcal = roundValue(dinnerPortion.total.kcal + dietDay.total.kcal);
+      const proteinGram = roundValue(
+        dinnerPortion.total.protein.gram + dietDay.total.protein.gram
+      );
+      const fatGram = roundValue(
+        dinnerPortion.total.fat.gram + dietDay.total.fat.gram
+      );
+      const carbohydratesGram = roundValue(
+        dinnerPortion.total.carbohydrates.gram +
+          dietDay.total.carbohydrates.gram
+      );
+
+      setDayTotalAfterAddedPortion({
+        kcal,
+        proteinGram,
+        fatGram,
+        carbohydratesGram,
+      });
+    }
+  }, [dinnerPortion, dietDay]);
+
   if (!dietDay || !establishment) return null;
 
   return (
@@ -39,7 +73,7 @@ const DinnerPortionMacroTotal = () => {
       </Styled.TotalHeadingWrapper>
 
       <Styled.TotalWrapper>
-        <h3>Razem:</h3>
+        <h3>Obecnie:</h3>
 
         <Styled.TotalMacroItemsWrapper>
           <SumModal
@@ -76,12 +110,15 @@ const DinnerPortionMacroTotal = () => {
         <Styled.TotalMacroItemsWrapper>
           <SumModal
             macroType="kcal"
-            totalValue={dietDay.total.kcal}
+            totalValue={dayTotalAfterAddedPortion?.kcal || dietDay.total.kcal}
             establishmentValue={establishment.kcal}
           />
           <SumModal
             macroType="B"
-            totalValue={dietDay.total.protein.gram}
+            totalValue={
+              dayTotalAfterAddedPortion?.proteinGram ||
+              dietDay.total.protein.gram
+            }
             establishmentValue={establishment.protein.gram}
             establishmentMinGram={establishment.protein.min_gram}
             establishmentMaxGram={establishment.protein.max_gram}
@@ -89,7 +126,9 @@ const DinnerPortionMacroTotal = () => {
           />
           <SumModal
             macroType="T"
-            totalValue={dietDay.total.fat.gram}
+            totalValue={
+              dayTotalAfterAddedPortion?.fatGram || dietDay.total.fat.gram
+            }
             establishmentValue={establishment.fat.gram}
             establishmentMinGram={establishment.fat.min_gram}
             establishmentMaxGram={establishment.fat.max_gram}
@@ -97,7 +136,10 @@ const DinnerPortionMacroTotal = () => {
           />
           <SumModal
             macroType="W"
-            totalValue={dietDay.total.carbohydrates.gram}
+            totalValue={
+              dayTotalAfterAddedPortion?.carbohydratesGram ||
+              dietDay.total.carbohydrates.gram
+            }
             establishmentValue={establishment.carbohydrates.gram}
             establishmentMinGram={establishment.carbohydrates.min_gram}
             establishmentMaxGram={establishment.carbohydrates.max_gram}
