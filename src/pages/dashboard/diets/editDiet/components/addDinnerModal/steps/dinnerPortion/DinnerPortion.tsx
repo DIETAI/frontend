@@ -4,12 +4,15 @@ import { useState } from "react";
 
 import { getDinnerPortions } from "services/getDinnerPortions";
 import { getDinnerPortionsQuery } from "services/getDinnerPortions";
+import ReactLoading from "react-loading";
 
 //styles
 import * as Styled from "./DinnerPortion.styles";
 
 //components
 import Image from "components/form/images/image/Image";
+import DinnerPortionDayMacroTotal from "./macroTotal/day/DinnerPortionDayMacroTotal";
+import DinnerPortionMealMacroTotal from "./macroTotal/meal/DinnerPortionMealMacroTotal";
 
 type IDinnerPortionOption = "added" | "recommend" | "new";
 
@@ -34,8 +37,29 @@ const DinnerPortion = () => {
     dinnerPortionsLoadingQuery,
   } = getDinnerPortionsQuery(selectedDinnerId);
 
-  if (dinnerPortionsLoadingQuery) return <div>loading...</div>;
-  if (dinnerPortionsErrorQuery) return <div>error...</div>;
+  if (dinnerPortionsLoadingQuery)
+    return (
+      <Styled.LoadingWrapper
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      >
+        <ReactLoading type="spin" color="blue" height={50} width={50} />
+        <h2>pobieranie porcji</h2>
+      </Styled.LoadingWrapper>
+    );
+  if (dinnerPortionsErrorQuery)
+    return (
+      <Styled.LoadingWrapper
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      >
+        <h2>
+          wystąpił problem podczas pobierania porcji, spróbuj ponownie później
+        </h2>
+      </Styled.LoadingWrapper>
+    );
 
   const selectDinnerPortion = (dinnerPortionId: string) => {
     setValue("dinnerPortionId", dinnerPortionId);
@@ -44,6 +68,11 @@ const DinnerPortion = () => {
 
   return (
     <Styled.PortionsWrapper>
+      <Styled.PortionsMacroContainer>
+        <DinnerPortionDayMacroTotal />
+        <DinnerPortionMealMacroTotal />
+      </Styled.PortionsMacroContainer>
+
       <Styled.PortionFilterWrapper>
         <Styled.PortionNavItem
           activeOption={dinnerPortionOption === "added"}

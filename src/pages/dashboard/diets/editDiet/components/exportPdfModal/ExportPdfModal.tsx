@@ -95,6 +95,22 @@ const styles = StyleSheet.create({
 
 Font.register({
   family: "Roboto",
+  fonts: [
+    {
+      src: "https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-light-webfont.ttf",
+      fontStyle: "light",
+    },
+    {
+      src: "https://fonts.google.com/share?selection.family=Roboto:wght@900",
+      fontStyle: "bold",
+      fontWeight: 800,
+    },
+  ],
+  // src: "https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-light-webfont.ttf",
+});
+
+Font.register({
+  family: "Roboto",
   src: "https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-light-webfont.ttf",
 });
 

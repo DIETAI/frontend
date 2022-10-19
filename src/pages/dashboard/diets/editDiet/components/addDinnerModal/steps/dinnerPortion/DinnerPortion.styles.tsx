@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components";
+import { motion } from "framer-motion";
 
 const PortionsWrapper = styled.div(
   ({
@@ -11,6 +12,21 @@ const PortionsWrapper = styled.div(
     display: flex;
     flex-direction: column;
     gap: 2rem;
+  `
+);
+const PortionsMacroContainer = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+    gap: 1rem;
   `
 );
 
@@ -359,8 +375,40 @@ const ProductTotalFeature = styled.li(
   `
 );
 
+const LoadingWrapper = styled(motion.div)(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 30rem;
+    /* position: absolute; */
+    /* top: 0;
+    left: 0; */
+
+    gap: 2rem;
+    padding: 2rem;
+    border-radius: ${border.rounded.sm};
+    border: 0.1rem solid ${palette.primary.light};
+    background: ${palette.common.main};
+
+    h2 {
+      color: ${palette.primary.main};
+      font-weight: ${fontWeight.medium};
+      font-size: ${fontSize.m};
+    }
+  `
+);
+
 export {
   PortionsWrapper,
+  PortionsMacroContainer,
   PortionWrapper,
   PortionHeadingWrapper,
   PortionHeading,
@@ -377,4 +425,5 @@ export {
   ProductTotalFeature,
   PortionFilterWrapper,
   PortionNavItem,
+  LoadingWrapper,
 };
