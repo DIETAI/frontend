@@ -45,6 +45,7 @@ const ModalContentWrapper = styled.div<IModalContentWidth>(
     margin: auto;
     padding: 3rem;
     z-index: 40;
+    position: relative;
 
     ${modalWidth &&
     css`

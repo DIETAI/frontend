@@ -40,6 +40,22 @@ const PortionFilterWrapper = styled.div(
   }) => css`
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    margin: 2rem 0;
+  `
+);
+
+const PortionFilterActions = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
     gap: 2rem;
     margin: 2rem 0;
   `
@@ -424,6 +440,7 @@ export {
   ProductTotalFeaturesWrapper,
   ProductTotalFeature,
   PortionFilterWrapper,
+  PortionFilterActions,
   PortionNavItem,
   LoadingWrapper,
 };

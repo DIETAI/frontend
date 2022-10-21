@@ -16,22 +16,34 @@ import { IDietData } from "interfaces/diet/diet.interfaces";
 import { getDiet, getDietQuery } from "services/getDiets";
 import { useParams } from "react-router";
 import Logo from "assets/logo-icon.png";
+import DinnerNotFoundImg from "assets/dinnerNotFoundPdf.png";
 import { IDietQueryData } from "interfaces/diet/dietQuery.interfaces";
+
+//styles
+import * as Styled from "./ExportPdfModal.styles";
 
 // Create styles
 const styles = StyleSheet.create({
+  container: {
+    width: "100%",
+    height: "100%",
+  },
   page: {
     flexDirection: "column",
     backgroundColor: "white",
     fontFamily: "Roboto",
+    marginBottom: 20,
+    marginTop: 20,
+    color: "#263656",
   },
   introPage: {
     fontFamily: "Roboto",
     flexDirection: "column",
-    padding: 20,
+    // padding: 20,
     display: "flex",
     alignItems: "flex-start",
     justifyContent: "flex-start",
+    color: "#263656",
   },
   introHeader: {
     display: "flex",
@@ -65,31 +77,100 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "flex-start",
     justifyContent: "center",
-    padding: 10,
     width: "100%",
-    borderBottom: 1,
-    borderBottomColor: "lightgrey",
+    paddingHorizontal: 40,
+    paddingVertical: 10,
   },
   logo: {
     width: 100,
     height: 40,
     objectFit: "contain",
   },
-  section: {
+  dayHeader: {
     display: "flex",
-    alignItems: "center",
+    alignItems: "flex-start",
     justifyContent: "center",
     paddingHorizontal: 40,
     paddingVertical: 10,
     width: "100%",
-    borderBottom: 2,
-    borderBottomColor: "red",
+    backgroundColor: "#f6f3fc",
+  },
+  section: {
+    display: "flex",
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
+    paddingHorizontal: 40,
+    width: "100%",
+    borderBottom: 1,
+    borderBottomStyle: "dashed",
+    borderBottomColor: "#ece2ff",
+  },
+
+  mealHeader: {
+    display: "flex",
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    width: "100%",
+    flexDirection: "row",
+    padding: 15,
+    marginBottom: 20,
+    borderRadius: 10,
+    marginTop: 20,
+    border: 1,
+    borderStyle: "dashed",
+    borderColor: "#ece2ff",
+  },
+
+  dinnersContainer: {
+    display: "flex",
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
+    flexDirection: "column",
+    marginBottom: 10,
+  },
+  dinnerSection: {
+    display: "flex",
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
+    flexDirection: "row",
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  dinnerSectionImage: {
+    width: 120,
+    // height: 150,
+    objectFit: "contain",
+  },
+  dinnerSectionContentWrapper: {
+    display: "flex",
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
+    flexDirection: "column",
+    marginLeft: 20,
+    fontSize: 16,
+  },
+  productsWrapper: {
+    display: "flex",
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
+    flexDirection: "column",
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  product: {
+    display: "flex",
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
+    flexDirection: "row",
+    width: "100%",
+    fontSize: 13,
   },
   dietItemImage: {
     width: 150,
     height: 100,
     // borderRadius: 2,
-    objectFit: "contain",
+    objectFit: "cover",
+    objectPosition: "left",
   },
 });
 
@@ -118,7 +199,7 @@ Font.register({
 export const MyDocument = ({ diet }: { diet: IDietQueryData }) => {
   return (
     <Document>
-      <Page size="A4" style={styles.introPage}>
+      <Page size="A4" style={styles.introPage} wrap={true}>
         <View style={styles.introHeader}>
           <Image src={Logo} style={styles.logo} />
         </View>
@@ -132,45 +213,56 @@ export const MyDocument = ({ diet }: { diet: IDietQueryData }) => {
           <View style={styles.header}>
             <Image src={Logo} style={styles.logo} />
           </View>
-          <View style={styles.section}>
+          <View style={styles.dayHeader}>
             <Text>Dzień {day.order}</Text>
           </View>
           {day.meals.map((meal) => (
-            <View key={meal._id} style={styles.section}>
-              <Text>{meal.name}</Text>
-              {meal.dinners.length > 0 &&
-                meal.dinners.map((dietDinner) => (
-                  <View key={dietDinner._id} style={styles.section}>
-                    {dietDinner.dinnerPortion.dinner.imageObj && (
-                      <Image
-                        style={styles.dietItemImage}
-                        src={dietDinner.dinnerPortion.dinner.imageObj.imageURL}
+            <View key={meal._id} style={styles.section} wrap={true}>
+              <View style={styles.mealHeader} break>
+                <Text>{meal.name}</Text>
+                <Text>8:00</Text>
+              </View>
 
-                        // src={{
-                        //   uri: dietDinner.dinnerPortion.dinner.imageObj
-                        //     .imageURL,
-                        //   method: "GET",
-                        //   headers: { "Cache-Control": "no-cache" },
-                        //   body: "",
-                        // }}
-                      />
-                    )}
-                    <Text>{dietDinner.dinnerPortion.dinner.name}</Text>
-                    <Text>produkty:</Text>
-                    {dietDinner.dinnerPortion.dinnerProducts.map(
-                      (dinnerProduct) => (
-                        <View
-                          key={dinnerProduct.dinnerProductId}
-                          style={styles.section}
-                        >
-                          <Text>
-                            {dinnerProduct.dinnerProduct.product.name}
-                          </Text>
+              <View style={styles.dinnersContainer} wrap={true}>
+                {meal.dinners.length > 0 &&
+                  meal.dinners.map((dietDinner) => (
+                    <View key={dietDinner._id} style={styles.dinnerSection}>
+                      {dietDinner.dinnerPortion.dinner.imageObj ? (
+                        <Image
+                          style={styles.dinnerSectionImage}
+                          src={
+                            dietDinner.dinnerPortion.dinner.imageObj.imageURL
+                          }
+                        />
+                      ) : (
+                        <Image
+                          style={styles.dinnerSectionImage}
+                          src={DinnerNotFoundImg}
+                        />
+                      )}
+                      <View style={styles.dinnerSectionContentWrapper}>
+                        <Text>{dietDinner.dinnerPortion.dinner.name}</Text>
+
+                        <View style={styles.productsWrapper}>
+                          {dietDinner.dinnerPortion.dinnerProducts.map(
+                            (dinnerProduct) => (
+                              <View
+                                key={dinnerProduct.dinnerProductId}
+                                style={styles.product}
+                              >
+                                <Text>•</Text>
+                                <Text style={{ marginHorizontal: 4 }}>
+                                  {dinnerProduct.dinnerProduct.product.name} -{" "}
+                                  {dinnerProduct.portion} g
+                                </Text>
+                              </View>
+                            )
+                          )}
                         </View>
-                      )
-                    )}
-                  </View>
-                ))}
+                      </View>
+                    </View>
+                  ))}
+              </View>
             </View>
           ))}
         </Page>
@@ -188,20 +280,22 @@ const ExportDietModal = () => {
 
   if (dietQueryLoading || dietQueryError) return <div>loading...</div>;
   if (!dietQuery) return <div>error..</div>;
+
   return (
-    <div>
-      <PDFDownloadLink
+    <Styled.ExportPdfModalContainer>
+      {/* <PDFDownloadLink
         document={<MyDocument diet={dietQuery} />}
         fileName={`${dietQuery.name}.pdf`}
       >
         {({ blob, url, loading, error }) =>
           loading ? "Loading document..." : "Download now!"
         }
-      </PDFDownloadLink>
-      <PDFViewer>
+      </PDFDownloadLink> */}
+      {/* <PDFViewer style={styles.container}> */}
+      <PDFViewer style={styles.container}>
         <MyDocument diet={dietQuery} />
       </PDFViewer>
-    </div>
+    </Styled.ExportPdfModalContainer>
   );
 };
 

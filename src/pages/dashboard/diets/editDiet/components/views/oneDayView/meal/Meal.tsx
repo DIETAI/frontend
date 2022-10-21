@@ -248,7 +248,7 @@ const Meal = ({
       </Styled.MealWrapper>
 
       <Modal
-        onClose={() => setDinnerModalOpen(false)}
+        // onClose={() => setDinnerModalOpen(false)}
         open={addDinnerModalOpen}
       >
         <AddDinnerModalContent

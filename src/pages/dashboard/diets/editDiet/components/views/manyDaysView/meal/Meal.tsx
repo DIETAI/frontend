@@ -146,7 +146,7 @@ const Meal = ({ meal, establishment }: IMeal) => {
       )}
 
       <Modal
-        onClose={() => setDinnerModalOpen(false)}
+        // onClose={() => setDinnerModalOpen(false)}
         open={addDinnerModalOpen}
       >
         <AddDinnerModalContent
