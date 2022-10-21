@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 
 import { useParams } from "react-router";
-
+import axios from "utils/api";
+import { mutate } from "swr";
 //form
 import {
   useFieldArray,
@@ -49,19 +50,27 @@ const defaultValues = dinnerPortionSchema.cast({});
 
 type IDinnerPortionValues = typeof defaultValues;
 
-const NewPortion = ({ selectedDinnerId }: { selectedDinnerId: string }) => {
-  // const addDinnerPortionDefaultValues = {
-  //   ...defaultValues,
-  //   dietId: meal.dietId,
-  //   dayId: meal.dayId,
-  //   dietMealId: meal._id,
-  //   order: meal.dinners.length + 1,
-  // };
+const NewPortion = ({
+  selectedDinnerId,
+  closeNewPortionPopup,
+  selectDinnerPortion,
+}: {
+  selectedDinnerId: string;
+  closeNewPortionPopup: () => void;
+  selectDinnerPortion: (dinnerPortionId: string) => void;
+}) => {
+  const { dinnerPortionsQuery } = getDinnerPortionsQuery(selectedDinnerId);
+  const { dinnerProductsQuery } = getDinnerProductsQuery(selectedDinnerId);
+
+  const addDinnerPortionDefaultValues = {
+    ...defaultValues,
+    type: "custom",
+  };
 
   const methods = useForm({
     resolver: yupResolver(dinnerPortionSchema),
     shouldUnregister: false,
-    defaultValues,
+    defaultValues: addDinnerPortionDefaultValues,
     mode: "onBlur",
   });
 
@@ -73,55 +82,93 @@ const NewPortion = ({ selectedDinnerId }: { selectedDinnerId: string }) => {
     setFocus,
     getValues,
     watch,
+    setValue,
   } = methods;
 
-  const { dinnerProductsQuery } = getDinnerProductsQuery(selectedDinnerId);
+  useEffect(() => {
+    if (dinnerProductsQuery && dinnerProductsQuery.length > 0) {
+      const initialDinnerProducts = dinnerProductsQuery.map(
+        (dinnerProduct) => ({
+          dinnerProductId: dinnerProduct._id,
+          portion: dinnerProduct.defaultAmount,
+          total: countTotal({
+            product: dinnerProduct.product,
+            portion: dinnerProduct.defaultAmount,
+          }),
+        })
+      );
+
+      const total = sumTotal({
+        dinnerPortionProducts: initialDinnerProducts,
+      });
+
+      setValue("type", "custom");
+      setValue("total", total as any);
+      setValue("dinnerProducts", initialDinnerProducts as any);
+    }
+  }, [dinnerProductsQuery]);
+
+  const portionDinnerProducts = watch(
+    "dinnerProducts"
+  ) as IDinnerPortion["dinnerProducts"];
+
+  useEffect(() => {
+    const total = sumTotal({
+      dinnerPortionProducts: portionDinnerProducts as any,
+    }) as any;
+    return setValue("total", total);
+  }, [...portionDinnerProducts.map(({ total }) => total)]);
 
   if (!dinnerProductsQuery) return null;
 
-  //   useEffect(() => {
-  //     const total = sumTotal({
-  //       dinnerPortionProducts: portionDinnerProducts as any,
-  //     });
-  //     return setValue("total", total);
-  //   }, [...portionDinnerProducts.map(({ total }) => total)]);
+  const validPortion = () => {
+    const allPortionsComb = dinnerPortionsQuery?.map((portionQuery) =>
+      portionQuery.dinnerProducts
+        .map((product) =>
+          (product.dinnerProductId + ":" + product.portion).trim()
+        )
+        .join("-")
+    );
+    const selectedProductsCombinationId = portionDinnerProducts
+      .map((product) =>
+        (product.dinnerProductId + ":" + product.portion).trim()
+      )
+      .join("-");
 
-  //   const validPortion = () => {
-  //     const allPortionsComb = dinnerPortionsQuery?.map((portionQuery) =>
-  //       portionQuery.dinnerProducts
-  //         .map((product) =>
-  //           (product.dinnerProductId + ":" + product.portion).trim()
-  //         )
-  //         .join("-")
-  //     );
-  //     const selectedProductsCombinationId = portionDinnerProducts
-  //       .map((product) =>
-  //         (product.dinnerProductId + ":" + product.portion).trim()
-  //       )
-  //       .join("-");
+    // console.log({
+    //   allPortionsComb,
+    //   combination: selectedProductsCombinationId,
+    // });
 
-  //     // console.log({
-  //     //   allPortionsComb,
-  //     //   combination: selectedProductsCombinationId,
-  //     // });
+    if (allPortionsComb?.includes(selectedProductsCombinationId)) {
+      return false;
+    }
 
-  //     if (allPortionsComb?.includes(selectedProductsCombinationId)) {
-  //       return false;
-  //     }
+    return true;
+  };
 
-  //     return true;
-  //   };
-
-  //   console.log(validPortion());
-
-  {
-    /* {!validPortion() && (
-        <h3 style={{ color: "red" }}>Istnieje już taki zestaw porcji</h3>
-      )} */
-  }
+  console.log(validPortion());
 
   const onCreatePortionSubmit = async (data: IDinnerPortionValues) => {
     console.log("Create portion");
+    const dinnerPortionData = { ...data, dinnerId: selectedDinnerId };
+    try {
+      const newDinnerPortion = await axios.post(
+        "/api/v1/dinnerPortions",
+        dinnerPortionData,
+        {
+          withCredentials: true,
+        }
+      );
+
+      console.log({ newDinnerPortion });
+
+      await mutate(`/api/v1/dinnerPortions/dinner/${selectedDinnerId}/query`);
+      selectDinnerPortion(newDinnerPortion.data._id);
+      closeNewPortionPopup();
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
@@ -130,24 +177,23 @@ const NewPortion = ({ selectedDinnerId }: { selectedDinnerId: string }) => {
         <FormProvider {...methods}>
           <Styled.FormWrapper autoComplete="off">
             <Heading icon={<FaUtensils />} title="Nowa porcja" />
+            <button onClick={closeNewPortionPopup} type="button">
+              x
+            </button>
             <MealTotal />
-            <Styled.ProductsContainer>
-              {dinnerProductsQuery.length > 0 &&
-                dinnerProductsQuery.map((dinnerProduct, index) => (
-                  <DinnerProduct
-                    key={dinnerProduct._id}
-                    fieldIndex={index}
-                    dinnerProduct={dinnerProduct}
-                  />
-                ))}
-            </Styled.ProductsContainer>
-            <Button
-              type="button"
-              onClick={handleSubmit(onCreatePortionSubmit) as any}
-              variant={isSubmitting || !isValid ? "disabled" : "primary"}
-            >
-              stwórz porcję
-            </Button>
+            {!validPortion() && (
+              <h3 style={{ color: "red" }}>Istnieje już taki zestaw porcji</h3>
+            )}
+            <DinnerProducts />
+            <Styled.ButtonWrapper>
+              <Button
+                type="button"
+                onClick={handleSubmit(onCreatePortionSubmit) as any}
+                variant={isSubmitting || !isValid ? "disabled" : "primary"}
+              >
+                stwórz porcję
+              </Button>
+            </Styled.ButtonWrapper>
           </Styled.FormWrapper>
         </FormProvider>
       </Styled.AddDinnerPortionWrapper>
@@ -155,8 +201,28 @@ const NewPortion = ({ selectedDinnerId }: { selectedDinnerId: string }) => {
   );
 };
 
+const DinnerProducts = () => {
+  const { fields, append, prepend, remove, swap, move, insert, update } =
+    useFieldArray<IDinnerPortion, "dinnerProducts", "id">({
+      name: "dinnerProducts",
+    });
+
+  return (
+    <Styled.ProductsContainer>
+      {fields.length > 0 &&
+        fields.map((dinnerProduct, index) => (
+          <DinnerProduct
+            key={dinnerProduct.dinnerProductId}
+            fieldIndex={index}
+            dinnerProductId={dinnerProduct.dinnerProductId}
+          />
+        ))}
+    </Styled.ProductsContainer>
+  );
+};
+
 interface IDinnerProductProps {
-  dinnerProduct: IDinnerProductQueryData;
+  dinnerProductId: IDinnerProductQueryData["_id"];
   fieldIndex: number;
 }
 
@@ -165,15 +231,28 @@ interface ISelectedProductPortion {
   total: ITotal;
 }
 
-const DinnerProduct = ({ dinnerProduct, fieldIndex }: IDinnerProductProps) => {
-  const [selectedProductPortion, setSelectedProductPortion] =
-    useState<ISelectedProductPortion>({
-      portion: dinnerProduct.defaultAmount,
-      total: countTotal({
-        product: dinnerProduct.product,
-        portion: dinnerProduct.defaultAmount,
-      }),
-    });
+const DinnerProduct = ({
+  dinnerProductId,
+  fieldIndex,
+}: IDinnerProductProps) => {
+  // const [selectedProductPortion, setSelectedProductPortion] =
+  //   useState<ISelectedProductPortion>({
+  //     portion: dinnerProduct.defaultAmount,
+  //     total: countTotal({
+  //       product: dinnerProduct.product,
+  //       portion: dinnerProduct.defaultAmount,
+  //     }),
+  //   });
+
+  const {
+    dinnerProductQuery,
+    dinnerProductLoadingQuery,
+    dinnerProductErrorQuery,
+  } = getDinnerProductQuery(dinnerProductId);
+
+  const { update } = useFieldArray<IDinnerPortion, "dinnerProducts", "id">({
+    name: "dinnerProducts",
+  });
 
   const {
     control,
@@ -184,32 +263,45 @@ const DinnerProduct = ({ dinnerProduct, fieldIndex }: IDinnerProductProps) => {
     trigger,
   } = useFormContext();
 
+  // const changePortion = (portion: number) => {
+  //   const total = countTotal({ product: dinnerProduct.product, portion });
+  //   setSelectedProductPortion({ portion, total });
+  // };
+
+  const selectedProductPortion = watch(
+    `dinnerProducts.${fieldIndex}`
+  ) as IDinnerPortion["dinnerProducts"][0];
+
+  if (dinnerProductLoadingQuery) return <div>loading...</div>;
+  if (dinnerProductErrorQuery) return <div>error..</div>;
+  if (!dinnerProductQuery) return null;
+
   const changePortion = (portion: number) => {
-    const total = countTotal({ product: dinnerProduct.product, portion });
-    setSelectedProductPortion({ portion, total });
+    console.log("changePortion");
+
+    update(fieldIndex, {
+      dinnerProductId,
+      portion,
+      total: countTotal({
+        product: dinnerProductQuery.product,
+        portion,
+      }) as any,
+    }); //add count total
   };
-
-  //   const changePortion = (portion: number) => {
-  //     console.log("changePortion");
-
-  //     update(fieldIndex, {
-  //       dinnerProductId,
-  //       portion,
-  //       total: countTotal({
-  //         product: dinnerProductQuery.product,
-  //         portion,
-  //       }) as any,
-  //     }); //add count total
-  //   };
 
   return (
     <Styled.ProductWrapper>
       <Styled.ProductMainWrapper>
-        {dinnerProduct.product.image && (
-          <Image imageId={dinnerProduct.product.image} roundedDataGrid={true} />
+        {dinnerProductQuery.product.image && (
+          <div>
+            <Image
+              imageId={dinnerProductQuery.product.image}
+              roundedDataGrid={true}
+            />
+          </div>
         )}
         <Styled.ProductContentWrapper>
-          <h2>{dinnerProduct.product.name}</h2>
+          <h2>{dinnerProductQuery.product.name}</h2>
           <h3>
             wybrana porcja: <b>{selectedProductPortion.portion} g</b>{" "}
           </h3>
@@ -236,7 +328,7 @@ const DinnerProduct = ({ dinnerProduct, fieldIndex }: IDinnerProductProps) => {
           </Styled.ProductTotalFeaturesWrapper>
           <h3>dostępne porcje:</h3>{" "}
           <Styled.ProductPortionsWrapper>
-            {dinnerProduct.portionsGram?.map((portion) => (
+            {dinnerProductQuery.portionsGram.map((portion) => (
               <Styled.ProductPortionWrapper
                 onClick={() => changePortion(portion)}
                 key={portion}

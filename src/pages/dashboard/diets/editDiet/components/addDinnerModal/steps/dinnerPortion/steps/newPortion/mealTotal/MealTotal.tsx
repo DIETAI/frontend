@@ -4,7 +4,7 @@ import * as Styled from "./MealTotal.styles";
 
 //form
 import { useFormContext } from "react-hook-form";
-// import { IDinnerPortion } from "../schema/dinnerPortion.schema";
+import { IDinnerPortion } from "../schema/newPortion.schema";
 
 const MealTotal = () => {
   const {
@@ -16,16 +16,16 @@ const MealTotal = () => {
     trigger,
   } = useFormContext();
 
-  // const dinnerPortionTotal = watch("total") as IDinnerPortion["total"];
+  const dinnerPortionTotal = watch("total") as IDinnerPortion["total"];
 
   return (
     <Styled.MealTotalWrapper>
       <h2>Razem:</h2>
       <Styled.MealTotalFeaturesWrapper>
         <Styled.MealTotalFeature>
-          Kcal: <b>200</b>
+          Kcal: <b>{dinnerPortionTotal.kcal}</b>
         </Styled.MealTotalFeature>
-        {/* <Styled.MealTotalFeature>
+        <Styled.MealTotalFeature>
           B (g): <b>{dinnerPortionTotal.protein.gram}</b>
         </Styled.MealTotalFeature>
         <Styled.MealTotalFeature>
@@ -39,7 +39,7 @@ const MealTotal = () => {
         </Styled.MealTotalFeature>
         <Styled.MealTotalFeature>
           Bł (g): <b>{dinnerPortionTotal.fiber.gram}</b>
-        </Styled.MealTotalFeature> */}
+        </Styled.MealTotalFeature>
       </Styled.MealTotalFeaturesWrapper>
     </Styled.MealTotalWrapper>
   );

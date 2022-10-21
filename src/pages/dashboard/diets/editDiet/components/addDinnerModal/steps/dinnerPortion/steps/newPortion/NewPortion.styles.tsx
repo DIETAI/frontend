@@ -66,6 +66,21 @@ const FormWrapper = styled.form(
   `
 );
 
+const ButtonWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  `
+);
+
 const ProductsContainer = styled.div(
   ({
     theme: {
@@ -78,7 +93,7 @@ const ProductsContainer = styled.div(
     align-items: flex-start;
     justify-content: flex-start;
     flex-direction: column;
-    padding: 2rem 0;
+    padding: 2rem;
     gap: 2rem;
     width: 100%;
     overflow-y: auto;
@@ -103,6 +118,8 @@ const ProductWrapper = styled.div(
     border-radius: ${border.rounded.md};
     gap: 2rem;
     width: 100%;
+
+    position: relative;
   `
 );
 
@@ -120,6 +137,8 @@ const ProductContentWrapper = styled.div(
     flex-direction: column;
     /* padding: 2rem; */
     gap: 1rem;
+
+    width: 100%;
 
     h2 {
       font-size: ${fontSize.m};
@@ -226,6 +245,9 @@ const ProductPortionItem = styled.div(
     font-weight: ${fontWeight.medium};
     font-size: 1.3rem;
     min-width: 8rem;
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
   `
 );
 
@@ -274,6 +296,7 @@ export {
   AddDinnerPortionWrapper,
   FormWrapper,
   ProductsContainer,
+  ButtonWrapper,
   ProductWrapper,
   ProductMainWrapper,
   ProductContentWrapper,

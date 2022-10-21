@@ -112,7 +112,11 @@ const DinnerPortion = () => {
       {dinnerPortionOption === "added" && <Step.AddedPortions />}
       {dinnerPortionOption === "recommend" && <Step.RecommendPortion />}
       {dinnerPortionOption === "new" && (
-        <Step.NewPortion selectedDinnerId={selectedDinnerId} />
+        <Step.NewPortion
+          selectedDinnerId={selectedDinnerId}
+          closeNewPortionPopup={() => setDinnerPortionOption("added")}
+          selectDinnerPortion={selectDinnerPortion}
+        />
       )}
     </Styled.PortionsWrapper>
   );
