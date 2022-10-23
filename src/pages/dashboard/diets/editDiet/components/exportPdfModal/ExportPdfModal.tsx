@@ -22,6 +22,45 @@ import { IDietQueryData } from "interfaces/diet/dietQuery.interfaces";
 //styles
 import * as Styled from "./ExportPdfModal.styles";
 
+//fonts
+import RobotoRegular from "assets/fonts/roboto.regular.ttf";
+import RobotoBold from "assets/fonts/roboto.bold.ttf";
+import RobotoLight from "assets/fonts/roboto.light.ttf";
+import RobotoMedium from "assets/fonts/roboto.medium.ttf";
+import RobotoThin from "assets/fonts/roboto.thin.ttf";
+
+// Font.register({
+//   family: "Roboto",
+//   src: RobotoRegular,
+// });
+
+Font.register({
+  family: "Roboto",
+  fonts: [
+    {
+      src: RobotoRegular,
+      fontWeight: 500,
+    },
+    {
+      src: RobotoBold,
+      fontWeight: 800,
+    },
+    {
+      src: RobotoLight,
+      fontWeight: 400,
+    },
+    {
+      src: RobotoThin,
+      fontWeight: 300,
+    },
+    {
+      src: RobotoMedium,
+      fontWeight: 600,
+    },
+  ],
+  // src: "https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-light-webfont.ttf",
+});
+
 // Create styles
 const styles = StyleSheet.create({
   container: {
@@ -60,7 +99,7 @@ const styles = StyleSheet.create({
     padding: 10,
     flexGrow: 1,
     fontSize: 50,
-    fontWeight: 800,
+    fontWeight: 600,
   },
   introBackground: {
     position: "absolute",
@@ -94,6 +133,8 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     width: "100%",
     backgroundColor: "#f6f3fc",
+    fontWeight: 500,
+    // color: "#0000ee",
   },
   section: {
     display: "flex",
@@ -106,19 +147,56 @@ const styles = StyleSheet.create({
     borderBottomColor: "#ece2ff",
   },
 
+  mealContainer: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
+    marginBottom: 20,
+    marginTop: 20,
+    width: "100%",
+    padding: 15,
+    borderRadius: 10,
+    border: 1,
+    borderStyle: "dashed",
+    borderColor: "#ece2ff",
+  },
+
   mealHeader: {
     display: "flex",
     alignItems: "flex-start",
     justifyContent: "space-between",
     width: "100%",
     flexDirection: "row",
-    padding: 15,
-    marginBottom: 20,
-    borderRadius: 10,
-    marginTop: 20,
+    fontWeight: 500,
+    fontSize: 16,
+  },
+
+  mealTotal: {
+    display: "flex",
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
+    flexDirection: "row",
+    width: "100%",
+    flexWrap: "wrap",
+    paddingTop: 15,
+  },
+
+  mealTotalItem: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    flexGrow: 1,
     border: 1,
-    borderStyle: "dashed",
     borderColor: "#ece2ff",
+    borderRadius: 6,
+    color: "#0000ee",
+    fontWeight: 500,
+    fontSize: 12,
+    backgroundColor: "#f6f3fc",
+    marginRight: 6,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
   },
 
   dinnersContainer: {
@@ -148,6 +226,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     marginLeft: 20,
     fontSize: 16,
+    fontWeight: 500,
   },
   productsWrapper: {
     display: "flex",
@@ -164,6 +243,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "100%",
     fontSize: 13,
+    fontWeight: 400,
+    marginTop: 4,
+    opacity: 0.8,
   },
   dietItemImage: {
     width: 150,
@@ -174,26 +256,24 @@ const styles = StyleSheet.create({
   },
 });
 
-Font.register({
-  family: "Roboto",
-  fonts: [
-    {
-      src: "https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-light-webfont.ttf",
-      fontStyle: "light",
-    },
-    {
-      src: "https://fonts.google.com/share?selection.family=Roboto:wght@900",
-      fontStyle: "bold",
-      fontWeight: 800,
-    },
-  ],
-  // src: "https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-light-webfont.ttf",
-});
+// Font.register({
+//   family: "Roboto",
+//   fonts: [
+//     {
+//       src: "https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-light-webfont.ttf",
+//     },
+//     {
+//       src: "https://fonts.google.com/share?selection.family=Roboto:wght@900",
+//       fontWeight: 800,
+//     },
+//   ],
+//   // src: "https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-light-webfont.ttf",
+// });
 
-Font.register({
-  family: "Roboto",
-  src: "https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-light-webfont.ttf",
-});
+// Font.register({
+//   family: "Roboto",
+//   src: "https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-light-webfont.ttf",
+// });
 
 // Create Document Component
 export const MyDocument = ({ diet }: { diet: IDietQueryData }) => {
@@ -218,15 +298,35 @@ export const MyDocument = ({ diet }: { diet: IDietQueryData }) => {
           </View>
           {day.meals.map((meal) => (
             <View key={meal._id} style={styles.section} wrap={true}>
-              <View style={styles.mealHeader} break>
-                <Text>{meal.name}</Text>
-                <Text>8:00</Text>
+              <View style={styles.mealContainer} break>
+                <View style={styles.mealHeader} break>
+                  <Text>{meal.name}</Text>
+                  <Text>8:00</Text>
+                </View>
+                <View style={styles.mealTotal}>
+                  <View style={styles.mealTotalItem}>
+                    <Text>kcal: {meal.total.kcal}</Text>
+                  </View>
+                  <View style={styles.mealTotalItem}>
+                    <Text>B (g): {meal.total.protein.gram}</Text>
+                  </View>
+                  <View style={styles.mealTotalItem}>
+                    <Text>T (g): {meal.total.fat.gram}</Text>
+                  </View>
+                  <View style={{ ...styles.mealTotalItem, margin: 0 }}>
+                    <Text>W (g): {meal.total.carbohydrates.gram}</Text>
+                  </View>
+                </View>
               </View>
 
               <View style={styles.dinnersContainer} wrap={true}>
                 {meal.dinners.length > 0 &&
                   meal.dinners.map((dietDinner) => (
-                    <View key={dietDinner._id} style={styles.dinnerSection}>
+                    <View
+                      key={dietDinner._id}
+                      style={styles.dinnerSection}
+                      break
+                    >
                       {dietDinner.dinnerPortion.dinner.imageObj ? (
                         <Image
                           style={styles.dinnerSectionImage}

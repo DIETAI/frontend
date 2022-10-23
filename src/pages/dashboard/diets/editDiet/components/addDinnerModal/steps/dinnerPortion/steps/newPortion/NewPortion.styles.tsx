@@ -1,5 +1,40 @@
 import styled, { css } from "styled-components";
 
+const NotValidPortionWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    h3 {
+      font-size: 1.5rem;
+      font-weight: ${fontWeight.medium};
+      color: ${palette.common.text};
+      margin-top: 1rem;
+    }
+  `
+);
+
+const CloseButtonWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    position: absolute;
+    top: 0;
+    right: 0;
+  `
+);
+
 const Container = styled.div(
   ({
     theme: {
@@ -63,6 +98,7 @@ const FormWrapper = styled.form(
     width: 100%;
     height: 100%;
     gap: 2rem;
+    position: relative;
   `
 );
 
@@ -93,7 +129,7 @@ const ProductsContainer = styled.div(
     align-items: flex-start;
     justify-content: flex-start;
     flex-direction: column;
-    padding: 2rem;
+    /* padding: 2rem; */
     gap: 2rem;
     width: 100%;
     overflow-y: auto;
@@ -305,4 +341,6 @@ export {
   ProductPortionItem,
   ProductTotalFeaturesWrapper,
   ProductTotalFeature,
+  NotValidPortionWrapper,
+  CloseButtonWrapper,
 };

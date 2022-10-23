@@ -32,13 +32,14 @@ import { IDinnerProductQueryData } from "interfaces/dinner/dinnerProducts.interf
 import { ITotal } from "interfaces/total.interfaces";
 
 //icons
-import { FaUtensils } from "react-icons/fa";
+import { FaUtensils, FaTimes } from "react-icons/fa";
 
 //component
 import Button from "components/form/button/Button";
 import Heading from "components/heading/Heading";
 import Image from "components/form/images/image/Image";
 import MealTotal from "./mealTotal/MealTotal";
+import IconButton from "components/iconButton/IconButton";
 
 //schema
 import {
@@ -177,19 +178,28 @@ const NewPortion = ({
         <FormProvider {...methods}>
           <Styled.FormWrapper autoComplete="off">
             <Heading icon={<FaUtensils />} title="Nowa porcja" />
-            <button onClick={closeNewPortionPopup} type="button">
-              x
-            </button>
+            <Styled.CloseButtonWrapper>
+              <IconButton icon={<FaTimes />} onClick={closeNewPortionPopup} />
+            </Styled.CloseButtonWrapper>
+
             <MealTotal />
             {!validPortion() && (
-              <h3 style={{ color: "red" }}>Istnieje już taki zestaw porcji</h3>
+              <Styled.NotValidPortionWrapper>
+                <h3 style={{ color: "red" }}>
+                  Istnieje już taki zestaw porcji
+                </h3>
+              </Styled.NotValidPortionWrapper>
             )}
             <DinnerProducts />
             <Styled.ButtonWrapper>
               <Button
                 type="button"
                 onClick={handleSubmit(onCreatePortionSubmit) as any}
-                variant={isSubmitting || !isValid ? "disabled" : "primary"}
+                variant={
+                  isSubmitting || !isValid || !validPortion()
+                    ? "disabled"
+                    : "primary"
+                }
               >
                 stwórz porcję
               </Button>

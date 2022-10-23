@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IDietMealQueryData } from "interfaces/diet/dietQuery.interfaces";
 import axios from "utils/api";
 import { mutate } from "swr";
@@ -31,6 +31,10 @@ const Meal = ({ meal, establishment }: IMeal) => {
   const [addDinnerModalOpen, setDinnerModalOpen] = useState(false);
   const [generateMealModalOpen, setGenerateMealModalOpen] = useState(false);
   const [mealDinners, setMealDinners] = useState(meal.dinners);
+
+  useEffect(() => {
+    setMealDinners(meal.dinners);
+  }, [...meal.dinners]);
 
   // const { dietDinners, dietDinnersError, dietDinnersLoading } = getDietDinners(
   //   meal._id
