@@ -1,6 +1,7 @@
 import { ITotal } from "interfaces/total.interfaces";
 import React, { useEffect, useState } from "react";
 import * as Styled from "../../DinnerPortion.styles";
+import axios from "utils/api";
 
 import { useFormContext } from "react-hook-form";
 import { getDiet } from "services/getDiets";
@@ -77,6 +78,7 @@ const RecommendPortion = () => {
 
   const mealId = watch("dietMealId") as string;
   const dietId = watch("dietId") as string;
+  const dinnerId = watch("dinnerId") as string;
   const { diet } = getDiet(dietId);
 
   if (!diet) return null;
@@ -105,9 +107,28 @@ const RecommendPortion = () => {
     }
   }, [mealEstablishment]);
 
-  const handleGeneratePortion = () => {
+  const handleGeneratePortion = async () => {
     setGeneratedPortionLoading(true);
     console.log("generated");
+
+    if (!establishmentToGeneratePortion) return;
+
+    try {
+      const generatedDinnerPortion = await axios.post(
+        "/api/v1/dietDinnerPortionGenerate",
+        {
+          dietId: dietId,
+          dinnerId: dinnerId,
+          mealEstablishment: { kcal: establishmentToGeneratePortion.kcal },
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      console.log({ generatedDinnerPortion });
+    } catch (e) {
+      console.log(e);
+    }
     setGeneratedPortionLoading(false);
   };
 
@@ -139,7 +160,7 @@ const RecommendPortion = () => {
           </Styled.PortionTotalFeature> */}
         </Styled.PortionTotalFeaturesWrapper>
       )}
-      {generatedPortion && (
+      {/* {generatedPortion && (
         <Styled.PortionWrapper active={true}>
           <Styled.PortionHeadingWrapper>
             <Styled.PortionHeading>
@@ -188,34 +209,7 @@ const RecommendPortion = () => {
                   <Styled.ProductContentWrapper>
                     <h3>{dinnerPortionProduct.product.name}</h3>
 
-                    {/* <Styled.ProductTotalFeaturesWrapper>
-                        <Styled.ProductTotalFeature>
-                          Kcal: <b>{dinnerPortionProduct.total.kcal}</b>
-                        </Styled.ProductTotalFeature>
-                        <Styled.ProductTotalFeature>
-                          B (g):{" "}
-                          <b>{dinnerPortionProduct.total.protein.gram}</b>
-                        </Styled.ProductTotalFeature>
-                        <Styled.ProductTotalFeature>
-                          T (g): <b>{dinnerPortionProduct.total.fat.gram}</b>
-                        </Styled.ProductTotalFeature>
-                        <Styled.ProductTotalFeature>
-                          W (g):{" "}
-                          <b>{dinnerPortionProduct.total.carbohydrates.gram}</b>
-                        </Styled.ProductTotalFeature>
-                        <Styled.ProductTotalFeature>
-                          Wp (g):{" "}
-                          <b>
-                            {
-                              dinnerPortionProduct.total.digestableCarbohydrates
-                                .gram
-                            }
-                          </b>
-                        </Styled.ProductTotalFeature>
-                        <Styled.ProductTotalFeature>
-                          Bł (g): <b>{dinnerPortionProduct.total.fiber.gram}</b>
-                        </Styled.ProductTotalFeature>
-                      </Styled.ProductTotalFeaturesWrapper> */}
+                  
                   </Styled.ProductContentWrapper>
                 </Styled.ProductMainWrapper>
 
@@ -226,7 +220,7 @@ const RecommendPortion = () => {
             ))}
           </Styled.ProductsWrapper>
         </Styled.PortionWrapper>
-      )}
+      )} */}
     </div>
   );
 };

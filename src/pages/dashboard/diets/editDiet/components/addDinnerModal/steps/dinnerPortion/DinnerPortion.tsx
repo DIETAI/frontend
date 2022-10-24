@@ -32,6 +32,12 @@ const DinnerPortion = () => {
   } = useFormContext();
   const [dinnerPortionOption, setDinnerPortionOption] =
     useState<IDinnerPortionOption>("added");
+
+  const [openAddDinnerPortionPopup, setOpenAddDinnerPortionPopup] =
+    useState(false);
+  const [openGenerateDinnerPortionPopup, setOpenGenerateDinnerPortionPopup] =
+    useState(false);
+
   const selectedDinnerId = watch("dinnerId") as string;
   const selectedDinnerPortionId = watch("dinnerPortionId") as string;
 
@@ -97,25 +103,31 @@ const DinnerPortion = () => {
         <Styled.PortionFilterActions>
           <Styled.PortionNavItem
             activeOption={dinnerPortionOption === "recommend"}
-            onClick={() => setDinnerPortionOption("recommend")}
+            onClick={() => setOpenGenerateDinnerPortionPopup(true)}
           >
             generuj porcję
           </Styled.PortionNavItem>
           <Styled.PortionNavItem
             activeOption={dinnerPortionOption === "new"}
-            onClick={() => setDinnerPortionOption("new")}
+            onClick={() => setOpenAddDinnerPortionPopup(true)}
           >
             stwórz porcję
           </Styled.PortionNavItem>
         </Styled.PortionFilterActions>
       </Styled.PortionFilterWrapper>
-      {dinnerPortionOption === "added" && <Step.AddedPortions />}
-      {dinnerPortionOption === "recommend" && <Step.RecommendPortion />}
-      {dinnerPortionOption === "new" && (
+      <Step.AddedPortions />
+      {openAddDinnerPortionPopup && (
         <Step.NewPortion
           selectedDinnerId={selectedDinnerId}
-          closeNewPortionPopup={() => setDinnerPortionOption("added")}
+          closeNewPortionPopup={() => setOpenAddDinnerPortionPopup(false)}
           selectDinnerPortion={selectDinnerPortion}
+        />
+      )}
+      {openGenerateDinnerPortionPopup && (
+        <Step.RecommendPortion
+        // selectedDinnerId={selectedDinnerId}
+        // closeNewPortionPopup={() => setOpenAddDinnerPortionPopup(false)}
+        // selectDinnerPortion={selectDinnerPortion}
         />
       )}
     </Styled.PortionsWrapper>
