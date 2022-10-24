@@ -19,20 +19,12 @@ import Logo from "assets/logo-icon.png";
 import DinnerNotFoundImg from "assets/dinnerNotFoundPdf.png";
 import { IDietQueryData } from "interfaces/diet/dietQuery.interfaces";
 
-//styles
-import * as Styled from "./ExportPdfModal.styles";
-
 //fonts
 import RobotoRegular from "assets/fonts/roboto.regular.ttf";
 import RobotoBold from "assets/fonts/roboto.bold.ttf";
 import RobotoLight from "assets/fonts/roboto.light.ttf";
 import RobotoMedium from "assets/fonts/roboto.medium.ttf";
 import RobotoThin from "assets/fonts/roboto.thin.ttf";
-
-// Font.register({
-//   family: "Roboto",
-//   src: RobotoRegular,
-// });
 
 Font.register({
   family: "Roboto",
@@ -256,27 +248,8 @@ const styles = StyleSheet.create({
   },
 });
 
-// Font.register({
-//   family: "Roboto",
-//   fonts: [
-//     {
-//       src: "https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-light-webfont.ttf",
-//     },
-//     {
-//       src: "https://fonts.google.com/share?selection.family=Roboto:wght@900",
-//       fontWeight: 800,
-//     },
-//   ],
-//   // src: "https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-light-webfont.ttf",
-// });
-
-// Font.register({
-//   family: "Roboto",
-//   src: "https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-light-webfont.ttf",
-// });
-
 // Create Document Component
-export const MyDocument = ({ diet }: { diet: IDietQueryData }) => {
+export const PdfView = ({ diet }: { diet: IDietQueryData }) => {
   return (
     <Document>
       <Page size="A4" style={styles.introPage} wrap={true}>
@@ -371,32 +344,4 @@ export const MyDocument = ({ diet }: { diet: IDietQueryData }) => {
   );
 };
 
-const ExportDietModal = () => {
-  const { dietEditId } = useParams();
-
-  if (!dietEditId) return null;
-  const { dietQuery, dietQueryLoading, dietQueryError } =
-    getDietQuery(dietEditId);
-
-  if (dietQueryLoading || dietQueryError) return <div>loading...</div>;
-  if (!dietQuery) return <div>error..</div>;
-
-  return (
-    <Styled.ExportPdfModalContainer>
-      <PDFDownloadLink
-        document={<MyDocument diet={dietQuery} />}
-        fileName={`${dietQuery.name}.pdf`}
-      >
-        {({ blob, url, loading, error }) =>
-          loading ? "Loading document..." : "Download now!"
-        }
-      </PDFDownloadLink>
-
-      {/* <PDFViewer style={styles.container}>
-        <MyDocument diet={dietQuery} />
-      </PDFViewer> */}
-    </Styled.ExportPdfModalContainer>
-  );
-};
-
-export default ExportDietModal;
+export default PdfView;

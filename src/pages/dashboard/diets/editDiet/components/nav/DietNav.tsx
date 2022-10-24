@@ -33,7 +33,7 @@ import DietGenerateModal from "../dietGenerateModal/DietGenerateModal";
 import DeleteModalContent from "pages/dashboard/components/deleteModal/DeleteModal";
 import GeneratedDietModal from "../generatedDietModal/GeneratedDietModal";
 import DietSettingsModal from "../dietSettingsModal/DietSettingsModal";
-import ExportDietModal from "../exportPdfModal/ExportPdfModal";
+import ExportDietModal from "../exportDietModal/ExportDietModal";
 
 const DietNav = ({
   setView,
