@@ -117,16 +117,50 @@ const styles = StyleSheet.create({
     height: 40,
     objectFit: "contain",
   },
+  dayContainer: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
+    width: "100%",
+    padding: 15,
+    backgroundColor: "#f6f3fc",
+    paddingHorizontal: 40,
+    paddingVertical: 20,
+  },
   dayHeader: {
     display: "flex",
     alignItems: "flex-start",
     justifyContent: "center",
-    paddingHorizontal: 40,
-    paddingVertical: 10,
     width: "100%",
-    backgroundColor: "#f6f3fc",
     fontWeight: 500,
     // color: "#0000ee",
+  },
+
+  dayTotal: {
+    display: "flex",
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
+    flexDirection: "row",
+    width: "100%",
+    flexWrap: "wrap",
+    paddingTop: 15,
+  },
+  dayTotalItem: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    flexGrow: 1,
+    border: 1,
+    borderColor: "#ece2ff",
+    borderRadius: 6,
+    color: "#0000ee",
+    fontWeight: 500,
+    fontSize: 12,
+    backgroundColor: "#f6f3fc",
+    marginRight: 6,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
   },
   section: {
     display: "flex",
@@ -266,8 +300,24 @@ export const PdfView = ({ diet }: { diet: IDietQueryData }) => {
           <View style={styles.header}>
             <Image src={Logo} style={styles.logo} />
           </View>
-          <View style={styles.dayHeader}>
-            <Text>Dzień {day.order}</Text>
+          <View style={styles.dayContainer}>
+            <View style={styles.dayHeader}>
+              <Text>Dzień {day.order}</Text>
+            </View>
+            <View style={styles.dayTotal}>
+              <View style={styles.dayTotalItem}>
+                <Text>kcal: {day.total.kcal}</Text>
+              </View>
+              <View style={styles.dayTotalItem}>
+                <Text>B (g): {day.total.protein.gram}</Text>
+              </View>
+              <View style={styles.dayTotalItem}>
+                <Text>T (g): {day.total.fat.gram}</Text>
+              </View>
+              <View style={{ ...styles.dayTotalItem, margin: 0 }}>
+                <Text>W (g): {day.total.carbohydrates.gram}</Text>
+              </View>
+            </View>
           </View>
           {day.meals.map((meal) => (
             <View key={meal._id} style={styles.section} wrap={true}>

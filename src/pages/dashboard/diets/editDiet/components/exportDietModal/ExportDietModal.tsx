@@ -13,7 +13,7 @@ import { FaFileExport, FaFileExcel, FaFilePdf } from "icons/icons";
 import * as Styled from "./ExportDietModal.styles";
 
 //pdf
-import { PDFDownloadLink } from "@react-pdf/renderer";
+import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
 
 //csv
 import { CSVLink } from "react-csv";
@@ -92,6 +92,9 @@ const ExportDietModal = () => {
           </CSVLink>
         </Styled.ExportDietOption>
       </Styled.ExportDietOptionsWrapper>
+      <PDFViewer style={{ width: "100%", height: "100rem" }}>
+        <PdfView diet={dietQuery} />
+      </PDFViewer>
     </Styled.ExportDietModalContainer>
   );
 };
