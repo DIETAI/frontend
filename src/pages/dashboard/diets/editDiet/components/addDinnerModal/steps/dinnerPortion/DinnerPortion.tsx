@@ -38,6 +38,8 @@ const DinnerPortion = () => {
   const [openGenerateDinnerPortionPopup, setOpenGenerateDinnerPortionPopup] =
     useState(false);
 
+  const dietMealId = watch("dietMealId") as string;
+  const dietId = watch("dietId") as string;
   const selectedDinnerId = watch("dinnerId") as string;
   const selectedDinnerPortionId = watch("dinnerPortionId") as string;
 
@@ -125,9 +127,13 @@ const DinnerPortion = () => {
       )}
       {openGenerateDinnerPortionPopup && (
         <Step.RecommendPortion
-        // selectedDinnerId={selectedDinnerId}
-        // closeNewPortionPopup={() => setOpenAddDinnerPortionPopup(false)}
-        // selectDinnerPortion={selectDinnerPortion}
+          dietId={dietId}
+          mealId={dietMealId}
+          selectedDinnerId={selectedDinnerId}
+          closeRecommendPortionPopup={() =>
+            setOpenGenerateDinnerPortionPopup(false)
+          }
+          selectDinnerPortion={selectDinnerPortion}
         />
       )}
     </Styled.PortionsWrapper>

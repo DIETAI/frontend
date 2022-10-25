@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components";
+import { motion } from "framer-motion";
 
 const NotValidPortionWrapper = styled.div(
   ({
@@ -60,7 +61,7 @@ const Container = styled.div(
     justify-content: flex-start;
   `
 );
-const AddDinnerPortionWrapper = styled.div(
+const RecommendDinnerPortionWrapper = styled.div(
   ({
     theme: {
       palette,
@@ -329,7 +330,7 @@ const ProductTotalFeature = styled.li(
 
 export {
   Container,
-  AddDinnerPortionWrapper,
+  RecommendDinnerPortionWrapper,
   FormWrapper,
   ProductsContainer,
   ButtonWrapper,
