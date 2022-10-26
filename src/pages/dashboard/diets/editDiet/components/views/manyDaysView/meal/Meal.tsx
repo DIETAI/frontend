@@ -142,12 +142,11 @@ const Meal = ({ meal, establishment }: IMeal) => {
         <FaPlus />
         dodaj pozycję
       </Styled.AddDinnerButton>
-      {meal.dinners.length < 1 && (
-        <Styled.AddDinnerButton onClick={() => setGenerateMealModalOpen(true)}>
-          <FaFileAlt />
-          szybkie generowanie
-        </Styled.AddDinnerButton>
-      )}
+
+      <Styled.AddDinnerButton onClick={() => setGenerateMealModalOpen(true)}>
+        <FaFileAlt />
+        generuj posiłek
+      </Styled.AddDinnerButton>
 
       <Modal
         onClose={() => setDinnerModalOpen(false)}

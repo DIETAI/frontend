@@ -33,7 +33,7 @@ import Button from "components/form/button/Button";
 import ReactLoading from "react-loading";
 
 //icons
-import { FaUserCog } from "icons/icons";
+import { FaUserCog, FaPlus, FaExchangeAlt } from "icons/icons";
 
 //styles
 import * as Styled from "./MealGenerateModal.styles";
@@ -117,6 +117,8 @@ const validPortion = ({ dinnerPortionsQuery, mealDinner }: IValidPortion) => {
   // return true;
 };
 
+type IMealGenerateOption = "changeAmountAddedMealDinners" | "newMeal";
+
 const MealGenerateModal = ({
   meal,
   mealEstablishment,
@@ -129,6 +131,8 @@ const MealGenerateModal = ({
   closeModal: () => void;
 }) => {
   const { dietEditId } = useParams();
+  const [mealGenerateOption, setMealGenerateOption] =
+    useState<IMealGenerateOption>("newMeal");
   const [mealGenerateAction, setMealGenerateAction] =
     useState<IMealGenerateAction>({
       actionType: "",
@@ -384,9 +388,43 @@ const MealGenerateModal = ({
       <Styled.MealGenerateContentWrapper>
         {mealDinners.length < 1 && (
           <Styled.ContentWrapper>
-            <img src={GenerateMealImage} />
+            <Styled.MealToGenerateOptionsWrapper>
+              <Styled.MealToGenerateOption
+                onClick={() => setMealGenerateOption("newMeal")}
+                active={mealGenerateOption === "newMeal"}
+                type="newMeal"
+              >
+                {/* <img src={GenerateMealImage} /> */}
+                <FaPlus />
+                <h2>
+                  {meal.dinners.length > 0
+                    ? "zamień dodane potrawy"
+                    : "generuj nowe potrawy"}
+                </h2>
+              </Styled.MealToGenerateOption>
+              <Styled.MealToGenerateOption
+                onClick={() =>
+                  setMealGenerateOption("changeAmountAddedMealDinners")
+                }
+                type="changeAmountAddedMealDinners"
+                active={mealGenerateOption === "changeAmountAddedMealDinners"}
+                disabled={meal.dinners.length < 1}
+              >
+                {/* <img src={GenerateMealImage} /> */}
+                <FaExchangeAlt />
+
+                <h2>
+                  dostosuj zestaw porcji do założeń dla już dodanych potraw
+                </h2>
+              </Styled.MealToGenerateOption>
+            </Styled.MealToGenerateOptionsWrapper>
+
             <Styled.ContentButtonsWrapper>
-              <Button type="button" onClick={generateMealFromServer as any}>
+              <Button
+                variant={!mealGenerateOption ? "disabled" : "primary"}
+                type="button"
+                onClick={generateMealFromServer as any}
+              >
                 generuj posiłek
               </Button>
               {/* <Button type="button" onClick={handleGenerateDietMeal as any}>
