@@ -319,75 +319,77 @@ export const PdfView = ({ diet }: { diet: IDietQueryData }) => {
               </View>
             </View>
           </View>
-          {day.meals.map((meal) => (
-            <View key={meal._id} style={styles.section} wrap={true}>
-              <View style={styles.mealContainer} break>
-                <View style={styles.mealHeader} break>
-                  <Text>{meal.name}</Text>
-                  <Text>8:00</Text>
+          {day.meals
+            .filter((dayMeal) => dayMeal.dinners.length > 0)
+            .map((meal) => (
+              <View key={meal._id} style={styles.section} wrap={true}>
+                <View style={styles.mealContainer} break>
+                  <View style={styles.mealHeader} break>
+                    <Text>{meal.name}</Text>
+                    <Text>8:00</Text>
+                  </View>
+                  <View style={styles.mealTotal}>
+                    <View style={styles.mealTotalItem}>
+                      <Text>kcal: {meal.total.kcal}</Text>
+                    </View>
+                    <View style={styles.mealTotalItem}>
+                      <Text>B (g): {meal.total.protein.gram}</Text>
+                    </View>
+                    <View style={styles.mealTotalItem}>
+                      <Text>T (g): {meal.total.fat.gram}</Text>
+                    </View>
+                    <View style={{ ...styles.mealTotalItem, margin: 0 }}>
+                      <Text>W (g): {meal.total.carbohydrates.gram}</Text>
+                    </View>
+                  </View>
                 </View>
-                <View style={styles.mealTotal}>
-                  <View style={styles.mealTotalItem}>
-                    <Text>kcal: {meal.total.kcal}</Text>
-                  </View>
-                  <View style={styles.mealTotalItem}>
-                    <Text>B (g): {meal.total.protein.gram}</Text>
-                  </View>
-                  <View style={styles.mealTotalItem}>
-                    <Text>T (g): {meal.total.fat.gram}</Text>
-                  </View>
-                  <View style={{ ...styles.mealTotalItem, margin: 0 }}>
-                    <Text>W (g): {meal.total.carbohydrates.gram}</Text>
-                  </View>
-                </View>
-              </View>
 
-              <View style={styles.dinnersContainer} wrap={true}>
-                {meal.dinners.length > 0 &&
-                  meal.dinners.map((dietDinner) => (
-                    <View
-                      key={dietDinner._id}
-                      style={styles.dinnerSection}
-                      break
-                    >
-                      {dietDinner.dinnerPortion.dinner.imageObj ? (
-                        <Image
-                          style={styles.dinnerSectionImage}
-                          src={
-                            dietDinner.dinnerPortion.dinner.imageObj.imageURL
-                          }
-                        />
-                      ) : (
-                        <Image
-                          style={styles.dinnerSectionImage}
-                          src={DinnerNotFoundImg}
-                        />
-                      )}
-                      <View style={styles.dinnerSectionContentWrapper}>
-                        <Text>{dietDinner.dinnerPortion.dinner.name}</Text>
+                <View style={styles.dinnersContainer} wrap={true}>
+                  {meal.dinners.length > 0 &&
+                    meal.dinners.map((dietDinner) => (
+                      <View
+                        key={dietDinner._id}
+                        style={styles.dinnerSection}
+                        break
+                      >
+                        {dietDinner.dinnerPortion.dinner.imageObj ? (
+                          <Image
+                            style={styles.dinnerSectionImage}
+                            src={
+                              dietDinner.dinnerPortion.dinner.imageObj.imageURL
+                            }
+                          />
+                        ) : (
+                          <Image
+                            style={styles.dinnerSectionImage}
+                            src={DinnerNotFoundImg}
+                          />
+                        )}
+                        <View style={styles.dinnerSectionContentWrapper}>
+                          <Text>{dietDinner.dinnerPortion.dinner.name}</Text>
 
-                        <View style={styles.productsWrapper}>
-                          {dietDinner.dinnerPortion.dinnerProducts.map(
-                            (dinnerProduct) => (
-                              <View
-                                key={dinnerProduct.dinnerProductId}
-                                style={styles.product}
-                              >
-                                <Text>•</Text>
-                                <Text style={{ marginHorizontal: 4 }}>
-                                  {dinnerProduct.dinnerProduct.product.name} -{" "}
-                                  {dinnerProduct.portion} g
-                                </Text>
-                              </View>
-                            )
-                          )}
+                          <View style={styles.productsWrapper}>
+                            {dietDinner.dinnerPortion.dinnerProducts.map(
+                              (dinnerProduct) => (
+                                <View
+                                  key={dinnerProduct.dinnerProductId}
+                                  style={styles.product}
+                                >
+                                  <Text>•</Text>
+                                  <Text style={{ marginHorizontal: 4 }}>
+                                    {dinnerProduct.dinnerProduct.product.name} -{" "}
+                                    {dinnerProduct.portion} g
+                                  </Text>
+                                </View>
+                              )
+                            )}
+                          </View>
                         </View>
                       </View>
-                    </View>
-                  ))}
+                    ))}
+                </View>
               </View>
-            </View>
-          ))}
+            ))}
         </Page>
       ))}
     </Document>
