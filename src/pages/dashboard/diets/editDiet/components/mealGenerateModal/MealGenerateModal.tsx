@@ -279,6 +279,19 @@ const MealGenerateModal = ({
             dinnerPortionId: newDinnerPortion.data._id,
           };
 
+          if(meal.dinners.length > 0){
+            await Promise.all(meal.dinners.map(async (dietDinner) => {
+              const deletedDinner = await axios.delete(
+                `/api/v1/dietDinners/${dietDinner._id}`,
+                {
+                  withCredentials: true,
+                }
+              );
+
+              console.log({deletedDinner})
+            } ))
+          }
+
           const newDietDinner = await axios.post(
             "/api/v1/dietDinners",
             newDietDinnerData,
@@ -303,13 +316,26 @@ const MealGenerateModal = ({
           dinnerPortionId: mealDinner.portionId as string,
         };
 
+        if(meal.dinners.length > 0){
+          await Promise.all(meal.dinners.map(async (dietDinner) => {
+            const deletedDinner = await axios.delete(
+              `/api/v1/dietDinners/${dietDinner._id}`,
+              {
+                withCredentials: true,
+              }
+            );
+
+            console.log({deletedDinner})
+          }))
+        }
+
         const newDietDinner = await axios.post(
           "/api/v1/dietDinners",
           newDietDinnerData,
           {
             withCredentials: true,
           }
-        );
+        ); 
 
         console.log({ newDietDinner });
         dispatch(removeMealGenerate());
@@ -349,7 +375,7 @@ const MealGenerateModal = ({
     try {
       const generatedMeal = await axios.post(
         "/api/v1/dietGenerate/meal",
-        { mealId: meal._id },
+        { mealId: meal._id, mealGenerateOption },
         {
           withCredentials: true,
         }
