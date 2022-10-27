@@ -316,6 +316,7 @@ const MealGenerateModal = ({
           dinnerPortionId: mealDinner.portionId as string,
         };
 
+        //delete added diet dinners
         if(meal.dinners.length > 0){
           await Promise.all(meal.dinners.map(async (dietDinner) => {
             const deletedDinner = await axios.delete(
