@@ -25,6 +25,7 @@ import RobotoBold from "assets/fonts/roboto.bold.ttf";
 import RobotoLight from "assets/fonts/roboto.light.ttf";
 import RobotoMedium from "assets/fonts/roboto.medium.ttf";
 import RobotoThin from "assets/fonts/roboto.thin.ttf";
+import { IDietEstablishmentData } from "interfaces/dietEstablishment.interfaces";
 
 Font.register({
   family: "Roboto",
@@ -283,7 +284,7 @@ const styles = StyleSheet.create({
 });
 
 // Create Document Component
-export const PdfView = ({ diet }: { diet: IDietQueryData }) => {
+export const PdfView = ({ diet}: { diet: IDietQueryData }) => {
   return (
     <Document>
       <Page size="A4" style={styles.introPage} wrap={true}>
@@ -326,7 +327,7 @@ export const PdfView = ({ diet }: { diet: IDietQueryData }) => {
                 <View style={styles.mealContainer} break>
                   <View style={styles.mealHeader} break>
                     <Text>{meal.name}</Text>
-                    <Text>8:00</Text>
+                    <Text>{diet.establishment.meals.find(({_id}) => _id === meal.establishmentMealId)?.time}</Text>
                   </View>
                   <View style={styles.mealTotal}>
                     <View style={styles.mealTotalItem}>
