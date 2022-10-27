@@ -335,7 +335,7 @@ const MealGenerateModal = ({
           {
             withCredentials: true,
           }
-        );
+        ); 
 
         console.log({ newDietDinner });
         dispatch(removeMealGenerate());
