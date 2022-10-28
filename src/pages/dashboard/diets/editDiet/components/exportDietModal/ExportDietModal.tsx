@@ -49,8 +49,6 @@ const ExportDietModal = () => {
 
   if (!dietEditId) return null;
 
-
- 
   const { dietQuery, dietQueryLoading, dietQueryError } =
     getDietQuery(dietEditId);
 
@@ -95,9 +93,9 @@ const ExportDietModal = () => {
           </CSVLink>
         </Styled.ExportDietOption>
       </Styled.ExportDietOptionsWrapper>
-      <PDFViewer style={{ width: "100%", height: "100rem" }}>
+      {/* <PDFViewer style={{ width: "100%", height: "100rem" }}>
         <PdfView diet={dietQuery} />
-      </PDFViewer>
+      </PDFViewer> */}
     </Styled.ExportDietModalContainer>
   );
 };
