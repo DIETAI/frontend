@@ -7,7 +7,7 @@ import Heading from "components/heading/Heading";
 import PdfView from "./pdf/PdfView";
 
 //icons
-import { FaFileExport, FaFileExcel, FaFilePdf } from "icons/icons";
+import { FaFileExport, FaFileExcel, FaFilePdf, FaFileAlt } from "icons/icons";
 
 //styles
 import * as Styled from "./ExportDietModal.styles";
@@ -18,9 +18,18 @@ import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
 //csv
 import { CSVLink } from "react-csv";
 
-const csvColumns = ["dieta", "dni", "posiłki", "potrawy", "produkty"];
+const csvHeaders = [
+  { label: "Posiłek", key: "meals" },
+  { label: "Potrawa", key: "dinners" },
+  { label: "produkty", key: "products" },
+];
+
 const csvData = [
-  ["Dieta 1", "Dzień 1", "Śniadanie", "Owsianka", "Płatki owsiane"],
+  {
+    meals: [
+      { name: "Śniadanie", dinners: [{ name: "Owsianka" }, { name: "Sok" }] },
+    ],
+  },
 ];
 
 const ExportDietModal = () => {
@@ -55,6 +64,19 @@ const ExportDietModal = () => {
   if (dietQueryLoading || dietQueryError) return <div>loading...</div>;
   if (!dietQuery) return <div>error..</div>;
 
+  const exportJSONData = dietQuery.days.map((day) => ({
+    day: `Dzień ${day.order}`,
+    meals: day.meals.map((meal) => ({
+      mealName: meal.name,
+      mealDinners: meal.dinners.map((dinner) => ({
+        dinnerName: dinner.dinnerPortion.dinner.name,
+        products: dinner.dinnerPortion.dinnerProducts.map((product) => ({
+          productName: product.dinnerProduct.product.name,
+        })),
+      })),
+    })),
+  }));
+
   return (
     <Styled.ExportDietModalContainer>
       <Heading icon={<FaFileExport />} title="Eksportuj dietę" />
@@ -75,10 +97,25 @@ const ExportDietModal = () => {
             <h3>Eksportuj plik pdf</h3>
           </PDFDownloadLink>
         </Styled.ExportDietOption>
-        <Styled.ExportDietOption optionType="excel">
+
+        <Styled.ExportDietOption optionType="json">
+          <a
+            href={`data:text/json;charset=utf-8,${encodeURIComponent(
+              JSON.stringify(exportJSONData)
+            )}`}
+            download="diet.json"
+          >
+            <span>
+              <FaFileAlt />
+            </span>
+
+            <h3>Eksportuj plik json</h3>
+          </a>
+        </Styled.ExportDietOption>
+        {/* <Styled.ExportDietOption optionType="excel">
           <CSVLink
             data={csvData}
-            headers={csvColumns}
+            headers={csvHeaders}
             asyncOnClick={true}
             onClick={getData}
           >
@@ -91,7 +128,7 @@ const ExportDietModal = () => {
               <h3>Eksportuj plik csv</h3>
             )}
           </CSVLink>
-        </Styled.ExportDietOption>
+        </Styled.ExportDietOption> */}
       </Styled.ExportDietOptionsWrapper>
       {/* <PDFViewer style={{ width: "100%", height: "100rem" }}>
         <PdfView diet={dietQuery} />

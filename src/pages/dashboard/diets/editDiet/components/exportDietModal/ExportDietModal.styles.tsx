@@ -61,7 +61,7 @@ const ExportDietOptionsWrapper = styled.div(
 );
 
 interface IExportDietOptionType {
-  optionType: "pdf" | "excel";
+  optionType: "pdf" | "excel" | "json";
 }
 
 const ExportDietOption = styled.div<IExportDietOptionType>(
@@ -132,6 +132,17 @@ const ExportDietOption = styled.div<IExportDietOptionType>(
       svg {
         path {
           fill: #00d222;
+        }
+      }
+    `}
+    ${optionType === "json" &&
+    css`
+      span {
+        background: #ffff0023;
+      }
+      svg {
+        path {
+          fill: #ffea00;
         }
       }
     `}
