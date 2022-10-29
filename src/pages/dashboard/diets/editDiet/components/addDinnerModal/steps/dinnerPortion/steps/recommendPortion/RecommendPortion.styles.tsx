@@ -103,7 +103,7 @@ const FormWrapper = styled.form(
   `
 );
 
-const ButtonWrapper = styled.div(
+const ButtonsWrapper = styled.div(
   ({
     theme: {
       palette,
@@ -114,6 +114,7 @@ const ButtonWrapper = styled.div(
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 2rem;
     width: 100%;
   `
 );
@@ -333,7 +334,7 @@ export {
   RecommendDinnerPortionWrapper,
   FormWrapper,
   ProductsContainer,
-  ButtonWrapper,
+  ButtonsWrapper,
   ProductWrapper,
   ProductMainWrapper,
   ProductContentWrapper,

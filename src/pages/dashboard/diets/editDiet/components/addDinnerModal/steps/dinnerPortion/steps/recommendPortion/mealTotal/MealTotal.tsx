@@ -18,6 +18,8 @@ const MealTotal = () => {
 
   const dinnerPortionTotal = watch("total") as IDinnerPortion["total"];
 
+  if (!dinnerPortionTotal.kcal) return null;
+
   return (
     <Styled.MealTotalWrapper>
       <h2>Razem:</h2>

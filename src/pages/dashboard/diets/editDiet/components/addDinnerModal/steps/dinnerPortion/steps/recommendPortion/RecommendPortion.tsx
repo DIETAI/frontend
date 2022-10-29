@@ -210,7 +210,9 @@ const RecommendPortion = ({
       setGeneratedPortionError("Nie udało się wygenerować porcji");
     } catch (e) {
       console.log(e);
-      setGeneratedPortionError("Nie udało się wygenerować porcji");
+      setGeneratedPortionError(
+        "Nie udało się wygenerować porcji (dodaj potrawę/produkt z domyślnym zestawem porcji, a następnie skorzystaj z opcji dostosowania zestawu porcji dla dodanych potraw)"
+      );
     }
     setGeneratedPortionLoading(false);
   };
@@ -263,12 +265,8 @@ const RecommendPortion = ({
   return (
     <Styled.Container>
       <Styled.RecommendDinnerPortionWrapper>
-        <button type="button" onClick={handleGeneratePortion}>
-          generuj porcję
-        </button>
         <FormProvider {...methods}>
           <Styled.FormWrapper autoComplete="off">
-            {generatedPortionError && generatedPortionError}
             <Heading icon={<FaUtensils />} title="Generuj porcję" />
             <Styled.CloseButtonWrapper>
               <IconButton
@@ -285,20 +283,46 @@ const RecommendPortion = ({
                 </h3>
               </Styled.NotValidPortionWrapper>
             )}
+
+            {generatedPortionError && (
+              <Styled.NotValidPortionWrapper>
+                <h3 style={{ color: "red" }}>{generatedPortionError}</h3>
+              </Styled.NotValidPortionWrapper>
+            )}
+
             <DinnerProducts />
-            <Styled.ButtonWrapper>
+            <Styled.ButtonsWrapper>
+              {generatedPortionError && (
+                <Button
+                  type="button"
+                  onClick={closeRecommendPortionPopup}
+                  variant="secondary"
+                >
+                  anuluj
+                </Button>
+              )}
+
               <Button
                 type="button"
-                onClick={handleSubmit(onCreatePortionSubmit as any) as any}
-                variant={
-                  isSubmitting || !isValid || !validPortion()
-                    ? "disabled"
-                    : "primary"
-                }
+                onClick={handleGeneratePortion as any}
+                variant="secondary"
               >
-                stwórz porcję
+                generuj porcję
               </Button>
-            </Styled.ButtonWrapper>
+              {isValid && (
+                <Button
+                  type="button"
+                  onClick={handleSubmit(onCreatePortionSubmit as any) as any}
+                  variant={
+                    isSubmitting || !isValid || !validPortion()
+                      ? "disabled"
+                      : "primary"
+                  }
+                >
+                  stwórz porcję
+                </Button>
+              )}
+            </Styled.ButtonsWrapper>
           </Styled.FormWrapper>
         </FormProvider>
 
@@ -493,7 +517,7 @@ const DinnerProduct = ({
               Bł (g): <b>{selectedProductPortion.total.fiber.gram}</b>
             </Styled.ProductTotalFeature>
           </Styled.ProductTotalFeaturesWrapper>
-          <h3>dostępne porcje:</h3>{" "}
+          {/* <h3>dostępne porcje:</h3>{" "}
           <Styled.ProductPortionsWrapper>
             {dinnerProductQuery.portionsGram.map((portion) => (
               <Styled.ProductPortionWrapper
@@ -504,7 +528,7 @@ const DinnerProduct = ({
                 {portion}
               </Styled.ProductPortionWrapper>
             ))}
-          </Styled.ProductPortionsWrapper>
+          </Styled.ProductPortionsWrapper> */}
         </Styled.ProductContentWrapper>
       </Styled.ProductMainWrapper>
       <Styled.ProductPortionItem>
