@@ -36,7 +36,7 @@ const Macrohydrates = () => {
 
     console.log({ name: e.currentTarget.name, value: value });
 
-    if (!value) return setValue(e.currentTarget.name, 0);
+    // if (!value) return setValue(e.currentTarget.name, 0);
 
     setValue(e.currentTarget.name, value);
   };

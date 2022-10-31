@@ -77,6 +77,25 @@ const ExportDietModal = () => {
     })),
   }));
 
+  const getCsv = () => {
+    //csv
+    const items = exportJSONData;
+    const replacer = (key: any, value: any) => (value === null ? "" : value); // specify how you want to handle null values here
+    const header = Object.keys(items[0]);
+    const csv = [
+      header.join(","), // header row first
+      ...items.map((row: any) =>
+        header
+          .map((fieldName) => JSON.stringify(row[fieldName], replacer))
+          .join(",")
+      ),
+    ].join("\r\n");
+
+    console.log(csv);
+
+    return csv;
+  };
+
   return (
     <Styled.ExportDietModalContainer>
       <Heading icon={<FaFileExport />} title="Eksportuj dietę" />
@@ -112,6 +131,19 @@ const ExportDietModal = () => {
             <h3>Eksportuj plik json</h3>
           </a>
         </Styled.ExportDietOption>
+        {/* <a
+          href={`data:text/csv;charset=utf-8,${encodeURIComponent(getCsv())}`}
+          download="diet.csv"
+        >
+          <span>
+            <FaFileAlt />
+          </span>
+
+          <h3>Eksportuj plik csv</h3>
+        </a> */}
+        {/* <button type="button" onClick={getCsv}>
+          get csv
+        </button> */}
         {/* <Styled.ExportDietOption optionType="excel">
           <CSVLink
             data={csvData}

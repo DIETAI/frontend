@@ -36,8 +36,8 @@ const Input = ({
   };
 
   if (controlled && onChange) {
-    inputProps.value = field.value !== 0 ? field.value : "";
-    inputProps.onChange = onChange;
+    // inputProps.value = field.value !== 0 ? field.value : "";
+    (inputProps.value = field.value), (inputProps.onChange = onChange);
   }
 
   if (customValue) {

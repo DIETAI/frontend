@@ -22,6 +22,7 @@ import DashedSelect from "components/form/dashedSelect/DashedSelect";
 import Modal from "components/modal/Modal";
 import EstablishmentModalContent from "./establishmentModal/EstablishmentModal";
 import Autocomplete from "components/form/autocomplete/Autocomplete";
+import Calendar from "components/form/calendar/Calendar";
 
 //icons
 import { FaFileInvoice } from "icons/icons";
@@ -32,6 +33,8 @@ import { useDietEstablishment } from "services/useDietEstablishments";
 
 const defaultValues = dietDataSchema.cast({});
 type INewDietValues = typeof defaultValues;
+
+type IDateType = "amount" | "date";
 
 const NewDietForm = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -78,6 +81,7 @@ const NewDietForm = () => {
   ]);
 
   const establishmentId = getValues("establishmentId");
+  const daysType = watch("daysType") as IDateType;
 
   const onDietFormSubmit = async (data: INewDietValues) => {
     console.log("wysyłanie założeń");
@@ -114,7 +118,19 @@ const NewDietForm = () => {
         <form onSubmit={handleSubmit(onDietFormSubmit)}>
           {/* {JSON.stringify(watch())} */}
           <Input label="nazwa" name="name" fullWidth />
-          <Input label="ilość dni" name="daysAmount" fullWidth type="number" />
+          {daysType === "amount" ? (
+            <Input
+              label="ilość dni"
+              name="daysAmount"
+              fullWidth
+              type="number"
+            />
+          ) : (
+            <div>
+              <Calendar label={`data rozpoczęcia`} name="dateStart" fullWidth />
+            </div>
+          )}
+
           {/* <Input label="start diety" name="dayStart" fullWidth />
           <Input label="koniec diety" name="dayEnd" fullWidth /> */}
           <Autocomplete
