@@ -163,10 +163,53 @@ const EstablishmentItem = styled.div(
   `
 );
 
+const OptionsWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints },
+    },
+  }) => css`
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    /* flex-direction: column; */
+    gap: 1rem;
+    width: 100%;
+    flex-wrap: wrap;
+  `
+);
+
+const Option = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.5rem;
+
+    span {
+      color: ${palette.common.text};
+      font-size: ${fontSize.s};
+      font-weight: ${fontWeight.light};
+    }
+  `
+);
+
 export {
   FormWrapper,
   FormHeading,
   FormBackgroundImageWrapper,
   EstablishmentWrapper,
   EstablishmentItem,
+  OptionsWrapper,
+  Option,
 };

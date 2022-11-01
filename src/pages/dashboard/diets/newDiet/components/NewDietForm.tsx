@@ -22,7 +22,8 @@ import DashedSelect from "components/form/dashedSelect/DashedSelect";
 import Modal from "components/modal/Modal";
 import EstablishmentModalContent from "./establishmentModal/EstablishmentModal";
 import Autocomplete from "components/form/autocomplete/Autocomplete";
-import Calendar from "components/form/calendar/Calendar";
+import Calendar from "./calendar/Calendar";
+import CheckBoxWrapper from "components/checkbox/CheckboxWrapper";
 
 //icons
 import { FaFileInvoice } from "icons/icons";
@@ -111,6 +112,13 @@ const NewDietForm = () => {
     fullName: client.name + " " + client.lastName,
   }));
 
+  const handleChangeDaysOption = (optionType: IDateType) => {
+    setValue("dayStart", undefined);
+    setValue("dayEnd", undefined);
+
+    setValue("daysType", optionType);
+  };
+
   return (
     <Styled.FormWrapper>
       <Heading icon={<FaFileInvoice />} title="Nowa dieta" />
@@ -118,6 +126,22 @@ const NewDietForm = () => {
         <form onSubmit={handleSubmit(onDietFormSubmit)}>
           {/* {JSON.stringify(watch())} */}
           <Input label="nazwa" name="name" fullWidth />
+          <Styled.OptionsWrapper>
+            <Styled.Option>
+              <CheckBoxWrapper
+                onClick={() => handleChangeDaysOption("amount")}
+                checked={daysType === "amount"}
+              />
+              <span>ilość dni</span>
+            </Styled.Option>
+            <Styled.Option>
+              <CheckBoxWrapper
+                onClick={() => handleChangeDaysOption("date")}
+                checked={daysType === "date"}
+              />
+              <span>data rozpoczęcia i zakończenia</span>
+            </Styled.Option>
+          </Styled.OptionsWrapper>
           {daysType === "amount" ? (
             <Input
               label="ilość dni"
@@ -126,9 +150,10 @@ const NewDietForm = () => {
               type="number"
             />
           ) : (
-            <div>
-              <Calendar label={`data rozpoczęcia`} name="dateStart" fullWidth />
-            </div>
+            <>
+              <Calendar label={`data rozpoczęcia`} name="dayStart" fullWidth />
+              <Calendar label={`data zakończenia`} name="dayEnd" fullWidth />
+            </>
           )}
 
           {/* <Input label="start diety" name="dayStart" fullWidth />
