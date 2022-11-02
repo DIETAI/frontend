@@ -44,6 +44,7 @@ const CalendarPopup = ({
     setValue,
     watch,
     getValues,
+    trigger,
   } = useFormContext();
 
   const dayStart = watch("dayStart");
@@ -142,6 +143,10 @@ const CalendarPopup = ({
     }
 
     setValue(name, newDayFormat);
+
+    trigger();
+
+    //change days {order: 1, date}
   };
 
   if (!open) return null;

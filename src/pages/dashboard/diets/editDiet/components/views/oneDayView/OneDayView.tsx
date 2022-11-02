@@ -6,6 +6,8 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { getDietQuery } from "services/getDiets";
 import { AnimatePresence } from "framer-motion";
+import format from "date-fns/format";
+import { pl } from "date-fns/locale";
 
 //utils
 import { procentClasses } from "../../../utils/procentClasses";
@@ -105,6 +107,14 @@ const OneDayView = () => {
   //   return false;
   // };
 
+  const dateFormat = (date: Date) => {
+    const formatDate = format(new Date(date), "eee / dd.MM.yyyy", {
+      locale: pl,
+    });
+
+    return formatDate;
+  };
+
   return (
     <Styled.OneDayViewContainer>
       <Styled.OneDayViewNav>
@@ -114,7 +124,7 @@ const OneDayView = () => {
             key={dietDay._id}
             onClick={() => setCurrentDay(dietDay)}
           >
-            Dzień {dietDay.order}
+            {dietDay.date ? dateFormat(dietDay.date) : `Dzień ${dietDay.order}`}{" "}
           </Styled.OneDayViewNavItem>
         ))}
       </Styled.OneDayViewNav>

@@ -3,6 +3,7 @@ import axios from "utils/api";
 import { useNavigate } from "react-router";
 import { getClients } from "services/getClients";
 import { useSearchParams } from "react-router-dom";
+import { eachDayOfInterval } from "date-fns";
 
 //styles
 import * as Styled from "./NewDietForm.styles";
@@ -36,6 +37,11 @@ const defaultValues = dietDataSchema.cast({});
 type INewDietValues = typeof defaultValues;
 
 type IDateType = "amount" | "date";
+
+interface IDietDay {
+  order: number;
+  date?: Date;
+}
 
 const NewDietForm = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -88,9 +94,35 @@ const NewDietForm = () => {
     console.log("wysyłanie założeń");
     console.log(data);
     try {
-      const newDiet = await axios.post("/api/v1/diets", data, {
+      let days: IDietDay[] = [];
+
+      if (data.daysType === "amount") {
+        const dietDays = Array.from(Array(data.daysAmount).keys());
+        days = dietDays.map((dietDay) => ({
+          order: dietDay,
+        }));
+      } else if (data.daysType === "date" && data.dayStart && data.dayEnd) {
+        const dietDays = eachDayOfInterval({
+          start: data.dayStart,
+          end: data.dayEnd,
+        });
+
+        days = dietDays.map((dietDay, index) => ({
+          order: index + 1,
+          date: dietDay,
+        }));
+      }
+
+      if (days.length < 1) throw "Brak dni w diecie";
+
+      const newDietData = { ...data, days };
+
+      console.log({ newDietData });
+
+      const newDiet = await axios.post("/api/v1/diets", newDietData, {
         withCredentials: true,
       });
+
       console.log({ newDiet });
       handleAlert("success", "Stworzono dietę");
       navigate(`/dashboard/diets/edit/${newDiet.data._id}`);
@@ -115,7 +147,7 @@ const NewDietForm = () => {
   const handleChangeDaysOption = (optionType: IDateType) => {
     setValue("dayStart", undefined);
     setValue("dayEnd", undefined);
-
+    setValue("daysAmount", undefined);
     setValue("daysType", optionType);
   };
 
@@ -124,7 +156,7 @@ const NewDietForm = () => {
       <Heading icon={<FaFileInvoice />} title="Nowa dieta" />
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onDietFormSubmit)}>
-          {/* {JSON.stringify(watch())} */}
+          {JSON.stringify(watch())}
           <Input label="nazwa" name="name" fullWidth />
           <Styled.OptionsWrapper>
             <Styled.Option>

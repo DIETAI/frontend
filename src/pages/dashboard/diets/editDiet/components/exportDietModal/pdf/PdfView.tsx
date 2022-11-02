@@ -19,6 +19,9 @@ import Logo from "assets/logo-icon.png";
 import DinnerNotFoundImg from "assets/dinnerNotFoundPdf.png";
 import { IDietQueryData } from "interfaces/diet/dietQuery.interfaces";
 
+import format from "date-fns/format";
+import { pl } from "date-fns/locale";
+
 //fonts
 import RobotoRegular from "assets/fonts/roboto.regular.ttf";
 import RobotoBold from "assets/fonts/roboto.bold.ttf";
@@ -283,8 +286,16 @@ const styles = StyleSheet.create({
   },
 });
 
+const dateFormat = (date: Date) => {
+  const formatDate = format(new Date(date), "eeee / dd.MM.yyyy", {
+    locale: pl,
+  });
+
+  return formatDate;
+};
+
 // Create Document Component
-export const PdfView = ({ diet}: { diet: IDietQueryData }) => {
+export const PdfView = ({ diet }: { diet: IDietQueryData }) => {
   return (
     <Document>
       <Page size="A4" style={styles.introPage} wrap={true}>
@@ -303,7 +314,9 @@ export const PdfView = ({ diet}: { diet: IDietQueryData }) => {
           </View>
           <View style={styles.dayContainer}>
             <View style={styles.dayHeader}>
-              <Text>Dzień {day.order}</Text>
+              <Text>
+                {day.date ? dateFormat(day.date) : `Dzień ${day.order}`}
+              </Text>
             </View>
             <View style={styles.dayTotal}>
               <View style={styles.dayTotalItem}>
@@ -327,7 +340,13 @@ export const PdfView = ({ diet}: { diet: IDietQueryData }) => {
                 <View style={styles.mealContainer} break>
                   <View style={styles.mealHeader} break>
                     <Text>{meal.name}</Text>
-                    <Text>{diet.establishment.meals.find(({_id}) => _id === meal.establishmentMealId)?.time}</Text>
+                    <Text>
+                      {
+                        diet.establishment.meals.find(
+                          ({ _id }) => _id === meal.establishmentMealId
+                        )?.time
+                      }
+                    </Text>
                   </View>
                   <View style={styles.mealTotal}>
                     <View style={styles.mealTotalItem}>

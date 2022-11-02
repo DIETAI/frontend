@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { IDietDayQueryData } from "interfaces/diet/dietQuery.interfaces";
 import { getDietDayMeals } from "services/getDietMeals";
 import { AnimatePresence } from "framer-motion";
+import format from "date-fns/format";
+import { pl } from "date-fns/locale";
 
 //components
 import Meal from "../meal/Meal";
@@ -48,10 +50,18 @@ const Day = ({ day, establishment }: IDay) => {
 
   //   const dayLoaded = generatedDays.includes(day.id);
 
+  const dateFormat = (date: Date) => {
+    const formatDate = format(new Date(date), "eeee / dd.MM.yyyy", {
+      locale: pl,
+    });
+
+    return formatDate;
+  };
+
   return (
     <Styled.DayWrapper>
       <Styled.DayHeading>
-        <h2>Dzień {day.order}</h2>
+        <h2>{day.date ? dateFormat(day.date) : `Dzień ${day.order}`}</h2>
         {/* <IconModal icon={<FaEllipsisV />}>
           <DayEstablishmentModalContent />
         </IconModal> */}

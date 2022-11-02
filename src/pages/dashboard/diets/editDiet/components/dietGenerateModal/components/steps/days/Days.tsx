@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router";
 import ReactLoading from "react-loading";
+import format from "date-fns/format";
+import { pl } from "date-fns/locale";
 
 //form
 import { useFormContext } from "react-hook-form";
@@ -20,6 +22,14 @@ import { IDietGenerateDaysSchema } from "../../../schema/dietGenerate.schema";
 
 //components
 import CheckBoxWrapper from "components/checkbox/CheckboxWrapper";
+
+const dateFormat = (date: Date) => {
+  const formatDate = format(new Date(date), "eee dd.MM.yyyy", {
+    locale: pl,
+  });
+
+  return formatDate;
+};
 
 const PlanLength = () => {
   const {
@@ -110,7 +120,11 @@ const PlanLength = () => {
               onClick={() => changeDays(dietDay._id)}
               selectedDay={dietGenerateDays.includes(dietDay._id)}
             >
-              <h2>Dzień {dietDay.order}</h2>
+              <h2>
+                {dietDay.date
+                  ? dateFormat(dietDay.date)
+                  : `Dzień ${dietDay.order}`}
+              </h2>
               <FaCalendarDay />
             </Styled.DayItem>
           ))}
