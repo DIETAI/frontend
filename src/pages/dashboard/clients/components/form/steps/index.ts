@@ -1,4 +1,4 @@
-import BasicInfo from "./BasicInfo";
+import BasicInfo from "./basicInfo/BasicInfo";
 import Aims from "./aims/Aims";
 import Measurements from "./measurements/Measurements";
 import Diseases from "./diseases/Diseases";

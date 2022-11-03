@@ -9,7 +9,7 @@ import Modal from "components/modal/Modal";
 import Image from "components/form/images/image/Image";
 import FilesLibrary from "components/filesLibrary/FilesLibrary";
 import Autocomplete from "components/form/autocomplete/Autocomplete";
-import Calendar from "components/form/calendar/Calendar";
+import Calendar from "./calendar/Calendar";
 
 //icons
 import { FaFileAlt } from "icons/icons";
