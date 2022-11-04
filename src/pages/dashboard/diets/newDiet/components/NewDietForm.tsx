@@ -149,14 +149,15 @@ const NewDietForm = () => {
     setValue("dayEnd", undefined);
     setValue("daysAmount", undefined);
     setValue("daysType", optionType);
+    trigger();
   };
 
   return (
     <Styled.FormWrapper>
       <Heading icon={<FaFileInvoice />} title="Nowa dieta" />
       <FormProvider {...methods}>
-        <form onSubmit={handleSubmit(onDietFormSubmit)}>
-          {JSON.stringify(watch())}
+        <form onSubmit={handleSubmit(onDietFormSubmit)} autoComplete="off">
+          {/* {JSON.stringify(watch())} */}
           <Input label="nazwa" name="name" fullWidth />
           <Styled.OptionsWrapper>
             <Styled.Option>

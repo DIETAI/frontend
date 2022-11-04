@@ -138,6 +138,7 @@ interface ICurrentDay {
   selectedDayStart?: boolean;
   selectedDayEnd?: boolean;
   beforeDay: boolean;
+  afterDay?: boolean;
   dayBetween?: boolean;
 }
 
@@ -155,6 +156,7 @@ const CalendarDay = styled.div<ICurrentDay>(
     beforeDay,
     dayBetween,
     selectedDay,
+    afterDay,
   }) => css`
     display: flex;
     flex-direction: column;
@@ -178,7 +180,7 @@ const CalendarDay = styled.div<ICurrentDay>(
       background: ${palette.common.contrast};
     `}
 
-    ${(notCurrentMonth || beforeDay) &&
+    ${(notCurrentMonth || beforeDay || afterDay) &&
     css`
       /* background: ${palette.common.border}; */
       color: ${palette.common.slate};

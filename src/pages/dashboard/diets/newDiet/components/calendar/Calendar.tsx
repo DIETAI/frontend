@@ -20,6 +20,17 @@ const Calendar = ({ name, label, fullWidth = false }: ICalendarProps) => {
     fieldState: { error, isTouched },
   } = useController({ name });
 
+  const {
+    control,
+    formState: { errors },
+    setValue,
+    watch,
+    getValues,
+    trigger,
+  } = useFormContext();
+
+  const dayStart = watch("dayStart");
+
   const inputProps = {
     ...field,
     name,
@@ -35,6 +46,7 @@ const Calendar = ({ name, label, fullWidth = false }: ICalendarProps) => {
 
   return (
     <Styled.CalendarWrapper
+      disabled={name === "dayEnd" && !dayStart}
       fullWidth={fullWidth}
       onClick={() => setCalendarPopup(true)}
     >

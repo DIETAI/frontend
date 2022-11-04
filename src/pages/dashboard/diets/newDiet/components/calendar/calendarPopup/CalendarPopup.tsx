@@ -23,6 +23,7 @@ import {
   isSameMonth,
   isBefore,
   isWithinInterval,
+  isAfter,
 } from "date-fns";
 
 interface ICalendarPopupProps {
@@ -151,7 +152,19 @@ const CalendarPopup = ({
 
   if (!open) return null;
 
-  console.log({ selectedDayStart, selectedDayEnd });
+  console.log({
+    selectedDayStart,
+    selectedDayEnd,
+    dayStart: new Date(dayStart),
+  });
+
+  const getDayAfter = () => {
+    const startedDay = new Date(dayStart);
+    const afterDate = addDays(startedDay, 13);
+
+    return afterDate;
+  };
+
   return (
     <Styled.CalendarWrapper ref={calendarRef} fullWidth={fullWidth}>
       <Styled.CalendarOptions>
@@ -199,7 +212,17 @@ const CalendarPopup = ({
             beforeDay={
               dayStart && name !== "dayStart"
                 ? isBefore(day, new Date(dayStart))
-                : isBefore(day, new Date())
+                : isBefore(
+                    day,
+                    new Date(
+                      currentDay.getFullYear(),
+                      currentDay.getMonth(),
+                      currentDay.getDay() - 1
+                    )
+                  )
+            }
+            afterDay={
+              dayStart && name !== "dayStart" && isAfter(day, getDayAfter())
             }
             onClick={() => handleChangeDay(day)}
           >

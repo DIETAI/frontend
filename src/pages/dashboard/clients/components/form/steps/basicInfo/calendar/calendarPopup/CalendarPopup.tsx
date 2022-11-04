@@ -96,12 +96,16 @@ const CalendarPopup = ({
   const [currentMonth, setCurrentMonth] = useState(0);
 
   const nextMonth = () => {
-    const month = currentMonth + 1;
+    // const month = currentMonth + 1;
+
+    const month = calendarValues.month.getMonth() + 1;
     handleOwnCalendar(month);
   };
 
   const prevMonth = () => {
-    const month = currentMonth - 1;
+    // const month = currentMonth - 1;
+
+    const month = calendarValues.month.getMonth() - 1;
     handleOwnCalendar(month);
   };
 
@@ -113,7 +117,7 @@ const CalendarPopup = ({
       selectedDay.getDay() - 1
     );
 
-    console.log({ yearToChange });
+    // setCurrentMonth(0);
 
     handleOwnCalendar(month, yearToChange);
     setOpenYearsBox(false);
@@ -122,8 +126,15 @@ const CalendarPopup = ({
   const handleOwnCalendar = (month: number, year?: Date) => {
     //błąd przy zmianie miesiąca => zmienia też rok
     setCurrentMonth(month);
-    const startDate = addMonths(year || new Date(), month);
-    console.log({ startDate });
+    // const startDate = year ? year : addMonths(new Date(), month);
+    const startDate = year
+      ? year
+      : new Date(
+          calendarValues.year.getFullYear(),
+          month,
+          selectedDay.getDay() - 1
+        );
+
     const date = startOfMonth(startDate);
     const startWeek = startOfWeek(date, { weekStartsOn: 1 });
     const endMonth = endOfMonth(date);
@@ -169,8 +180,6 @@ const CalendarPopup = ({
     start: new Date(currentDate.getFullYear() - 120, 11, 10),
     end: new Date(currentDate.getFullYear(), 11, 10),
   });
-
-  console.log({ calendarYears, startDate });
 
   if (!open) return null;
 

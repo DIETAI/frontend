@@ -1,7 +1,12 @@
 import styled, { css } from "styled-components";
 import { ICalendarProps } from "./Calendar.interfaces";
 
-const CalendarWrapper = styled.div<Pick<ICalendarProps, "fullWidth">>(
+interface ICalendarWrapperProps {
+  fullWidth?: boolean;
+  disabled?: boolean;
+}
+
+const CalendarWrapper = styled.div<ICalendarWrapperProps>(
   ({
     theme: {
       palette,
@@ -9,6 +14,7 @@ const CalendarWrapper = styled.div<Pick<ICalendarProps, "fullWidth">>(
       layout: { border },
     },
     fullWidth,
+    disabled,
   }) => css`
     display: flex;
     flex-direction: column;
@@ -18,6 +24,12 @@ const CalendarWrapper = styled.div<Pick<ICalendarProps, "fullWidth">>(
     ${fullWidth &&
     css`
       width: 100%;
+    `}
+
+    ${disabled &&
+    css`
+      opacity: 0.8;
+      pointer-events: none;
     `}
   `
 );
