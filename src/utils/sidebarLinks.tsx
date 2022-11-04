@@ -101,10 +101,10 @@ export const sidebarLinks: ISidebarLink[] = [
     icon: <FaCubes />,
     roles: ["personal", "dietetic", "admin"],
   },
-  {
-    path: "/dashboard/diet-live",
-    name: "dashboardSidebar.dietLive",
-    icon: <FaCalendarDay />,
-    roles: ["personal", "dietetic", "admin"],
-  },
+  // {
+  //   path: "/dashboard/diet-live",
+  //   name: "dashboardSidebar.dietLive",
+  //   icon: <FaCalendarDay />,
+  //   roles: ["personal", "dietetic", "admin"],
+  // },
 ];

@@ -119,7 +119,7 @@ const Interview = () => {
       />
 
       <div>
-        <h3>jakościowa ocena jadłospisu</h3>
+        {/* <h3>jakościowa ocena jadłospisu</h3>
         <Autocomplete
           name="mealsInDiet"
           fullWidth
@@ -159,7 +159,7 @@ const Interview = () => {
           options={vegetablesFruitInDiet}
           optionLabel={"amount"}
           optionRender={"amount"}
-        />
+        /> */}
         {/* <h3>pytania o styl życia</h3> */}
 
         {/* <p>- dyscyplina sportu</p>

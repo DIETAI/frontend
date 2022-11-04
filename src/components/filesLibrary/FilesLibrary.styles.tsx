@@ -128,8 +128,10 @@ const ImageWrapper = styled.div<ISelectedImage>(
 
     ${selected &&
     css`
-      border: 0.2rem dashed ${palette.primary.main};
-      border-radius: ${border.rounded.sm};
+      img {
+        border: 0.2rem dashed ${palette.primary.main};
+        border-radius: ${border.rounded.sm};
+      }
     `}
   `
 );

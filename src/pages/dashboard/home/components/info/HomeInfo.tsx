@@ -2,11 +2,13 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import ReportImg from "assets/report.svg";
 import * as Styled from "./HomeInfo.styles";
+import { useNavigate } from "react-router";
 
 //components
 import Button from "components/form/button/Button";
 
 const HomeInfo = () => {
+  const navigate = useNavigate();
   return (
     <Styled.HomeInfoWrapper>
       <Styled.InfoHeading>
@@ -17,7 +19,9 @@ const HomeInfo = () => {
         </p>
         <Styled.ButtonWrapper>
           {/* <Button variant="secondary">zobacz nowości</Button> */}
-          <Button>stwórz jadłospis</Button>
+          <Button onClick={() => navigate("/dashboard/diets/new")}>
+            zobacz nowości
+          </Button>
         </Styled.ButtonWrapper>
       </Styled.InfoHeading>
       <img src={ReportImg} />

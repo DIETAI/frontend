@@ -15,7 +15,7 @@ import PageNav from "components/pageNav/PageNav";
 const productNavLinks = [
   { id: 1, title: "wszystkie produkty", path: "/dashboard/products" },
   // { id: 2, title: "twoje produkty", path: "/dashboard/products/my" },
-  { id: 2, title: "grupy produktów", path: "/dashboard/products/groups" },
+  // { id: 2, title: "grupy produktów", path: "/dashboard/products/groups" },
   { id: 3, title: "nowy produkt", path: "/dashboard/products/new" },
 ];
 

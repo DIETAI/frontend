@@ -96,6 +96,11 @@ const FilesLibrary = ({ closeModal, onSubmitAction }: IFilesLibraryProps) => {
       {!openAddFileForm && assets.length > 0 && (
         <Styled.FilesWrapper>
           <ImagesContainer label="zdjęcia">
+            <ImageSelect
+              icon={<FaFileAlt />}
+              text="wstaw plik"
+              onClick={uploadImage as () => void}
+            />
             {assets.map((asset) => (
               <Styled.ImageWrapper
                 key={asset._id}
@@ -105,11 +110,6 @@ const FilesLibrary = ({ closeModal, onSubmitAction }: IFilesLibraryProps) => {
                 <Image imageId={asset._id} />
               </Styled.ImageWrapper>
             ))}
-            <ImageSelect
-              icon={<FaFileAlt />}
-              text="wstaw plik"
-              onClick={uploadImage as () => void}
-            />
           </ImagesContainer>
         </Styled.FilesWrapper>
       )}

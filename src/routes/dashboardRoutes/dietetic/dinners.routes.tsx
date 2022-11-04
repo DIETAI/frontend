@@ -13,7 +13,7 @@ import PageNav from "components/pageNav/PageNav";
 
 const dinnerNavLinks = [
   { id: 1, title: "wszystkie posiłki", path: "/dashboard/dinners" },
-  { id: 2, title: "grupy posiłków", path: "/dashboard/dinners/groups" },
+  // { id: 2, title: "grupy posiłków", path: "/dashboard/dinners/groups" },
   { id: 3, title: "nowy posiłek", path: "/dashboard/dinners/new" },
 ];
 
