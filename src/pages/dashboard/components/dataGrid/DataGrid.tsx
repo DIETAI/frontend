@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import DataGridNav from "./nav/DataGridNav";
 import DataGridList from "./list/DataGridList";
 import LoadingGrid from "./loadingGrid/LoadingGrid";
-import ExportPopup from "./exportPopup/ExportPopup";
+// import ExportPopup from "./exportPopup/ExportPopup";
 
 //styles
 import * as Styled from "./DataGrid.styles";

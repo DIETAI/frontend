@@ -4,7 +4,7 @@ import { useParams } from "react-router";
 
 //components
 import Heading from "components/heading/Heading";
-import PdfView from "./pdf/PdfView";
+// import PdfView from "./pdf/PdfView";
 
 //icons
 import { FaFileExport, FaFileExcel, FaFilePdf, FaFileAlt } from "icons/icons";
@@ -13,7 +13,7 @@ import { FaFileExport, FaFileExcel, FaFilePdf, FaFileAlt } from "icons/icons";
 import * as Styled from "./ExportDietModal.styles";
 
 //pdf
-import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
+// import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
 
 //csv
 import { CSVLink } from "react-csv";
@@ -100,14 +100,12 @@ const ExportDietModal = () => {
     <Styled.ExportDietModalContainer>
       <Heading icon={<FaFileExport />} title="Eksportuj dietę" />
       <Styled.ExportDietOptionsWrapper>
-        <Styled.ExportDietOption optionType="pdf">
+        {/* <Styled.ExportDietOption optionType="pdf">
           <PDFDownloadLink
             document={<PdfView diet={dietQuery} />}
             fileName={`${dietQuery.name}.pdf`}
           >
-            {/* {({ blob, url, loading, error }) =>
-              loading ? "Loading document..." : "Download now!"
-            } */}
+    
 
             <span>
               <FaFilePdf />
@@ -115,7 +113,7 @@ const ExportDietModal = () => {
 
             <h3>Eksportuj plik pdf</h3>
           </PDFDownloadLink>
-        </Styled.ExportDietOption>
+        </Styled.ExportDietOption> */}
 
         <Styled.ExportDietOption optionType="json">
           <a
