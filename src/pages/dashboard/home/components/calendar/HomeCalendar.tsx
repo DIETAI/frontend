@@ -1,15 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import * as Styled from "./HomeCalendar.styles";
-import styled from "styled-components";
 
-//image
-import GoogleCalendarImg from "assets/google-calendar.svg";
+import { useFormContext } from "react-hook-form";
+
+//icons
+import { FaCalendar, FaChevronRight, FaChevronLeft } from "icons/icons";
 
 //components
 import Heading from "components/heading/Heading";
-
-//icons
-import { FaCalendar } from "icons/icons";
+import Modal from "components/modal/Modal";
+import CalendarNoteModal from "./calendarNoteModal/CalendarNoteModal";
 
 //date-fns
 import eachDayOfInterval from "date-fns/eachDayOfInterval";
@@ -27,9 +27,15 @@ import {
   isSameDay,
   isSameMonth,
 } from "date-fns";
-import Button from "components/form/button/Button";
+import { getCalendarNotes } from "services/getCalendarNotes";
+import { ICalendarNoteData } from "interfaces/calendarNote";
 
-const HomeCalendar = () => {
+const Calendar = () => {
+  const { calendarNotes, calendarNotesError, calendarNotesLoading } =
+    getCalendarNotes();
+
+  const [selectedDay, setSelectedDay] = useState(new Date());
+
   const startDate = addMonths(new Date(), 0);
   const date = startOfMonth(startDate);
   const startWeek = startOfWeek(date, { weekStartsOn: 1 });
@@ -82,161 +88,142 @@ const HomeCalendar = () => {
     });
   };
 
+  const handleChangeDay = (day: Date) => {
+    const newDay = new Date(day);
+    const newDayFormat = newDay.toJSON();
+
+    console.log(newDayFormat);
+
+    setSelectedDay(day);
+  };
+
+  if (!open) return null;
+
+  if (calendarNotesLoading) return <div>loading...</div>;
+  if (calendarNotesError || !calendarNotes) return <div>error</div>;
+
   return (
-    <Styled.HomeCalendarWrapper>
+    <Styled.CalendarWrapper>
       <Styled.HomeCalendarHeadingWrapper>
         <Heading title="Kalendarz" icon={<FaCalendar />} />
-        <Button variant="secondary">
+        {/* <Button variant="secondary">
           <img src={GoogleCalendarImg} /> połącz z kalendarzem google
-        </Button>
+        </Button> */}
         {/* <button>
           <img src={GoogleCalendarImg} /> połącz z kalendarzem google
         </button> */}
       </Styled.HomeCalendarHeadingWrapper>
-
-      <Styled.CalendarNavWrapper>
+      {/* <Styled.CalendarNavWrapper>
         <Styled.NavOptionsWrapper>
-          <p>ogólne informacje</p>
-          <p>jadłospisy</p>
-          <p>raporty</p>
+          <Styled.NavOption active={true}>wydarzenia</Styled.NavOption>
+          <Styled.NavOption active={false}>jadłospisy</Styled.NavOption>
+          <Styled.NavOption active={false}>raporty</Styled.NavOption>
         </Styled.NavOptionsWrapper>
         <Styled.NavDisplayDaysOptionsWrapper>
-          <p>dzien</p>
-          <p>tydzien</p>
-          <p>miesiąc</p>
+          <Styled.NavOption active={false}>dzień</Styled.NavOption>
+          <Styled.NavOption active={true}>tydzień</Styled.NavOption>
+          <Styled.NavOption active={false}>miesiąc</Styled.NavOption>
         </Styled.NavDisplayDaysOptionsWrapper>
-      </Styled.CalendarNavWrapper>
-      <StyledCalendarOptions>
-        <div></div>
-        <div>
-          <button type="button" onClick={prevMonth}>
-            -
-          </button>
-          {calendarValues.month && calendarValues.year ? (
-            <h2>
-              {format(calendarValues.month, "MMMM", { locale: pl })}{" "}
-              {format(calendarValues.year, "yyyy", { locale: pl })}
-            </h2>
-          ) : (
-            <h2>-</h2>
-          )}
-          <button type="button" onClick={nextMonth}>
-            +
-          </button>
-        </div>
-        <div></div>
-      </StyledCalendarOptions>
-      <StyledGridCalendarInfo>
-        <div>
-          <p>Pon</p>
-        </div>
-        <div>
-          <p>Wt</p>
-        </div>
-        <div>
-          <p>Śr</p>
-        </div>
-        <div>
-          <p>Czw</p>
-        </div>
-        <div>
-          <p>Pt</p>
-        </div>
-        <div>
-          <p>Sob</p>
-        </div>
-        <div>
-          <p>Niedz</p>
-        </div>
-      </StyledGridCalendarInfo>
-      <StyledGridCalendar>
+      </Styled.CalendarNavWrapper> */}
+      <Styled.CalendarOptions>
+        <Styled.ChevronWrapper type="button" onClick={prevMonth}>
+          <FaChevronLeft />
+        </Styled.ChevronWrapper>
+        {calendarValues.month && calendarValues.year ? (
+          <h2>
+            {format(calendarValues.month, "LLLL", { locale: pl })}{" "}
+            {format(calendarValues.year, "yyyy", { locale: pl })}
+          </h2>
+        ) : (
+          <h2>-</h2>
+        )}
+
+        <Styled.ChevronWrapper type="button" onClick={nextMonth}>
+          <FaChevronRight />
+        </Styled.ChevronWrapper>
+      </Styled.CalendarOptions>
+      <Styled.GridCalendarInfo>
+        <li>pon</li>
+        <li>wt</li>
+        <li>śr</li>
+        <li>czw</li>
+        <li>pt</li>
+        <li>sob</li>
+        <li>niedz</li>
+      </Styled.GridCalendarInfo>
+      <Styled.GridCalendar>
         {calendarValues.daysArray.map((day, index) => (
-          <StyledDivCalendar
+          <CalendarDay
             key={index}
-            currentDay={isSameDay(day, new Date())}
-            currentMonth={!isSameMonth(day, calendarValues.month)}
-          >
-            {format(day, "dd")}
-          </StyledDivCalendar>
+            day={day}
+            month={calendarValues.month}
+            selectedDay={selectedDay}
+            handleChangeDay={handleChangeDay}
+            calendarNotes={calendarNotes}
+          />
         ))}
-      </StyledGridCalendar>
-    </Styled.HomeCalendarWrapper>
+      </Styled.GridCalendar>
+    </Styled.CalendarWrapper>
   );
 };
 
-const StyledCalendarOptions = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: red;
-  width: 100%;
-  height: 4rem;
-  border-radius: 0.5rem;
-  /* margin: 0.5rem 0; */
-  div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    width: calc(100% / 3);
-  }
-  div :nth-child(2) {
-    h2 {
-      color: black;
-      font-size: 1.3rem;
-      font-weight: 500;
-      text-transform: uppercase;
-    }
-    button {
-      width: 2rem;
-      height: 2rem;
-      margin: 0 0.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-  }
-`;
+const CalendarDay = ({
+  day,
+  selectedDay,
+  month,
+  handleChangeDay,
+  calendarNotes,
+}: {
+  day: Date;
+  selectedDay: Date;
+  month: Date;
+  handleChangeDay: (day: Date) => void;
+  calendarNotes: ICalendarNoteData[];
+}) => {
+  const [calendarNoteModal, setCalendarNoteModal] = useState(false);
 
-const StyledGridCalendarInfo = styled.div`
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  height: 2.5rem;
-  width: 100%;
-  margin: 0.5rem;
-  div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: pink;
-    border-radius: 0.5rem;
-    margin: 0 0.1rem;
-  }
-`;
+  const handleOpenCalendarNoteModal = () => {
+    setCalendarNoteModal(true);
+  };
 
-const StyledGridCalendar = styled.div`
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  grid-auto-rows: 10rem;
-  width: 100%;
-  min-height: 39rem;
-`;
+  const currentDateCalendarNotes = calendarNotes.filter((calendarNote) =>
+    isSameDay(new Date(calendarNote.date), day)
+  );
 
-interface ICurrentDay {
-  currentDay: boolean;
-  currentMonth: boolean;
-}
+  console.log({ currentDateCalendarNotes });
 
-const StyledDivCalendar = styled.div<ICurrentDay>`
-  border: 2px solid red;
-  background: salmon;
-  background: ${({ currentDay }) => currentDay && "blue"};
-  color: black;
-  color: ${({ currentMonth }) => currentMonth && "white"};
-  background: ${({ currentMonth }) => currentMonth && "grey"};
-  border-radius: 0.5rem;
-  font-size: 1.5rem;
-  font-weight: 400;
-`;
+  return (
+    <>
+      <Styled.CalendarDay
+        currentDay={isSameDay(day, new Date())}
+        currentMonth={!isSameMonth(day, month)}
+        selectedDay={isSameDay(day, selectedDay)}
+        onClick={() => handleChangeDay(day)}
+      >
+        <Styled.CalendarDayHeading>
+          {format(day, "dd")}
+          <button onClick={handleOpenCalendarNoteModal}>+</button>
+        </Styled.CalendarDayHeading>
+        {currentDateCalendarNotes.length > 0 &&
+          currentDateCalendarNotes.map((calendarNote) => (
+            <Styled.CalendarNotesWrapper key={calendarNote._id}>
+              <Styled.CalendarNote>
+                <p>{calendarNote.title}</p>
+              </Styled.CalendarNote>{" "}
+            </Styled.CalendarNotesWrapper>
+          ))}
+      </Styled.CalendarDay>
+      <Modal
+        onClose={() => setCalendarNoteModal(false)}
+        open={calendarNoteModal}
+      >
+        <CalendarNoteModal
+          date={day}
+          closeModal={() => setCalendarNoteModal(false)}
+        />
+      </Modal>
+    </>
+  );
+};
 
-export default HomeCalendar;
+export default Calendar;

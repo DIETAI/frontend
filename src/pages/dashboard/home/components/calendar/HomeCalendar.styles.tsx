@@ -112,6 +112,7 @@ const GridCalendar = styled.div(
     grid-template-columns: repeat(7, 1fr);
     /* grid-auto-rows: 5rem; */
     width: 100%;
+    gap: 1rem;
   `
 );
 
@@ -142,10 +143,11 @@ const CalendarDay = styled.div<ICurrentDay>(
     padding: 0.5rem;
     height: 18rem;
     border-radius: ${border.rounded.sm};
-    cursor: pointer;
     transition: 0.3s ease-out;
     padding: 2rem;
-    border: 0.1rem solid ${palette.common.contrast};
+    border: 0.1rem solid ${palette.primary.light};
+    gap: 2rem;
+    overflow-y: auto;
 
     :hover {
       background: ${palette.common.contrast};
@@ -165,16 +167,105 @@ const CalendarDay = styled.div<ICurrentDay>(
 
     ${selectedDay &&
     css`
-      background: ${palette.primary.main};
+      background: ${palette.primary.light};
       color: white;
-      :hover {
-        background: ${palette.primary.main};
-      }
     `}
   `
 );
 
-//
+const CalendarDayHeading = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    width: 100%;
+
+    color: ${palette.common.text};
+    font-size: ${fontSize.s};
+    font-weight: ${fontWeight.medium};
+
+    button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: ${palette.primary.main};
+      border-radius: ${border.rounded.sm};
+      color: white;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+      width: 3rem;
+      height: 3rem;
+      transition: 0.3s ease-out;
+
+      :hover {
+        opacity: 0.7;
+      }
+    }
+  `
+);
+
+const CalendarNotesWrapper = styled.ul(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints },
+    },
+  }) => css`
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+  `
+);
+
+const CalendarNote = styled.li(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints },
+    },
+  }) => css`
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    background: ${palette.common.contrast};
+    border: 0.1rem solid ${palette.primary.light};
+    border-radius: ${border.rounded.sm};
+    padding: 1rem;
+    width: 100%;
+    cursor: pointer;
+    transition: 0.3s ease-out;
+
+    :hover {
+      opacity: 0.8;
+    }
+
+    p {
+      color: ${palette.primary.main};
+      font-size: 1.4rem;
+      font-weight: ${fontWeight.medium};
+      text-align: center;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+    }
+  `
+);
 
 const HomeCalendarWrapper = styled.div(
   ({
@@ -329,6 +420,8 @@ export {
   HomeCalendarWrapper,
   HomeCalendarHeadingWrapper,
   CalendarNavWrapper,
+  CalendarNotesWrapper,
+  CalendarNote,
   NavDisplayDaysOptionsWrapper,
   NavOptionsWrapper,
   NavOption,
@@ -337,6 +430,7 @@ export {
   CalendarOptions,
   ChevronWrapper,
   CalendarDay,
+  CalendarDayHeading,
   GridCalendar,
   GridCalendarInfo,
 };
