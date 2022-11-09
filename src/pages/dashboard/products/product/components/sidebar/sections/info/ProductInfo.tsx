@@ -18,6 +18,9 @@ import * as Styled from "./ProductInfo.styles";
 import Modal from "components/modal/Modal";
 import DeleteModalContent from "pages/dashboard/components/deleteModal/DeleteModal";
 
+//icons
+import { FaDownload, FaTrash, FaEdit } from "icons/icons";
+
 const ProductInfo = () => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const { handleAlert } = useAlert();
@@ -72,7 +75,35 @@ const ProductInfo = () => {
             })}
           </p>
         </Styled.ProductInfoItem>
-        <Button
+        <Styled.ProductInfoOptionsWrapper>
+          <Styled.ProductInfoOption
+            optionType="edit"
+            type="button"
+            onClick={() => navigate(`/dashboard/products/edit/${product._id}`)}
+          >
+            <span>
+              <FaEdit />
+            </span>
+            edytuj
+          </Styled.ProductInfoOption>
+          {/* <Styled.ProductInfoOption optionType="download" type="button">
+            <span>
+              <FaDownload />
+            </span>
+            pobierz
+          </Styled.ProductInfoOption> */}
+          <Styled.ProductInfoOption
+            optionType="delete"
+            type="button"
+            onClick={() => setOpenDeleteModal(true)}
+          >
+            <span>
+              <FaTrash />
+            </span>
+            usuń
+          </Styled.ProductInfoOption>
+        </Styled.ProductInfoOptionsWrapper>
+        {/* <Button
           fullWidth
           onClick={() => navigate(`/dashboard/products/edit/${product._id}`)}
         >
@@ -86,7 +117,7 @@ const ProductInfo = () => {
           usuń
         </Button>
 
-        <button>pobierz</button>
+        <button>pobierz</button> */}
       </Styled.ProductInfoWrapper>
       <Modal open={openDeleteModal} onClose={() => setOpenDeleteModal(false)}>
         <DeleteModalContent

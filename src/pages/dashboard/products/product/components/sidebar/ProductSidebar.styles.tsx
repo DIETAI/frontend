@@ -22,7 +22,7 @@ const ProductSidebarWrapper = styled.div(
     border: 0.1rem solid ${palette.primary.light};
     position: static;
     width: 100%;
-    height: 60rem;
+    /* height: 60rem; */
 
     ${up(breakpoints.xl)} {
       position: sticky;

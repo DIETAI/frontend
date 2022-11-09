@@ -14,7 +14,7 @@ const ProductContainer = styled.div(
     width: 100%;
     gap: 4rem;
     margin-top: 7rem;
-    flex-direction: column;
+    flex-direction: column-reverse;
 
     ${up(breakpoints.lg)} {
       position: relative;

@@ -4,7 +4,7 @@ import React from "react";
 import * as Styled from "./ProductPage.styles";
 
 //icons
-import { FaUtensils } from "icons/icons";
+import { FaInfoCircle } from "icons/icons";
 
 //components
 import ProductContent from "./components/content/ProductContent";
@@ -16,8 +16,8 @@ const Product = () => {
     <Styled.ProductContainer>
       <ProductContent />
       <ProductSidebar
-        title={"Informacje"}
-        icon={<FaUtensils />}
+        title={"Dane produktu"}
+        icon={<FaInfoCircle />}
         sections={productSidebarSections}
       />
     </Styled.ProductContainer>
