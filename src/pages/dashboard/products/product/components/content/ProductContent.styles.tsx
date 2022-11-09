@@ -232,7 +232,7 @@ const ProductItem = styled.li(
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
-    gap: 2rem;
+    gap: 1rem;
     flex-direction: column;
 
     ${up(breakpoints.sm)} {
@@ -250,6 +250,44 @@ const ProductItem = styled.li(
       font-size: ${fontSize.s};
       font-weight: ${fontWeight.light};
       color: ${palette.common.text};
+    }
+  `
+);
+
+const ProductEmptyItemWrapper = styled.li(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 3rem;
+    gap: 2rem;
+    width: 100%;
+    border: 0.1rem dashed ${palette.primary.light};
+    border-radius: ${border.rounded.md};
+
+    img {
+      width: 10rem;
+      height: 8rem;
+      object-fit: contain;
+    }
+
+    h2 {
+      font-size: ${fontSize.m};
+      font-weight: ${fontWeight.medium};
+      color: ${palette.common.text};
+      text-align: center;
+    }
+
+    ${up(breakpoints.sm)} {
+      flex-direction: row;
     }
   `
 );
@@ -318,4 +356,5 @@ export {
   ProductItem,
   ProductBoxWrapper,
   ProductInfoBox,
+  ProductEmptyItemWrapper,
 };

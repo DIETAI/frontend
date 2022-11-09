@@ -3,13 +3,16 @@ import * as Styled from "../ProductContent.styles";
 import { IProductData } from "interfaces/product.interfaces";
 
 //icons
-import { FaUtensils } from "icons/icons";
+import { FaCubes } from "icons/icons";
 
 interface IProductMacrohydrates {
   protein: IProductData["protein"];
   fat: IProductData["fat"];
   carbohydrates: IProductData["carbohydrates"];
   fiber: IProductData["fiber"];
+  digestibleCarbohydrates: IProductData["digestableCarbohydrates"];
+  carbohydrateExchangers: IProductData["carbohydrateExchangers"];
+  proteinFatExchangers: IProductData["proteinFatExchangers"];
 }
 
 const Macrohydrates = ({
@@ -17,12 +20,15 @@ const Macrohydrates = ({
   fat,
   carbohydrates,
   fiber,
+  digestibleCarbohydrates,
+  carbohydrateExchangers,
+  proteinFatExchangers,
 }: IProductMacrohydrates) => {
   return (
     <Styled.ProductStepWrapper>
       <Styled.StepHeadingWrapper>
         <Styled.IconWrapper>
-          <FaUtensils />
+          <FaCubes />
         </Styled.IconWrapper>
         <h2>Makroskładniki</h2>
       </Styled.StepHeadingWrapper>
@@ -38,6 +44,22 @@ const Macrohydrates = ({
         <Styled.ProductItem>
           <h2>węglowodany (g): </h2>
           <p>{carbohydrates.gram}</p>
+        </Styled.ProductItem>
+        <Styled.ProductItem>
+          <h2>błonnik (g): </h2>
+          <p>{fiber.gram}</p>
+        </Styled.ProductItem>
+        <Styled.ProductItem>
+          <h2>węglowodany przyswajalne (g): </h2>
+          <p>{digestibleCarbohydrates.gram}</p>
+        </Styled.ProductItem>
+        <Styled.ProductItem>
+          <h2>wymienniki węglowodanowe: </h2>
+          <p>{carbohydrateExchangers}</p>
+        </Styled.ProductItem>
+        <Styled.ProductItem>
+          <h2>wymienniki białkowo-tłuszczowe: </h2>
+          <p>{proteinFatExchangers}</p>
         </Styled.ProductItem>
       </Styled.ProductItemsWrapper>
     </Styled.ProductStepWrapper>
