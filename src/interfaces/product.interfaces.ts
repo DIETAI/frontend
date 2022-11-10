@@ -39,6 +39,7 @@ export interface IProductData {
   user: string;
   name: string;
   image?: string;
+  imageURL?: string;
   gallery?: string[];
   description?: string;
   subGroupId?: string;

@@ -33,7 +33,7 @@ const ProductContent = () => {
       <ProductStep.BasicInfo
         name={product.name}
         kcal={product.kcal}
-        image={product.image}
+        imageURL={product.imageURL}
         gallery={product.gallery}
       />
       <ProductStep.Macrohydrates
