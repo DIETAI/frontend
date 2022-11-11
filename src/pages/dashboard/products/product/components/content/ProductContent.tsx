@@ -32,9 +32,13 @@ const ProductContent = () => {
     <Styled.ProductContentWrapper>
       <ProductStep.BasicInfo
         name={product.name}
-        kcal={product.kcal}
         imageURL={product.imageURL}
         gallery={product.gallery}
+        kcal={product.kcal}
+        protein={product.protein}
+        fat={product.fat}
+        carbohydrates={product.carbohydrates}
+        fiber={product.fiber}
       />
       <ProductStep.Macrohydrates
         protein={product.protein}

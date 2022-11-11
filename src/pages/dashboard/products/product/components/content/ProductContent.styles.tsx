@@ -38,6 +38,7 @@ const ProductContentWrapper = styled.div(
     gap: 4rem;
     flex: 1;
     width: 100%;
+    max-width: ${breakpoints.lg};
 
     /* ${up(breakpoints.xl)} {
       width: 70rem;

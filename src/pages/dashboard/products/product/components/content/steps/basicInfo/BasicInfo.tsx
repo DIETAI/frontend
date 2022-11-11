@@ -17,12 +17,25 @@ import { IProductData } from "interfaces/product.interfaces";
 
 interface IProductInfo {
   name: IProductData["name"];
-  kcal: IProductData["kcal"];
   imageURL: IProductData["imageURL"];
   gallery: IProductData["gallery"];
+  kcal: IProductData["kcal"];
+  protein: IProductData["protein"];
+  fat: IProductData["fat"];
+  carbohydrates: IProductData["carbohydrates"];
+  fiber: IProductData["fiber"];
 }
 
-const BasicInfo = ({ name, kcal, imageURL, gallery }: IProductInfo) => {
+const BasicInfo = ({
+  name,
+  imageURL,
+  gallery,
+  kcal,
+  protein,
+  fat,
+  carbohydrates,
+  fiber,
+}: IProductInfo) => {
   return (
     <StepStyled.ProductStepWrapper>
       <StepStyled.StepHeadingWrapper>
@@ -45,16 +58,16 @@ const BasicInfo = ({ name, kcal, imageURL, gallery }: IProductInfo) => {
               kcal: <b>{kcal}</b>
             </li>
             <li>
-              B: <b>22</b>
+              B: <b>{protein.gram}</b>
             </li>
             <li>
-              T: <b>2</b>
+              T: <b>{fat.gram}</b>
             </li>
             <li>
-              W: <b>22</b>
+              W: <b>{carbohydrates.gram}</b>
             </li>
             <li>
-              Bł: <b>22</b>
+              Bł: <b>{fiber.gram}</b>
             </li>
           </Styled.ProductInfoMacroWrapper>
           {/* <p>
