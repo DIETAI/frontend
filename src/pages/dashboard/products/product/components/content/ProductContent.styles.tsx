@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components";
+import { motion } from "framer-motion";
 
 const ProductContentContainer = styled.div(
   ({
@@ -24,7 +25,7 @@ const ProductContentContainer = styled.div(
   `
 );
 
-const ProductContentWrapper = styled.div(
+const ProductContentWrapper = styled(motion.div)(
   ({
     theme: {
       palette,
@@ -34,16 +35,43 @@ const ProductContentWrapper = styled.div(
     },
   }) => css`
     display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
     flex-direction: column;
     gap: 4rem;
     flex: 1;
     width: 100%;
     max-width: ${breakpoints.lg};
+    position: relative;
+    min-height: 400rem;
 
     /* ${up(breakpoints.xl)} {
       width: 70rem;
       flex: none;
     } */
+  `
+);
+
+const ProductLoadingStepsWrapper = styled(motion.div)(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+    flex: 1;
+    width: 100%;
+    max-width: ${breakpoints.lg};
+    transition: 0.3s ease-out;
   `
 );
 
@@ -110,7 +138,7 @@ const SaveOptionsWrapper = styled.div(
   `
 );
 
-const ProductStepWrapper = styled.section(
+const ProductStepWrapper = styled(motion.section)(
   ({
     theme: {
       palette,
@@ -132,13 +160,6 @@ const ProductStepWrapper = styled.section(
 
     ${up(breakpoints.xs)} {
       padding: 4rem;
-    }
-
-    ${up(breakpoints.lg)} {
-      /* width: 80rem; */
-      /* flex: 1; */
-      /* width: 65rem; */
-      flex: 1;
     }
   `
 );
@@ -349,6 +370,7 @@ const ProductInfoBox = styled.div(
 export {
   ProductContentContainer,
   ProductContentWrapper,
+  ProductLoadingStepsWrapper,
   SaveOptionsWrapper,
   ProductStepWrapper,
   StepHeadingWrapper,

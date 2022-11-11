@@ -21,7 +21,11 @@ const FattyAcids = ({
   monounsaturatedFattyAcids,
 }: IProductFattyAcids) => {
   return (
-    <Styled.ProductStepWrapper>
+    <Styled.ProductStepWrapper
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1.3 }}
+    >
       <Styled.StepHeadingWrapper>
         <Styled.IconWrapper>
           <FaTint />

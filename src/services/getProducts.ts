@@ -38,16 +38,16 @@ export const getProduct = (id: string) => {
     fetcher
   );
 
-  if (!id) {
-    return {
-      product: undefined,
-      productLoading: false,
-      productError: false,
-    };
-  }
+  // if (!id) {
+  //   return {
+  //     product: undefined,
+  //     productLoading: false,
+  //     productError: false,
+  //   };
+  // }
 
   return {
-    product: data,
+    product: data as IProductData,
     productLoading: !error && !data,
     productError: error,
   };

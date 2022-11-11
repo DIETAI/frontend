@@ -26,7 +26,11 @@ const Prices = ({ prices }: IProductPrices) => {
 
   return (
     <>
-      <StepStyled.ProductStepWrapper>
+      <StepStyled.ProductStepWrapper
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.3 }}
+      >
         <StepStyled.StepHeadingWrapper>
           <StepStyled.IconWrapper>
             <FaDollarSign />
