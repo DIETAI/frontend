@@ -2,6 +2,7 @@ import React from "react";
 import { useParams } from "react-router";
 import { getProduct } from "services/getProducts";
 import { AnimatePresence } from "framer-motion";
+import NoImage from "assets/noImage.svg";
 
 //styles
 import * as StepStyled from "../../ProductContent.styles";
@@ -105,9 +106,7 @@ const BasicInfo = () => {
               <Styled.ProductInfoImageWrapper>
                 <img className="backgroundImg" src={LogoBackground} />
 
-                {product.imageURL && (
-                  <img className="productImg" src={product.imageURL} />
-                )}
+                <img className="productImg" src={product.imageURL || NoImage} />
               </Styled.ProductInfoImageWrapper>
               <Styled.ProductInfoDescriptionWrapper>
                 <h2>{product.name}</h2>
