@@ -64,7 +64,7 @@ const ProductLoadingStepsWrapper = styled(motion.div)(
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 10;
+    /* z-index: 10; */
     display: flex;
     flex-direction: column;
     gap: 4rem;
@@ -194,6 +194,49 @@ const StepHeadingWrapper = styled.div(
   `
 );
 
+const ProductStepContentContainer = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    gap: 3rem;
+    width: 100%;
+    padding: 2rem;
+    position: relative;
+    min-height: 30rem;
+    overflow-y: hidden;
+
+    ${up(breakpoints.lg)} {
+      flex-direction: row;
+    }
+  `
+);
+
+const ProductStepContentWrapper = styled(motion.div)(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    gap: 3rem;
+  `
+);
+
 const IconWrapper = styled.div(
   ({
     theme: {
@@ -289,15 +332,15 @@ const ProductEmptyItemWrapper = styled.li(
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    padding: 3rem;
-    gap: 2rem;
+    padding: 4rem;
+    gap: 3rem;
     width: 100%;
     border: 0.1rem dashed ${palette.primary.light};
     border-radius: ${border.rounded.md};
 
     img {
-      width: 10rem;
-      height: 8rem;
+      width: 15rem;
+      height: 12rem;
       object-fit: contain;
     }
 
@@ -367,6 +410,71 @@ const ProductInfoBox = styled.div(
   `
 );
 
+const ProductLoadingWrapper = styled(motion.div)(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* z-index: 10; */
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+    flex: 1;
+    width: 100%;
+    transition: 0.3s ease-out;
+  `
+);
+
+const ErrorWrapper = styled(motion.div)(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    padding: 4rem;
+    border: 0.1rem solid #ff000025;
+    border-radius: ${border.rounded.md};
+    background: #ff000019;
+
+    background: ${palette.common.contrast};
+    border: 0.1rem solid ${palette.primary.light};
+
+    svg {
+      width: 2.5rem;
+      height: 2.5rem;
+      path {
+        fill: red;
+      }
+    }
+
+    h3 {
+      color: ${palette.common.text};
+      font-size: ${fontSize.m};
+      font-weight: ${fontWeight.medium};
+    }
+
+    ${up(breakpoints.sm)} {
+      flex-direction: row;
+    }
+  `
+);
+
 export {
   ProductContentContainer,
   ProductContentWrapper,
@@ -380,4 +488,8 @@ export {
   ProductBoxWrapper,
   ProductInfoBox,
   ProductEmptyItemWrapper,
+  ProductLoadingWrapper,
+  ProductStepContentContainer,
+  ProductStepContentWrapper,
+  ErrorWrapper,
 };

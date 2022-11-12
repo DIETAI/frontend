@@ -1,6 +1,45 @@
 import styled, { css } from "styled-components";
+import { motion } from "framer-motion";
 
-const ProductInfoWrapper = styled.div(
+const ProductInfoContainer = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    width: 100%;
+    position: relative;
+    min-height: 20rem;
+    overflow-y: hidden;
+  `
+);
+
+const ProductLoadingWrapper = styled(motion.div)(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+    flex: 1;
+    width: 100%;
+    transition: 0.3s ease-out;
+  `
+);
+
+const ProductInfoWrapper = styled(motion.div)(
   ({
     theme: {
       palette,
@@ -146,8 +185,10 @@ const ProductInfoItem = styled.div(
 );
 
 export {
+  ProductInfoContainer,
   ProductInfoWrapper,
   ProductInfoOptionsWrapper,
   ProductInfoOption,
   ProductInfoItem,
+  ProductLoadingWrapper,
 };

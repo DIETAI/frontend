@@ -10,10 +10,16 @@ import { useDarkMode } from "context/darkMode.context";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-const LoadingGrid = () => {
+const LoadingGrid = ({
+  columns,
+  rows,
+}: {
+  columns?: number;
+  rows?: number;
+}) => {
   const { darkMode } = useDarkMode();
-  const loadingRows = Array(5).fill("");
-  const loadingRowSkeleton = Array(4).fill("");
+  const loadingRows = Array(rows || 5).fill("");
+  const loadingRowSkeleton = Array(columns || 4).fill("");
 
   //rgba(226, 208, 255, 0.14)
   const skeletonDarkTheme = {

@@ -1,72 +1,96 @@
 import React from "react";
-import * as Styled from "../ProductContent.styles";
+import * as StepStyled from "../ProductContent.styles";
 import { IProductData } from "interfaces/product.interfaces";
+import { useParams } from "react-router";
+import { getProduct } from "services/getProducts";
+import { AnimatePresence } from "framer-motion";
 
 //icons
 import { FaCubes } from "icons/icons";
 
-interface IProductMacrohydrates {
-  protein: IProductData["protein"];
-  fat: IProductData["fat"];
-  carbohydrates: IProductData["carbohydrates"];
-  fiber: IProductData["fiber"];
-  digestibleCarbohydrates: IProductData["digestableCarbohydrates"];
-  carbohydrateExchangers: IProductData["carbohydrateExchangers"];
-  proteinFatExchangers: IProductData["proteinFatExchangers"];
-}
+//components
+import LoadingGrid from "../../loading/LoadingGrid";
 
-const Macrohydrates = ({
-  protein,
-  fat,
-  carbohydrates,
-  fiber,
-  digestibleCarbohydrates,
-  carbohydrateExchangers,
-  proteinFatExchangers,
-}: IProductMacrohydrates) => {
+// interface IProductMacrohydrates {
+//   protein: IProductData["protein"];
+//   fat: IProductData["fat"];
+//   carbohydrates: IProductData["carbohydrates"];
+//   fiber: IProductData["fiber"];
+//   digestibleCarbohydrates: IProductData["digestableCarbohydrates"];
+//   carbohydrateExchangers: IProductData["carbohydrateExchangers"];
+//   proteinFatExchangers: IProductData["proteinFatExchangers"];
+// }
+
+const Macrohydrates = () => {
+  const { productId } = useParams();
+  console.log({ productId });
+
+  if (!productId) return <div>not found</div>;
+  const { product, productError, productLoading } = getProduct(productId);
+
+  if (productError) return <div>Product error</div>;
+
   return (
-    <Styled.ProductStepWrapper
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 1.3 }}
-    >
-      <Styled.StepHeadingWrapper>
-        <Styled.IconWrapper>
+    <StepStyled.ProductStepWrapper>
+      <StepStyled.StepHeadingWrapper>
+        <StepStyled.IconWrapper>
           <FaCubes />
-        </Styled.IconWrapper>
+        </StepStyled.IconWrapper>
         <h2>Makroskładniki</h2>
-      </Styled.StepHeadingWrapper>
-      <Styled.ProductItemsWrapper>
-        <Styled.ProductItem>
-          <h2>białka (g): </h2>
-          <p>{protein.gram}</p>
-        </Styled.ProductItem>
-        <Styled.ProductItem>
-          <h2>tłuszcze (g): </h2>
-          <p>{fat.gram}</p>
-        </Styled.ProductItem>
-        <Styled.ProductItem>
-          <h2>węglowodany (g): </h2>
-          <p>{carbohydrates.gram}</p>
-        </Styled.ProductItem>
-        <Styled.ProductItem>
-          <h2>błonnik (g): </h2>
-          <p>{fiber.gram}</p>
-        </Styled.ProductItem>
-        <Styled.ProductItem>
-          <h2>węglowodany przyswajalne (g): </h2>
-          <p>{digestibleCarbohydrates.gram}</p>
-        </Styled.ProductItem>
-        <Styled.ProductItem>
-          <h2>wymienniki węglowodanowe: </h2>
-          <p>{carbohydrateExchangers}</p>
-        </Styled.ProductItem>
-        <Styled.ProductItem>
-          <h2>wymienniki białkowo-tłuszczowe: </h2>
-          <p>{proteinFatExchangers}</p>
-        </Styled.ProductItem>
-      </Styled.ProductItemsWrapper>
-    </Styled.ProductStepWrapper>
+      </StepStyled.StepHeadingWrapper>
+      <StepStyled.ProductStepContentContainer>
+        <AnimatePresence>
+          {productLoading && (
+            <StepStyled.ProductLoadingWrapper
+              initial={{ opacity: 1 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <LoadingGrid rows={4} />
+            </StepStyled.ProductLoadingWrapper>
+          )}
+        </AnimatePresence>
+        {product && (
+          <StepStyled.ProductStepContentWrapper
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.3 }}
+          >
+            <StepStyled.ProductItemsWrapper>
+              <StepStyled.ProductItem>
+                <h2>białka (g): </h2>
+                <p>{product.protein.gram}</p>
+              </StepStyled.ProductItem>
+              <StepStyled.ProductItem>
+                <h2>tłuszcze (g): </h2>
+                <p>{product.fat.gram}</p>
+              </StepStyled.ProductItem>
+              <StepStyled.ProductItem>
+                <h2>węglowodany (g): </h2>
+                <p>{product.carbohydrates.gram}</p>
+              </StepStyled.ProductItem>
+              <StepStyled.ProductItem>
+                <h2>błonnik (g): </h2>
+                <p>{product.fiber.gram}</p>
+              </StepStyled.ProductItem>
+              <StepStyled.ProductItem>
+                <h2>węglowodany przyswajalne (g): </h2>
+                <p>{product.digestableCarbohydrates.gram}</p>
+              </StepStyled.ProductItem>
+              <StepStyled.ProductItem>
+                <h2>wymienniki węglowodanowe: </h2>
+                <p>{product.carbohydrateExchangers}</p>
+              </StepStyled.ProductItem>
+              <StepStyled.ProductItem>
+                <h2>wymienniki białkowo-tłuszczowe: </h2>
+                <p>{product.proteinFatExchangers}</p>
+              </StepStyled.ProductItem>
+            </StepStyled.ProductItemsWrapper>
+          </StepStyled.ProductStepContentWrapper>
+        )}
+      </StepStyled.ProductStepContentContainer>
+    </StepStyled.ProductStepWrapper>
   );
 };
 

@@ -13,7 +13,7 @@ const Container = styled.div(
     align-items: flex-start;
     width: 100%;
     gap: 4rem;
-    margin-top: 7rem;
+    margin-top: 5rem;
 
     flex-direction: column;
 

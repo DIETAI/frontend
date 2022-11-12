@@ -9,8 +9,10 @@ import NewProductForm from "./components/ProductForm";
 import MultiStepSidebar from "../../components/multiStepForm/multistepSidebar/MultiStepSidebar";
 import MultiStepContainer from "../../components/multiStepForm/multiStepContainer/MultiStepContainer";
 import ProductSidebarSteps from "../components/form/sidebar/steps/ProductSidebarSteps";
+import PageNav from "components/pageNav/PageNav";
 
 import { productFormSteps } from "../utils/steps";
+import { productNavLinks } from "../utils/navLinks";
 
 const productSidebarPages = [
   {
@@ -24,6 +26,7 @@ const NewProduct = () => {
   const { t } = useTranslation();
   return (
     <>
+      <PageNav headingTitle={"Produkty"} pageNavLinks={productNavLinks} />
       <MultiStepContainer>
         <MultiStepSidebar
           icon={<FaUtensils />}

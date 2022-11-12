@@ -15,7 +15,9 @@ const ProductInfoWrapper = styled.div(
     flex-direction: column;
     gap: 3rem;
     width: 100%;
-    padding: 2rem;
+    position: relative;
+    /* min-height: 30rem; */
+    overflow-y: hidden;
 
     ${up(breakpoints.lg)} {
       flex-direction: row;
@@ -52,8 +54,8 @@ const ProductInfoImageWrapper = styled.div<IImageType>(
       /* width: 100%;
       height: 100%; */
       width: 100%;
-      max-width: 35rem;
-      max-height: 35rem;
+      max-width: 40rem;
+      max-height: 40rem;
       object-fit: contain;
       z-index: 1;
       border-radius: ${border.rounded.md};

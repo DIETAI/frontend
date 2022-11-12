@@ -13,8 +13,10 @@ import EditProductForm from "./components/EditProductForm";
 import MultiStepSidebar from "../../components/multiStepForm/multistepSidebar/MultiStepSidebar";
 import MultiStepContainer from "../../components/multiStepForm/multiStepContainer/MultiStepContainer";
 import ProductSidebarSteps from "../components/form/sidebar/steps/ProductSidebarSteps";
+import PageNav from "components/pageNav/PageNav";
 
 import { productFormSteps } from "../utils/steps";
+import { productNavLinks } from "../utils/navLinks";
 
 const productSidebarPages = [
   {
@@ -41,6 +43,22 @@ const EditProduct = () => {
 
   return (
     <>
+      <PageNav
+        headingTitle={"Produkty"}
+        pageNavLinks={[
+          ...productNavLinks,
+          {
+            id: productNavLinks.length + 1,
+            title: "produkt",
+            path: `/dashboard/products/${productId}`,
+          },
+          {
+            id: productNavLinks.length + 2,
+            title: "edytuj produkt",
+            path: `/dashboard/products/edit/${productId}`,
+          },
+        ]}
+      />
       <MultiStepContainer>
         <MultiStepSidebar
           icon={<FaUtensils />}

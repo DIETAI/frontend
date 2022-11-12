@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { getProducts } from "services/getProducts";
+import { productNavLinks } from "../utils/navLinks";
 
 //date-fns
 import format from "date-fns/format";
 
 //components
 import PageHeading from "pages/dashboard/components/pageHeading/PageHeading";
+import PageNav from "components/pageNav/PageNav";
+
 import {
   DataGridContainer,
   DataGridNav,
@@ -85,6 +88,7 @@ const AllProducts = () => {
 
   return (
     <>
+      <PageNav headingTitle={"Produkty"} pageNavLinks={productNavLinks} />
       <DataGridContainer>
         <DataGridNav
           addLink="/dashboard/products/new"

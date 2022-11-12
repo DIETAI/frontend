@@ -1,84 +1,106 @@
 import React from "react";
-import * as Styled from "../ProductContent.styles";
+import * as StepStyled from "../ProductContent.styles";
 import { IProductData } from "interfaces/product.interfaces";
+import { useParams } from "react-router";
+import { getProduct } from "services/getProducts";
+import { AnimatePresence } from "framer-motion";
 
 //icons
 import { FaTh } from "icons/icons";
 
-interface IProductMinerals {
-  zinc: IProductData["zinc"];
-  phosphorus: IProductData["phosphorus"];
-  magnesium: IProductData["magnesium"];
-  copper: IProductData["copper"];
-  potassium: IProductData["potassium"];
-  selenium: IProductData["selenium"];
-  sodium: IProductData["sodium"];
-  calcium: IProductData["calcium"];
-  iron: IProductData["iron"];
-}
+//components
+import LoadingGrid from "../../loading/LoadingGrid";
 
-const Minerals = ({
-  zinc,
-  phosphorus,
-  magnesium,
-  copper,
-  potassium,
-  selenium,
-  sodium,
-  calcium,
-  iron,
-}: IProductMinerals) => {
+// interface IProductMinerals {
+//   zinc: IProductData["zinc"];
+//   phosphorus: IProductData["phosphorus"];
+//   magnesium: IProductData["magnesium"];
+//   copper: IProductData["copper"];
+//   potassium: IProductData["potassium"];
+//   selenium: IProductData["selenium"];
+//   sodium: IProductData["sodium"];
+//   calcium: IProductData["calcium"];
+//   iron: IProductData["iron"];
+// }
+
+const Minerals = () => {
+  const { productId } = useParams();
+  console.log({ productId });
+
+  if (!productId) return <div>not found</div>;
+  const { product, productError, productLoading } = getProduct(productId);
+
+  if (productError) return <div>Product error</div>;
+
   return (
-    <Styled.ProductStepWrapper
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 1.3 }}
-    >
-      <Styled.StepHeadingWrapper>
-        <Styled.IconWrapper>
+    <StepStyled.ProductStepWrapper>
+      <StepStyled.StepHeadingWrapper>
+        <StepStyled.IconWrapper>
           <FaTh />
-        </Styled.IconWrapper>
+        </StepStyled.IconWrapper>
         <h2>Składniki mineralne</h2>
-      </Styled.StepHeadingWrapper>
-      <Styled.ProductItemsWrapper>
-        <Styled.ProductItem>
-          <h2>cynk ({zinc?.unit}): </h2>
-          <p>{zinc?.amount || "-"}</p>
-        </Styled.ProductItem>
-        <Styled.ProductItem>
-          <h2>fosfor ({phosphorus?.unit}): </h2>
-          <p>{phosphorus?.amount || "-"}</p>
-        </Styled.ProductItem>
-        <Styled.ProductItem>
-          <h2>magnez ({magnesium?.unit}): </h2>
-          <p>{magnesium?.amount || "-"}</p>
-        </Styled.ProductItem>
-        <Styled.ProductItem>
-          <h2>miedź ({copper?.unit}): </h2>
-          <p>{copper?.amount || "-"}</p>
-        </Styled.ProductItem>
-        <Styled.ProductItem>
-          <h2>potas ({potassium?.unit}): </h2>
-          <p>{potassium?.amount || "-"}</p>
-        </Styled.ProductItem>
-        <Styled.ProductItem>
-          <h2>selen ({selenium?.unit}): </h2>
-          <p>{selenium?.amount || "-"}</p>
-        </Styled.ProductItem>
-        <Styled.ProductItem>
-          <h2>sód ({sodium?.unit}): </h2>
-          <p>{sodium?.amount || "-"}</p>
-        </Styled.ProductItem>
-        <Styled.ProductItem>
-          <h2>wapń ({calcium?.unit}): </h2>
-          <p>{calcium?.amount || "-"}</p>
-        </Styled.ProductItem>
-        <Styled.ProductItem>
-          <h2>żelazo ({iron?.unit}): </h2>
-          <p>{iron?.amount || "-"}</p>
-        </Styled.ProductItem>
-      </Styled.ProductItemsWrapper>
-    </Styled.ProductStepWrapper>
+      </StepStyled.StepHeadingWrapper>
+      <StepStyled.ProductStepContentContainer>
+        <AnimatePresence>
+          {productLoading && (
+            <StepStyled.ProductLoadingWrapper
+              initial={{ opacity: 1 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <LoadingGrid rows={4} />
+            </StepStyled.ProductLoadingWrapper>
+          )}
+        </AnimatePresence>
+        {product && (
+          <StepStyled.ProductStepContentWrapper
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.3 }}
+          >
+            <StepStyled.ProductItemsWrapper>
+              <StepStyled.ProductItem>
+                <h2>cynk ({product.zinc?.unit}): </h2>
+                <p>{product.zinc?.amount || "-"}</p>
+              </StepStyled.ProductItem>
+              <StepStyled.ProductItem>
+                <h2>fosfor ({product.phosphorus?.unit}): </h2>
+                <p>{product.phosphorus?.amount || "-"}</p>
+              </StepStyled.ProductItem>
+              <StepStyled.ProductItem>
+                <h2>magnez ({product.magnesium?.unit}): </h2>
+                <p>{product.magnesium?.amount || "-"}</p>
+              </StepStyled.ProductItem>
+              <StepStyled.ProductItem>
+                <h2>miedź ({product.copper?.unit}): </h2>
+                <p>{product.copper?.amount || "-"}</p>
+              </StepStyled.ProductItem>
+              <StepStyled.ProductItem>
+                <h2>potas ({product.potassium?.unit}): </h2>
+                <p>{product.potassium?.amount || "-"}</p>
+              </StepStyled.ProductItem>
+              <StepStyled.ProductItem>
+                <h2>selen ({product.selenium?.unit}): </h2>
+                <p>{product.selenium?.amount || "-"}</p>
+              </StepStyled.ProductItem>
+              <StepStyled.ProductItem>
+                <h2>sód ({product.sodium?.unit}): </h2>
+                <p>{product.sodium?.amount || "-"}</p>
+              </StepStyled.ProductItem>
+              <StepStyled.ProductItem>
+                <h2>wapń ({product.calcium?.unit}): </h2>
+                <p>{product.calcium?.amount || "-"}</p>
+              </StepStyled.ProductItem>
+              <StepStyled.ProductItem>
+                <h2>żelazo ({product.iron?.unit}): </h2>
+                <p>{product.iron?.amount || "-"}</p>
+              </StepStyled.ProductItem>
+            </StepStyled.ProductItemsWrapper>
+          </StepStyled.ProductStepContentWrapper>
+        )}
+      </StepStyled.ProductStepContentContainer>
+    </StepStyled.ProductStepWrapper>
   );
 };
 

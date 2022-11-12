@@ -9,11 +9,11 @@ const LoadingWrapper = styled.div(
   }) => css`
     display: flex;
     flex-direction: column;
-    min-height: 30rem;
+    /* min-height: 30rem; */
     width: 100%;
-    border-radius: ${border.main};
-    background: ${palette.common.main};
-    padding: 2rem;
+    /* border-radius: ${border.main}; */
+    /* background: ${palette.common.main}; */
+    /* padding: 2rem; */
   `
 );
 
@@ -22,7 +22,6 @@ const LoadingRow = styled.div`
   width: 100%;
   padding: 1rem 0;
   min-height: 7rem;
-  cursor: pointer;
   transition: 0.3s ease-out;
   gap: 2rem;
 `;
