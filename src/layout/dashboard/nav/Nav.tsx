@@ -55,7 +55,7 @@ const Nav = () => {
       {/* <IconModal icon={<FaChevronRight />} /> */}
 
       <Styled.NavOptionsWrapper>
-        <Select options={languages} />
+        {/* <Select options={languages} /> */}
         <IconModal icon={<FaSun />}>
           <ThemeOption />
         </IconModal>

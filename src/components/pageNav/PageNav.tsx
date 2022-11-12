@@ -4,7 +4,10 @@ import { Link } from "react-router-dom";
 
 import * as Styled from "./PageNav.styles";
 
-interface IPageNavLink {
+//components
+import Select from "./select/Select";
+
+export interface IPageNavLink {
   id: number;
   path: string;
   title: string;
@@ -26,7 +29,8 @@ const PageNav = ({ headingTitle, pageNavLinks }: IPagNavProps) => {
       <Styled.HeadingWrapper>
         <h2>{headingTitle}</h2>
       </Styled.HeadingWrapper>
-      <Styled.NavItemsMobileSelect>nowy pomiar</Styled.NavItemsMobileSelect>
+      <Select pageNavLinks={pageNavLinks} />
+
       <Styled.NavItemsWrapper>
         {pageNavLinks.map((navLink) => (
           <Link key={navLink.id} to={navLink.path}>

@@ -14,9 +14,16 @@ const PageNavContainer = styled.div(
     justify-content: space-between;
     gap: 1rem;
     margin-bottom: 1rem;
+    flex-direction: column;
 
-    ${up(breakpoints.md)} {
+    ${up(breakpoints.sm)} {
+      flex-direction: row;
+      align-items: center;
+    }
+
+    ${up(breakpoints.lg)} {
       flex-direction: column;
+      align-items: flex-start;
     }
   `
 );
@@ -27,6 +34,7 @@ const HeadingWrapper = styled.div(
       palette,
       typography: { fontSize, fontWeight },
       layout: { border },
+      media: { breakpoints, up },
     },
   }) => css`
     display: flex;
@@ -40,6 +48,10 @@ const HeadingWrapper = styled.div(
       color: ${palette.common.text};
       letter-spacing: 0.05rem;
       font-style: normal;
+    }
+
+    ${up(breakpoints.lg)} {
+      margin-bottom: 1rem;
     }
   `
 );
@@ -62,7 +74,7 @@ const NavItemsWrapper = styled.ul(
       text-decoration: none;
     }
 
-    ${up(breakpoints.md)} {
+    ${up(breakpoints.lg)} {
       display: flex;
     }
   `
@@ -111,33 +123,4 @@ const PageNavItem = styled.li<ICurrentLocation>(
   `
 );
 
-const NavItemsMobileSelect = styled.div(
-  ({
-    theme: {
-      palette,
-      typography: { fontSize, fontWeight },
-      media: { breakpoints, up },
-      layout: { border },
-    },
-  }) => css`
-    /* width: 10rem; */
-    border: 0.1rem solid ${palette.primary.light};
-    list-style: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
-
-    ${up(breakpoints.md)} {
-      display: none;
-    }
-  `
-);
-
-export {
-  PageNavContainer,
-  HeadingWrapper,
-  NavItemsWrapper,
-  PageNavItem,
-  NavItemsMobileSelect,
-};
+export { PageNavContainer, HeadingWrapper, NavItemsWrapper, PageNavItem };
