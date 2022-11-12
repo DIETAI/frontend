@@ -22,7 +22,7 @@ import Section from "../components/section/Section";
 import { IColumn } from "pages/dashboard/components/dataGridv2/DataGrid.interfaces";
 
 const columns: IColumn[] = [
-  { label: "zdjęcie", key: "image", type: "image" },
+  { label: "zdjęcie", key: "imageURL", type: "image" },
   { label: "nazwa", key: "name", type: "text" },
   { label: "kcal", key: "kcal", type: "number" },
   { label: "białka (g)", key: "proteinGram", type: "number" },
@@ -69,7 +69,7 @@ const AllProducts = () => {
 
   const productsData = products?.map((data) => ({
     _id: data._id,
-    image: data.image,
+    imageURL: data.imageURL,
     name: data.name,
     kcal: data.kcal,
     proteinGram: data.protein.gram,

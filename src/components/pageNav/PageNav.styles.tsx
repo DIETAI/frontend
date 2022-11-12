@@ -19,11 +19,13 @@ const PageNavContainer = styled.div(
     ${up(breakpoints.sm)} {
       flex-direction: row;
       align-items: center;
+      gap: 2rem;
     }
 
     ${up(breakpoints.lg)} {
       flex-direction: column;
       align-items: flex-start;
+      gap: 1rem;
     }
   `
 );

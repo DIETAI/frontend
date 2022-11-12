@@ -10,6 +10,7 @@ import CheckBoxWrapper from "components/checkbox/CheckboxWrapper";
 import IconButton from "components/iconButton/IconButton";
 import IconModal from "components/iconModal/IconModal";
 import Image from "components/form/images/image/Image";
+import NoImage from "assets/noImage.svg";
 
 //interfaces
 import { IDataGridListProps } from "../DataGridList.interfaces";
@@ -53,7 +54,13 @@ const DataGridLineView = ({
 
   const renderContent = ({ type, key, row }: IRenderContent) => {
     if (type === "image") {
-      return <Image imageId={row[key]} roundedDataGrid={true} />;
+      const imageURL = row[key];
+      // return <Image imageId={row[key]} roundedDataGrid={true} />;
+      return (
+        <Styled.RowItemImageWrapper>
+          <img src={imageURL || NoImage} />
+        </Styled.RowItemImageWrapper>
+      );
     }
 
     return <p>{row[key]}</p>;

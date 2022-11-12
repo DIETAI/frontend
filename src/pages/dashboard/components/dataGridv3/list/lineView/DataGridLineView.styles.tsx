@@ -111,4 +111,34 @@ const RowItem = styled.div(
   `
 );
 
-export { ListConfig, ListConfigModalItem, RowsWrapper, Row, RowItem };
+const RowItemImageWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      media: { breakpoints, up },
+      typography: { fontSize, fontWeight },
+    },
+  }) => css`
+    width: 4rem;
+    height: 4rem;
+    border: 0.1rem dashed ${palette.primary.light};
+    border-radius: 50%;
+    /* background: ${palette.primary.light}; */
+
+    img {
+      border-radius: 50%;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  `
+);
+
+export {
+  ListConfig,
+  ListConfigModalItem,
+  RowsWrapper,
+  Row,
+  RowItem,
+  RowItemImageWrapper,
+};

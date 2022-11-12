@@ -48,14 +48,14 @@ const ProductContent = () => {
   // }
 
   //return modal when product error
-  if (productError)
-    return (
-      <div>
-        <FaExclamationCircle />
-        <h3>Wystąpił błąd podczas pobierania danych produktu</h3>
-        <p>spróbuj ponownie pobrać dane</p>
-      </div>
-    );
+  // if (productError)
+  //   return (
+  //     <div>
+  //       <FaExclamationCircle />
+  //       <h3>Wystąpił błąd podczas pobierania danych produktu</h3>
+  //       <p>spróbuj ponownie pobrać dane</p>
+  //     </div>
+  //   );
 
   return (
     <Styled.ProductContentWrapper>
