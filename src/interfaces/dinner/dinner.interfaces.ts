@@ -24,6 +24,14 @@ export interface IDinnerData {
   preparation_time?: string;
 }
 
+export interface IDinnerPaginationData {
+  dinners: IDinnerData[];
+  pagination: {
+    count: number;
+    pageCount: number;
+  };
+}
+
 export interface IDinnerProps {
   dinner: IDinnerData;
 }

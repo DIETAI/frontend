@@ -1,12 +1,26 @@
 import useSWR from "swr";
 import fetcher from "utils/fetcher";
-import { IDinnerData } from "interfaces/dinner/dinner.interfaces";
+import {
+  IDinnerData,
+  IDinnerPaginationData,
+} from "interfaces/dinner/dinner.interfaces";
 
-export const getDinners = () => {
-  const { data, error } = useSWR<IDinnerData[] | null>(
-    `/api/v1/dinners`,
-    fetcher
-  );
+export const getDinners = (page?: string, itemsCount?: number) => {
+  if (page) {
+    const { data, error } = useSWR<IDinnerPaginationData>(
+      `/api/v1/dinners?page=${page}&itemsCount=${itemsCount}`, //correct
+      fetcher
+    );
+
+    return {
+      dinners: data?.dinners,
+      dinnersLoading: !error && !data,
+      dinnersError: error,
+      pagination: data?.pagination,
+    };
+  }
+
+  const { data, error } = useSWR<IDinnerData[]>(`/api/v1/dinners`, fetcher);
 
   return {
     dinners: data,
