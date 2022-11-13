@@ -26,9 +26,6 @@ const productNavLinks: INavLink[] = [
 ];
 
 const ProductRoutes = () => {
-  const param = useParams();
-  const [navLinks, setNavLink] = useState<INavLink[]>(productNavLinks);
-
   // useEffect(() => {
   //   console.log("strona produktu");
   //   console.log({ productIds: param[0] });

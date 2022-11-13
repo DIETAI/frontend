@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { getDinners } from "services/getDinners";
+import { dinnerNavLinks } from "../utils/navLinks";
 
 //date-fns
 import format from "date-fns/format";
@@ -12,6 +13,7 @@ import {
   DataGridList,
   DataGridPagination,
 } from "../../components/dataGridv3";
+import PageNav from "components/pageNav/PageNav";
 
 import { IColumn } from "pages/dashboard/components/dataGridv3/container/DataGridContainer.interfaces";
 
@@ -54,6 +56,7 @@ const AllDinners = () => {
 
   return (
     <>
+      <PageNav headingTitle={"Posiłki"} pageNavLinks={dinnerNavLinks} />
       <DataGridContainer>
         <DataGridNav
           addLink="/dashboard/dinners/new"
