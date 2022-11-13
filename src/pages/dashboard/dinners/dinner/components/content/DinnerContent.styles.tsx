@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components";
+import { motion } from "framer-motion";
 
 const DinnerContentContainer = styled.div(
   ({
@@ -24,7 +25,7 @@ const DinnerContentContainer = styled.div(
   `
 );
 
-const DinnerContentWrapper = styled.div(
+const DinnerContentWrapper = styled(motion.div)(
   ({
     theme: {
       palette,
@@ -34,10 +35,15 @@ const DinnerContentWrapper = styled.div(
     },
   }) => css`
     display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
     flex-direction: column;
     gap: 4rem;
     flex: 1;
     width: 100%;
+    max-width: ${breakpoints.lg};
+    position: relative;
+    min-height: 400rem;
 
     /* ${up(breakpoints.xl)} {
       width: 70rem;
@@ -109,7 +115,7 @@ const SaveOptionsWrapper = styled.div(
   `
 );
 
-const DinnerStepWrapper = styled.section(
+const DinnerStepWrapper = styled(motion.section)(
   ({
     theme: {
       palette,
@@ -131,13 +137,6 @@ const DinnerStepWrapper = styled.section(
 
     ${up(breakpoints.xs)} {
       padding: 4rem;
-    }
-
-    ${up(breakpoints.lg)} {
-      /* width: 80rem; */
-      /* flex: 1; */
-      /* width: 65rem; */
-      flex: 1;
     }
   `
 );
@@ -307,6 +306,114 @@ const DinnerInfoBox = styled.div(
   `
 );
 
+const DinnerStepContentContainer = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    gap: 3rem;
+    width: 100%;
+    padding: 2rem;
+    position: relative;
+    min-height: 30rem;
+    overflow-y: hidden;
+
+    ${up(breakpoints.lg)} {
+      flex-direction: row;
+    }
+  `
+);
+
+const DinnerStepContentWrapper = styled(motion.div)(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    gap: 3rem;
+  `
+);
+
+const DinnerLoadingWrapper = styled(motion.div)(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* z-index: 10; */
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+    flex: 1;
+    width: 100%;
+    transition: 0.3s ease-out;
+  `
+);
+
+const ErrorWrapper = styled(motion.div)(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    padding: 4rem;
+    border: 0.1rem solid #ff000025;
+    border-radius: ${border.rounded.md};
+    background: #ff000019;
+
+    background: ${palette.common.contrast};
+    border: 0.1rem solid ${palette.primary.light};
+
+    svg {
+      width: 2.5rem;
+      height: 2.5rem;
+      path {
+        fill: red;
+      }
+    }
+
+    h3 {
+      color: ${palette.common.text};
+      font-size: ${fontSize.m};
+      font-weight: ${fontWeight.medium};
+    }
+
+    ${up(breakpoints.sm)} {
+      flex-direction: row;
+    }
+  `
+);
+
 export {
   DinnerContentContainer,
   DinnerContentWrapper,
@@ -318,4 +425,8 @@ export {
   DinnerItem,
   DinnerBoxWrapper,
   DinnerInfoBox,
+  DinnerStepContentContainer,
+  DinnerStepContentWrapper,
+  DinnerLoadingWrapper,
+  ErrorWrapper,
 };

@@ -25,15 +25,12 @@ const DinnerContent = () => {
 
   const { dinner, dinnerError, dinnerLoading } = getDinner(dinnerId);
 
-  if (dinnerLoading) return <div>dinner loading</div>;
-  if (!dinner || dinnerError) return <div>dinner error</div>;
-
   return (
     <Styled.DinnerContentWrapper>
       <DinnerStep.BasicInfo
-        name={dinner.name}
-        image={dinner.image}
-        gallery={dinner.gallery}
+      // name={dinner.name}
+      // image={dinner.image}
+      // gallery={dinner.gallery}
       />
       {/* <DinnerStep.Products products={dinner.products} /> */}
     </Styled.DinnerContentWrapper>
