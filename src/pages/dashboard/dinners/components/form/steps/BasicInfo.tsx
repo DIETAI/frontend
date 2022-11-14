@@ -23,7 +23,7 @@ import { FaFileAlt } from "icons/icons";
 import { IBasicInfo } from "../../../schema/newDinner.schema";
 import Autocomplete from "components/form/autocomplete/Autocomplete";
 
-const mealTypeOptions = [
+export const mealTypeOptions = [
   { id: 1, name: "Śniadanie", type: "breakfast" },
   { id: 2, name: "II Śniadanie", type: "second_breakfast" },
   { id: 3, name: "Obiad", type: "lunch" },
@@ -31,13 +31,13 @@ const mealTypeOptions = [
   { id: 5, name: "Kolacja", type: "dinner" },
 ];
 
-const mealTypeKindOptions = [
+export const mealTypeKindOptions = [
   { id: 1, name: "danie główne", type: "mainCourse" },
   { id: 2, name: "zupa", type: "soup" },
   { id: 3, name: "napój", type: "drink" },
 ];
 
-const tagOptions = [
+export const tagOptions = [
   { id: 1, name: "bezglutenu", type: "nogluten" },
   { id: 2, name: "bezlaktozy", type: "lactose-free" },
 ];

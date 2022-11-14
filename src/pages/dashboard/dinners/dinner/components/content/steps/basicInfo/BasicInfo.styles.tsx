@@ -21,6 +21,7 @@ const DinnerInfoWrapper = styled.div(
 
     ${up(breakpoints.lg)} {
       flex-direction: row;
+      flex-direction: column;
     }
   `
 );
@@ -100,7 +101,7 @@ const DinnerInfoDescriptionWrapper = styled.div(
     align-items: flex-start;
     justify-content: flex-start;
     flex-direction: column;
-    gap: 2rem;
+    gap: 4rem;
     width: 100%;
     /* border-top: 0.1rem dashed ${palette.primary.light};
     padding-top: 2rem; */
@@ -143,9 +144,103 @@ const DinnerInfoMacroWrapper = styled.ul(
   `
 );
 
+const DinnerInfoDescriptionItem = styled.span(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    gap: 1.5rem;
+    /* border-bottom: 0.1rem dashed ${palette.primary.light};
+    padding-bottom: 1.5rem; */
+    width: 100%;
+
+    li,
+    p {
+      font-size: ${fontSize.s};
+      font-weight: ${fontWeight.light};
+      color: ${palette.common.text};
+    }
+  `
+);
+
+const DinnerInfoDescriptionNavItem = styled.span(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 1rem;
+    padding: 0.2rem 1rem;
+    border-radius: ${border.rounded.sm};
+    background: ${palette.common.contrast};
+    border: 0.1rem solid ${palette.primary.light};
+    font-size: 1.4rem;
+    font-weight: ${fontWeight.medium};
+    color: ${palette.primary.main};
+  `
+);
+
+const GalleryWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 2rem;
+    padding: 2rem 0;
+  `
+);
+
+const GalleryImage = styled.img(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    border-radius: ${border.rounded.md};
+    object-fit: cover;
+    width: 100%;
+    height: 20rem;
+
+    ${up(breakpoints.xs)} {
+      width: 15rem;
+      height: 15rem;
+    }
+  `
+);
+
 export {
   DinnerInfoWrapper,
   DinnerInfoDescriptionWrapper,
   DinnerInfoMacroWrapper,
   DinnerInfoImageWrapper,
+  DinnerInfoDescriptionItem,
+  DinnerInfoDescriptionNavItem,
+  GalleryWrapper,
+  GalleryImage,
 };

@@ -3,6 +3,12 @@ import * as StepStyled from "../../DinnerContent.styles";
 import * as Styled from "./BasicInfo.styles";
 import { useParams } from "react-router";
 import { AnimatePresence } from "framer-motion";
+import {
+  mealTypeOptions,
+  mealTypeKindOptions,
+  preparationTimeOptions,
+  tagOptions,
+} from "pages/dashboard/dinners/components/form/steps/BasicInfo";
 
 //components
 import Image from "components/form/images/image/Image";
@@ -23,6 +29,36 @@ import NoImage from "assets/noImage.svg";
 //   image: IDinnerData["image"];
 //   gallery: IDinnerData["gallery"];
 // }
+
+const renderDinnerPreparationTime = (preparationTime: string) => {
+  const preparationTimeObj = preparationTimeOptions.find(
+    (option) => preparationTime === option.type
+  );
+
+  return preparationTimeObj?.name;
+};
+
+const renderDinnerMealType = (mealType: string) => {
+  const mealTypeObj = mealTypeOptions.find(
+    (option) => mealType === option.type
+  );
+
+  return mealTypeObj?.name;
+};
+
+const renderDinnerMealTypeKind = (mealTypeKind: string) => {
+  const mealTypeKindObj = mealTypeKindOptions.find(
+    (option) => mealTypeKind === option.type
+  );
+
+  return mealTypeKindObj?.name;
+};
+
+const renderDinnerTag = (tag: string) => {
+  const mealTagObj = tagOptions.find((option) => tag === option.type);
+
+  return mealTagObj?.name;
+};
 
 const BasicInfo = () => {
   const { dinnerId } = useParams();
@@ -85,11 +121,83 @@ const BasicInfo = () => {
                 />
               </Styled.DinnerInfoImageWrapper>
               <Styled.DinnerInfoDescriptionWrapper>
-                <h2>{dinner.name}</h2>
-                {/* <p>
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry.
-        </p> */}
+                <Styled.DinnerInfoDescriptionItem>
+                  <h2>{dinner.name}</h2>
+                </Styled.DinnerInfoDescriptionItem>
+
+                {dinner.description && (
+                  <Styled.DinnerInfoDescriptionItem>
+                    <Styled.DinnerInfoDescriptionNavItem>
+                      opis
+                    </Styled.DinnerInfoDescriptionNavItem>
+                    <p>{dinner.description}</p>
+                  </Styled.DinnerInfoDescriptionItem>
+                )}
+
+                {dinner.recipe && (
+                  <Styled.DinnerInfoDescriptionItem>
+                    <Styled.DinnerInfoDescriptionNavItem>
+                      przepis
+                    </Styled.DinnerInfoDescriptionNavItem>
+                    <p>{dinner.recipe}</p>
+                  </Styled.DinnerInfoDescriptionItem>
+                )}
+
+                {dinner.preparation_time && (
+                  <Styled.DinnerInfoDescriptionItem>
+                    <Styled.DinnerInfoDescriptionNavItem>
+                      czas przygotowania
+                    </Styled.DinnerInfoDescriptionNavItem>
+                    <p>
+                      {renderDinnerPreparationTime(dinner.preparation_time)}
+                    </p>
+                  </Styled.DinnerInfoDescriptionItem>
+                )}
+
+                {dinner.mealTypes.length > 0 && (
+                  <Styled.DinnerInfoDescriptionItem>
+                    <Styled.DinnerInfoDescriptionNavItem>
+                      rodzaje dań
+                    </Styled.DinnerInfoDescriptionNavItem>
+                    {dinner.mealTypes.map((mealType) => (
+                      <li key={mealType}> {renderDinnerMealType(mealType)}</li>
+                    ))}
+                  </Styled.DinnerInfoDescriptionItem>
+                )}
+
+                <Styled.DinnerInfoDescriptionItem>
+                  <Styled.DinnerInfoDescriptionNavItem>
+                    typ dania
+                  </Styled.DinnerInfoDescriptionNavItem>
+                  <p>{renderDinnerMealTypeKind(dinner.mealTypesKind)}</p>
+                </Styled.DinnerInfoDescriptionItem>
+
+                {dinner.tags && dinner.tags.length > 0 && (
+                  <Styled.DinnerInfoDescriptionItem>
+                    <Styled.DinnerInfoDescriptionNavItem>
+                      tagi
+                    </Styled.DinnerInfoDescriptionNavItem>
+                    {dinner.tags.map((tag) => (
+                      <li key={tag}> {renderDinnerTag(tag)}</li>
+                    ))}
+                  </Styled.DinnerInfoDescriptionItem>
+                )}
+
+                {dinner.galleryArr && dinner.galleryArr.length > 0 && (
+                  <Styled.DinnerInfoDescriptionItem>
+                    <Styled.DinnerInfoDescriptionNavItem>
+                      galeria
+                    </Styled.DinnerInfoDescriptionNavItem>
+                    <Styled.GalleryWrapper>
+                      {dinner.galleryArr.map((galleryImage) => (
+                        <Styled.GalleryImage
+                          key={galleryImage._id}
+                          src={galleryImage.imageURL}
+                        />
+                      ))}
+                    </Styled.GalleryWrapper>
+                  </Styled.DinnerInfoDescriptionItem>
+                )}
               </Styled.DinnerInfoDescriptionWrapper>
             </Styled.DinnerInfoWrapper>
           </StepStyled.DinnerStepContentWrapper>

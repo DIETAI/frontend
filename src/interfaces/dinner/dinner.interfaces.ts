@@ -9,6 +9,7 @@ export interface IDinnerData {
   image?: string;
   imageObj?: IAssetData;
   gallery?: string[];
+  galleryArr?: IAssetData[];
   mealTypes: (
     | "breakfast"
     | "dinner"
