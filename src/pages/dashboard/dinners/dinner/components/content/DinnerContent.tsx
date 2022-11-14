@@ -27,12 +27,8 @@ const DinnerContent = () => {
 
   return (
     <Styled.DinnerContentWrapper>
-      <DinnerStep.BasicInfo
-      // name={dinner.name}
-      // image={dinner.image}
-      // gallery={dinner.gallery}
-      />
-      {/* <DinnerStep.Products products={dinner.products} /> */}
+      <DinnerStep.BasicInfo />
+      <DinnerStep.Products />
     </Styled.DinnerContentWrapper>
   );
 };

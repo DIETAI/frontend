@@ -43,7 +43,6 @@ const DinnerContentWrapper = styled(motion.div)(
     width: 100%;
     max-width: ${breakpoints.lg};
     position: relative;
-    min-height: 400rem;
 
     /* ${up(breakpoints.xl)} {
       width: 70rem;
@@ -212,7 +211,9 @@ const DinnerItemsWrapper = styled.ul(
     align-items: flex-start;
     flex-direction: column;
     gap: 3rem;
-    padding: 1rem 0;
+    /* padding: 1rem 0; */
+    width: 100%;
+
     button {
       margin-top: 1rem;
     }
@@ -249,6 +250,44 @@ const DinnerItem = styled.li(
       font-size: ${fontSize.s};
       font-weight: ${fontWeight.light};
       color: ${palette.common.text};
+    }
+  `
+);
+
+const DinnerEmptyItemWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 4rem;
+    gap: 3rem;
+    width: 100%;
+    border: 0.1rem dashed ${palette.primary.light};
+    border-radius: ${border.rounded.md};
+
+    img {
+      width: 15rem;
+      height: 12rem;
+      object-fit: contain;
+    }
+
+    h2 {
+      font-size: ${fontSize.m};
+      font-weight: ${fontWeight.medium};
+      color: ${palette.common.text};
+      text-align: center;
+    }
+
+    ${up(breakpoints.sm)} {
+      flex-direction: row;
     }
   `
 );
@@ -321,7 +360,7 @@ const DinnerStepContentContainer = styled.div(
     flex-direction: column;
     gap: 3rem;
     width: 100%;
-    padding: 2rem;
+    /* padding: 2rem; */
     position: relative;
     min-height: 30rem;
     overflow-y: hidden;
@@ -425,6 +464,7 @@ export {
   DinnerItem,
   DinnerBoxWrapper,
   DinnerInfoBox,
+  DinnerEmptyItemWrapper,
   DinnerStepContentContainer,
   DinnerStepContentWrapper,
   DinnerLoadingWrapper,

@@ -43,7 +43,7 @@ const ProductContentWrapper = styled(motion.div)(
     width: 100%;
     max-width: ${breakpoints.lg};
     position: relative;
-    min-height: 400rem;
+    /* min-height: 400rem; */
 
     /* ${up(breakpoints.xl)} {
       width: 70rem;
