@@ -29,6 +29,7 @@ const DinnerContent = () => {
     <Styled.DinnerContentWrapper>
       <DinnerStep.BasicInfo />
       <DinnerStep.Products />
+      <DinnerStep.Portions />
     </Styled.DinnerContentWrapper>
   );
 };

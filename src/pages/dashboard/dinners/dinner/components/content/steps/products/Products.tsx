@@ -11,7 +11,7 @@ import Image from "components/form/images/image/Image";
 import LoadingGrid from "../../../loading/LoadingGrid";
 
 //icons
-import { FaInfoCircle, FaExclamationCircle } from "icons/icons";
+import { FaInfoCircle, FaExclamationCircle, FaCarrot } from "icons/icons";
 
 import { IDinnerData } from "interfaces/dinner/dinner.interfaces";
 import { getDinner } from "services/getDinners";
@@ -38,7 +38,7 @@ const Products = () => {
       <StepStyled.DinnerStepWrapper>
         <StepStyled.StepHeadingWrapper>
           <StepStyled.IconWrapper>
-            <FaInfoCircle />
+            <FaCarrot />
           </StepStyled.IconWrapper>
           <h2>Produkty</h2>
         </StepStyled.StepHeadingWrapper>
@@ -53,7 +53,7 @@ const Products = () => {
     <StepStyled.DinnerStepWrapper>
       <StepStyled.StepHeadingWrapper>
         <StepStyled.IconWrapper>
-          <FaInfoCircle />
+          <FaCarrot />
         </StepStyled.IconWrapper>
         <h2>Produkty</h2>
       </StepStyled.StepHeadingWrapper>
@@ -86,7 +86,7 @@ const Products = () => {
             {dinnerProductsQuery.length > 1 && (
               <StepStyled.DinnerItemsWrapper>
                 {dinnerProductsQuery.map((dinnerProduct, index) => (
-                  <Styled.FieldWrapper key={index + 1}>
+                  <Styled.FieldWrapper key={dinnerProduct._id}>
                     <Styled.FieldHeadWrapper>
                       <Styled.FieldImageWrapper>
                         <img className="backgroundImg" src={LogoBackground} />
