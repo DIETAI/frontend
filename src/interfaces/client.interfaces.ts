@@ -24,6 +24,7 @@ export interface IClientData {
   email?: string;
   onlineAccount?: boolean;
   image?: string;
+  imageURL?: string;
   phoneNumber?: string;
   street?: string;
   zipCode?: string;

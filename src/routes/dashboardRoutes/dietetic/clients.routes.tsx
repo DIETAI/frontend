@@ -22,7 +22,7 @@ const ClientRoutes = () => {
   return (
     //add page heading and nav
     <>
-      <PageNav headingTitle={"Klienci"} pageNavLinks={clientNavLinks} />
+      {/* <PageNav headingTitle={"Klienci"} pageNavLinks={clientNavLinks} /> */}
       <Routes>
         <Route path="/" element={<AllClients />} />
         <Route path="/new" element={<NewClient />} />

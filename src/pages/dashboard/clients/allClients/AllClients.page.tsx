@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { clientNavLinks } from "../utils/navLinks";
 
 //date-fns
 import format from "date-fns/format";
@@ -9,6 +10,7 @@ import {
   DataGridList,
   DataGridPagination,
 } from "../../components/dataGridv3";
+import PageNav from "components/pageNav/PageNav";
 
 //interfaces
 import { IColumn } from "pages/dashboard/components/dataGridv2/DataGrid.interfaces";
@@ -74,6 +76,7 @@ const AllClients = () => {
 
   return (
     <>
+      <PageNav headingTitle={"Pacjenci"} pageNavLinks={clientNavLinks} />
       <DataGridContainer>
         <DataGridNav
           addLink="/dashboard/clients/new"

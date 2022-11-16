@@ -131,7 +131,22 @@ const Portions = () => {
                             key={dinnerPortionProduct.dinnerProductId}
                           >
                             <Styled.ProductMainWrapper>
-                              {dinnerPortionProduct.dinnerProduct.product
+                              <Styled.FieldImageWrapper>
+                                <img
+                                  className="backgroundImg"
+                                  src={LogoBackground}
+                                />
+
+                                <img
+                                  className="productImg"
+                                  src={
+                                    dinnerPortionProduct.dinnerProduct.product
+                                      .imageURL || NoImage
+                                  }
+                                />
+                              </Styled.FieldImageWrapper>
+
+                              {/* {dinnerPortionProduct.dinnerProduct.product
                                 .image && (
                                 <div>
                                   <Image
@@ -142,7 +157,7 @@ const Portions = () => {
                                     }
                                   />
                                 </div>
-                              )}
+                              )} */}
 
                               <Styled.ProductContentWrapper>
                                 <h3>
