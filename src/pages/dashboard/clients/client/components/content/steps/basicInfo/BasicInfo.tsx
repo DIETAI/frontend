@@ -20,6 +20,14 @@ import { FaInfoCircle, FaExclamationCircle } from "icons/icons";
 import LogoBackground from "assets/logo-icon.svg";
 import { IClientData } from "interfaces/client.interfaces";
 
+const renderGender = (gender: IClientData["gender"]) => {
+  if (gender === "female") {
+    return "kobieta";
+  }
+
+  return "mężczyzna";
+};
+
 const renderClientPhysiologicalState = (
   physiologicalState: IClientData["physiologicalState"]
 ) => {
@@ -108,7 +116,7 @@ const BasicInfo = () => {
                 </StepStyled.ClientItem>
                 <StepStyled.ClientItem>
                   <h2>płeć: </h2>
-                  <p>{client.gender}</p>
+                  <p>{renderGender(client.gender)}</p>
                 </StepStyled.ClientItem>
                 {client.gender === "female" && client.physiologicalState && (
                   <StepStyled.ClientItem>
