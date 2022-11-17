@@ -1,5 +1,6 @@
 import React from "react";
 import { useUser } from "services/useUser";
+import NoUser from "assets/noUser.svg";
 
 //styles
 import * as Styled from "../styles/Form.styles";
@@ -36,6 +37,7 @@ const PersonDataForm = () => {
     name: user?.name || "",
     lastName: user?.lastName || "",
     email: user?.email || "",
+    avatar: user?.avatar || NoUser,
   };
 
   const methods = useForm({
@@ -70,10 +72,13 @@ const PersonDataForm = () => {
       <Heading icon={<FaUser />} title="Twoje dane" />
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onPersonDataFormSubmit)}>
-          <Styled.FormBackgroundImageWrapper>
+          <Styled.ImageWrapper>
             <img src={DietAILogo} className="personData-backgroundImage" />
-            <img src={AvatarImg} className="personData-avatarImage" />
-          </Styled.FormBackgroundImageWrapper>
+            <img
+              src={initialValues.avatar}
+              className="personData-avatarImage"
+            />
+          </Styled.ImageWrapper>
           <Input label="imię" name="name" fullWidth />
           <Input label="nazwisko" name="lastName" fullWidth />
           <Input label="email" name="email" fullWidth />
@@ -85,7 +90,10 @@ const PersonDataForm = () => {
             fullWidth
           />
           <p>logo</p>
-          <Button variant="disabled" fullWidth>
+          <Button
+            variant={!isValid || isSubmitting ? "disabled" : "primary"}
+            fullWidth
+          >
             wyślij
           </Button>
         </form>

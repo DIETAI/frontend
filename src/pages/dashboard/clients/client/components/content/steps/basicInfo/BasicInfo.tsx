@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router";
 import { AnimatePresence } from "framer-motion";
-import NoImage from "assets/noImage.svg";
+import NoUser from "assets/noUser.svg";
 import { getClient } from "services/getClients";
 import format from "date-fns/format";
 import { pl } from "date-fns/locale";
@@ -103,7 +103,7 @@ const BasicInfo = () => {
               <Styled.ClientInfoImageWrapper>
                 <img className="backgroundImg" src={LogoBackground} />
 
-                <img className="clientImg" src={client.imageURL || NoImage} />
+                <img className="clientImg" src={client.imageURL || NoUser} />
               </Styled.ClientInfoImageWrapper>
               <Styled.ClientInfoDescriptionWrapper>
                 <h2>{client.name + " " + client.lastName}</h2>

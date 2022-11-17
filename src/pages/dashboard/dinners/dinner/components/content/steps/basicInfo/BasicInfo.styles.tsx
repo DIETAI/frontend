@@ -55,8 +55,8 @@ const DinnerInfoImageWrapper = styled.div<IImageType>(
       /* width: 100%;
       height: 100%; */
       width: 100%;
-      max-width: 40rem;
-      max-height: 40rem;
+      max-width: 30rem;
+      max-height: 30rem;
       object-fit: contain;
       z-index: 1;
       border-radius: ${border.rounded.md};

@@ -122,4 +122,51 @@ const FormBackgroundImageWrapper = styled.div(
   `
 );
 
-export { FormWrapper, FormHeading, FormBackgroundImageWrapper };
+const ImageWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* width: 30rem;
+    height: 30rem; */
+    /* background: ${palette.common.contrast}; */
+    border: 0.1rem solid ${palette.primary.light};
+    border-radius: ${border.rounded.md};
+    padding: 1rem;
+    position: relative;
+
+    .personData-avatarImage {
+      /* width: 100%;
+      height: 100%; */
+      width: 100%;
+      max-width: 16rem;
+      max-height: 16rem;
+      object-fit: cover;
+      z-index: 1;
+      border-radius: ${border.rounded.md};
+    }
+
+    .personData-backgroundImage {
+      /* width: 100%
+      height: 100%; */
+      width: 100%;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      opacity: 0.08;
+      filter: blur(3px);
+
+      object-fit: cover;
+      border-radius: ${border.rounded.md};
+    }
+  `
+);
+
+export { FormWrapper, FormHeading, FormBackgroundImageWrapper, ImageWrapper };

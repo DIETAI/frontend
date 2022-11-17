@@ -7,9 +7,9 @@ export const personDataSchema = yup.object({
   name: yup.string().required("To pole jest wymagane").default(""),
   lastName: yup.string().required("To pole jest wymagane").default(""),
   email: yup.string().required("To pole jest wymagane").default(""),
-  phone: yup.string().required("To pole jest wymagane").default(""),
-  role: yup.string().required("To pole jest wymagane").default(""),
-  authProvider: yup.string().required("To pole jest wymagane").default(""),
+  phone: yup.string().default(""),
+  role: yup.string().default(""),
+  authProvider: yup.string().default(""),
 });
 
 export type IPersonData = yup.InferType<typeof personDataSchema>;
