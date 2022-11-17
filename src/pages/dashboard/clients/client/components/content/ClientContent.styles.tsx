@@ -209,9 +209,9 @@ const ClientStepContentContainer = styled.div(
     flex-direction: column;
     gap: 3rem;
     width: 100%;
-    padding: 2rem;
+    /* padding: 2rem; */
     position: relative;
-    min-height: 30rem;
+    min-height: 15rem;
     overflow-y: hidden;
 
     ${up(breakpoints.lg)} {

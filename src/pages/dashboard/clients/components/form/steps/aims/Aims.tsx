@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import Input from "components/form/input/Input";
 import MultipleAutocomplete from "components/form/multipleAutocomplete/MultipleAutocomplete";
 
-const aimsOptions = [
+export const aimsOptions = [
   { id: 1, name: "poprawa samopoczucia", type: "improvedWellBeing" },
   { id: 2, name: "poprawa jakości snu", type: "improvedQualityOfSleep" },
   {

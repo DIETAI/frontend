@@ -32,6 +32,9 @@ const ClientContent = () => {
   return (
     <Styled.ClientContentWrapper>
       <ClientStep.BasicInfo />
+      <ClientStep.Diseases />
+      <ClientStep.Aims />
+      <ClientStep.Interview />
     </Styled.ClientContentWrapper>
   );
 };

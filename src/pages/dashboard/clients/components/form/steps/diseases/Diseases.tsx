@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 //components
 import MultipleAutocomplete from "components/form/multipleAutocomplete/MultipleAutocomplete";
 
-const diseasesOptions = [
+export const diseasesOptions = [
   { id: 1, name: "wzdęcia", type: "flatulence" },
   { id: 2, name: "zaparcia", type: "constipation" },
   { id: 3, name: "refluks", type: "reflux" },
@@ -16,7 +16,7 @@ const diseasesOptions = [
   { id: 9, name: "nowotwór", type: "tumor" },
 ];
 
-const alergensOptions = [
+export const alergensOptions = [
   { id: 1, name: "orzechy", type: "peanuts" },
   { id: 2, name: "żyto", type: "rye" },
   { id: 3, name: "białko jaja", type: "eggProtein" },

@@ -209,7 +209,7 @@ const ProductStepContentContainer = styled.div(
     flex-direction: column;
     gap: 3rem;
     width: 100%;
-    padding: 2rem;
+    /* padding: 2rem; */
     position: relative;
     min-height: 30rem;
     overflow-y: hidden;
