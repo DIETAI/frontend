@@ -94,6 +94,14 @@ export interface IDietEstablishmentData {
   };
 }
 
+export interface IDietEstablishmentPaginationData {
+  dietEstablishments: IDietEstablishmentData[];
+  pagination: {
+    count: number;
+    pageCount: number;
+  };
+}
+
 export interface IDietEstablishmentProps {
   dietEstablishment: IDietEstablishmentData;
 }

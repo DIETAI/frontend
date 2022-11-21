@@ -1,18 +1,20 @@
 import React from "react";
 import { useParams, useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
+import { dietEstablishmentsNavLinks } from "../utils/dietEstablishmentLinks";
 
 //icon
 import { FaCarrot, FaUtensils } from "icons/icons";
 
 //components
+import PageNav from "components/pageNav/PageNav";
 import EditDietEstablishmentForm from "./components/EditDietEstablishmentForm";
 import MultiStepSidebar from "../../components/multiStepForm/multistepSidebar/MultiStepSidebar";
 import MultiStepContainer from "../../components/multiStepForm/multiStepContainer/MultiStepContainer";
 import DietEstablishmentSidebarSteps from "../components/form/sidebar/steps/DietEstablishmentSidebarSteps";
 
 //utils
-import { dietEstablishmentsFormSteps } from "../utlis/steps";
+import { dietEstablishmentsFormSteps } from "../utils/steps";
 
 //queries
 import { useDietEstablishment } from "services/useDietEstablishments";
@@ -52,6 +54,22 @@ const EditDietEstablishment = () => {
 
   return (
     <>
+      <PageNav
+        headingTitle={"Założenia żywieniowe"}
+        pageNavLinks={[
+          ...dietEstablishmentsNavLinks,
+          {
+            id: dietEstablishmentsNavLinks.length + 1,
+            title: "założenia",
+            path: `/dashboard/diet-establishments/${dietEstablishmentId}`,
+          },
+          {
+            id: dietEstablishmentsNavLinks.length + 2,
+            title: "edytuj założenia",
+            path: `/dashboard/diet-establishments/edit/${dietEstablishmentId}`,
+          },
+        ]}
+      />
       <MultiStepContainer>
         <MultiStepSidebar
           icon={<FaUtensils />}

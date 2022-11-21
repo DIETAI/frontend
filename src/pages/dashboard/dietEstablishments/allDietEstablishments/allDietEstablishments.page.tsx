@@ -1,13 +1,23 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useDietEstablishments } from "services/useDietEstablishments";
 import { Link } from "react-router-dom";
+import { dietEstablishmentsNavLinks } from "../utils/dietEstablishmentLinks";
 
 //date-fns
 import format from "date-fns/format";
 
 //components
 import DataGrid from "../../components/dataGridv2/DataGrid";
+
+//components
+import {
+  DataGridContainer,
+  DataGridNav,
+  DataGridList,
+  DataGridPagination,
+} from "../../components/dataGridv3";
+import PageNav from "components/pageNav/PageNav";
 
 //interfaces
 import { IColumn } from "pages/dashboard/components/dataGridv2/DataGrid.interfaces";
@@ -24,14 +34,26 @@ const columns: IColumn[] = [
 
 const AllDietEstablishments = () => {
   const { t } = useTranslation();
+  const [page, setPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(5); //5 | 10 /15 /20
+  const [pageCount, setPageCount] = useState(0);
+
   const {
     dietEstablishments,
     dietEstablishmentsError,
     dietEstablishmentsLoading,
-  } = useDietEstablishments();
+    pagination,
+  } = useDietEstablishments(page.toString(), itemsPerPage);
+
+  useEffect(() => {
+    if (pagination) {
+      setPageCount(pagination.pageCount);
+    }
+  }, [pagination]);
 
   // if (measurementsLoading) return <div>measurements loading...</div>;
-  if (dietEstablishmentsError) return <div>dietEstablishments error popup</div>;
+  if (dietEstablishmentsError || !dietEstablishments)
+    return <div>diet establishments error</div>;
 
   console.log({ dietEstablishments });
 
@@ -52,14 +74,31 @@ const AllDietEstablishments = () => {
 
   return (
     <>
-      <DataGrid
-        columns={columns}
-        addLink="/dashboard/diet-establishments/new"
-        link="/dashboard/diet-establishments"
-        exportAction={() => console.log("open export popup")}
-        data={dietEstablishmentData}
-        loadingData={dietEstablishmentsLoading}
+      <PageNav
+        headingTitle={"Założenia żywieniowe"}
+        pageNavLinks={dietEstablishmentsNavLinks}
       />
+      <DataGridContainer>
+        <DataGridNav
+          addLink="/dashboard/diet-establishments/new"
+          exportAction={() => console.log("open export popup")}
+        />
+        <DataGridList
+          data={dietEstablishmentData}
+          loadingData={dietEstablishmentsLoading}
+          columns={columns}
+          viewLink="/dashboard/diet-establishments"
+          editLink="/dashboard/diet-establishments"
+          deleteAction={deleteDietEstablishments}
+        />
+        <DataGridPagination
+          currentPage={page}
+          pageCount={pageCount}
+          changePage={setPage}
+          itemsPerPage={itemsPerPage}
+          changeItemsPerPage={setItemsPerPage}
+        />
+      </DataGridContainer>
     </>
   );
 };

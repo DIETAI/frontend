@@ -17,7 +17,7 @@ import {
 } from "../../schema/dietEstablishment.schema";
 
 //utils
-import { dietEstablishmentsFormSteps } from "../../utlis/steps";
+import { dietEstablishmentsFormSteps } from "../../utils/steps";
 
 //context
 import { useAlert } from "layout/dashboard/context/alert.context";

@@ -8,7 +8,7 @@ import MultiStepFormContent from "../../../components/multiStepForm/multiStepCon
 import FormStep from "../../../components/multiStepForm/step/Step";
 
 //steps
-import { dietEstablishmentsFormSteps } from "../../utlis/steps";
+import { dietEstablishmentsFormSteps } from "../../utils/steps";
 
 //context
 import { useAlert } from "layout/dashboard/context/alert.context";

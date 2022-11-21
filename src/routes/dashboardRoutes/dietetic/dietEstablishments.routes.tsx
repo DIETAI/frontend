@@ -29,10 +29,10 @@ const DietEstablishmentRoutes = () => {
   return (
     //add page heading and nav
     <>
-      <PageNav
+      {/* <PageNav
         headingTitle={"Założenia żywieniowe"}
         pageNavLinks={dietEstablishmentsNavLinks}
-      />
+      /> */}
       <Routes>
         <Route path="/" element={<AllDietEstablishments />} />
         <Route path="/:dietEstablishmentId" element={<DietEstablishment />} />
