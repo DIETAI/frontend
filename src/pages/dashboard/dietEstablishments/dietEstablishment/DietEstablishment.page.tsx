@@ -6,7 +6,7 @@ import { dietEstablishmentsNavLinks } from "../utils/dietEstablishmentLinks";
 import * as Styled from "./DietEstablishmentPage.styles";
 
 //icons
-import { FaUtensils } from "icons/icons";
+import { FaInfoCircle } from "icons/icons";
 
 //components
 import PageNav from "components/pageNav/PageNav";
@@ -33,8 +33,8 @@ const DietEstablishment = () => {
       <Styled.DietEstablishmentContainer>
         <DietEstablishmentContent />
         <DietEstablishmentSidebar
-          title={"Informacje"}
-          icon={<FaUtensils />}
+          title={"Dane założeń"}
+          icon={<FaInfoCircle />}
           sections={dietEstablishmentSidebarSections}
         />
       </Styled.DietEstablishmentContainer>
