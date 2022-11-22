@@ -38,6 +38,7 @@ const DietEstablishmentContent = () => {
     <Styled.DietEstablishmentContentWrapper>
       <DietEstablishmentStep.BasicInfo />
       <DietEstablishmentStep.Meals />
+      <DietEstablishmentStep.Macrohydrates />
     </Styled.DietEstablishmentContentWrapper>
   );
 };

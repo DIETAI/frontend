@@ -94,11 +94,13 @@ const Meals = () => {
                       <p>{meal.time}</p>
                     </StepStyled.DietEstablishmentItem>
                     <StepStyled.DietEstablishmentItem>
-                      <h2>procent: </h2>
+                      <h2>wartość procentowa posiłku w ciągu dnia:</h2>
                       <p>{meal.procent}</p>
                     </StepStyled.DietEstablishmentItem>
                     <StepStyled.DietEstablishmentItem>
-                      <h2>kcal: </h2>
+                      <h2>
+                        wartość energetyczna posiłku w ciągu dnia [kcal]:{" "}
+                      </h2>
                       <p>{meal.kcal}</p>
                     </StepStyled.DietEstablishmentItem>
                   </Styled.FieldWrapper>
