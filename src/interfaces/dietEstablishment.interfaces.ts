@@ -1,3 +1,7 @@
+import { IClientData } from "./client.interfaces";
+import { IDietKindData } from "./dietKind.interfaces";
+import { IMeasurementData } from "./measurement.interfaces";
+
 export interface IDietEstablishmentMeal {
   _id: string;
   time: string;
@@ -92,6 +96,12 @@ export interface IDietEstablishmentData {
   patient: {
     fullName: string;
   };
+}
+
+export interface IDietEstablishmentQueryData extends IDietEstablishmentData {
+  patientObj: IClientData;
+  measurementObj?: IMeasurementData;
+  dietKindObj: IDietKindData;
 }
 
 export interface IDietEstablishmentPaginationData {

@@ -3,6 +3,7 @@ import axios from "utils/api";
 import {
   IDietEstablishmentData,
   IDietEstablishmentPaginationData,
+  IDietEstablishmentQueryData,
 } from "interfaces/dietEstablishment.interfaces";
 
 const fetcher = (url: string, headers = {}) =>
@@ -50,5 +51,18 @@ export const useDietEstablishment = (id: string) => {
     dietEstablishment: data,
     dietEstablishmentLoading: !error && !data,
     dietEstablishmentError: error,
+  };
+};
+
+export const getDietEstablishmentQuery = (id: string) => {
+  const { data, error } = useSWR<IDietEstablishmentQueryData>(
+    `/api/v1/dietEstablishments/${id}/query`,
+    fetcher
+  );
+
+  return {
+    dietEstablishmentQuery: data,
+    dietEstablishmentQueryLoading: !error && !data,
+    dietEstablishmentQueryError: error,
   };
 };

@@ -1,28 +1,28 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { useDietEstablishment } from "services/useDietEstablishments";
+import { getProduct } from "services/getProducts";
 import format from "date-fns/format";
 import { pl } from "date-fns/locale";
+import { getClient } from "services/getClients";
 
 //styles
 import * as Styled from "./DietEstablishmentContent.styles";
 
 //icons
-import { FaUtensils, FaWeight } from "icons/icons";
-
-//utils
-import {
-  dietEstablishmentContentSections,
-  DietEstablishmentKeyType,
-} from "../../utils/dietEstablishmentSections";
+import { FaUtensils, FaWeight, FaExclamationCircle } from "icons/icons";
 
 //components
 import Image from "components/form/images/image/Image";
+import * as DietEstablishmentStep from "./steps";
+import LoadingGrid from "../loading/LoadingGrid";
 
 //interfaces
-import { IDietEstablishmentData } from "interfaces/dietEstablishment.interfaces";
+import { IProductData } from "interfaces/product.interfaces";
+import { AnimatePresence } from "framer-motion";
+import { useDietEstablishment } from "services/useDietEstablishments";
 
 const DietEstablishmentContent = () => {
+  // const loadingSteps = Array(7).fill("");
   const { dietEstablishmentId } = useParams();
   console.log({ dietEstablishmentId });
 
@@ -34,70 +34,11 @@ const DietEstablishmentContent = () => {
     dietEstablishmentLoading,
   } = useDietEstablishment(dietEstablishmentId);
 
-  if (dietEstablishmentLoading) return <div>dietEstablishment loading</div>;
-  if (!dietEstablishment || dietEstablishmentError)
-    return <div>dietEstablishment error</div>;
-
-  const renderContent = (
-    key: keyof IDietEstablishmentData,
-    label: string,
-    type: DietEstablishmentKeyType
-  ) => {
-    if (type === "string" || type === "number") {
-      return (
-        <>
-          <h2>{label} :</h2> <p>{(dietEstablishment[key] as string) || "-"}</p>
-        </>
-      );
-    }
-
-    if (type === "array" && key === "meals") {
-      return (
-        <>
-          {dietEstablishment[key].map((meal, mealIndex) => (
-            <p key={meal.type + mealIndex}>{meal.name}</p>
-          ))}
-        </>
-      );
-    }
-
-    if (
-      type === "object" &&
-      (key === "fat" || key === "carbohydrates" || key === "protein")
-    ) {
-      return (
-        <>
-          {label} :{" "}
-          <div>
-            <p>{dietEstablishment[key].gram} gram</p>
-            <p>{dietEstablishment[key].kcal} kcal </p>
-            <p>{dietEstablishment[key].procent} procent</p>
-          </div>
-        </>
-      );
-    }
-
-    return "-";
-  };
-
   return (
-    <Styled.MeasurementContentWrapper>
-      {dietEstablishmentContentSections.map((section) => (
-        <Styled.MeasurementStepWrapper key={section.id}>
-          <Styled.StepHeadingWrapper>
-            <Styled.IconWrapper>{section.icon}</Styled.IconWrapper>
-            <h2>{section.title}</h2>
-          </Styled.StepHeadingWrapper>
-          <Styled.MeasurementItemsWrapper>
-            {section.keys.map(({ key, label, type }) => (
-              <Styled.MeasurementItem key={key}>
-                {renderContent(key, label, type)}
-              </Styled.MeasurementItem>
-            ))}
-          </Styled.MeasurementItemsWrapper>
-        </Styled.MeasurementStepWrapper>
-      ))}
-    </Styled.MeasurementContentWrapper>
+    <Styled.DietEstablishmentContentWrapper>
+      <DietEstablishmentStep.BasicInfo />
+      <DietEstablishmentStep.Meals />
+    </Styled.DietEstablishmentContentWrapper>
   );
 };
 
