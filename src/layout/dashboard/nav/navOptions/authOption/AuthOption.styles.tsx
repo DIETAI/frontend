@@ -16,13 +16,19 @@ const AuthOptionWrapper = styled.div(
   `
 );
 
-const PersonWrapper = styled.div(
+interface IBackground {
+  background?: boolean;
+}
+
+const PersonWrapper = styled.div<IBackground>(
   ({
     theme: {
       palette,
       layout: { padding, border },
       media: { down, breakpoints },
     },
+
+    background,
   }) => css`
     display: flex;
     align-items: center;
@@ -33,6 +39,12 @@ const PersonWrapper = styled.div(
       height: 4rem;
       object-fit: cover;
       border-radius: ${border.rounded.sm};
+
+      ${background &&
+      css`
+        border: 0.2rem dashed ${palette.primary.light};
+        background: ${palette.common.contrast};
+      `}
     }
   `
 );
@@ -99,6 +111,8 @@ const ListWrapper = styled.ul(
         font-size: 1.4rem;
         font-weight: ${fontWeight.medium};
         color: ${palette.common.text};
+        text-decoration: none;
+        width: 100%;
       }
     }
   `

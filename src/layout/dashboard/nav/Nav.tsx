@@ -1,5 +1,6 @@
 import React from "react";
 import { languages } from "utils/languages";
+import NoUserImg from "assets/noUser.svg";
 import * as Styled from "./Nav.styles";
 
 //logo
@@ -32,8 +33,10 @@ import {
 import AvatarImg from "assets/avatar.png";
 import Button from "components/form/button/Button";
 import Select from "components/select/Select";
+import { useUser } from "services/useUser";
 
 const Nav = () => {
+  const { user } = useUser();
   const { sidebarView, changeSidebarView } = useSidebarView();
 
   return (
@@ -59,11 +62,11 @@ const Nav = () => {
         <IconModal icon={<FaSun />}>
           <ThemeOption />
         </IconModal>
-        <IconModal icon={<FaEnvelope />}>
+        {/* <IconModal icon={<FaEnvelope />}>
           <NotificationOption />
-        </IconModal>
+        </IconModal> */}
         {/* <IconModal icon={<FaCog />} /> */}
-        <IconModal img={AvatarImg}>
+        <IconModal img={user?.avatar || NoUserImg} background>
           <AuthOption />
         </IconModal>
       </Styled.NavOptionsWrapper>

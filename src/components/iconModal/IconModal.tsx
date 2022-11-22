@@ -12,6 +12,7 @@ const IconModal = ({
   icon,
   img,
   children,
+  background,
 }: IIconModalProps & IChildrenProps) => {
   const [iconModalOpen, setIconModalOpen] = useState(false);
 
@@ -20,7 +21,7 @@ const IconModal = ({
       onMouseEnter={() => setIconModalOpen(true)}
       onMouseLeave={() => setIconModalOpen(false)}
     >
-      <Styled.IconModalWrapper>
+      <Styled.IconModalWrapper background={background}>
         {img ? <img src={img} /> : icon}
       </Styled.IconModalWrapper>
 

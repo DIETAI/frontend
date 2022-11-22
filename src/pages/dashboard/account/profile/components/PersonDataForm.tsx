@@ -81,15 +81,15 @@ const PersonDataForm = () => {
           </Styled.ImageWrapper>
           <Input label="imię" name="name" fullWidth />
           <Input label="nazwisko" name="lastName" fullWidth />
-          <Input label="email" name="email" fullWidth />
+          <Input label="email" name="email" fullWidth disabled />
           <Input label="nr telefonu" name="phone" fullWidth />
-          <Input label="rola" name="role" fullWidth />
-          <Input
+          {/* <Input label="rola" name="role" fullWidth /> */}
+          {/* <Input
             label="metoda uwierzytelniania"
             name="authProvider"
             fullWidth
-          />
-          <p>logo</p>
+          /> */}
+          {/* <p>logo</p> */}
           <Button
             variant={!isValid || isSubmitting ? "disabled" : "primary"}
             fullWidth

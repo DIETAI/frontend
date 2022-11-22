@@ -14,7 +14,11 @@ const IconModalContainer = styled.div(
   `
 );
 
-const IconModalWrapper = styled.div(
+interface IBackground {
+  background?: boolean;
+}
+
+const IconModalWrapper = styled.div<IBackground>(
   ({
     theme: {
       palette,
@@ -22,6 +26,7 @@ const IconModalWrapper = styled.div(
       media: { breakpoints, up },
       layout: { border },
     },
+    background,
   }) => css`
     display: flex;
     align-items: center;
@@ -33,6 +38,12 @@ const IconModalWrapper = styled.div(
     transition: 0.3s ease-out;
     cursor: pointer;
     z-index: 50;
+
+    ${background &&
+    css`
+      border: 0.2rem dashed ${palette.primary.light};
+      background: ${palette.common.contrast};
+    `}
 
     img {
       width: 100%;

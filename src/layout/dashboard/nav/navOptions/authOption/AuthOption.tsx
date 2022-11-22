@@ -2,10 +2,13 @@ import React from "react";
 import AvatarImg from "assets/avatar.png";
 import axios from "utils/api";
 import { useNavigate } from "react-router";
+import NoUserImg from "assets/noUser.svg";
+import { Link } from "react-router-dom";
 
 import * as Styled from "./AuthOption.styles";
 
 import { useUser } from "services/useUser";
+import { mutate } from "swr";
 
 const AuthOption = () => {
   const navigate = useNavigate();
@@ -18,14 +21,15 @@ const AuthOption = () => {
     });
 
     console.log({ logout });
+    // mutate(`/api/v1/user`);
     window.location.reload();
     // navigate("/auth/login");
   };
 
   return (
     <Styled.AuthOptionWrapper>
-      <Styled.PersonWrapper>
-        <img src={user?.avatar || AvatarImg} />
+      <Styled.PersonWrapper background={!user?.avatar}>
+        <img src={user?.avatar || NoUserImg} />
         <Styled.PersonInfoWrapper>
           <h2>{user?.fullName}</h2>
           <p>{user?.email}</p>
@@ -34,9 +38,9 @@ const AuthOption = () => {
       <Styled.Divider />
       <Styled.ListWrapper>
         <li>
-          <a>Profil</a>
+          <Link to={"/dashboard/account"}>profil</Link>
         </li>
-        <li>
+        {/* <li>
           <a>Ustawienia</a>
         </li>
         <li>
@@ -44,7 +48,7 @@ const AuthOption = () => {
         </li>
         <li>
           <a>Płatności</a>
-        </li>
+        </li> */}
       </Styled.ListWrapper>
       <Styled.Divider />
       <Styled.SignoutButton onClick={signOut}>wyloguj się</Styled.SignoutButton>
