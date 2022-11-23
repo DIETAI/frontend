@@ -9,8 +9,10 @@ import NewMeasurementForm from "./components/MeasurementForm";
 import MultiStepSidebar from "../../components/multiStepForm/multistepSidebar/MultiStepSidebar";
 import MultiStepContainer from "../../components/multiStepForm/multiStepContainer/MultiStepContainer";
 import MeasurementSidebarSteps from "../components/form/sidebar/steps/MeasurementSidebarSteps";
+import PageNav from "components/pageNav/PageNav";
 
 import { measurementFormSteps } from "../utlis/steps";
+import { measurementsNavLinks } from "../utlis/navLinks";
 
 const measurementSidebarPages = [
   {
@@ -27,6 +29,7 @@ const NewMeasurement = () => {
   const { t } = useTranslation();
   return (
     <>
+      <PageNav headingTitle={"Pomiary"} pageNavLinks={measurementsNavLinks} />
       <MultiStepContainer>
         <MultiStepSidebar
           icon={<FaUtensils />}

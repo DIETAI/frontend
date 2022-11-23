@@ -22,7 +22,7 @@ const MeasurementRoutes = () => {
   return (
     //add page heading and nav
     <>
-      <PageNav headingTitle={"Pomiary"} pageNavLinks={measurementsNavLinks} />
+      {/* <PageNav headingTitle={"Pomiary"} pageNavLinks={measurementsNavLinks} /> */}
       <Routes>
         <Route path="/" element={<AllMeasurements />} />
         <Route path="/:measurementId" element={<Measurement />} />

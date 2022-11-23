@@ -13,8 +13,8 @@ const MeasurementContainer = styled.div(
     align-items: flex-start;
     width: 100%;
     gap: 4rem;
-    margin-top: 7rem;
-    flex-direction: column;
+    margin-top: 5rem;
+    flex-direction: column-reverse;
 
     ${up(breakpoints.lg)} {
       position: relative;

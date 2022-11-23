@@ -11,12 +11,14 @@ import {
   DataGridList,
   DataGridPagination,
 } from "../../components/dataGridv3";
+import PageNav from "components/pageNav/PageNav";
 
 //interfaces
 import { IColumn } from "pages/dashboard/components/dataGridv2/DataGrid.interfaces";
 
 //services
 import { useMeasurements } from "services/useMeasurements";
+import { measurementsNavLinks } from "../utlis/navLinks";
 
 const columns: IColumn[] = [
   { label: "nazwa", key: "name", type: "text" },
@@ -75,6 +77,7 @@ const AllMeasurements = () => {
 
   return (
     <>
+      <PageNav headingTitle={"Pomiary"} pageNavLinks={measurementsNavLinks} />
       <DataGridContainer>
         <DataGridNav
           addLink="/dashboard/measurements/new"

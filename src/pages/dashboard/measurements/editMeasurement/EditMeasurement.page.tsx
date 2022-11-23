@@ -10,9 +10,11 @@ import EditMeasurementForm from "./components/EditMeasurementForm";
 import MultiStepSidebar from "../../components/multiStepForm/multistepSidebar/MultiStepSidebar";
 import MultiStepContainer from "../../components/multiStepForm/multiStepContainer/MultiStepContainer";
 import MeasurementSidebarSteps from "../components/form/sidebar/steps/MeasurementSidebarSteps";
+import PageNav from "components/pageNav/PageNav";
 
 //utils
 import { measurementFormSteps } from "../utlis/steps";
+import { measurementsNavLinks } from "../utlis/navLinks";
 
 //queries
 import { useMeasurement } from "services/useMeasurements";
@@ -62,6 +64,22 @@ const EditMeasurement = () => {
 
   return (
     <>
+      <PageNav
+        headingTitle={"Pacjenci"}
+        pageNavLinks={[
+          ...measurementsNavLinks,
+          {
+            id: measurementsNavLinks.length + 1,
+            title: "pomiar",
+            path: `/dashboard/measurements/${measurementEditId}`,
+          },
+          {
+            id: measurementsNavLinks.length + 2,
+            title: "edytuj pomiar",
+            path: `/dashboard/measurements/edit/${measurementEditId}`,
+          },
+        ]}
+      />
       <MultiStepContainer>
         <MultiStepSidebar
           icon={<FaUtensils />}
