@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components";
+import { motion } from "framer-motion";
 
 const MeasurementContentContainer = styled.div(
   ({
@@ -24,7 +25,7 @@ const MeasurementContentContainer = styled.div(
   `
 );
 
-const MeasurementContentWrapper = styled.div(
+const MeasurementContentWrapper = styled(motion.div)(
   ({
     theme: {
       palette,
@@ -34,15 +35,43 @@ const MeasurementContentWrapper = styled.div(
     },
   }) => css`
     display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
     flex-direction: column;
     gap: 4rem;
     flex: 1;
     width: 100%;
+    max-width: ${breakpoints.lg};
+    position: relative;
+    /* min-height: 400rem; */
 
     /* ${up(breakpoints.xl)} {
       width: 70rem;
       flex: none;
     } */
+  `
+);
+
+const MeasurementLoadingStepsWrapper = styled(motion.div)(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* z-index: 10; */
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+    flex: 1;
+    width: 100%;
+    max-width: ${breakpoints.lg};
+    transition: 0.3s ease-out;
   `
 );
 
@@ -109,7 +138,7 @@ const SaveOptionsWrapper = styled.div(
   `
 );
 
-const MeasurementStepWrapper = styled.section(
+const MeasurementStepWrapper = styled(motion.section)(
   ({
     theme: {
       palette,
@@ -131,13 +160,6 @@ const MeasurementStepWrapper = styled.section(
 
     ${up(breakpoints.xs)} {
       padding: 4rem;
-    }
-
-    ${up(breakpoints.lg)} {
-      /* width: 80rem; */
-      /* flex: 1; */
-      /* width: 65rem; */
-      flex: 1;
     }
   `
 );
@@ -169,6 +191,49 @@ const StepHeadingWrapper = styled.div(
       flex-direction: row;
       align-items: center;
     }
+  `
+);
+
+const MeasurementStepContentContainer = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    gap: 3rem;
+    width: 100%;
+    /* padding: 2rem; */
+    position: relative;
+    min-height: 15rem;
+    overflow-y: hidden;
+
+    ${up(breakpoints.lg)} {
+      flex-direction: row;
+    }
+  `
+);
+
+const MeasurementStepContentWrapper = styled(motion.div)(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    gap: 3rem;
   `
 );
 
@@ -214,6 +279,7 @@ const MeasurementItemsWrapper = styled.ul(
     flex-direction: column;
     gap: 3rem;
     padding: 1rem 0;
+    width: 100%;
     button {
       margin-top: 1rem;
     }
@@ -232,7 +298,7 @@ const MeasurementItem = styled.li(
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
-    gap: 2rem;
+    gap: 1rem;
     flex-direction: column;
 
     ${up(breakpoints.sm)} {
@@ -250,6 +316,44 @@ const MeasurementItem = styled.li(
       font-size: ${fontSize.s};
       font-weight: ${fontWeight.light};
       color: ${palette.common.text};
+    }
+  `
+);
+
+const MeasurementEmptyItemWrapper = styled.li(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 4rem;
+    gap: 3rem;
+    width: 100%;
+    border: 0.1rem dashed ${palette.primary.light};
+    border-radius: ${border.rounded.md};
+
+    img {
+      width: 15rem;
+      height: 12rem;
+      object-fit: contain;
+    }
+
+    h2 {
+      font-size: ${fontSize.m};
+      font-weight: ${fontWeight.medium};
+      color: ${palette.common.text};
+      text-align: center;
+    }
+
+    ${up(breakpoints.sm)} {
+      flex-direction: row;
     }
   `
 );
@@ -307,9 +411,75 @@ const MeasurementInfoBox = styled.div(
   `
 );
 
+const MeasurementLoadingWrapper = styled(motion.div)(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* z-index: 10; */
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+    flex: 1;
+    width: 100%;
+    transition: 0.3s ease-out;
+  `
+);
+
+const ErrorWrapper = styled(motion.div)(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    padding: 4rem;
+    border: 0.1rem solid #ff000025;
+    border-radius: ${border.rounded.md};
+    background: #ff000019;
+
+    background: ${palette.common.contrast};
+    border: 0.1rem solid ${palette.primary.light};
+
+    svg {
+      width: 2.5rem;
+      height: 2.5rem;
+      path {
+        fill: red;
+      }
+    }
+
+    h3 {
+      color: ${palette.common.text};
+      font-size: ${fontSize.m};
+      font-weight: ${fontWeight.medium};
+    }
+
+    ${up(breakpoints.sm)} {
+      flex-direction: row;
+    }
+  `
+);
+
 export {
   MeasurementContentContainer,
   MeasurementContentWrapper,
+  MeasurementLoadingStepsWrapper,
   SaveOptionsWrapper,
   MeasurementStepWrapper,
   StepHeadingWrapper,
@@ -318,4 +488,9 @@ export {
   MeasurementItem,
   MeasurementBoxWrapper,
   MeasurementInfoBox,
+  MeasurementEmptyItemWrapper,
+  MeasurementLoadingWrapper,
+  MeasurementStepContentContainer,
+  MeasurementStepContentWrapper,
+  ErrorWrapper,
 };

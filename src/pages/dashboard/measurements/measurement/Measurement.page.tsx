@@ -29,7 +29,7 @@ const Measurement = () => {
   return (
     <>
       <PageNav
-        headingTitle={"Pacjenci"}
+        headingTitle={"Pomiary"}
         pageNavLinks={[
           ...measurementsNavLinks,
           {

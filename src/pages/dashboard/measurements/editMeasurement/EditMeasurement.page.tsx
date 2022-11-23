@@ -65,7 +65,7 @@ const EditMeasurement = () => {
   return (
     <>
       <PageNav
-        headingTitle={"Pacjenci"}
+        headingTitle={"Pomiary"}
         pageNavLinks={[
           ...measurementsNavLinks,
           {
