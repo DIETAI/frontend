@@ -24,7 +24,7 @@ import {
   getDietEstablishmentQuery,
   useDietEstablishment,
 } from "services/useDietEstablishments";
-import { useMeasurement } from "services/useMeasurements";
+import { getMeasurementQuery, useMeasurement } from "services/useMeasurements";
 
 const renderGender = (gender: IClientData["gender"]) => {
   if (gender === "female") {
@@ -60,12 +60,12 @@ const BasicInfo = () => {
   console.log({ measurementId });
 
   if (!measurementId) return <div>not found</div>;
-  const { measurement, measurementError, measurementLoading } =
-    useMeasurement(measurementId);
+  const { measurementQuery, measurementQueryError, measurementQueryLoading } =
+    getMeasurementQuery(measurementId);
 
-  console.log({ measurement });
+  console.log({ measurementQuery });
 
-  if (measurementError)
+  if (!measurementQuery)
     return (
       <StepStyled.MeasurementStepWrapper>
         <StepStyled.StepHeadingWrapper>
@@ -91,7 +91,7 @@ const BasicInfo = () => {
       </StepStyled.StepHeadingWrapper>
       <StepStyled.MeasurementStepContentContainer>
         <AnimatePresence>
-          {measurementLoading && (
+          {measurementQueryLoading && (
             <StepStyled.MeasurementLoadingWrapper
               initial={{ opacity: 1 }}
               animate={{ opacity: 1 }}
@@ -102,7 +102,7 @@ const BasicInfo = () => {
             </StepStyled.MeasurementLoadingWrapper>
           )}
         </AnimatePresence>
-        {measurement && (
+        {measurementQuery && (
           <StepStyled.MeasurementStepContentWrapper
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -116,42 +116,47 @@ const BasicInfo = () => {
               </Styled.MeasurementInfoImageWrapper>
 
               <Styled.MeasurementInfoDescriptionWrapper>
-                <h2>{measurement.name}</h2>
+                <h2>{measurementQuery.name}</h2>
               </Styled.MeasurementInfoDescriptionWrapper>
 
               <StepStyled.MeasurementItemsWrapper>
                 <StepStyled.MeasurementItem>
                   <h2>data pomiaru: </h2>
                   <p>
-                    {format(new Date(measurement.date), "dd.MM.yyyy", {
+                    {format(new Date(measurementQuery.date), "dd.MM.yyyy", {
                       locale: pl,
                     })}
                   </p>
                 </StepStyled.MeasurementItem>
                 <StepStyled.MeasurementItem>
                   <h2>pacjent: </h2>
-                  <p>{measurement.client}</p>
+                  <p>
+                    {measurementQuery.patient.name +
+                      " " +
+                      measurementQuery.patient.lastName}
+                  </p>
                 </StepStyled.MeasurementItem>
                 <StepStyled.MeasurementItem>
                   <h2>notatki: </h2>
-                  <p>{measurement.notes || "-"}</p>
+                  <p>{measurementQuery.notes || "-"}</p>
                 </StepStyled.MeasurementItem>
 
-                {/* {measurement.images && measurement.images.length > 0 && (
-                  <Styled.MeasurementInfoDescriptionItem>
-                    <Styled.MeasurementInfoDescriptionNavItem>
-                      zdjęcia sylwetki
-                    </Styled.MeasurementInfoDescriptionNavItem>
-                    <Styled.GalleryWrapper>
-                      {measurement.images.map((galleryImage) => (
-                        <Styled.GalleryImage
-                          key={galleryImage._id}
-                          src={galleryImage.imageURL}
-                        />
-                      ))}
-                    </Styled.GalleryWrapper>
-                  </Styled.MeasurementInfoDescriptionItem>
-                )} */}
+                {measurementQuery.imagesArr &&
+                  measurementQuery.imagesArr.length > 0 && (
+                    <Styled.MeasurementInfoDescriptionItem>
+                      <Styled.MeasurementInfoDescriptionNavItem>
+                        zdjęcia sylwetki
+                      </Styled.MeasurementInfoDescriptionNavItem>
+                      <Styled.GalleryWrapper>
+                        {measurementQuery.imagesArr.map((galleryImage) => (
+                          <Styled.GalleryImage
+                            key={galleryImage._id}
+                            src={galleryImage.imageURL}
+                          />
+                        ))}
+                      </Styled.GalleryWrapper>
+                    </Styled.MeasurementInfoDescriptionItem>
+                  )}
               </StepStyled.MeasurementItemsWrapper>
             </Styled.MeasurementInfoWrapper>
           </StepStyled.MeasurementStepContentWrapper>

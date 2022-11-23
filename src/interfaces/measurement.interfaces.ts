@@ -1,3 +1,6 @@
+import { IAssetData } from "./asset.interfaces";
+import { IClientData } from "./client.interfaces";
+
 export interface IMeasurementData {
   _id: string;
   createdAt: string;
@@ -44,6 +47,11 @@ export interface IMeasurementData {
     lastName: string;
     fullName: string;
   };
+}
+
+export interface IMeasurementQueryData extends IMeasurementData {
+  patient: IClientData;
+  imagesArr?: IAssetData[];
 }
 
 export interface IMeasurementPaginationData {

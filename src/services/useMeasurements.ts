@@ -3,6 +3,7 @@ import axios from "utils/api";
 import {
   IMeasurementData,
   IMeasurementPaginationData,
+  IMeasurementQueryData,
 } from "interfaces/measurement.interfaces";
 
 const fetcher = (url: string, headers = {}) =>
@@ -37,5 +38,18 @@ export const useMeasurement = (id: string) => {
     measurement: data,
     measurementLoading: !error && !data,
     measurementError: error,
+  };
+};
+
+export const getMeasurementQuery = (id: string) => {
+  const { data, error } = useSWR<IMeasurementQueryData>(
+    `/api/v1/measurements/${id}/query`,
+    fetcher
+  );
+
+  return {
+    measurementQuery: data,
+    measurementQueryLoading: !error && !data,
+    measurementQueryError: error,
   };
 };
