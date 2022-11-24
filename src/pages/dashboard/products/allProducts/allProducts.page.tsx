@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { getProducts } from "services/getProducts";
 import { productNavLinks } from "../utils/navLinks";
+import NoProductImage from "assets/noImage.svg";
 
 //date-fns
 import format from "date-fns/format";
@@ -101,6 +102,10 @@ const AllProducts = () => {
           viewLink="/dashboard/products"
           editLink="/dashboard/products/edit"
           deleteAction={deleteProduct}
+          gridViewImage={NoProductImage}
+          renderKey="_id"
+          renderLabel="name"
+          renderImage="imageURL"
         />
         <DataGridPagination
           currentPage={page}

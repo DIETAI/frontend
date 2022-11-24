@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useDietEstablishments } from "services/useDietEstablishments";
 import { Link } from "react-router-dom";
 import { dietEstablishmentsNavLinks } from "../utils/dietEstablishmentLinks";
+import EstablishmentImg from "assets/establishment.svg";
 
 //date-fns
 import format from "date-fns/format";
@@ -90,6 +91,9 @@ const AllDietEstablishments = () => {
           viewLink="/dashboard/diet-establishments"
           editLink="/dashboard/diet-establishments"
           deleteAction={deleteDietEstablishments}
+          gridViewImage={EstablishmentImg}
+          renderKey="_id"
+          renderLabel="name"
         />
         <DataGridPagination
           currentPage={page}

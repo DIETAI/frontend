@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { getProducts } from "services/getProducts";
+import EstablishmentImg from "assets/establishment.svg";
 
 //date-fns
 import format from "date-fns/format";
@@ -84,6 +85,9 @@ const AllDietKinds = () => {
           viewLink="/dashboard/admin/dietKinds"
           editLink="/dashboard/admin/dietKinds/edit"
           deleteAction={deleteDietKind}
+          gridViewImage={EstablishmentImg}
+          renderKey="_id"
+          renderLabel="name"
         />
         {/* <DataGridPagination
           currentPage={page}

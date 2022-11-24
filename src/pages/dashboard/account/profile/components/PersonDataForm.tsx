@@ -1,6 +1,8 @@
 import React from "react";
 import { useUser } from "services/useUser";
 import NoUser from "assets/noUser.svg";
+import axios from "utils/api";
+import { useAlert } from "layout/dashboard/context/alert.context";
 
 //styles
 import * as Styled from "../styles/Form.styles";
@@ -30,6 +32,7 @@ import { IPersonData } from "../schema/personData.schema";
 const defaultValues = personDataSchema.cast({});
 
 const PersonDataForm = () => {
+  const { handleAlert } = useAlert();
   const { user } = useUser();
 
   const initialValues: IPersonData = {
@@ -37,7 +40,7 @@ const PersonDataForm = () => {
     name: user?.name || "",
     lastName: user?.lastName || "",
     email: user?.email || "",
-    avatar: user?.avatar || NoUser,
+    photoURL: user?.avatar || NoUser,
   };
 
   const methods = useForm({
@@ -58,11 +61,24 @@ const PersonDataForm = () => {
   } = methods;
 
   const onPersonDataFormSubmit = async (data: FieldValues) => {
-    //   return new Promise<FieldValues>((resolve, reject) => {
-    //     setTimeout(() => {
-    //       resolve(data);
-    //     }, 300);
-    //   });
+    const editUserData = {
+      ...data,
+      fullName: data.name + " " + data.lastName,
+    };
+
+    console.log({ editUserData });
+
+    try {
+      const editUser = await axios.put(`/api/v1/user`, editUserData, {
+        withCredentials: true,
+      });
+
+      console.log({ editUser });
+      handleAlert("success", "Zaktualizowano dane");
+    } catch (e) {
+      console.log(e);
+      handleAlert("error", "Edytowanie danych nie powiodło się");
+    }
 
     console.log("data");
   };
@@ -72,17 +88,18 @@ const PersonDataForm = () => {
       <Heading icon={<FaUser />} title="Twoje dane" />
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onPersonDataFormSubmit)}>
+          {/* {JSON.stringify(watch())} */}
           <Styled.ImageWrapper>
             <img src={DietAILogo} className="personData-backgroundImage" />
             <img
-              src={initialValues.avatar}
+              src={initialValues.photoURL}
               className="personData-avatarImage"
             />
           </Styled.ImageWrapper>
           <Input label="imię" name="name" fullWidth />
           <Input label="nazwisko" name="lastName" fullWidth />
           <Input label="email" name="email" fullWidth disabled />
-          <Input label="nr telefonu" name="phone" fullWidth />
+          {/* <Input label="nr telefonu" name="phone" fullWidth /> */}
           {/* <Input label="rola" name="role" fullWidth /> */}
           {/* <Input
             label="metoda uwierzytelniania"
@@ -91,6 +108,7 @@ const PersonDataForm = () => {
           /> */}
           {/* <p>logo</p> */}
           <Button
+            type="submit"
             variant={!isValid || isSubmitting ? "disabled" : "primary"}
             fullWidth
           >

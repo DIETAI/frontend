@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { clientNavLinks } from "../utils/navLinks";
+import NoUserImg from "assets/noUser.svg";
 
 //date-fns
 import format from "date-fns/format";
@@ -59,9 +60,10 @@ const AllClients = () => {
 
   const clientsData = clients?.map((data) => ({
     _id: data._id,
-    image: data.image,
+    image: data.imageURL,
     name: data.name,
     lastName: data.lastName,
+    fullName: data.name + " " + data.lastName,
     // email: data.email,
     dateOfBirth: format(new Date(data.dateOfBirth), "dd.MM.yyyy"),
     // gender: data.gender,
@@ -89,6 +91,10 @@ const AllClients = () => {
           viewLink="/dashboard/clients"
           editLink="/dashboard/clients/edit"
           deleteAction={deleteClient}
+          gridViewImage={NoUserImg}
+          renderKey="_id"
+          renderLabel="fullName"
+          renderImage="image"
         />
         <DataGridPagination
           currentPage={page}

@@ -10,6 +10,7 @@ import { IDataGridListProps } from "./DataGridList.interfaces";
 
 //components
 import DataGridLineView from "./lineView/DataGridLineView";
+import GridView from "./gridView/GridView";
 import LoadingGrid from "../loading/LoadingGrid";
 import EmptyGrid from "../empty/EmptyGrid";
 
@@ -38,6 +39,10 @@ const DataGridList = ({
   viewLink,
   editLink,
   deleteAction,
+  gridViewImage,
+  renderKey,
+  renderLabel,
+  renderImage,
 }: IDataGridListProps) => {
   const { view } = useDataGridView();
   const { searchValue } = useDataGridSearch();
@@ -67,7 +72,16 @@ const DataGridList = ({
       />
     );
 
-  return <>grid view</>;
+  return (
+    <GridView
+      gridViewImage={gridViewImage}
+      data={search(data, searchValue)}
+      renderKey={renderKey}
+      renderLabel={renderLabel}
+      renderImage={renderImage}
+      linkPage={viewLink}
+    />
+  );
 };
 
 export default DataGridList;

@@ -11,4 +11,8 @@ export interface IDataGridListProps {
   loadingData: boolean;
   data?: any[] | null;
   columns: IColumn[];
+  gridViewImage: string;
+  renderKey: string;
+  renderLabel: string;
+  renderImage?: string;
 }

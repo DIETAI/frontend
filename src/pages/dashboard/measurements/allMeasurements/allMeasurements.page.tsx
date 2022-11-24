@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import MeasurementImg from "assets/noMeasurement.svg";
 
 //date-fns
 import format from "date-fns/format";
@@ -90,6 +91,9 @@ const AllMeasurements = () => {
           viewLink="/dashboard/measurements"
           editLink="/dashboard/measurements/edit"
           deleteAction={deleteMeasurement}
+          gridViewImage={MeasurementImg}
+          renderKey="_id"
+          renderLabel="name"
         />
         <DataGridPagination
           currentPage={page}

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { getDinners } from "services/getDinners";
 import { dinnerNavLinks } from "../utils/navLinks";
+import NoDinnerImage from "assets/noImage.svg";
 
 //date-fns
 import format from "date-fns/format";
@@ -69,6 +70,10 @@ const AllDinners = () => {
           viewLink="/dashboard/dinners"
           editLink="/dashboard/dinners"
           deleteAction={deleteDinner}
+          gridViewImage={NoDinnerImage}
+          renderKey="_id"
+          renderLabel="name"
+          renderImage="imageURL"
         />
         <DataGridPagination
           currentPage={page}
