@@ -33,6 +33,7 @@ const DataGridPagination = ({
   };
 
   const changeItems = (option: number) => {
+    changePage(1);
     changeItemsPerPage(option);
     setOpenPaginateSelect(false);
   };
@@ -85,7 +86,7 @@ const DataGridPagination = ({
           >
             <FaChevronLeft />
           </Styled.PaginationOption>
-          {Array(Math.round(pageCount))
+          {Array(Math.ceil(pageCount))
             .fill(null)
             .map((_, index) => {
               return (
@@ -98,9 +99,10 @@ const DataGridPagination = ({
                 </Styled.PaginationOption>
               );
             })}
+
           <Styled.PaginationOption
             onClick={handleNext}
-            disabled={currentPage === Math.round(pageCount)}
+            disabled={currentPage === Math.ceil(pageCount)}
           >
             <FaChevronRight />
           </Styled.PaginationOption>
