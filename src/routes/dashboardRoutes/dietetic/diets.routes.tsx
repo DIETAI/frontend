@@ -16,7 +16,7 @@ const DietRoutes = () => {
   return (
     //add page heading and nav
     <>
-      <PageNav headingTitle={"Diety"} pageNavLinks={dietsNavLinks} />
+      {/* <PageNav headingTitle={"Diety"} pageNavLinks={dietsNavLinks} /> */}
       <Routes>
         <Route path="/" element={<AllDiets />} />
         <Route path="/:dietId" element={<Diet />} />

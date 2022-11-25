@@ -25,7 +25,7 @@ const search = (currentData: IDataRow[], query: string) => {
   const dataFilter = currentData.filter((row) =>
     columns.some(
       (column) =>
-        row[column].toString().toLowerCase().indexOf(query.toLowerCase()) > -1
+        row[column]?.toString().toLowerCase().indexOf(query.toLowerCase()) > -1
     )
   );
 
@@ -58,7 +58,8 @@ const DataGridList = ({
 
   // const { data, columns, displayColumns, changeData } = useDataGridData();
   if (loadingData) return <LoadingGrid />;
-  if (!data || data.length < 1) return <EmptyGrid />;
+  if (!data || data.length < 1 || search(data, searchValue).length < 1)
+    return <EmptyGrid />;
 
   if (view === "line")
     return (

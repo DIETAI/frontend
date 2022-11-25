@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { getDiets } from "services/getDiets";
 import EstablishmentImg from "assets/establishment.svg";
+import { dietsNavLinks } from "../utils/navLinks";
 
 //date-fns
 import format from "date-fns/format";
 
 //components
-import DataGrid from "../../components/dataGrid/DataGrid";
+import PageNav from "components/pageNav/PageNav";
 import {
   DataGridContainer,
   DataGridNav,
@@ -57,6 +58,7 @@ const AllDiets = () => {
 
   return (
     <>
+      <PageNav headingTitle={"Jadłospisy"} pageNavLinks={dietsNavLinks} />
       <DataGridContainer>
         <DataGridNav
           addLink="/dashboard/diets/new"

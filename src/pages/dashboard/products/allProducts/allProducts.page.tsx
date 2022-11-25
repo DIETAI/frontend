@@ -80,6 +80,8 @@ const AllProducts = () => {
     digestableCarbohydratesGram: data.digestableCarbohydrates.gram,
   }));
 
+  console.log({ productsData });
+
   const deleteProducts = () => {
     return;
   };

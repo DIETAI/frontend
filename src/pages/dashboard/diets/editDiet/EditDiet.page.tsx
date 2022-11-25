@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import { useParams } from "react-router";
 import { getDiet, getDietQuery } from "services/getDiets";
 import ReactLoading from "react-loading";
+import { dietsNavLinks } from "../utils/navLinks";
 
 //components
 import DietNav from "./components/nav/DietNav";
 import DietContent from "./components/content/DietContent";
 import ManyDaysView from "./components/views/manyDaysView/days/Days";
 import OneDayView from "./components/views/oneDayView/OneDayView";
+import PageNav from "components/pageNav/PageNav";
 
 //styles
 import * as Styled from "./EditDietPage.styles";
@@ -44,6 +46,17 @@ const EditDiet = () => {
 
   return (
     <>
+      <PageNav
+        headingTitle={"Jadłospisy"}
+        pageNavLinks={[
+          ...dietsNavLinks,
+          {
+            id: dietsNavLinks.length + 1,
+            title: diet.name || "jadłospis",
+            path: `/dashboard/diets/edit/${dietEditId}`,
+          },
+        ]}
+      />
       <DietNav setView={setView} view={view} diet={diet} />
       <DietContent>
         {view === "oneDay" ? <OneDayView /> : <ManyDaysView />}

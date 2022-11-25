@@ -20,7 +20,7 @@ import { IColumn } from "pages/dashboard/components/dataGridv2/DataGrid.interfac
 import { getClients } from "services/getClients";
 
 const columns: IColumn[] = [
-  { label: "zdjęcie", key: "image", type: "image" },
+  { label: "zdjęcie", key: "imageURL", type: "image" },
   { label: "imię", key: "name", type: "text" },
   { label: "nazwisko", key: "lastName", type: "text" },
   // { label: "email", key: "email", type: "text" },
@@ -60,7 +60,7 @@ const AllClients = () => {
 
   const clientsData = clients?.map((data) => ({
     _id: data._id,
-    image: data.imageURL,
+    imageURL: data.imageURL, //błąd
     name: data.name,
     lastName: data.lastName,
     fullName: data.name + " " + data.lastName,
@@ -68,6 +68,8 @@ const AllClients = () => {
     dateOfBirth: format(new Date(data.dateOfBirth), "dd.MM.yyyy"),
     // gender: data.gender,
   }));
+
+  console.log({ clientsData });
 
   const deleteClients = () => {
     return;
