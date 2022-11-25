@@ -1,6 +1,9 @@
 import useSWR from "swr";
 import axios from "utils/api";
-import { IDietData } from "interfaces/diet/diet.interfaces";
+import {
+  IDietData,
+  IDietPaginationData,
+} from "interfaces/diet/diet.interfaces";
 import { IDietQueryData } from "interfaces/diet/dietQuery.interfaces";
 import { IDietDayData } from "interfaces/diet/dietDays.interfaces";
 
@@ -12,8 +15,22 @@ const fetcher = (url: string, headers = {}) =>
     })
     .then((res) => res.data);
 
-export const getDiets = () => {
-  const { data, error } = useSWR<IDietData[] | null>(`/api/v1/diets`, fetcher);
+export const getDiets = (page?: string, itemsCount?: number) => {
+  if (page) {
+    const { data, error } = useSWR<IDietPaginationData>(
+      `/api/v1/diets?page=${page}&itemsCount=${itemsCount}`, //correct
+      fetcher
+    );
+
+    return {
+      diets: data?.diets,
+      dietsLoading: !error && !data,
+      dietsError: error,
+      pagination: data?.pagination,
+    };
+  }
+
+  const { data, error } = useSWR<IDietData[]>(`/api/v1/diets`, fetcher);
 
   return {
     diets: data,

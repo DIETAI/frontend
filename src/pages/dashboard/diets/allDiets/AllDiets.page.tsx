@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { getDiets } from "services/getDiets";
 import EstablishmentImg from "assets/establishment.svg";
@@ -23,20 +23,23 @@ const columns: IColumn[] = [
 
 const AllDiets = () => {
   const { t } = useTranslation();
+  const [page, setPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(5); //5 | 10 /15 /20
+  const [pageCount, setPageCount] = useState(0);
 
-  const { diets, dietsError, dietsLoading } = getDiets();
+  const { diets, dietsError, dietsLoading, pagination } = getDiets(
+    page.toString(),
+    itemsPerPage
+  );
+
+  useEffect(() => {
+    if (pagination) {
+      setPageCount(pagination.pageCount);
+    }
+  }, [pagination]);
 
   // if (measurementsLoading) return <div>measurements loading...</div>;
   if (dietsError || !diets) return <div>diets error</div>;
-
-  const dietList = () => {
-    const modifyDiets = diets.map((data) => ({
-      ...data,
-      createdAt: format(new Date(data.createdAt), "dd.MM.yyyy"),
-    }));
-
-    return modifyDiets;
-  };
 
   const deleteDiets = () => {
     return;
@@ -70,13 +73,13 @@ const AllDiets = () => {
           renderKey="_id"
           renderLabel="name"
         />
-        {/* <DataGridPagination
+        <DataGridPagination
           currentPage={page}
           pageCount={pageCount}
           changePage={setPage}
           itemsPerPage={itemsPerPage}
           changeItemsPerPage={setItemsPerPage}
-        /> */}
+        />
       </DataGridContainer>
     </>
   );

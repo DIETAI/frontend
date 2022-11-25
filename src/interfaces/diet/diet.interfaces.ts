@@ -11,3 +11,11 @@ export interface IDietData {
   dayEnd?: Date;
   establishmentId: string;
 }
+
+export interface IDietPaginationData {
+  diets: IDietData[];
+  pagination: {
+    count: number;
+    pageCount: number;
+  };
+}
