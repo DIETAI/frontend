@@ -66,7 +66,7 @@ const AllProducts = () => {
   console.log({ products });
 
   // if (measurementsLoading) return <div>measurements loading...</div>;
-  if (productsError || !products) return <div>products error</div>;
+  // if (productsError || !products) return <div>products error</div>;
 
   const productsData = products?.map((data) => ({
     _id: data._id,

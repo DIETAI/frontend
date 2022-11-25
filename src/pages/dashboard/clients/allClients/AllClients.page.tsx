@@ -56,7 +56,7 @@ const AllClients = () => {
   console.log({ clients });
 
   // if (measurementsLoading) return <div>measurements loading...</div>;
-  if (clientsError || !clients) return <div>clients error</div>;
+  // if (clientsError || !clients) return <div>clients error</div>;
 
   const clientsData = clients?.map((data) => ({
     _id: data._id,

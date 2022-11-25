@@ -22,14 +22,33 @@ const MeasurementSidebarWrapper = styled.div(
     border: 0.1rem solid ${palette.primary.light};
     position: static;
     width: 100%;
-    height: 60rem;
 
     ${up(breakpoints.xl)} {
       position: sticky;
       top: 14rem;
       width: 50rem;
-      height: auto;
-      /* height: 70rem; */
+      max-height: 70rem;
+      overflow-y: auto;
+
+      ::-webkit-scrollbar {
+        width: 0.8rem;
+      }
+
+      /* Track */
+      ::-webkit-scrollbar-track {
+        background: ${palette.common.contrast};
+      }
+
+      /* Handle */
+      ::-webkit-scrollbar-thumb {
+        background: ${palette.primary.light};
+        border-radius: 0.4rem;
+      }
+
+      /* height: auto; */
+      /* max-height: 80rem; */
+
+      /* height: auto; */
     }
   `
 );
@@ -156,29 +175,11 @@ const Wrapper = styled.div(
       palette,
       typography: { fontSize, fontWeight },
       layout: { border },
+      media: { up, breakpoints },
     },
   }) => css`
     display: flex;
     width: 100%;
-
-    max-height: 55rem;
-    overflow-y: auto;
-    overflow-x: hidden;
-
-    ::-webkit-scrollbar {
-      width: 0.8rem;
-    }
-
-    /* Track */
-    ::-webkit-scrollbar-track {
-      background: ${palette.common.contrast};
-    }
-
-    /* Handle */
-    ::-webkit-scrollbar-thumb {
-      background: ${palette.primary.light};
-      border-radius: 0.4rem;
-    }
   `
 );
 

@@ -1,6 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useMeasurements } from "services/useMeasurements";
 import { AnimatePresence } from "framer-motion";
+import format from "date-fns/format";
+import { pl } from "date-fns/locale";
+import { useTheme } from "styled-components";
+
 import {
   LineChart,
   Line,
@@ -11,6 +15,7 @@ import {
   Legend,
   Area,
   ResponsiveContainer,
+  AreaChart,
 } from "recharts";
 
 //styles
@@ -21,25 +26,66 @@ import { FaChevronDown, FaCog, FaFileAlt } from "react-icons/fa";
 
 //components
 import IconButton from "components/iconButton/IconButton";
+import { IMeasurementData } from "interfaces/measurement.interfaces";
 
 interface IMeasurementOption {
   id: number;
   name: string;
-  key: string;
+  key: keyof Pick<IMeasurementData, "weight" | "bmi" | "cpm">;
+  unit: string;
 }
 
 const measurementOptions: IMeasurementOption[] = [
-  { id: 1, name: "masa ciała", key: "weight" },
-  { id: 2, name: "bmi", key: "bmi" },
-  { id: 3, name: "cpm [kcal]", key: "cpm" },
+  { id: 1, name: "masa ciała [kg]", key: "weight", unit: "kg" },
+  { id: 2, name: "bmi [kg/m2]", key: "bmi", unit: "kg/m2" },
+  { id: 3, name: "cpm [kcal]", key: "cpm", unit: "kcal" },
 ];
 
-const MeasurementReport = () => {
-  const [currentOption, setCurrentOption] = useState(measurementOptions[0]);
-  const [measurementOptionsOpen, setMeasurementOptionsOpen] = useState(false);
+interface IMeasurementReportArgs {
+  measurementStart: IMeasurementData;
+  measurementEnd: IMeasurementData;
+  currentOption: IMeasurementOption;
+}
 
+export const round2 = (macro: number) => {
+  return Math.round(macro * 1e2) / 1e2;
+};
+
+const renderMeasurementReportValue = ({
+  measurementStart,
+  measurementEnd,
+  currentOption,
+}: IMeasurementReportArgs) => {
+  const value =
+    measurementEnd[currentOption.key] - measurementStart[currentOption.key];
+
+  return `${value > 0 && "+"} ${round2(value)} ${currentOption.unit}`;
+};
+
+const dateFormat = (date: string) => {
+  const formatDate = format(new Date(date), "dd.MM.yyyy", {
+    locale: pl,
+  });
+
+  return formatDate;
+};
+
+const MeasurementReport = () => {
+  const theme = useTheme();
   const { measurements, measurementsLoading, measurementsError } =
     useMeasurements();
+
+  const [currentOption, setCurrentOption] = useState(measurementOptions[0]);
+  const [measurementStart, setMeasurementStart] = useState<IMeasurementData>();
+  const [measurementEnd, setMeasurementEnd] = useState<IMeasurementData>();
+  const [measurementOptionsOpen, setMeasurementOptionsOpen] = useState(false);
+
+  useEffect(() => {
+    if (measurements) {
+      setMeasurementStart(measurements[0]);
+      setMeasurementEnd(measurements[measurements.length - 1]);
+    }
+  }, [measurements]);
 
   const openAllMeasurementValuesModal = () => {
     console.log("openAllMeasurementValuesModal");
@@ -51,6 +97,15 @@ const MeasurementReport = () => {
 
   if (measurementsLoading) return <div>measurements loading</div>;
   if (measurementsError || !measurements) return <div>measurements error</div>;
+
+  if (measurements.length < 2) {
+    return (
+      <Styled.MeasurementEmptyReportWrapper>
+        <h2>Brak wystarczającej ilości pomiarów</h2>
+        <p>Dodaj minimum 2 pomiary dla pacjenta aby wygenerować raport</p>
+      </Styled.MeasurementEmptyReportWrapper>
+    );
+  }
 
   return (
     <Styled.MeasurementReportWrapper>
@@ -78,10 +133,26 @@ const MeasurementReport = () => {
           onClick={() => console.log("open settings")}
         />
       </Styled.MeasurementReportNavWrapper>
+      {measurementStart && measurementEnd && (
+        <Styled.MeasurementReportValuesWrapper>
+          <Styled.MeasurementReportDatesWrapper>
+            <p>
+              {dateFormat(measurementStart.date)} -{" "}
+              {dateFormat(measurementEnd.date)}
+            </p>
+          </Styled.MeasurementReportDatesWrapper>
+          <Styled.MeasurementReportValueWrapper>
+            <span>
+              {renderMeasurementReportValue({
+                measurementStart,
+                measurementEnd,
+                currentOption,
+              })}
+            </span>
+          </Styled.MeasurementReportValueWrapper>
+        </Styled.MeasurementReportValuesWrapper>
+      )}
 
-      <Styled.MeasurementReportItem>
-        <h2>Masa ciała: </h2> <p>20 kg</p>
-      </Styled.MeasurementReportItem>
       {/* <Styled.MeasurementReportItem>
         <div>
           <input type="checkbox" name="all" />
@@ -104,27 +175,71 @@ const MeasurementReport = () => {
       <Styled.MeasurementReportItem>
         <button> zaawansowany raport</button>
       </Styled.MeasurementReportItem> */}
-      <ResponsiveContainer width="90%" height={250}>
-        <LineChart
-          data={measurements}
+      {/* <ResponsiveContainer width="100%" height={200}>
+        <AreaChart
+          width={500}
+          height={200}
+          data={data}
           margin={{
-            right: 60,
             top: 10,
+            right: 30,
+            left: 0,
+            bottom: 0,
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" />
-          <YAxis dataKey={currentOption.key} />
+          <YAxis />
+          <Tooltip />
+          <Area type="monotone" dataKey="uv" stroke="#8884d8" fill="red" />
+        </AreaChart>
+      </ResponsiveContainer> */}
+
+      <ResponsiveContainer width="100%" height={250}>
+        <AreaChart data={measurements}>
+          <CartesianGrid
+            strokeDasharray="3 3"
+            stroke={theme.palette.common.slate}
+          />
+          <XAxis
+            dataKey="name"
+            stroke={theme.palette.common.text}
+            tickMargin={10}
+            style={{
+              fontFamily: "Poppins",
+            }}
+          />
+          <YAxis
+            dataKey={currentOption.key}
+            stroke={theme.palette.common.text}
+            style={{
+              fontFamily: "Poppins",
+            }}
+            width={40}
+          />
           <Tooltip label={currentOption.name} />
-          {/* <Legend aria-label="masa ciała" /> */}
+
           <Line
             type="monotone"
             dataKey={currentOption.key}
             aria-label={currentOption.name}
             stroke="#7647cc"
           />
-          <Area type="monotone" dataKey="uv" stroke="#8884d8" fill="#8884d8" />
-        </LineChart>
+          <defs>
+            <linearGradient id="colorUv" x1="1" y1="1" x2="0" y2="0">
+              <stop offset="20%" stopColor="#8884d8" stopOpacity={0.5} />
+              <stop offset="95%" stopColor="#8884d8" stopOpacity={0.2} />
+            </linearGradient>
+          </defs>
+          <Area
+            type="monotone"
+            dataKey={currentOption.key}
+            fill="url(#colorUv)"
+            stroke="#8884d8"
+
+            // fill="#8884d8"
+          />
+        </AreaChart>
       </ResponsiveContainer>
     </Styled.MeasurementReportWrapper>
   );

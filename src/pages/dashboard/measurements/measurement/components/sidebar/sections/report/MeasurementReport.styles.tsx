@@ -16,7 +16,39 @@ const MeasurementReportWrapper = styled.div(
     gap: 2rem;
     flex-direction: column;
     width: 100%;
-    padding-right: 1rem;
+  `
+);
+
+const MeasurementEmptyReportWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 1rem;
+    flex-direction: column;
+    width: 100%;
+    border: 0.1rem dashed ${palette.primary.light};
+    border-radius: ${border.rounded.md};
+    padding: 2rem;
+
+    h2 {
+      font-size: ${fontSize.m};
+      font-weight: ${fontWeight.medium};
+      color: ${palette.common.text};
+    }
+
+    p {
+      font-size: ${fontSize.s};
+      font-weight: ${fontWeight.light};
+      color: ${palette.common.text};
+    }
   `
 );
 
@@ -61,7 +93,7 @@ const MeasurementSelectWrapper = styled.div<IActive>(
 
     button {
       width: 100%;
-      padding: 0.7rem 1rem;
+      padding: 1rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -163,6 +195,78 @@ const MeasurementSelectPopupItem = styled.li(
   `
 );
 
+const MeasurementReportValuesWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    gap: 1rem;
+    background: ${palette.common.contrast};
+    border: 0.1rem dashed ${palette.primary.light};
+    border-radius: ${border.rounded.sm};
+  `
+);
+
+const MeasurementReportDatesWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-grow: 1;
+    gap: 1rem;
+    padding: 1rem;
+    /* border: 0.1rem solid ${palette.primary.light};
+    border-radius: ${border.rounded.sm}; */
+
+    p {
+      font-size: ${fontSize.m};
+      font-weight: ${fontWeight.medium};
+      color: ${palette.common.text};
+    }
+  `
+);
+
+const MeasurementReportValueWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+    padding: 1rem;
+
+    /* background: ${palette.primary.main}; */
+
+    span {
+      font-size: ${fontSize.m};
+      font-weight: ${fontWeight.medium};
+      color: ${palette.primary.main};
+      /* color: white; */
+    }
+  `
+);
+
 const MeasurementReportItem = styled.div(
   ({
     theme: {
@@ -199,9 +303,13 @@ const MeasurementReportItem = styled.div(
 
 export {
   MeasurementReportWrapper,
+  MeasurementEmptyReportWrapper,
   MeasurementReportNavWrapper,
   MeasurementSelectWrapper,
   MeasurementSelectPopupWrapper,
   MeasurementSelectPopupItem,
+  MeasurementReportValuesWrapper,
+  MeasurementReportDatesWrapper,
+  MeasurementReportValueWrapper,
   MeasurementReportItem,
 };

@@ -42,7 +42,7 @@ const AllDinners = () => {
   }, [pagination]);
 
   // if (measurementsLoading) return <div>measurements loading...</div>;
-  if (dinnersError || !dinners) return <div>dinners error</div>;
+  // if (dinnersError || !dinners) return <div>dinners error</div>;
 
   const dinnersData = dinners?.map((data) => ({
     _id: data._id,

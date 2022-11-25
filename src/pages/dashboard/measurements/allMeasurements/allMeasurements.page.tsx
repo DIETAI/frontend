@@ -49,7 +49,7 @@ const AllMeasurements = () => {
     }
   }, [pagination]);
 
-  if (measurementsError) return <div>measurements error</div>;
+  // if (measurementsError) return <div>measurements error</div>;
   // if (measurementsLoading) return <div>measurements loading...</div>;
 
   console.log({ measurements });

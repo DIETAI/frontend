@@ -40,7 +40,7 @@ const AllDiets = () => {
   }, [pagination]);
 
   // if (measurementsLoading) return <div>measurements loading...</div>;
-  if (dietsError || !diets) return <div>diets error</div>;
+  // if (dietsError || !diets) return <div>diets error</div>;
 
   const deleteDiets = () => {
     return;

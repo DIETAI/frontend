@@ -53,8 +53,8 @@ const AllDietEstablishments = () => {
   }, [pagination]);
 
   // if (measurementsLoading) return <div>measurements loading...</div>;
-  if (dietEstablishmentsError || !dietEstablishments)
-    return <div>diet establishments error</div>;
+  // if (dietEstablishmentsError || !dietEstablishments)
+  //   return <div>diet establishments error</div>;
 
   console.log({ dietEstablishments });
 
