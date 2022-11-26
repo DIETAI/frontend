@@ -17,7 +17,7 @@ const ColumnsModalWrapper = styled.div(
 
     ${up(breakpoints.sm)} {
       width: 30rem;
-      max-height: 40rem;
+      max-height: 20rem;
     }
   `
 );

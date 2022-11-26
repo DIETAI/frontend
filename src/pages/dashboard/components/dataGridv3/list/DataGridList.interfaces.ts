@@ -9,6 +9,7 @@ export interface IDataGridListProps {
   editLink: string;
   deleteAction: () => void;
   loadingData: boolean;
+  errorData: boolean;
   data?: any[] | null;
   columns: IColumn[];
   gridViewImage: string;

@@ -89,6 +89,7 @@ const AllClients = () => {
         <DataGridList
           data={clientsData}
           loadingData={clientsLoading}
+          errorData={clientsError}
           columns={columns}
           viewLink="/dashboard/clients"
           editLink="/dashboard/clients/edit"

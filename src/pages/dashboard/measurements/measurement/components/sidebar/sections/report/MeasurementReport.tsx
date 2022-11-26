@@ -124,14 +124,16 @@ const MeasurementReport = () => {
             )}
           </AnimatePresence>
         </Styled.MeasurementSelectWrapper>
-        <IconButton
-          icon={<FaCog />}
-          onClick={() => console.log("open settings")}
-        />
-        <IconButton
-          icon={<FaFileAlt />}
-          onClick={() => console.log("open settings")}
-        />
+        <Styled.MeasurementNavButtonsWrapper>
+          <IconButton
+            icon={<FaCog />}
+            onClick={() => console.log("open settings")}
+          />
+          <IconButton
+            icon={<FaFileAlt />}
+            onClick={() => console.log("open settings")}
+          />
+        </Styled.MeasurementNavButtonsWrapper>
       </Styled.MeasurementReportNavWrapper>
       {measurementStart && measurementEnd && (
         <Styled.MeasurementReportValuesWrapper>

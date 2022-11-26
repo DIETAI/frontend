@@ -66,6 +66,7 @@ const AllDinners = () => {
         <DataGridList
           data={dinnersData}
           loadingData={dinnersLoading}
+          errorData={dinnersError}
           columns={columns}
           viewLink="/dashboard/dinners"
           editLink="/dashboard/dinners"

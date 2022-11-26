@@ -60,10 +60,10 @@ const CheckedPopup = () => {
         exit={{ opacity: 0 }}
       >
         <p>{rowsLength()}</p>
-        <Button variant="data-delete-primary" width="15rem">
+        {/* <Button variant="data-delete-primary" width="15rem">
           <Icon.FaTrash />
           usuń
-        </Button>
+        </Button> */}
         {/* <span onClick={() => setModalOpen(true)}>
           <Icon.FaEllipsisV />
         </span> */}

@@ -1,4 +1,11 @@
 import styled, { css } from "styled-components";
+import { motion } from "framer-motion";
+
+const ListWrapper = styled(motion.div)(
+  () => css`
+    width: 100%;
+  `
+);
 
 const ListConfig = styled.div(
   () => css`
@@ -135,6 +142,7 @@ const RowItemImageWrapper = styled.div(
 );
 
 export {
+  ListWrapper,
   ListConfig,
   ListConfigModalItem,
   RowsWrapper,

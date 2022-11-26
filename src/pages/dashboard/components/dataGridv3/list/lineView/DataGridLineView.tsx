@@ -82,7 +82,11 @@ const DataGridLineView = ({
 
   //establishment["protein"]["gram"] keys=["protein", "gram"]
   return (
-    <>
+    <Styled.ListWrapper
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1 }}
+    >
       <ListNav
         data={data}
         columns={columns}
@@ -141,7 +145,7 @@ const DataGridLineView = ({
           </Styled.Row>
         ))}
       </Styled.RowsWrapper>
-    </>
+    </Styled.ListWrapper>
   );
 };
 

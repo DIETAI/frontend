@@ -1,5 +1,14 @@
 import React, { useEffect } from "react";
 
+//icons
+import { FaExclamationCircle } from "react-icons/fa";
+
+//styles
+import * as Styled from "./DataGridList.styles";
+
+//animations
+import { AnimatePresence } from "framer-motion";
+
 //context
 import { useDataGridView } from "../context/DataGridViewProvider";
 import { useDataGridSearch } from "../context/DataGridSearch.context";
@@ -35,6 +44,7 @@ const search = (currentData: IDataRow[], query: string) => {
 const DataGridList = ({
   data,
   loadingData,
+  errorData,
   columns,
   viewLink,
   editLink,
@@ -56,33 +66,80 @@ const DataGridList = ({
     return;
   }, [searchValue, selectedItems]);
 
-  // const { data, columns, displayColumns, changeData } = useDataGridData();
-  if (loadingData) return <LoadingGrid />;
-  if (!data || data.length < 1 || search(data, searchValue).length < 1)
-    return <EmptyGrid />;
-
-  if (view === "line")
+  if (errorData)
     return (
-      <DataGridLineView
-        columns={columns}
-        data={search(data, searchValue)}
-        initialDataLength={data.length}
-        linkPage={viewLink}
-        editLink={editLink}
-        deleteAction={deleteAction}
-      />
+      <Styled.ErrorWrapper>
+        <FaExclamationCircle />
+        <h3>Wystąpił błąd podczas pobierania danych</h3>
+      </Styled.ErrorWrapper>
     );
 
   return (
-    <GridView
-      gridViewImage={gridViewImage}
-      data={search(data, searchValue)}
-      renderKey={renderKey}
-      renderLabel={renderLabel}
-      renderImage={renderImage}
-      linkPage={viewLink}
-    />
+    <Styled.ListContainer>
+      <AnimatePresence>
+        {loadingData && (
+          <Styled.LoadingWrapper
+            initial={{ opacity: 1 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <LoadingGrid />
+          </Styled.LoadingWrapper>
+        )}
+      </AnimatePresence>
+      {data && data.length > 0 && search(data, searchValue).length > 0 && (
+        <>
+          {view === "line" && (
+            <DataGridLineView
+              columns={columns}
+              data={search(data, searchValue)}
+              initialDataLength={data.length}
+              linkPage={viewLink}
+              editLink={editLink}
+              deleteAction={deleteAction}
+            />
+          )}
+          {view === "package" && (
+            <GridView
+              gridViewImage={gridViewImage}
+              data={search(data, searchValue)}
+              renderKey={renderKey}
+              renderLabel={renderLabel}
+              renderImage={renderImage}
+              linkPage={viewLink}
+            />
+          )}
+        </>
+      )}
+      {!data ||
+        data.length < 1 ||
+        (search(data, searchValue).length < 1 && <EmptyGrid />)}
+    </Styled.ListContainer>
   );
+
+  // if (view === "line")
+  //   return (
+  //     <DataGridLineView
+  //       columns={columns}
+  //       data={search(data, searchValue)}
+  //       initialDataLength={data.length}
+  //       linkPage={viewLink}
+  //       editLink={editLink}
+  //       deleteAction={deleteAction}
+  //     />
+  //   );
+
+  // return (
+  //   <GridView
+  //     gridViewImage={gridViewImage}
+  //     data={search(data, searchValue)}
+  //     renderKey={renderKey}
+  //     renderLabel={renderLabel}
+  //     renderImage={renderImage}
+  //     linkPage={viewLink}
+  //   />
+  // );
 };
 
 export default DataGridList;

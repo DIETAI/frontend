@@ -17,11 +17,15 @@ const MeasurementSidebarWrapper = styled.div(
     transition: 0.3s ease-out;
     background: ${palette.common.main};
     border: 2px solid ${palette.common.border};
-    padding: 4rem;
+    padding: 4rem 2rem;
     border-radius: ${border.rounded.md};
     border: 0.1rem solid ${palette.primary.light};
     position: static;
     width: 100%;
+
+    ${up(breakpoints.xs)} {
+      padding: 4rem;
+    }
 
     ${up(breakpoints.xl)} {
       position: sticky;

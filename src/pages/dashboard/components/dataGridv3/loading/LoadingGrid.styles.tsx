@@ -13,7 +13,7 @@ const LoadingWrapper = styled.div(
     width: 100%;
     border-radius: ${border.main};
     background: ${palette.common.main};
-    padding: 2rem;
+    /* padding: 2rem; */
   `
 );
 

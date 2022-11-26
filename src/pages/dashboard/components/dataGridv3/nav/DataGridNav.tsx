@@ -49,12 +49,12 @@ const DataGridNav = ({ addLink, exportAction }: IDataGridNavProps) => {
           <FaGripHorizontal />
           Zmień widok
         </Button>
-        {exportAction && (
+        {/* {exportAction && (
           <Button variant="data-secondary" onClick={exportAction}>
             <FaFileExport />
             Eksportuj
           </Button>
-        )}
+        )} */}
 
         {addLink && (
           <Button onClick={() => navigate(`${addLink}`)} variant="data-primary">

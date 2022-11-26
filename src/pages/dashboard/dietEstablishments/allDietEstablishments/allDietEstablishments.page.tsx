@@ -87,6 +87,7 @@ const AllDietEstablishments = () => {
         <DataGridList
           data={dietEstablishmentData}
           loadingData={dietEstablishmentsLoading}
+          errorData={dietEstablishmentsError}
           columns={columns}
           viewLink="/dashboard/diet-establishments"
           editLink="/dashboard/diet-establishments"

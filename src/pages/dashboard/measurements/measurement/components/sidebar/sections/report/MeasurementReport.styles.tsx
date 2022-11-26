@@ -62,10 +62,37 @@ const MeasurementReportNavWrapper = styled.div(
     },
   }) => css`
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: flex-start;
+    flex-direction: column;
     width: 100%;
     gap: 1rem;
+
+    ${up(breakpoints.xs)} {
+      flex-direction: row;
+      align-items: center;
+    }
+  `
+);
+
+const MeasurementNavButtonsWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+
+    /* ${up(breakpoints.xs)} {
+      flex-direction: row;
+      align-items: center;
+    } */
   `
 );
 
@@ -89,6 +116,7 @@ const MeasurementSelectWrapper = styled.div<IActive>(
     flex-direction: column;
     flex-grow: 1;
     position: relative;
+    width: 100%;
     /* width: 100%; */
 
     button {
@@ -134,6 +162,10 @@ const MeasurementSelectWrapper = styled.div<IActive>(
         }
       }
     `}
+
+    ${up(breakpoints.xs)} {
+      width: auto;
+    }
   `
 );
 
@@ -205,13 +237,20 @@ const MeasurementReportValuesWrapper = styled.div(
     },
   }) => css`
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: flex-start;
     width: 100%;
     gap: 1rem;
     background: ${palette.common.contrast};
     border: 0.1rem dashed ${palette.primary.light};
     border-radius: ${border.rounded.sm};
+    flex-direction: column;
+    padding: 1rem;
+
+    ${up(breakpoints.sm)} {
+      align-items: center;
+      flex-direction: row;
+    }
   `
 );
 
@@ -229,14 +268,20 @@ const MeasurementReportDatesWrapper = styled.div(
     justify-content: flex-start;
     flex-grow: 1;
     gap: 1rem;
-    padding: 1rem;
+    /* padding: 1rem; */
     /* border: 0.1rem solid ${palette.primary.light};
     border-radius: ${border.rounded.sm}; */
 
     p {
-      font-size: ${fontSize.m};
+      font-size: ${fontSize.s};
       font-weight: ${fontWeight.medium};
       color: ${palette.common.text};
+    }
+
+    ${up(breakpoints.sm)} {
+      p {
+        font-size: ${fontSize.m};
+      }
     }
   `
 );
@@ -254,15 +299,21 @@ const MeasurementReportValueWrapper = styled.div(
     align-items: center;
     justify-content: flex-start;
     gap: 1rem;
-    padding: 1rem;
+    /* padding: 1rem; */
 
     /* background: ${palette.primary.main}; */
 
     span {
-      font-size: ${fontSize.m};
+      font-size: ${fontSize.s};
       font-weight: ${fontWeight.medium};
       color: ${palette.primary.main};
       /* color: white; */
+    }
+
+    ${up(breakpoints.sm)} {
+      span {
+        font-size: ${fontSize.m};
+      }
     }
   `
 );
@@ -305,6 +356,7 @@ export {
   MeasurementReportWrapper,
   MeasurementEmptyReportWrapper,
   MeasurementReportNavWrapper,
+  MeasurementNavButtonsWrapper,
   MeasurementSelectWrapper,
   MeasurementSelectPopupWrapper,
   MeasurementSelectPopupItem,

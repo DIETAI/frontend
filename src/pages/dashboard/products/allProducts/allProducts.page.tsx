@@ -100,6 +100,7 @@ const AllProducts = () => {
         <DataGridList
           data={productsData}
           loadingData={productsLoading}
+          errorData={productsError}
           columns={columns}
           viewLink="/dashboard/products"
           editLink="/dashboard/products/edit"

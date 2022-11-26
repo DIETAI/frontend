@@ -19,18 +19,18 @@ const CheckedPopupWrapper = styled(motion.div)(
     padding: 1rem 6rem 1rem 8rem;
     background: ${palette.common.main};
     width: 100%;
-    min-height: 6rem;
+    min-height: 4rem;
     height: 100%;
-    border-radius: ${border.main} ${border.main} 0 0;
+    /* border-radius: ${border.main} ${border.main} 0 0; */
     background: ${palette.common.contrast};
     backdrop-filter: blur(20px);
-    border-radius: ${border.rounded.md};
+    /* border-radius: ${border.rounded.md}; */
 
     /* box-shadow: ${palette.common["box-shadow"]}; */
     /* z-index: 50; */
 
     p {
-      font-size: 1.4rem;
+      font-size: ${fontSize.s};
       font-weight: ${fontWeight.medium};
       color: ${palette.primary.main};
     }

@@ -15,13 +15,18 @@ const DataGridWrapper = styled.div(
     align-self: center;
     flex-direction: column;
     width: 100%;
-    margin-top: 5rem;
+
     /* gap: 3rem; */
     background: ${palette.common.main};
     border: 0.1rem solid ${palette.primary.light};
     border-radius: ${border.rounded.md};
-    padding: 4rem;
+    padding: 2rem;
     max-width: ${breakpoints.lg};
+
+    ${up(breakpoints.xs)} {
+      padding: 4rem;
+      margin-top: 5rem;
+    }
   `
 );
 

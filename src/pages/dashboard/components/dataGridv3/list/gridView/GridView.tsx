@@ -25,10 +25,17 @@ const GridView = ({
 }) => {
   const navigate = useNavigate();
   return (
-    <Styled.GridContainer>
+    <Styled.GridContainer
+    // initial={{ opacity: 0 }}
+    // animate={{ opacity: 1 }}
+    // transition={{ duration: 1 }}
+    >
       {data.length > 0 &&
         data.map((item) => (
           <Styled.GridItem
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1 }}
             key={item[renderKey]}
             onClick={() => {
               navigate(`${linkPage}/${item[renderKey]}`);

@@ -1,6 +1,7 @@
 import styled, { css } from "styled-components";
+import { motion } from "framer-motion";
 
-const GridContainer = styled.div(
+const GridContainer = styled(motion.div)(
   ({
     theme: {
       palette,
@@ -17,7 +18,7 @@ const GridContainer = styled.div(
   `
 );
 
-const GridItem = styled.div(
+const GridItem = styled(motion.div)(
   ({
     theme: {
       palette,

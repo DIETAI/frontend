@@ -59,7 +59,6 @@ const AllDietKinds = () => {
   // };
 
   // if (measurementsLoading) return <div>measurements loading...</div>;
-  if (dietKindsError || !dietKinds) return <div>dietKinds error</div>;
 
   const dietKindsData = dietKinds?.map((data) => ({
     _id: data._id,
@@ -81,6 +80,7 @@ const AllDietKinds = () => {
         <DataGridList
           data={dietKindsData}
           loadingData={dietKindsLoading}
+          errorData={dietKindsError}
           columns={columns}
           viewLink="/dashboard/admin/dietKinds"
           editLink="/dashboard/admin/dietKinds/edit"

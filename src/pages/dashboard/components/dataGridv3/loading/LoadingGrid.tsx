@@ -12,13 +12,18 @@ import "react-loading-skeleton/dist/skeleton.css";
 
 const LoadingGrid = () => {
   const { darkMode } = useDarkMode();
-  const loadingRows = Array(5).fill("");
+  const loadingRows = Array(6).fill("");
   const loadingRowSkeleton = Array(4).fill("");
 
   const skeletonDarkTheme = {
-    baseColor: darkMode ? "#000000" : "#f3f3f3",
-    highlightColor: darkMode ? "rgb(31, 31, 31)" : "#ebebeb",
+    baseColor: darkMode ? "#000000" : "rgba(226, 208, 255, 0.14)",
+    highlightColor: darkMode ? "rgb(31, 31, 31)" : "rgba(119, 34, 255, 0.07)",
   };
+
+  // const skeletonDarkTheme = {
+  //   baseColor: darkMode ? "#000000" : "#f3f3f3",
+  //   highlightColor: darkMode ? "rgb(31, 31, 31)" : "#ebebeb",
+  // };
 
   return (
     <Styled.LoadingWrapper>

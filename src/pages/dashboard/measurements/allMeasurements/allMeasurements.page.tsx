@@ -87,6 +87,7 @@ const AllMeasurements = () => {
         <DataGridList
           data={measurementsData}
           loadingData={measurementsLoading}
+          errorData={measurementsError}
           columns={columns}
           viewLink="/dashboard/measurements"
           editLink="/dashboard/measurements/edit"
