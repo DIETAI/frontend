@@ -1,7 +1,45 @@
 import styled, { css } from "styled-components";
 import { motion } from "framer-motion";
 
-const MeasurementReportWrapper = styled.div(
+const MeasurementContainer = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    width: 100%;
+    position: relative;
+    min-height: 20rem;
+    overflow-y: hidden;
+  `
+);
+
+const LoadingWrapper = styled(motion.div)(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+    flex: 1;
+    width: 100%;
+    transition: 0.3s ease-out;
+  `
+);
+
+const MeasurementReportWrapper = styled(motion.div)(
   ({
     theme: {
       palette,
@@ -19,7 +57,7 @@ const MeasurementReportWrapper = styled.div(
   `
 );
 
-const MeasurementEmptyReportWrapper = styled.div(
+const MeasurementEmptyReportWrapper = styled(motion.div)(
   ({
     theme: {
       palette,
@@ -353,6 +391,8 @@ const MeasurementReportItem = styled.div(
 );
 
 export {
+  MeasurementContainer,
+  LoadingWrapper,
   MeasurementReportWrapper,
   MeasurementEmptyReportWrapper,
   MeasurementReportNavWrapper,

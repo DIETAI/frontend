@@ -65,7 +65,7 @@ const BasicInfo = () => {
 
   console.log({ measurementQuery });
 
-  if (!measurementQuery)
+  if (measurementQueryError)
     return (
       <StepStyled.MeasurementStepWrapper>
         <StepStyled.StepHeadingWrapper>

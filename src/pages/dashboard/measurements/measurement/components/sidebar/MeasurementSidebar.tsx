@@ -10,7 +10,7 @@ const MeasurementSidebar = ({
   sections,
 }: IMeasurementSidebarProps) => {
   const [activeSidebarSection, setSidebarActiveSection] = useState(
-    sections[0].id
+    sections[1].id
   );
 
   const currentPageComponent = sections.find(
