@@ -17,7 +17,13 @@ import {
   Area,
   ResponsiveContainer,
   AreaChart,
+  TooltipProps,
 } from "recharts";
+
+import {
+  ValueType,
+  NameType,
+} from "recharts/src/component/DefaultTooltipContent";
 
 //styles
 import * as Styled from "./MeasurementReport.styles";
@@ -198,7 +204,9 @@ const MeasurementReport = () => {
                 }}
                 width={40}
               />
-              <Tooltip label={currentOption.name} />
+              <Tooltip
+                content={<CustomTooltip currentOption={currentOption} />}
+              />
 
               <Line
                 type="monotone"
@@ -226,6 +234,30 @@ const MeasurementReport = () => {
       )}
     </Styled.MeasurementContainer>
   );
+};
+
+interface ICustomTooltip extends TooltipProps<ValueType, NameType> {
+  currentOption: IMeasurementOption;
+}
+
+const CustomTooltip = ({
+  active,
+  payload,
+  label,
+  currentOption,
+}: ICustomTooltip) => {
+  console.log({ payload });
+
+  if (active)
+    return (
+      <Styled.MeasurementCustomTooltip>
+        <h2>{label}</h2>{" "}
+        <p>
+          {payload && payload[0].value} {currentOption.unit}
+        </p>
+      </Styled.MeasurementCustomTooltip>
+    );
+  return null;
 };
 
 const MeasurementSelectPopup = ({

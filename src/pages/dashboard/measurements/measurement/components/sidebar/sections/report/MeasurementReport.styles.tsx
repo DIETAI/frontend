@@ -1,6 +1,38 @@
 import styled, { css } from "styled-components";
 import { motion } from "framer-motion";
 
+const MeasurementCustomTooltip = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    display: flex;
+    flex-direction: column;
+    /* gap: 1rem; */
+    padding: 1rem;
+    box-shadow: ${palette.common["box-shadow"]};
+    background: ${palette.common.main};
+    border-radius: ${border.rounded.sm};
+    border: 0.1rem solid ${palette.primary.light};
+
+    h2 {
+      font-size: ${fontSize.m};
+      font-weight: ${fontWeight.medium};
+      color: ${palette.common.text};
+    }
+
+    p {
+      font-size: ${fontSize.s};
+      font-weight: ${fontWeight.light};
+      color: ${palette.common.text};
+    }
+  `
+);
+
 const MeasurementContainer = styled.div(
   ({
     theme: {
@@ -404,4 +436,5 @@ export {
   MeasurementReportDatesWrapper,
   MeasurementReportValueWrapper,
   MeasurementReportItem,
+  MeasurementCustomTooltip,
 };
