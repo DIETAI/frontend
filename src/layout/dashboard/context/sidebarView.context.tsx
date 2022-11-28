@@ -22,7 +22,10 @@ export const SidebarViewProvider = ({ children }: IChildrenProps) => {
   const [view, setView] = useState<SidebarView>(false);
 
   const contextValue = useMemo(
-    () => ({ sidebarView: view, changeSidebarView: () => setView(!view) }),
+    () => ({
+      sidebarView: view,
+      changeSidebarView: (sidebarView: boolean) => setView(sidebarView),
+    }),
     [view, setView]
   );
 

@@ -48,7 +48,7 @@ const Sidebar = () => {
       <Styled.MobileBarsWrapper>
         <IconButton
           icon={<FaBars />}
-          onClick={changeSidebarView as () => void}
+          onClick={() => changeSidebarView(!sidebarView)}
         />
       </Styled.MobileBarsWrapper>
 
