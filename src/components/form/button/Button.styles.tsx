@@ -54,6 +54,13 @@ const ButtonWrapper = styled.button<
       border: 0.1rem solid ${palette.primary.main};
     `}
 
+    ${variant === "delete" &&
+    css`
+      color: white;
+      border: none;
+      background: red;
+    `}
+
     ${variant === "secondary" &&
     css`
       background: transparent;

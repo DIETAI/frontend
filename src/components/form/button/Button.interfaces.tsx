@@ -11,7 +11,8 @@ export interface IButtonProps {
     | "data-secondary"
     | "data-third"
     | "data-delete-primary"
-    | "data-delete-secondary";
+    | "data-delete-secondary"
+    | "delete";
   onClick?: () =>
     | void
     | ((e: React.FormEvent<HTMLFormElement>) => Promise<void>);

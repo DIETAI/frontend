@@ -1,19 +1,11 @@
-import React from "react";
-
-import { useForm, FormProvider, FieldValues } from "react-hook-form";
-
-//schema
-import { calendarNoteSchema } from "./CalendarNote.schema";
-import { yupResolver } from "@hookform/resolvers/yup";
-
-//interfaces
-import { ICalendarNoteSchema } from "./CalendarNote.schema";
+import React, { useState } from "react";
 
 //components
 import Heading from "components/heading/Heading";
-import Input from "components/form/input/Input";
+import CalendarNoteEditForm from "./editForm/CalendarNoteEditForm";
+import CalendarNoteDeleteForm from "./deleteForm/CalendarNoteDeleteForm";
+
 import Button from "components/form/button/Button";
-import ReactLoading from "react-loading";
 
 //icons
 import { FaFileAlt } from "icons/icons";
@@ -22,83 +14,58 @@ import { FaFileAlt } from "icons/icons";
 import * as Styled from "./CalendarNoteModal.styles";
 
 //utils
-import axios from "utils/api";
-import { mutate } from "swr";
+import { ICalendarNoteData } from "interfaces/calendarNote";
 
-const defaultValues = calendarNoteSchema.cast({});
+export type IPage = "info" | "edit" | "delete";
 
 const CalendarNoteModal = ({
   date,
   closeModal,
+  calendarNote,
 }: {
   date: Date;
   closeModal: () => void;
+  calendarNote: ICalendarNoteData;
 }) => {
-  const calendarNoteDefaultValues = {
-    ...defaultValues,
-    date,
-  };
-
-  const methods = useForm({
-    resolver: yupResolver(calendarNoteSchema),
-    shouldUnregister: false,
-    defaultValues: calendarNoteDefaultValues,
-    mode: "onBlur",
-  });
-
-  const {
-    handleSubmit,
-    formState: { errors, isSubmitting, isDirty, isValid, isSubmitSuccessful },
-    trigger,
-    reset,
-    setFocus,
-    getValues,
-    watch,
-  } = methods;
-
-  const onSubmit = async (data: ICalendarNoteSchema) => {
-    try {
-      const calendarNoteData = await axios.post("/api/v1/calendarNotes", data, {
-        withCredentials: true,
-      });
-      console.log({ calendarNoteData });
-      reset();
-      await mutate(`/api/v1/calendarNotes`);
-      closeModal();
-    } catch (e) {
-      console.log(e);
-      //set error alert
-    }
-  };
-
+  const [page, setPage] = useState<IPage>("info");
   return (
     <Styled.ModalContentWrapper>
-      <Heading icon={<FaFileAlt />} title="Stwórz notatkę" />
-      <FormProvider {...methods}>
-        <Styled.FormWrapper
-          onSubmit={handleSubmit(onSubmit)}
-          autoComplete="off"
-        >
-          <Input name="title" label={"tytuł"} type="text" fullWidth />
-          <Input
-            textarea
-            name="description"
-            label="opis"
-            type="text"
-            fullWidth
-          />
-          <Button
-            type="submit"
-            variant={isSubmitting || !isValid ? "disabled" : "primary"}
-          >
-            {isSubmitting ? (
-              <ReactLoading type="spin" width={20} height={20} />
-            ) : (
-              "wyślij"
-            )}
-          </Button>
-        </Styled.FormWrapper>
-      </FormProvider>
+      <Heading icon={<FaFileAlt />} title="Notatka" />
+
+      {page === "info" && (
+        <>
+          <Styled.NoteWrapper>
+            <h2>{calendarNote.title}</h2>
+            <p>{calendarNote.description}</p>
+          </Styled.NoteWrapper>
+          <Styled.ButtonsWrapper>
+            <Button variant="primary" onClick={() => setPage("edit")}>
+              edytuj
+            </Button>
+            <Button variant="delete" onClick={() => setPage("delete")}>
+              usuń
+            </Button>
+          </Styled.ButtonsWrapper>
+        </>
+      )}
+
+      {page === "edit" && (
+        <CalendarNoteEditForm
+          closeModal={closeModal}
+          calendarNote={calendarNote}
+          page={page}
+          setPage={setPage}
+        />
+      )}
+
+      {page === "delete" && (
+        <CalendarNoteDeleteForm
+          closeModal={closeModal}
+          calendarNote={calendarNote}
+          page={page}
+          setPage={setPage}
+        />
+      )}
     </Styled.ModalContentWrapper>
   );
 };

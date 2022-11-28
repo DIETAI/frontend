@@ -9,6 +9,7 @@ import { FaCalendar, FaChevronRight, FaChevronLeft } from "icons/icons";
 //components
 import Heading from "components/heading/Heading";
 import Modal from "components/modal/Modal";
+import NewCalendarNoteModal from "./newCalendarNoteModal/NewCalendarNoteModal";
 import CalendarNoteModal from "./calendarNoteModal/CalendarNoteModal";
 
 //date-fns
@@ -180,9 +181,17 @@ const CalendarDay = ({
   handleChangeDay: (day: Date) => void;
   calendarNotes: ICalendarNoteData[];
 }) => {
+  const [newCalendarNoteModal, setNewCalendarNoteModal] = useState(false);
   const [calendarNoteModal, setCalendarNoteModal] = useState(false);
+  const [selectedNote, setSelectedNote] = useState<ICalendarNoteData>(
+    calendarNotes[0]
+  );
 
-  const handleOpenCalendarNoteModal = () => {
+  const handleOpenNewCalendarNoteModal = () => {
+    setNewCalendarNoteModal(true);
+  };
+  const handleOpenCalendarNoteModal = (note: ICalendarNoteData) => {
+    setSelectedNote(note);
     setCalendarNoteModal(true);
   };
 
@@ -202,22 +211,34 @@ const CalendarDay = ({
       >
         <Styled.CalendarDayHeading>
           {format(day, "dd")}
-          <button onClick={handleOpenCalendarNoteModal}>+</button>
+          <button onClick={handleOpenNewCalendarNoteModal}>+</button>
         </Styled.CalendarDayHeading>
         {currentDateCalendarNotes.length > 0 &&
           currentDateCalendarNotes.map((calendarNote) => (
             <Styled.CalendarNotesWrapper key={calendarNote._id}>
-              <Styled.CalendarNote>
+              <Styled.CalendarNote
+                onClick={() => handleOpenCalendarNoteModal(calendarNote)}
+              >
                 <p>{calendarNote.title}</p>
               </Styled.CalendarNote>{" "}
             </Styled.CalendarNotesWrapper>
           ))}
       </Styled.CalendarDay>
       <Modal
+        onClose={() => setNewCalendarNoteModal(false)}
+        open={newCalendarNoteModal}
+      >
+        <NewCalendarNoteModal
+          date={day}
+          closeModal={() => setNewCalendarNoteModal(false)}
+        />
+      </Modal>
+      <Modal
         onClose={() => setCalendarNoteModal(false)}
         open={calendarNoteModal}
       >
         <CalendarNoteModal
+          calendarNote={selectedNote}
           date={day}
           closeModal={() => setCalendarNoteModal(false)}
         />
