@@ -6,10 +6,9 @@ const CalendarWrapper = styled.div(
       palette,
       typography: { fontSize, fontWeight },
       layout: { border },
-      media: { breakpoints },
+      media: { breakpoints, up },
     },
   }) => css`
-    display: flex;
     flex-direction: column;
     background: ${palette.common.main};
     padding: 4rem;
@@ -18,6 +17,12 @@ const CalendarWrapper = styled.div(
     max-width: ${breakpoints.lg};
     border: 0.1rem solid ${palette.primary.light};
     gap: 3rem;
+
+    display: none;
+
+    ${up(breakpoints.lg)} {
+      display: flex;
+    }
   `
 );
 
@@ -128,6 +133,7 @@ const CalendarDay = styled.div<ICurrentDay>(
       palette,
       typography: { fontSize, fontWeight },
       layout: { border },
+      media: { up, breakpoints },
     },
     currentDay,
     currentMonth,

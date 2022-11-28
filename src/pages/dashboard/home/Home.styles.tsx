@@ -14,8 +14,11 @@ const HomeContainer = styled.div(
     justify-content: center;
     flex-direction: column;
     width: 100%;
-    margin-top: 5rem;
     gap: 3rem;
+
+    ${up(breakpoints.sm)} {
+      margin-top: 5rem;
+    }
   `
 );
 

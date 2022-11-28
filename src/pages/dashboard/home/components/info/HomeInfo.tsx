@@ -19,9 +19,10 @@ const HomeInfo = () => {
         </p>
         <Styled.ButtonWrapper>
           {/* <Button variant="secondary">zobacz nowości</Button> */}
-          <Button onClick={() => navigate("/dashboard/diets/new")}>
+          {/* <Button onClick={() => navigate("/dashboard/diets/new")}>
             zobacz nowości
-          </Button>
+          </Button> */}
+          <Button onClick={() => navigate("/dashboard/account")}>konto</Button>
         </Styled.ButtonWrapper>
       </Styled.InfoHeading>
       <img src={ReportImg} />

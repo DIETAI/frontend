@@ -21,6 +21,7 @@ const HomeFeaturesWrapper = styled.div(
 
     ${up(breakpoints.md)} {
       flex-direction: row;
+      flex-wrap: wrap;
     }
   `
 );
