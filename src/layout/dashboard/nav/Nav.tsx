@@ -44,12 +44,12 @@ const Nav = () => {
       <Styled.MobileNavOptions>
         <IconButton
           icon={<FaBars />}
-          onClick={changeSidebarView as () => void}
+          onClick={() => changeSidebarView(!sidebarView)}
         />
         <img src={DietAILogoIcon} />
       </Styled.MobileNavOptions>
       <IconButton
-        onClick={changeSidebarView as () => void}
+        onClick={() => changeSidebarView(!sidebarView)}
         icon={<FaAngleLeft />}
         iconReverse={!sidebarView}
         className="sidebar-button"
