@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import * as Styled from "./Sidebar.styles";
 import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 //logo
 import DietAILogoIcon from "assets/logo-icon.svg";
@@ -18,6 +19,7 @@ import IconButton from "components/iconButton/IconButton";
 import { FaBars } from "icons/icons";
 
 const Sidebar = () => {
+  const location = useLocation();
   const { sidebarView, changeSidebarView } = useSidebarView();
 
   //userLinks display
@@ -27,6 +29,14 @@ const Sidebar = () => {
     );
     return userLinks;
   };
+
+  useEffect(() => {
+    const max800 = window.matchMedia("(max-width: 800px)").matches;
+
+    if (max800 && location.pathname.includes("dashboard")) {
+      changeSidebarView(false);
+    }
+  }, [location]);
 
   return (
     <Styled.SidebarWrapper sidebarView={sidebarView}>
