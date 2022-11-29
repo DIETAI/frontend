@@ -19,7 +19,9 @@ export const useDataGridView = () => {
 };
 
 export const DataGridViewProvider = ({ children }: IChildrenProps) => {
-  const [view, setView] = useState<View>("line");
+  const mediaMax400 = window.matchMedia("(max-width: 400px)").matches;
+  const defaultView = mediaMax400 ? "package" : "line";
+  const [view, setView] = useState<View>(defaultView);
 
   const contextValue = useMemo(
     () => ({

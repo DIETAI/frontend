@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import ReactPaginate from "react-paginate";
 
 //interfaces
 import { IDataGridPaginationProps } from "./DataGridPagination.interfaces";
@@ -54,6 +55,49 @@ const DataGridPagination = ({
 
   console.log({ pageCount });
 
+  const paginationRender = (currentPageIndex: number) => {
+    const pages = Array(Math.ceil(pageCount))
+      .fill(null)
+      .map((_, index) => {
+        return index + 1;
+      });
+
+    console.log({ currentPageIndex });
+
+    const displayPages = pages.slice(
+      currentPageIndex === 0 ? 0 : currentPageIndex - 1,
+      currentPageIndex + 3
+    );
+
+    return displayPages;
+  };
+
+  const pages = Array(Math.ceil(pageCount))
+    .fill(null)
+    .map((_, index) => {
+      return index + 1;
+    });
+
+  const handleDisabledPage = (page: number) => {
+    const mediaMax400 = window.matchMedia("(max-width: 400px)").matches;
+
+    if (page === 1 || page === pages.length) {
+      return false;
+    }
+
+    if (mediaMax400 && (page > currentPage || page < currentPage)) {
+      return true;
+    }
+
+    if (page > currentPage + 1) {
+      return true;
+    }
+
+    if (page < currentPage + -1) {
+      return true;
+    }
+  };
+
   return (
     <Styled.DataGridPaginationWrapper>
       <Styled.PaginateSelect ref={selectRef} openSelect={openPaginateSelect}>
@@ -86,7 +130,18 @@ const DataGridPagination = ({
           >
             <FaChevronLeft />
           </Styled.PaginationOption>
-          {Array(Math.ceil(pageCount))
+
+          {pages.map((page, index) => (
+            <Styled.PaginationOption
+              key={page}
+              active={currentPage === page}
+              onClick={() => changePage(page)}
+              notDisplay={handleDisabledPage(page)}
+            >
+              {page}
+            </Styled.PaginationOption>
+          ))}
+          {/* {Array(Math.ceil(pageCount))
             .fill(null)
             .map((_, index) => {
               return (
@@ -94,11 +149,17 @@ const DataGridPagination = ({
                   key={index}
                   active={currentPage === index + 1}
                   onClick={() => changePage(index + 1)}
+                  notDisplay={
+                    (index + 1 > currentPage + 2 &&
+                      index !== 0 &&
+                      index !== pages.length - 1) ||
+                    index + 1 < currentPage - 2
+                  }
                 >
                   {index + 1}
                 </Styled.PaginationOption>
               );
-            })}
+            })} */}
 
           <Styled.PaginationOption
             onClick={handleNext}

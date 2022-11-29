@@ -76,22 +76,19 @@ const SearchWrapper = styled.div(
 const ButtonsWrapper = styled.div(
   ({
     theme: {
-      media: { breakpoints, down },
+      media: { breakpoints, down, up },
     },
   }) => css`
     display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
     gap: 2rem;
+    width: 100%;
 
-    ${down(breakpoints.lg)} {
-      width: 100%;
-
-      button {
-        flex: 1;
-      }
-    }
-
-    ${down(breakpoints.md)} {
-      flex-wrap: wrap;
+    ${up(breakpoints.sm)} {
+      flex-direction: row;
+      width: auto;
     }
   `
 );

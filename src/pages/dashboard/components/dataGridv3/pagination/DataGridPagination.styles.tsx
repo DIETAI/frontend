@@ -4,15 +4,22 @@ import { motion } from "framer-motion";
 const DataGridPaginationWrapper = styled.div(
   ({
     theme: {
-      media: { breakpoints, down },
+      media: { breakpoints, up },
     },
   }) => css`
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
     margin-top: 3rem;
     width: 100%;
     gap: 2rem;
+
+    ${up(breakpoints.sm)} {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
   `
 );
 
@@ -23,7 +30,7 @@ interface IOpenSelect {
 const PaginateSelect = styled.div<IOpenSelect>(
   ({
     theme: {
-      media: { breakpoints, down },
+      media: { breakpoints, up },
       palette,
       layout: { border },
     },
@@ -33,6 +40,7 @@ const PaginateSelect = styled.div<IOpenSelect>(
     align-items: center;
     justify-content: flex-start;
     position: relative;
+    /* width: 100%; */
 
     input {
       width: 4rem;
@@ -43,6 +51,7 @@ const PaginateSelect = styled.div<IOpenSelect>(
       color: ${palette.common.text};
       font-size: 1.5rem;
       border-right: none;
+      /* flex-grow: 1; */
 
       :disabled {
         background: transparent;
@@ -90,6 +99,12 @@ const PaginateSelect = styled.div<IOpenSelect>(
         }
       `}
     }
+
+    /* ${up(breakpoints.xs)} {
+      input {
+        flex-grow
+      }
+    } */
   `
 );
 
@@ -118,6 +133,7 @@ const PaginationSelectModal = styled(motion.ul)(
     top: 105%;
     left: 0;
     list-style: none;
+    z-index: 1;
 
     li {
       transition: 0.3s ease-out;
@@ -157,6 +173,7 @@ const PaginationOptionsWrapper = styled.div(
 
 interface IActiveOption {
   active?: boolean;
+  notDisplay?: boolean;
 }
 
 const PaginationOption = styled.button<IActiveOption>(
@@ -168,6 +185,7 @@ const PaginationOption = styled.button<IActiveOption>(
       typography: { fontSize, fontWeight },
     },
     active,
+    notDisplay,
   }) => css`
     display: flex;
     align-items: center;
@@ -197,6 +215,11 @@ const PaginationOption = styled.button<IActiveOption>(
       background: ${palette.primary.main};
       color: white;
       border: 0.1rem solid ${palette.primary.main};
+    `}
+
+    ${notDisplay &&
+    css`
+      display: none;
     `}
   `
 );

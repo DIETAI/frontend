@@ -28,6 +28,7 @@ const CalendarNoteModal = ({
   calendarNote: ICalendarNoteData;
 }) => {
   const [page, setPage] = useState<IPage>("info");
+
   return (
     <Styled.ModalContentWrapper>
       <Heading icon={<FaFileAlt />} title="Notatka" />
