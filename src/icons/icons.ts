@@ -63,6 +63,9 @@ import {
   FaClipboardList,
   FaDownload,
   FaExchangeAlt,
+  FaGripLines,
+  FaGripVertical,
+  FaImages,
 } from "react-icons/fa";
 
 export {
@@ -130,4 +133,7 @@ export {
   FaClipboardList,
   FaDownload,
   FaExchangeAlt,
+  FaGripLines,
+  FaGripVertical,
+  FaImages,
 };

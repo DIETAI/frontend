@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { useUser } from "services/useUser";
 import NoUser from "assets/noUser.svg";
 import axios from "utils/api";
 import { useAlert } from "layout/dashboard/context/alert.context";
+import { useFileLibrary } from "layout/dashboard/context/fileLibrary.context";
 
 //styles
 import * as Styled from "../styles/Form.styles";
@@ -18,6 +19,8 @@ import { personDataSchema } from "../schema/personData.schema";
 import Input from "components/form/textarea/Textarea";
 import Heading from "components/heading/Heading";
 import Button from "components/form/button/Button";
+import Modal from "components/modal/Modal";
+import FilesLibrary from "components/filesLibraryV2/FilesLibrary";
 
 //icons
 import { FaUser } from "icons/icons";
@@ -32,6 +35,9 @@ import { IPersonData } from "../schema/personData.schema";
 const defaultValues = personDataSchema.cast({});
 
 const PersonDataForm = () => {
+  const { selectAssetId, selectedAssetId } = useFileLibrary();
+  const [openFileLibrary, setOpenFileLibrary] = useState(false);
+
   const { handleAlert } = useAlert();
   const { user } = useUser();
 
@@ -57,6 +63,7 @@ const PersonDataForm = () => {
     reset,
     setFocus,
     getValues,
+    setValue,
     watch,
   } = methods;
 
@@ -83,40 +90,61 @@ const PersonDataForm = () => {
     console.log("data");
   };
 
+  const handleOpenFileLibrary = () => {
+    setOpenFileLibrary(true);
+  };
+
+  const addMainImage = () => {
+    console.log("changeImg");
+
+    setValue("photoURL", selectedAssetId);
+    return setOpenFileLibrary(false);
+  };
+
   return (
-    <Styled.FormWrapper grow={true}>
-      <Heading icon={<FaUser />} title="Twoje dane" />
-      <FormProvider {...methods}>
-        <form onSubmit={handleSubmit(onPersonDataFormSubmit)}>
-          {/* {JSON.stringify(watch())} */}
-          <Styled.ImageWrapper>
-            <img src={DietAILogo} className="personData-backgroundImage" />
-            <img
-              src={initialValues.photoURL}
-              className="personData-avatarImage"
-            />
-          </Styled.ImageWrapper>
-          <Input label="imię" name="name" fullWidth />
-          <Input label="nazwisko" name="lastName" fullWidth />
-          <Input label="email" name="email" fullWidth disabled />
-          {/* <Input label="nr telefonu" name="phone" fullWidth /> */}
-          {/* <Input label="rola" name="role" fullWidth /> */}
-          {/* <Input
+    <>
+      <Styled.FormWrapper grow={true}>
+        <Heading icon={<FaUser />} title="Twoje dane" />
+        <FormProvider {...methods}>
+          <form onSubmit={handleSubmit(onPersonDataFormSubmit)}>
+            {/* {JSON.stringify(watch())} */}
+            <Styled.ImageWrapper>
+              <img src={DietAILogo} className="personData-backgroundImage" />
+              <Styled.ImageSelectWrapper onClick={handleOpenFileLibrary}>
+                <img
+                  src={initialValues.photoURL}
+                  className="personData-avatarImage"
+                />
+              </Styled.ImageSelectWrapper>
+            </Styled.ImageWrapper>
+            <Input label="imię" name="name" fullWidth />
+            <Input label="nazwisko" name="lastName" fullWidth />
+            <Input label="email" name="email" fullWidth disabled />
+            {/* <Input label="nr telefonu" name="phone" fullWidth /> */}
+            {/* <Input label="rola" name="role" fullWidth /> */}
+            {/* <Input
             label="metoda uwierzytelniania"
             name="authProvider"
             fullWidth
           /> */}
-          {/* <p>logo</p> */}
-          <Button
-            type="submit"
-            variant={!isValid || isSubmitting ? "disabled" : "primary"}
-            fullWidth
-          >
-            wyślij
-          </Button>
-        </form>
-      </FormProvider>
-    </Styled.FormWrapper>
+            {/* <p>logo</p> */}
+            <Button
+              type="submit"
+              variant={!isValid || isSubmitting ? "disabled" : "primary"}
+              fullWidth
+            >
+              wyślij
+            </Button>
+          </form>
+        </FormProvider>
+      </Styled.FormWrapper>
+      <Modal onClose={() => setOpenFileLibrary(false)} open={openFileLibrary}>
+        <FilesLibrary
+          onSubmitAction={addMainImage}
+          closeModal={() => setOpenFileLibrary(false)}
+        />
+      </Modal>
+    </>
   );
 };
 

@@ -108,7 +108,7 @@ const FormBackgroundImageWrapper = styled.div(
       opacity: 0.2;
     }
 
-    .personData-avatarImage {
+    /* .personData-avatarImage {
       width: 16rem;
       height: 18rem;
       position: absolute;
@@ -118,7 +118,7 @@ const FormBackgroundImageWrapper = styled.div(
       object-fit: cover;
       border-radius: ${border.rounded.md};
       border: 0.1rem solid ${palette.primary.light};
-    }
+    } */
   `
 );
 
@@ -139,19 +139,8 @@ const ImageWrapper = styled.div(
     /* background: ${palette.common.contrast}; */
     border: 0.1rem solid ${palette.primary.light};
     border-radius: ${border.rounded.md};
-    padding: 1rem;
+    padding: 2rem;
     position: relative;
-
-    .personData-avatarImage {
-      /* width: 100%;
-      height: 100%; */
-      width: 100%;
-      max-width: 16rem;
-      max-height: 16rem;
-      object-fit: cover;
-      z-index: 1;
-      border-radius: ${border.rounded.md};
-    }
 
     .personData-backgroundImage {
       /* width: 100%
@@ -169,4 +158,38 @@ const ImageWrapper = styled.div(
   `
 );
 
-export { FormWrapper, FormHeading, FormBackgroundImageWrapper, ImageWrapper };
+const ImageSelectWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    cursor: pointer;
+    z-index: 1;
+    transition: 0.3s ease-out;
+    border-radius: ${border.rounded.md};
+    border: 0.2rem dashed ${palette.primary.light};
+
+    :hover {
+      opacity: 0.6;
+      /* border: 0.2rem dashed ${palette.primary.main}; */
+    }
+
+    img {
+      width: 100%;
+      max-width: 16rem;
+      object-fit: cover;
+    }
+  `
+);
+
+export {
+  FormWrapper,
+  FormHeading,
+  FormBackgroundImageWrapper,
+  ImageWrapper,
+  ImageSelectWrapper,
+};

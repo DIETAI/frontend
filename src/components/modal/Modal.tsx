@@ -25,8 +25,7 @@ const Modal = ({
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (!modalRef.current?.contains(e.target as Node) && onClose) {
-        //scrollx
-        document.body.style.overflowY = "visible";
+        document.body.style.overflowY = "auto";
         onClose();
       }
     };
