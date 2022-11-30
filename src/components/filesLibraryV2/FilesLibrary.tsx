@@ -24,6 +24,7 @@ import Image from "components/form/images/image/Image";
 import FilesLibraryNav from "./nav/FilesLibraryNav";
 import ImageView from "./views/imageView/ImageView";
 import LineView from "./views/lineView/LineView";
+import SelectedAsset from "./selectedAsset/SelectedAsset";
 
 //services
 import { getAssets } from "services/getAssets";
@@ -71,8 +72,17 @@ const FilesLibrary = ({ closeModal, onSubmitAction }: IFilesLibraryProps) => {
         <AddFileForm closeForm={() => setOpenAddFileForm(false)} />
       )}
 
-      {selectedAssetId && <p>Wybrano zdjęcie: {selectedAssetId}</p>}
-      <p>wykorzystano 0.2/2 GB</p>
+      <Styled.NavInfoWrapper>
+        <span>
+          razem: <b>{assets.length}</b>
+        </span>
+
+        <p>
+          <b>0.2</b>/2 GB
+        </p>
+      </Styled.NavInfoWrapper>
+
+      <SelectedAsset />
 
       {!openAddFileForm && assets.length < 1 && (
         <Styled.NotFoundFilesWrapper>

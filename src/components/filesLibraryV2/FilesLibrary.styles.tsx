@@ -14,6 +14,27 @@ const FilesLibraryContainer = styled.div(
   `
 );
 
+const NavInfoWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    span {
+      color: ${palette.common.text};
+      font-size: ${fontSize.s};
+      font-weight: ${fontWeight.light};
+    }
+  `
+);
+
 const NotFoundFilesWrapper = styled.div(
   ({
     theme: {
@@ -142,4 +163,5 @@ export {
   NotFoundFilesHeading,
   FilesWrapper,
   ImageWrapper,
+  NavInfoWrapper,
 };
