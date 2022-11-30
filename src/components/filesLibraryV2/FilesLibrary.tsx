@@ -23,6 +23,7 @@ import ImageSelect from "components/form/images/imageSelect/ImageSelect";
 import Image from "components/form/images/image/Image";
 import FilesLibraryNav from "./nav/FilesLibraryNav";
 import ImageView from "./views/imageView/ImageView";
+import LineView from "./views/lineView/LineView";
 
 //services
 import { getAssets } from "services/getAssets";
@@ -35,11 +36,12 @@ interface IFilesLibraryProps {
   closeModal: () => void;
 }
 
-type View = "image" | "package" | "line";
+export type View = "image" | "line";
 
 const FilesLibrary = ({ closeModal, onSubmitAction }: IFilesLibraryProps) => {
   const { selectAssetId, selectedAssetId } = useFileLibrary();
   const [searchValue, setSearchValue] = useState("");
+  const [view, setView] = useState<View>("image");
 
   const { assets, assetsLoading, assetsError } = getAssets();
   const [openAddFileForm, setOpenAddFileForm] = useState(false);
@@ -61,6 +63,8 @@ const FilesLibrary = ({ closeModal, onSubmitAction }: IFilesLibraryProps) => {
         onSubmitAction={onSubmitAction}
         searchValue={searchValue}
         setSearchValue={setSearchValue}
+        view={view}
+        setView={setView}
       />
 
       {openAddFileForm && (
@@ -84,7 +88,9 @@ const FilesLibrary = ({ closeModal, onSubmitAction }: IFilesLibraryProps) => {
         </Styled.NotFoundFilesWrapper>
       )}
 
-      <ImageView uploadImage={uploadImage} />
+      {view === "image" && <ImageView uploadImage={uploadImage} />}
+      {view === "line" && <LineView uploadImage={uploadImage} />}
+
       {/* {!openAddFileForm && assets.length > 0 && (
         <Styled.FilesWrapper>
           <ImagesContainer label="zdjęcia">

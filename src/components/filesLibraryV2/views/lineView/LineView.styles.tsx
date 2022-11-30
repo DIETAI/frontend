@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 import { motion } from "framer-motion";
 
-const ImagesWrapper = styled.div(
+const LineViewWrapper = styled.ul(
   ({
     theme: {
       palette,
@@ -10,9 +10,10 @@ const ImagesWrapper = styled.div(
     },
   }) => css`
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
     width: 100%;
-    gap: 2rem;
   `
 );
 
@@ -35,7 +36,8 @@ const ImageSelectWrapper = styled.div(
     padding: 2rem;
     cursor: pointer;
     border: 0.1rem dashed ${palette.primary.main};
-    border-radius: ${border.rounded.md};
+    border-radius: ${border.rounded.sm};
+    margin-bottom: 2rem;
 
     :hover {
       opacity: 0.7;
@@ -64,17 +66,16 @@ const ImageSelectWrapper = styled.div(
     }
 
     ${up(breakpoints.sm)} {
-      width: 20rem;
-      height: 20rem;
+      flex-direction: row;
     }
   `
 );
 
-interface ISelectedImage {
-  selectedImage?: boolean;
+interface ISelectedItem {
+  selectedItem?: boolean;
 }
 
-const ImageWrapper = styled(motion.div)<ISelectedImage>(
+const ItemWrapper = styled.li<ISelectedItem>(
   ({
     theme: {
       palette,
@@ -82,26 +83,99 @@ const ImageWrapper = styled(motion.div)<ISelectedImage>(
       layout: { border },
       media: { breakpoints, up },
     },
-    selectedImage,
+    selectedItem,
+  }) => css`
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    width: 100%;
+    gap: 2rem;
+    border-bottom: 0.1rem solid ${palette.primary.light};
+    padding: 1.5rem;
+    transition: 0.3s ease-out;
+    cursor: pointer;
+
+    :hover {
+      opacity: 0.7;
+    }
+
+    :first-of-type {
+      border-top: 0.1rem solid ${palette.primary.light};
+    }
+
+    ${selectedItem &&
+    css`
+      background: ${palette.primary.light};
+    `}
+
+    ${up(breakpoints.sm)} {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+  `
+);
+
+const ItemTitleWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { up, breakpoints },
+    },
+  }) => css`
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    gap: 2rem;
+    flex-grow: 1;
+    width: 100%;
+
+    h2 {
+      font-size: ${fontSize.s};
+      font-weight: ${fontWeight.light};
+      color: ${palette.common.text};
+    }
+
+    ${up(breakpoints.sm)} {
+      flex-direction: row;
+      align-items: center;
+      width: auto;
+    }
+  `
+);
+
+const ImageWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
   }) => css`
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 2rem;
+    padding: 1rem;
     position: relative;
     width: 100%;
+    max-width: 8rem;
     border: 0.1rem solid ${palette.primary.light};
-    border-radius: ${border.rounded.md};
+    border-radius: ${border.rounded.sm};
     cursor: pointer;
     transition: 0.3s ease-out;
 
     .itemImg {
-      width: 100%;
-      max-width: 15rem;
-      max-height: 15rem;
+      /* width: 100%; */
+      max-width: 7rem;
+      max-height: 4rem;
       object-fit: cover;
       z-index: 1;
-      border-radius: ${border.rounded.md};
+      border-radius: ${border.rounded.sm};
       transition: 0.3s ease-out;
 
       :hover {
@@ -111,7 +185,7 @@ const ImageWrapper = styled(motion.div)<ISelectedImage>(
 
     .backgroundImg {
       /* width: 100%
-        height: 100%; */
+          height: 100%; */
       width: 100%;
       position: absolute;
       width: 100%;
@@ -120,21 +194,12 @@ const ImageWrapper = styled(motion.div)<ISelectedImage>(
       filter: blur(3px);
 
       object-fit: cover;
-      border-radius: ${border.rounded.md};
-    }
-
-    ${selectedImage &&
-    css`
-      background: ${palette.primary.light};
-    `}
-
-    ${up(breakpoints.sm)} {
-      width: 20rem;
+      border-radius: ${border.rounded.sm};
     }
   `
 );
 
-const ImageOptionsWrapper = styled(motion.div)(
+const ItemOptionsWrapper = styled.div(
   ({
     theme: {
       palette,
@@ -142,25 +207,10 @@ const ImageOptionsWrapper = styled(motion.div)(
       layout: { border },
     },
   }) => css`
-    position: absolute;
-    bottom: 0;
-    left: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    gap: 1.5rem;
-    background: ${palette.common.main};
-    padding: 1rem;
-    border-radius: ${border.rounded.lg} ${border.rounded.lg} 0 0;
-    z-index: 1;
-    border-top: 0.1rem solid ${palette.primary.light};
-
-    p {
-      font-size: 1.1rem;
-      font-weight: ${fontWeight.medium};
-      color: ${palette.common.text};
-    }
+    gap: 1rem;
   `
 );
 
@@ -168,7 +218,7 @@ interface IOptionType {
   optionType: "edit" | "delete" | "info";
 }
 
-const ImageOptionWrapper = styled.div<IOptionType>(
+const ItemOptionWrapper = styled.div<IOptionType>(
   ({
     theme: {
       palette,
@@ -180,8 +230,8 @@ const ImageOptionWrapper = styled.div<IOptionType>(
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 3rem;
+    height: 3rem;
     border-radius: ${border.rounded.sm};
     transition: 0.3s ease-out;
 
@@ -228,9 +278,11 @@ const ImageOptionWrapper = styled.div<IOptionType>(
 );
 
 export {
-  ImagesWrapper,
+  LineViewWrapper,
   ImageSelectWrapper,
+  ItemWrapper,
+  ItemTitleWrapper,
   ImageWrapper,
-  ImageOptionsWrapper,
-  ImageOptionWrapper,
+  ItemOptionsWrapper,
+  ItemOptionWrapper,
 };

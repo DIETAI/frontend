@@ -18,14 +18,21 @@ import {
   FaImages,
 } from "react-icons/fa";
 
+//interfaces
+import { View } from "../FilesLibrary";
+
 const FilesLibraryNav = ({
   onSubmitAction,
   searchValue,
   setSearchValue,
+  view,
+  setView,
 }: {
   onSubmitAction: () => void;
   searchValue: string;
   setSearchValue: React.Dispatch<React.SetStateAction<string>>;
+  view: View;
+  setView: React.Dispatch<React.SetStateAction<View>>;
 }) => {
   const { t } = useTranslation();
   const { selectAssetId, selectedAssetId } = useFileLibrary();
@@ -36,6 +43,23 @@ const FilesLibraryNav = ({
 
   return (
     <Styled.FilesLibraryNavWrapper>
+      <Styled.FilesLibraryNavOptionsWrapper>
+        <Styled.FilesLibraryNavOption
+          active={view === "line"}
+          onClick={() => setView("line")}
+        >
+          <FaGripLines />
+        </Styled.FilesLibraryNavOption>
+        {/* <Styled.FilesLibraryNavOption>
+          <FaGripHorizontal />
+        </Styled.FilesLibraryNavOption> */}
+        <Styled.FilesLibraryNavOption
+          active={view === "image"}
+          onClick={() => setView("image")}
+        >
+          <FaImages />
+        </Styled.FilesLibraryNavOption>
+      </Styled.FilesLibraryNavOptionsWrapper>
       <Styled.FilesLibraryNavSearchWrapper>
         <FaSearch />
         <input
@@ -44,18 +68,6 @@ const FilesLibraryNav = ({
           value={searchValue}
         />
       </Styled.FilesLibraryNavSearchWrapper>
-
-      <Styled.FilesLibraryNavOptionsWrapper>
-        <Styled.FilesLibraryNavOption>
-          <FaGripLines />
-        </Styled.FilesLibraryNavOption>
-        <Styled.FilesLibraryNavOption>
-          <FaGripHorizontal />
-        </Styled.FilesLibraryNavOption>
-        <Styled.FilesLibraryNavOption active={true}>
-          <FaImages />
-        </Styled.FilesLibraryNavOption>
-      </Styled.FilesLibraryNavOptionsWrapper>
 
       <Button
         variant={!selectedAssetId ? "disabled" : "primary"}

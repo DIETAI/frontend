@@ -16,9 +16,13 @@ const FilesLibraryNavWrapper = styled.div(
     width: 100%;
     flex-direction: column;
 
-    ${up(breakpoints.sm)} {
+    ${up(breakpoints.md)} {
       flex-direction: row;
       justify-content: space-between;
+    }
+
+    button {
+      order: 3;
     }
   `
 );
@@ -29,7 +33,7 @@ const FilesLibraryNavSearchWrapper = styled.div(
       palette,
       typography: { fontSize, fontWeight },
       layout: { border },
-      media: { breakpoints, down },
+      media: { breakpoints, up },
     },
   }) => css`
     display: flex;
@@ -38,9 +42,10 @@ const FilesLibraryNavSearchWrapper = styled.div(
     padding: 1rem;
     border-radius: ${border.rounded.sm};
     background: ${palette.common.main};
-    width: 25rem;
+
     min-height: 4.5rem;
     border: 0.1rem solid ${palette.common.slate};
+    width: 100%;
 
     svg {
       width: 1.8rem;
@@ -67,8 +72,8 @@ const FilesLibraryNavSearchWrapper = styled.div(
       }
     }
 
-    ${down(breakpoints.lg)} {
-      width: 100%;
+    ${up(breakpoints.sm)} {
+      width: 25rem;
     }
   `
 );
@@ -79,12 +84,17 @@ const FilesLibraryNavOptionsWrapper = styled.div(
       palette,
       typography: { fontSize, fontWeight },
       layout: { border },
+      media: { breakpoints, up },
     },
   }) => css`
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
     gap: 1rem;
+
+    ${up(breakpoints.md)} {
+      order: 2;
+    }
   `
 );
 
