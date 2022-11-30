@@ -15,6 +15,7 @@ const SelectedAssetWrapper = styled.div(
     border-radius: ${border.rounded.sm};
     padding: 2rem;
     flex-direction: column;
+    width: 100%;
 
     span {
       font-size: ${fontSize.s};

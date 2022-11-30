@@ -21,11 +21,17 @@ import { AnimatePresence } from "framer-motion";
 //interfaces
 import { IAssetData } from "interfaces/asset.interfaces";
 
-const ImageView = ({ uploadImage }: { uploadImage: () => void }) => {
-  const { assets, assetsLoading, assetsError } = getAssets();
+const ImageView = ({
+  uploadImage,
+  assets,
+}: {
+  uploadImage: () => void;
+  assets: IAssetData[];
+}) => {
+  // const { assets, assetsLoading, assetsError } = getAssets();
 
-  if (assetsLoading) return <div>...loading</div>;
-  if (assetsError) return <div>error</div>;
+  // if (assetsLoading) return <div>...loading</div>;
+  // if (assetsError) return <div>error</div>;
 
   return (
     <Styled.ImagesWrapper>
@@ -35,7 +41,9 @@ const ImageView = ({ uploadImage }: { uploadImage: () => void }) => {
         </span>
         <p>wstaw zdjęcie</p>
       </Styled.ImageSelectWrapper>
-      {assets && assets.map((asset) => <Image key={asset._id} asset={asset} />)}
+      {assets &&
+        assets.length > 0 &&
+        assets.map((asset) => <Image key={asset._id} asset={asset} />)}
     </Styled.ImagesWrapper>
   );
 };

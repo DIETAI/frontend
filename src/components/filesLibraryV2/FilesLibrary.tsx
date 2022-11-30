@@ -31,11 +31,20 @@ import { getAssets } from "services/getAssets";
 
 //context
 import { useFileLibrary } from "layout/dashboard/context/fileLibrary.context";
+import { IAssetData } from "interfaces/asset.interfaces";
 
 interface IFilesLibraryProps {
   onSubmitAction: () => void;
   closeModal: () => void;
 }
+
+const search = (currentData: IAssetData[], query: string) => {
+  const dataFilter = currentData.filter(
+    (row) => row.title.toLowerCase().indexOf(query.toLowerCase()) > -1
+  );
+
+  return dataFilter;
+};
 
 export type View = "image" | "line";
 
@@ -72,17 +81,19 @@ const FilesLibrary = ({ closeModal, onSubmitAction }: IFilesLibraryProps) => {
         <AddFileForm closeForm={() => setOpenAddFileForm(false)} />
       )}
 
-      <Styled.NavInfoWrapper>
-        <span>
-          razem: <b>{assets.length}</b>
-        </span>
+      <Styled.HeaderWrapper>
+        <Styled.NavInfoWrapper>
+          <span>
+            razem: <b>{assets.length}</b>
+          </span>
 
-        <p>
-          <b>0.2</b>/2 GB
-        </p>
-      </Styled.NavInfoWrapper>
+          <p>
+            <b>0.2</b>/2 GB
+          </p>
+        </Styled.NavInfoWrapper>
 
-      <SelectedAsset />
+        <SelectedAsset />
+      </Styled.HeaderWrapper>
 
       {!openAddFileForm && assets.length < 1 && (
         <Styled.NotFoundFilesWrapper>
@@ -98,8 +109,18 @@ const FilesLibrary = ({ closeModal, onSubmitAction }: IFilesLibraryProps) => {
         </Styled.NotFoundFilesWrapper>
       )}
 
-      {view === "image" && <ImageView uploadImage={uploadImage} />}
-      {view === "line" && <LineView uploadImage={uploadImage} />}
+      {view === "image" && (
+        <ImageView
+          assets={search(assets, searchValue)}
+          uploadImage={uploadImage}
+        />
+      )}
+      {view === "line" && (
+        <LineView
+          assets={search(assets, searchValue)}
+          uploadImage={uploadImage}
+        />
+      )}
 
       {/* {!openAddFileForm && assets.length > 0 && (
         <Styled.FilesWrapper>

@@ -14,13 +14,20 @@ import LogoBackground from "assets/logo-icon.svg";
 
 //icons
 import { FaFileAlt, FaInfoCircle, FaEdit, FaTrash } from "icons/icons";
+import { IAssetData } from "interfaces/asset.interfaces";
 
-const LineView = ({ uploadImage }: { uploadImage: () => void }) => {
+const LineView = ({
+  uploadImage,
+  assets,
+}: {
+  uploadImage: () => void;
+  assets: IAssetData[];
+}) => {
   const { selectAssetId, selectedAssetId } = useFileLibrary();
-  const { assets, assetsLoading, assetsError } = getAssets();
+  // const { assets, assetsLoading, assetsError } = getAssets();
 
-  if (assetsLoading) return <div>...loading</div>;
-  if (assetsError) return <div>error</div>;
+  // if (assetsLoading) return <div>...loading</div>;
+  // if (assetsError) return <div>error</div>;
 
   return (
     <Styled.LineViewWrapper>

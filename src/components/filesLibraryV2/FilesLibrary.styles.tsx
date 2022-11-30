@@ -14,6 +14,23 @@ const FilesLibraryContainer = styled.div(
   `
 );
 
+const HeaderWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    gap: 2rem;
+    width: 100%;
+  `
+);
+
 const NavInfoWrapper = styled.div(
   ({
     theme: {
@@ -159,6 +176,7 @@ const ImageWrapper = styled.div<ISelectedImage>(
 
 export {
   FilesLibraryContainer,
+  HeaderWrapper,
   NotFoundFilesWrapper,
   NotFoundFilesHeading,
   FilesWrapper,
