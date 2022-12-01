@@ -60,14 +60,9 @@ const Form = () => {
         fullName,
       };
 
-      const registerData = await axios.post(
-        "/api/v1/user",
-        registerFormData
-        //  {
-        //   withCredentials: true,
-
-        // }
-      );
+      const registerData = await axios.post("/api/v1/user", registerFormData, {
+        withCredentials: true,
+      });
 
       console.log({ registerData });
       reset();

@@ -11,6 +11,7 @@ const FilesLibraryContainer = styled.div(
     display: flex;
     flex-direction: column;
     gap: 4rem;
+    position: relative;
   `
 );
 
