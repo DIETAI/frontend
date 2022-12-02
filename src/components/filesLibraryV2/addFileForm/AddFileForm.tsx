@@ -40,6 +40,11 @@ interface IAddFileFormProps {
   closeForm: () => void;
 }
 
+interface IAwsURLResponse {
+  url: string;
+  key: string;
+}
+
 const AddFileForm = ({ closeForm }: IAddFileFormProps) => {
   const { handleAlert } = useAlert();
   const [imageUpload, setImageUpload] = useState<string>();
@@ -70,8 +75,45 @@ const AddFileForm = ({ closeForm }: IAddFileFormProps) => {
     console.log({ data });
     console.log("wysyłanie zdjęcia");
 
+    const fileData = {
+      name: data.file.name,
+      type: data.file.type,
+    };
+
     try {
-      const newAsset = await axiosDietAI.post("/api/v1/assets", data, {
+      const awsS3Url = await axiosDietAI.post<IAwsURLResponse>(
+        "/api/v1/assets/upload",
+        fileData,
+        {
+          withCredentials: true,
+        }
+      );
+
+      console.log({ awsS3Url: awsS3Url.data.url });
+
+      const uploadedImage = await axios.put(awsS3Url.data.url, data.file, {
+        headers: {
+          // "Content-Type": "multipart/form-data",
+          "Content-Type": data.file.type,
+        },
+      });
+
+      const imageURL = awsS3Url.data.url.split("?")[0];
+
+      console.log({ imageURL, uploadedImage });
+
+      // setImageUpload(`${BUCKET_URL}/${file.name}`);
+
+      const newAssetData = {
+        title: data.title,
+        description: data.description,
+        imageURL,
+        size: data.file.size,
+        key: awsS3Url.data.key,
+      };
+
+      //add new asset
+      const newAsset = await axiosDietAI.post("/api/v1/assets", newAssetData, {
         withCredentials: true,
       });
       console.log({ newAsset });
@@ -80,8 +122,21 @@ const AddFileForm = ({ closeForm }: IAddFileFormProps) => {
       closeForm();
     } catch (e) {
       console.log(e);
-      handleAlert("error", "Dodawanie zdjęcia nie powiodło się");
+      handleAlert("error", "Dodawanie pliku nie powiodło się");
     }
+
+    // try {
+    //   const newAsset = await axiosDietAI.post("/api/v1/assets", data, {
+    //     withCredentials: true,
+    //   });
+    //   console.log({ newAsset });
+    //   handleAlert("success", "Dodano nowe zdjęcie");
+    //   await mutate(`/api/v1/assets`);
+    //   closeForm();
+    // } catch (e) {
+    //   console.log(e);
+    //   handleAlert("error", "Dodawanie zdjęcia nie powiodło się");
+    // }
   };
 
   const uploadImage = (event: React.MouseEvent<HTMLElement>) => {
@@ -95,54 +150,22 @@ const AddFileForm = ({ closeForm }: IAddFileFormProps) => {
     if (!file) return;
     console.log({ uploadFile: file });
 
-    const data = {
-      name: file.name,
-      type: file.type,
+    const reader = new FileReader();
+
+    reader.onerror = () => {
+      console.log("reader error");
     };
 
-    try {
-      const awsS3Url = await axiosDietAI.post("/api/v1/assets/upload", data, {
-        withCredentials: true,
-      });
+    reader.onloadend = () => {
+      setImageUpload(reader.result as string);
+    };
 
-      console.log({ awsS3Url: awsS3Url.data });
+    reader.readAsDataURL(file);
+    console.log({ reader });
 
-      const uploadedImage = await axios.put(awsS3Url.data, file, {
-        headers: {
-          "Content-type": file.type,
-        },
-      });
-
-      console.log({ imageURL: awsS3Url.data.split("?")[0] });
-
-      console.log({ uploadedImage });
-
-      setImageUpload(`${BUCKET_URL}/${file.name}`);
-    } catch (e) {
-      console.log(e);
-      handleAlert("error", "Dodawanie pliku nie powiodło się");
-    }
-
-    // if (file && file?.type?.substring(0, 5) === "image") {
-    //   const imageRef = ref(storage, `images/${file.name + uuidv4()}`);
-    //   console.log({ imageRef });
-    //   uploadBytes(imageRef, file).then((data) => {
-    //     // alert("image uploaded");
-    //     console.log("imageUpload");
-    //     console.log({ image: data });
-    //     getDownloadURL(data.ref).then((url) => {
-    //       console.log({ imageURL: url });
-    //       //save image to database
-
-    //       setImageUpload(url);
-    //       setValue("imageURL", url);
-    //       if (!imageTitle) {
-    //         setValue("title", file.name);
-    //       }
-    //       onSubmit(getValues());
-    //     });
-    //   });
-    // }
+    setValue("file", file);
+    setValue("title", file.name);
+    trigger();
   };
 
   return (
@@ -179,7 +202,13 @@ const AddFileForm = ({ closeForm }: IAddFileFormProps) => {
             />
           </>
 
-          <Button fullWidth>zapisz</Button>
+          <Button
+            type="submit"
+            variant={isSubmitting || !isValid ? "disabled" : "primary"}
+            fullWidth
+          >
+            zapisz
+          </Button>
         </Styled.AddFileFormWrapper>
       </FormProvider>
     </Styled.AddFileFormContainer>

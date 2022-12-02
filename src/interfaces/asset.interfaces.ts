@@ -6,6 +6,8 @@ export interface IAssetData {
   title: string;
   description?: string;
   imageURL: string;
+  size: number;
+  key: string;
 }
 
 export interface IAssetProps {

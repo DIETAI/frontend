@@ -52,6 +52,7 @@ const FilesLibrary = ({ closeModal, onSubmitAction }: IFilesLibraryProps) => {
   const { selectAssetId, selectedAssetId } = useFileLibrary();
   const [searchValue, setSearchValue] = useState("");
   const [view, setView] = useState<View>("image");
+  const [openAssetInfo, setOpenAssetInfo] = useState(false);
 
   const { assets, assetsLoading, assetsError } = getAssets();
   const [openAddFileForm, setOpenAddFileForm] = useState(false);
