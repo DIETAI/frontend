@@ -11,6 +11,45 @@ const FilesLibraryContainer = styled.div(
     display: flex;
     flex-direction: column;
     gap: 4rem;
+    position: relative;
+  `
+);
+
+const HeaderWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    gap: 2rem;
+    width: 100%;
+  `
+);
+
+const NavInfoWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    span {
+      color: ${palette.common.text};
+      font-size: ${fontSize.s};
+      font-weight: ${fontWeight.light};
+    }
   `
 );
 
@@ -138,8 +177,10 @@ const ImageWrapper = styled.div<ISelectedImage>(
 
 export {
   FilesLibraryContainer,
+  HeaderWrapper,
   NotFoundFilesWrapper,
   NotFoundFilesHeading,
   FilesWrapper,
   ImageWrapper,
+  NavInfoWrapper,
 };

@@ -13,24 +13,16 @@ import VerifyRoutes from "routes/verifyRoutes/verify.routes";
 import HomeRoutes from "routes/homeRoutes/home.routes";
 import SubscriptionPlanRoutes from "routes/subscriptionPlanRoutes/subscriptionPlan.routes";
 
-// //redux
-// import { useDispatch } from "react-redux";
-// import { getUser } from "@redux/user/user.actions";
-
 //styles
 import GlobalStyle from "theme/globalStyle";
 import { ThemeProvider } from "styled-components";
 import { defaultTheme, darkTheme } from "theme/theme";
-
-//auth
-import { useSession } from "utils/firebase";
 
 //store
 import { store } from "store/store";
 import { Provider as StoreProvider } from "react-redux";
 
 const App = () => {
-  // useSession();
   const { darkMode } = useDarkMode();
   // const dispatch = useDispatch();
 

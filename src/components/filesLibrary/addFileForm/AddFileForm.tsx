@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import axios from "utils/api";
+import axiosDietAI from "utils/api";
+import axios from "axios";
 
 import { useForm, FormProvider, FieldValues } from "react-hook-form";
 
@@ -22,24 +23,32 @@ import Button from "components/form/button/Button";
 import ReactLoading from "react-loading";
 import ImageSelect from "components/form/images/imageSelect/ImageSelect";
 
-//firebase
-import { storage } from "utils/firebase";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { v4 as uuidv4 } from "uuid";
-
 //icons
 import { FaFileAlt } from "icons/icons";
 import { mutate } from "swr";
+
+//assets
+import { IAssetData } from "interfaces/asset.interfaces";
+import { sumImagesSize, maxImagesSize } from "../FilesLibrary";
+
+const BUCKET_URL = "https://diet-ai.s3.eu-central-1.amazonaws.com";
 
 const defaultValues = addFileSchema.cast({});
 
 interface IAddFileFormProps {
   closeForm: () => void;
+  assets: IAssetData[];
 }
 
-const AddFileForm = ({ closeForm }: IAddFileFormProps) => {
+interface IAwsURLResponse {
+  url: string;
+  key: string;
+}
+
+const AddFileForm = ({ closeForm, assets }: IAddFileFormProps) => {
   const { handleAlert } = useAlert();
   const [imageUpload, setImageUpload] = useState<string>();
+  const [imageSizeError, setImageSizeError] = useState(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -58,6 +67,7 @@ const AddFileForm = ({ closeForm }: IAddFileFormProps) => {
     setFocus,
     getValues,
     setValue,
+    setError,
     watch,
   } = methods;
 
@@ -67,8 +77,46 @@ const AddFileForm = ({ closeForm }: IAddFileFormProps) => {
     console.log({ data });
     console.log("wysyłanie zdjęcia");
 
+    const fileData = {
+      name: data.file.name,
+      type: data.file.type,
+      size: data.file.size,
+    };
+
     try {
-      const newAsset = await axios.post("/api/v1/assets", data, {
+      const awsS3Url = await axiosDietAI.post<IAwsURLResponse>(
+        "/api/v1/assets/upload",
+        fileData,
+        {
+          withCredentials: true,
+        }
+      );
+
+      console.log({ awsS3Url: awsS3Url.data.url });
+
+      const uploadedImage = await axios.put(awsS3Url.data.url, data.file, {
+        headers: {
+          // "Content-Type": "multipart/form-data",
+          "Content-Type": data.file.type,
+        },
+      });
+
+      const imageURL = awsS3Url.data.url.split("?")[0];
+
+      console.log({ imageURL, uploadedImage });
+
+      // setImageUpload(`${BUCKET_URL}/${file.name}`);
+
+      const newAssetData = {
+        title: data.title,
+        description: data.description,
+        imageURL,
+        size: data.file.size,
+        key: awsS3Url.data.key,
+      };
+
+      //add new asset
+      const newAsset = await axiosDietAI.post("/api/v1/assets", newAssetData, {
         withCredentials: true,
       });
       console.log({ newAsset });
@@ -77,61 +125,81 @@ const AddFileForm = ({ closeForm }: IAddFileFormProps) => {
       closeForm();
     } catch (e) {
       console.log(e);
-      handleAlert("error", "Dodawanie zdjęcia nie powiodło się");
+      handleAlert("error", "Dodawanie pliku nie powiodło się");
     }
+
+    // try {
+    //   const newAsset = await axiosDietAI.post("/api/v1/assets", data, {
+    //     withCredentials: true,
+    //   });
+    //   console.log({ newAsset });
+    //   handleAlert("success", "Dodano nowe zdjęcie");
+    //   await mutate(`/api/v1/assets`);
+    //   closeForm();
+    // } catch (e) {
+    //   console.log(e);
+    //   handleAlert("error", "Dodawanie zdjęcia nie powiodło się");
+    // }
   };
 
   const uploadImage = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
     fileInputRef.current?.click();
   };
-  // rules_version = '2';
-  // service firebase.storage {
-  //   match /b/{bucket}/o {
-  //     match /{allPaths=**} {
-  //       allow read, write: if request.auth != null;
-  //     }
-  //   }
-  // }
 
-  const onChangeImage = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const onChangeImage = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    console.log({ uploadFile: file });
-    if (file && file?.type?.substring(0, 5) === "image") {
-      const imageRef = ref(storage, `images/${file.name + uuidv4()}`);
-      console.log({ imageRef });
-      uploadBytes(imageRef, file).then((data) => {
-        // alert("image uploaded");
-        console.log("imageUpload");
-        console.log({ image: data });
-        getDownloadURL(data.ref).then((url) => {
-          console.log({ imageURL: url });
-          //save image to database
 
-          setImageUpload(url);
-          setValue("imageURL", url);
-          if (!imageTitle) {
-            setValue("title", file.name);
-          }
-          onSubmit(getValues());
-        });
-      });
+    if (!file) return;
+    console.log({ uploadFile: file });
+
+    const imagesSize = sumImagesSize(assets) + file.size;
+
+    console.log({ imagesSize });
+
+    if (imagesSize > maxImagesSize) {
+      console.log("Przekroczono dozwolony limit rozmiaru plików");
+      return setImageSizeError(true);
     }
+
+    setImageSizeError(false);
+
+    const reader = new FileReader();
+
+    reader.onerror = () => {
+      console.log("reader error");
+    };
+
+    reader.onloadend = () => {
+      setImageUpload(reader.result as string);
+    };
+
+    reader.readAsDataURL(file);
+    console.log({ reader });
+
+    setValue("file", file);
+    setValue("title", file.name);
+    trigger();
   };
 
   return (
-    <FormProvider {...methods}>
-      <Styled.AddFileFormWrapper
-        onSubmit={handleSubmit(onSubmit)}
-        autoComplete="off"
-      >
-        <Input name="title" label="nazwa" type="text" fullWidth />
-        <Input name="description" label="opis" type="text" textarea fullWidth />
-        {imageUpload ? (
-          <>
-            <img src={imageUpload} />
-          </>
-        ) : (
+    <Styled.AddFileFormContainer>
+      <FormProvider {...methods}>
+        <Styled.AddFileFormWrapper
+          onSubmit={handleSubmit(onSubmit)}
+          autoComplete="off"
+        >
+          <Input name="title" label="nazwa" type="text" fullWidth />
+          <Input
+            name="description"
+            label="opis"
+            type="text"
+            textarea
+            fullWidth
+          />
+
+          {imageUpload && <img src={imageUpload} />}
+
           <>
             <input
               type="file"
@@ -147,10 +215,23 @@ const AddFileForm = ({ closeForm }: IAddFileFormProps) => {
               onClick={uploadImage as () => void}
             />
           </>
-        )}
-        <Button fullWidth>zapisz</Button>
-      </Styled.AddFileFormWrapper>
-    </FormProvider>
+
+          {imageSizeError && (
+            <Styled.ImagesSizeErrorWrapper>
+              <p>Przekroczono dozwolony limit rozmiaru plików</p>
+            </Styled.ImagesSizeErrorWrapper>
+          )}
+
+          <Button
+            type="submit"
+            variant={isSubmitting || !isValid ? "disabled" : "primary"}
+            fullWidth
+          >
+            zapisz
+          </Button>
+        </Styled.AddFileFormWrapper>
+      </FormProvider>
+    </Styled.AddFileFormContainer>
   );
 };
 

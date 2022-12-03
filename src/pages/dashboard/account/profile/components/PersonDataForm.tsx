@@ -20,7 +20,7 @@ import Input from "components/form/textarea/Textarea";
 import Heading from "components/heading/Heading";
 import Button from "components/form/button/Button";
 import Modal from "components/modal/Modal";
-import FilesLibrary from "components/filesLibraryV2/FilesLibrary";
+import FilesLibrary from "components/filesLibrary/FilesLibrary";
 
 //icons
 import { FaUser } from "icons/icons";

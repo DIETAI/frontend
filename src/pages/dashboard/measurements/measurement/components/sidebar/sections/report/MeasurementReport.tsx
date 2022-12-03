@@ -34,6 +34,9 @@ import { FaChevronDown, FaCog, FaFileAlt } from "react-icons/fa";
 //components
 import IconButton from "components/iconButton/IconButton";
 import { IMeasurementData } from "interfaces/measurement.interfaces";
+import Modal from "components/modal/Modal";
+import SettingsModalContent from "./settingsModal/MeasurementSettingsModal";
+import AllMeasurementsModalContent from "./allReportsModal/AllReportsModal";
 
 interface IMeasurementOption {
   id: number;
@@ -86,6 +89,8 @@ const MeasurementReport = () => {
   const [measurementStart, setMeasurementStart] = useState<IMeasurementData>();
   const [measurementEnd, setMeasurementEnd] = useState<IMeasurementData>();
   const [measurementOptionsOpen, setMeasurementOptionsOpen] = useState(false);
+  const [measurementSettingsOpen, setMeasurementSettingsOpen] = useState(false);
+  const [allMeasurementsOpen, setAllMeasurementsOpen] = useState(false);
 
   useEffect(() => {
     if (measurements) {
@@ -105,134 +110,148 @@ const MeasurementReport = () => {
   if (measurementsError) return <div>measurements error</div>;
 
   return (
-    <Styled.MeasurementContainer>
-      <AnimatePresence>
-        {measurementsLoading && (
-          <Styled.LoadingWrapper
-            initial={{ opacity: 1 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            <LoadingGrid columns={2} rows={4} />
-          </Styled.LoadingWrapper>
-        )}
-      </AnimatePresence>
-
-      {measurements && measurements.length < 2 && (
-        <Styled.MeasurementEmptyReportWrapper
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.3 }}
-        >
-          <h2>Brak wystarczającej ilości pomiarów</h2>
-          <p>Dodaj minimum 2 pomiary dla pacjenta aby wygenerować raport</p>
-        </Styled.MeasurementEmptyReportWrapper>
-      )}
-
-      {measurements && measurements.length > 1 && (
-        <Styled.MeasurementReportWrapper
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.3 }}
-        >
-          <Styled.MeasurementReportNavWrapper>
-            <Styled.MeasurementSelectWrapper active={measurementOptionsOpen}>
-              <button onClick={openMeasurementOptionsPopup}>
-                <p>{currentOption.name}</p>
-                <FaChevronDown />
-              </button>
-              <AnimatePresence>
-                {measurementOptionsOpen && (
-                  <MeasurementSelectPopup
-                    setCurrentOption={setCurrentOption}
-                    closePopup={() => setMeasurementOptionsOpen(false)}
-                  />
-                )}
-              </AnimatePresence>
-            </Styled.MeasurementSelectWrapper>
-            <Styled.MeasurementNavButtonsWrapper>
-              <IconButton
-                icon={<FaCog />}
-                onClick={() => console.log("open settings")}
-              />
-              <IconButton
-                icon={<FaFileAlt />}
-                onClick={() => console.log("open settings")}
-              />
-            </Styled.MeasurementNavButtonsWrapper>
-          </Styled.MeasurementReportNavWrapper>
-          {measurementStart && measurementEnd && (
-            <Styled.MeasurementReportValuesWrapper>
-              <Styled.MeasurementReportDatesWrapper>
-                <p>
-                  {dateFormat(measurementStart.date)} -{" "}
-                  {dateFormat(measurementEnd.date)}
-                </p>
-              </Styled.MeasurementReportDatesWrapper>
-              <Styled.MeasurementReportValueWrapper>
-                <span>
-                  {renderMeasurementReportValue({
-                    measurementStart,
-                    measurementEnd,
-                    currentOption,
-                  })}
-                </span>
-              </Styled.MeasurementReportValueWrapper>
-            </Styled.MeasurementReportValuesWrapper>
+    <>
+      <Styled.MeasurementContainer>
+        <AnimatePresence>
+          {measurementsLoading && (
+            <Styled.LoadingWrapper
+              initial={{ opacity: 1 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <LoadingGrid columns={2} rows={4} />
+            </Styled.LoadingWrapper>
           )}
+        </AnimatePresence>
 
-          <ResponsiveContainer width="100%" height={250}>
-            <AreaChart data={measurements}>
-              <CartesianGrid
-                strokeDasharray="3 3"
-                stroke={theme.palette.common.slate}
-              />
-              <XAxis
-                dataKey="name"
-                stroke={theme.palette.common.text}
-                tickMargin={10}
-                style={{
-                  fontFamily: "Poppins",
-                }}
-              />
-              <YAxis
-                dataKey={currentOption.key}
-                stroke={theme.palette.common.text}
-                style={{
-                  fontFamily: "Poppins",
-                }}
-                width={40}
-              />
-              <Tooltip
-                content={<CustomTooltip currentOption={currentOption} />}
-              />
+        {measurements && measurements.length < 2 && (
+          <Styled.MeasurementEmptyReportWrapper
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.3 }}
+          >
+            <h2>Brak wystarczającej ilości pomiarów</h2>
+            <p>Dodaj minimum 2 pomiary dla pacjenta aby wygenerować raport</p>
+          </Styled.MeasurementEmptyReportWrapper>
+        )}
 
-              <Line
-                type="monotone"
-                dataKey={currentOption.key}
-                aria-label={currentOption.name}
-                stroke="#7647cc"
-              />
-              <defs>
-                <linearGradient id="colorUv" x1="1" y1="1" x2="0" y2="0">
-                  <stop offset="20%" stopColor="#8884d8" stopOpacity={0.5} />
-                  <stop offset="95%" stopColor="#8884d8" stopOpacity={0.2} />
-                </linearGradient>
-              </defs>
-              <Area
-                type="monotone"
-                dataKey={currentOption.key}
-                fill="url(#colorUv)"
-                stroke="#8884d8"
+        {measurements && measurements.length > 1 && (
+          <Styled.MeasurementReportWrapper
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.3 }}
+          >
+            <Styled.MeasurementReportNavWrapper>
+              <Styled.MeasurementSelectWrapper active={measurementOptionsOpen}>
+                <button onClick={openMeasurementOptionsPopup}>
+                  <p>{currentOption.name}</p>
+                  <FaChevronDown />
+                </button>
+                <AnimatePresence>
+                  {measurementOptionsOpen && (
+                    <MeasurementSelectPopup
+                      setCurrentOption={setCurrentOption}
+                      closePopup={() => setMeasurementOptionsOpen(false)}
+                    />
+                  )}
+                </AnimatePresence>
+              </Styled.MeasurementSelectWrapper>
+              <Styled.MeasurementNavButtonsWrapper>
+                <IconButton
+                  icon={<FaCog />}
+                  onClick={() => setMeasurementSettingsOpen(true)}
+                />
+                <IconButton
+                  icon={<FaFileAlt />}
+                  onClick={() => setAllMeasurementsOpen(true)}
+                />
+              </Styled.MeasurementNavButtonsWrapper>
+            </Styled.MeasurementReportNavWrapper>
+            {measurementStart && measurementEnd && (
+              <Styled.MeasurementReportValuesWrapper>
+                <Styled.MeasurementReportDatesWrapper>
+                  <p>
+                    {dateFormat(measurementStart.date)} -{" "}
+                    {dateFormat(measurementEnd.date)}
+                  </p>
+                </Styled.MeasurementReportDatesWrapper>
+                <Styled.MeasurementReportValueWrapper>
+                  <span>
+                    {renderMeasurementReportValue({
+                      measurementStart,
+                      measurementEnd,
+                      currentOption,
+                    })}
+                  </span>
+                </Styled.MeasurementReportValueWrapper>
+              </Styled.MeasurementReportValuesWrapper>
+            )}
 
-                // fill="#8884d8"
-              />
-            </AreaChart>
-          </ResponsiveContainer>
-        </Styled.MeasurementReportWrapper>
-      )}
-    </Styled.MeasurementContainer>
+            <ResponsiveContainer width="100%" height={250}>
+              <AreaChart data={measurements}>
+                <CartesianGrid
+                  strokeDasharray="3 3"
+                  stroke={theme.palette.common.slate}
+                />
+                <XAxis
+                  dataKey="name"
+                  stroke={theme.palette.common.text}
+                  tickMargin={10}
+                  style={{
+                    fontFamily: "Poppins",
+                  }}
+                />
+                <YAxis
+                  dataKey={currentOption.key}
+                  stroke={theme.palette.common.text}
+                  style={{
+                    fontFamily: "Poppins",
+                  }}
+                  width={40}
+                />
+                <Tooltip
+                  content={<CustomTooltip currentOption={currentOption} />}
+                />
+
+                <Line
+                  type="monotone"
+                  dataKey={currentOption.key}
+                  aria-label={currentOption.name}
+                  stroke="#7647cc"
+                />
+                <defs>
+                  <linearGradient id="colorUv" x1="1" y1="1" x2="0" y2="0">
+                    <stop offset="20%" stopColor="#8884d8" stopOpacity={0.5} />
+                    <stop offset="95%" stopColor="#8884d8" stopOpacity={0.2} />
+                  </linearGradient>
+                </defs>
+                <Area
+                  type="monotone"
+                  dataKey={currentOption.key}
+                  fill="url(#colorUv)"
+                  stroke="#8884d8"
+
+                  // fill="#8884d8"
+                />
+              </AreaChart>
+            </ResponsiveContainer>
+          </Styled.MeasurementReportWrapper>
+        )}
+      </Styled.MeasurementContainer>
+      <Modal
+        open={measurementSettingsOpen}
+        onClose={() => setMeasurementSettingsOpen(false)}
+      >
+        <SettingsModalContent />
+      </Modal>
+      <Modal
+        open={allMeasurementsOpen}
+        onClose={() => setAllMeasurementsOpen(false)}
+      >
+        <AllMeasurementsModalContent />
+      </Modal>
+    </>
   );
 };
 

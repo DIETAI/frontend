@@ -1,8 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 
-//form
-import { useFormContext } from "react-hook-form";
-
 //styles
 import * as Styled from "./FilesLibrary.styles";
 
@@ -18,44 +15,90 @@ import NoData from "assets/noData.svg";
 //components
 import Button from "components/form/button/Button";
 import AddFileForm from "./addFileForm/AddFileForm";
-import ImagesContainer from "components/form/images/imagesContainer/ImagesContainer";
-import ImageSelect from "components/form/images/imageSelect/ImageSelect";
-import Image from "components/form/images/image/Image";
+import FilesLibraryNav from "./nav/FilesLibraryNav";
+import ImageView from "./views/imageView/ImageView";
+import LineView from "./views/lineView/LineView";
+import SelectedAsset from "./selectedAsset/SelectedAsset";
 
 //services
 import { getAssets } from "services/getAssets";
 
 //context
 import { useFileLibrary } from "layout/dashboard/context/fileLibrary.context";
+import { IAssetData } from "interfaces/asset.interfaces";
 
 interface IFilesLibraryProps {
   onSubmitAction: () => void;
   closeModal: () => void;
 }
 
+// interface IFileSizeFormat {
+//   bytes: number;
+//   si: boolean;
+//   dp: number;
+// }
+
+export const maxImagesSize = 2000000000; //2GB
+
+const fileSizeFormat = (bytes: number, si = true, dp = 1) => {
+  const thresh = si ? 1000 : 1024;
+
+  if (Math.abs(bytes) < thresh) {
+    return bytes + " B";
+  }
+
+  const units = si
+    ? ["kB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"]
+    : ["KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB"];
+  let u = -1;
+  const r = 10 ** dp;
+
+  do {
+    bytes /= thresh;
+    ++u;
+  } while (
+    Math.round(Math.abs(bytes) * r) / r >= thresh &&
+    u < units.length - 1
+  );
+
+  return bytes.toFixed(dp) + " " + units[u];
+};
+
+export const roundValue = (value: number) => {
+  return Math.round(value * 1e2) / 1e2;
+};
+
+export const sumImagesSize = (assets: IAssetData[]) => {
+  const imageSize = roundValue(
+    assets.reduce((acc, asset) => acc + Number(asset.size), 0)
+  );
+
+  return imageSize;
+};
+
+const search = (currentData: IAssetData[], query: string) => {
+  const dataFilter = currentData.filter(
+    (row) => row.title.toLowerCase().indexOf(query.toLowerCase()) > -1
+  );
+
+  return dataFilter;
+};
+
+export type View = "image" | "line";
+
 const FilesLibrary = ({ closeModal, onSubmitAction }: IFilesLibraryProps) => {
   const { selectAssetId, selectedAssetId } = useFileLibrary();
+  const [searchValue, setSearchValue] = useState("");
+  const [view, setView] = useState<View>("image");
+  const [openAssetInfo, setOpenAssetInfo] = useState(false);
 
   const { assets, assetsLoading, assetsError } = getAssets();
   const [openAddFileForm, setOpenAddFileForm] = useState(false);
   const [selectedImageId, setSelectedImageId] = useState<string>();
-
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   if (assetsLoading) return <div>assets loading...</div>;
   if (assetsError || !assets) return <div>assets error</div>;
-
-  // useEffect(() => {
-  //   if (imageUpload) {
-  //     const reader = new FileReader();
-  //     reader.onloadend = () => {
-  //       setPreview(reader.result as string);
-  //     };
-  //     reader.readAsDataURL(imageUpload);
-  //   } else {
-  //     setPreview(null);
-  //   }
-  // }, [imageUpload]);
 
   const uploadImage = () => {
     setOpenAddFileForm(true);
@@ -63,22 +106,36 @@ const FilesLibrary = ({ closeModal, onSubmitAction }: IFilesLibraryProps) => {
 
   return (
     <Styled.FilesLibraryContainer>
-      <Heading
-        icon={<FaFileAlt />}
-        title={"Pliki"}
-        // description={t("verify.role.modal.description")}
+      <Heading icon={<FaFileAlt />} title={"Pliki"} />
+
+      <FilesLibraryNav
+        onSubmitAction={onSubmitAction}
+        searchValue={searchValue}
+        setSearchValue={setSearchValue}
+        view={view}
+        setView={setView}
       />
 
-      <Button
-        variant={!selectedAssetId ? "disabled" : "primary"}
-        onClick={onSubmitAction}
-      >
-        dodaj zdjęcie
-      </Button>
-
       {openAddFileForm && (
-        <AddFileForm closeForm={() => setOpenAddFileForm(false)} />
+        <AddFileForm
+          closeForm={() => setOpenAddFileForm(false)}
+          assets={assets}
+        />
       )}
+
+      <Styled.HeaderWrapper>
+        <Styled.NavInfoWrapper>
+          <span>
+            razem: <b>{assets.length}</b>
+          </span>
+
+          <p>
+            <b>{fileSizeFormat(sumImagesSize(assets))}</b>/2.0 GB
+          </p>
+        </Styled.NavInfoWrapper>
+
+        <SelectedAsset />
+      </Styled.HeaderWrapper>
 
       {!openAddFileForm && assets.length < 1 && (
         <Styled.NotFoundFilesWrapper>
@@ -89,11 +146,25 @@ const FilesLibrary = ({ closeModal, onSubmitAction }: IFilesLibraryProps) => {
           </Styled.NotFoundFilesHeading>
 
           <Button onClick={() => setOpenAddFileForm(true)} variant="primary">
-            wstaw plik
+            wstaw plik v2
           </Button>
         </Styled.NotFoundFilesWrapper>
       )}
-      {!openAddFileForm && assets.length > 0 && (
+
+      {view === "image" && (
+        <ImageView
+          assets={search(assets, searchValue)}
+          uploadImage={uploadImage}
+        />
+      )}
+      {view === "line" && (
+        <LineView
+          assets={search(assets, searchValue)}
+          uploadImage={uploadImage}
+        />
+      )}
+
+      {/* {!openAddFileForm && assets.length > 0 && (
         <Styled.FilesWrapper>
           <ImagesContainer label="zdjęcia">
             <ImageSelect
@@ -112,7 +183,7 @@ const FilesLibrary = ({ closeModal, onSubmitAction }: IFilesLibraryProps) => {
             ))}
           </ImagesContainer>
         </Styled.FilesWrapper>
-      )}
+      )} */}
     </Styled.FilesLibraryContainer>
   );
 };
