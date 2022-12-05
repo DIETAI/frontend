@@ -36,8 +36,6 @@ type IDinnerProductValues = typeof defaultDinnerProductValues;
 
 const AddProductModal = ({ closeModal }: IProductModalProps) => {
   const { dinnerId } = useParams();
-  const { dinnerProducts } = getDinnerProducts(dinnerId as string);
-  const { dinnerPortions } = getDinnerPortions(dinnerId as string);
   const { t } = useTranslation();
 
   const addProductFormMethods = useForm({
@@ -49,7 +47,6 @@ const AddProductModal = ({ closeModal }: IProductModalProps) => {
 
   const { handleSubmit: handleAddProductSubmit, getValues } =
     addProductFormMethods;
-  // const dinnerProducts = getValues("products") as IDinnerProducts["products"];
 
   const addProduct = (
     // data: IDinnerProductValues,
@@ -90,9 +87,7 @@ const AddProductModal = ({ closeModal }: IProductModalProps) => {
       <Heading
         icon={<FaCarrot />}
         title={t("dinner.form.products.modal.title")}
-        // description={t("dinner.form.products.modal.description")}
       />
-      {/* {JSON.stringify(watch())} */}
       {/* <p>
         dodać informacje (produkt niezalecany w rodzajach diety - łatwostrawna -
         dodanie wtedy tej wykluczonej diety do posiłku)

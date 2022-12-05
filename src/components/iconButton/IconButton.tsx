@@ -11,6 +11,7 @@ const IconButton = ({
   className,
   active,
   modalText,
+  variant,
 }: IIconButtonProps) => {
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -22,6 +23,7 @@ const IconButton = ({
       active={active}
       onMouseEnter={() => setModalOpen(true)}
       onMouseLeave={() => setModalOpen(false)}
+      variant={variant}
     >
       {icon}
       <AnimatePresence>

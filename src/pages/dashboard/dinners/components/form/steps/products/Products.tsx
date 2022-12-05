@@ -65,7 +65,6 @@ const Products = () => {
 
   return (
     <>
-      {/* {JSON.stringify(watch())} */}
       {dinnerProducts.length > 0 &&
         dinnerProducts.map((dinnerProduct, index) => (
           <ProductField
@@ -81,18 +80,6 @@ const Products = () => {
             portionsGram={dinnerProduct.portionsGram}
           />
         ))}
-      {/* {fields.length > 0 &&
-        fields.map((field, index) => (
-          <ProductField
-            key={field.id}
-            fieldIndex={index}
-            productId={field.productId}
-            removeProduct={removeProduct}
-            defaultAmount={field.defaultAmount}
-            minAmount={field.minAmount}
-            maxAmount={field.maxAmount}
-          />
-        ))} */}
 
       <DashedSelect
         icon={<FaPlus />}

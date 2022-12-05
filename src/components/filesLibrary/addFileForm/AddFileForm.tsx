@@ -22,14 +22,17 @@ import Input from "components/form/input/Input";
 import Button from "components/form/button/Button";
 import ReactLoading from "react-loading";
 import ImageSelect from "components/form/images/imageSelect/ImageSelect";
+import Heading from "components/heading/Heading";
+import IconButton from "components/iconButton/IconButton";
 
 //icons
-import { FaFileAlt } from "icons/icons";
+import { FaFileAlt, FaTimes, FaPlus } from "icons/icons";
 import { mutate } from "swr";
 
 //assets
 import { IAssetData } from "interfaces/asset.interfaces";
 import { sumImagesSize, maxImagesSize } from "../FilesLibrary";
+import LogoBackground from "assets/logo-icon.svg";
 
 const BUCKET_URL = "https://diet-ai.s3.eu-central-1.amazonaws.com";
 
@@ -182,6 +185,12 @@ const AddFileForm = ({ closeForm, assets }: IAddFileFormProps) => {
     trigger();
   };
 
+  const deleteImage = () => {
+    setValue("file", undefined);
+    setImageUpload("");
+    trigger();
+  };
+
   return (
     <Styled.AddFileFormContainer>
       <FormProvider {...methods}>
@@ -189,6 +198,11 @@ const AddFileForm = ({ closeForm, assets }: IAddFileFormProps) => {
           onSubmit={handleSubmit(onSubmit)}
           autoComplete="off"
         >
+          <Styled.AssetHeadingWrapper>
+            <Heading icon={<FaPlus />} title={"Wstaw plik"} />
+            <IconButton icon={<FaTimes />} onClick={closeForm} />
+          </Styled.AssetHeadingWrapper>
+
           <Input name="title" label="nazwa" type="text" fullWidth />
           <Input
             name="description"
@@ -198,23 +212,39 @@ const AddFileForm = ({ closeForm, assets }: IAddFileFormProps) => {
             fullWidth
           />
 
-          {imageUpload && <img src={imageUpload} />}
-
-          <>
-            <input
-              type="file"
-              ref={fileInputRef}
-              accept="image/*"
-              style={{ display: "none" }}
-              onChange={onChangeImage}
-            />
-            <ImageSelect
-              icon={<FaFileAlt />}
-              text="wstaw plik"
-              fullWidth
-              onClick={uploadImage as () => void}
-            />
-          </>
+          {imageUpload ? (
+            <Styled.ImageWrapper
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1 }}
+            >
+              <img className="backgroundImg" src={LogoBackground} />
+              <img className="itemImg" src={imageUpload} />
+              <Styled.DeleteFileOptionWrapper>
+                <IconButton
+                  variant="delete"
+                  icon={<FaTimes />}
+                  onClick={deleteImage}
+                />
+              </Styled.DeleteFileOptionWrapper>
+            </Styled.ImageWrapper>
+          ) : (
+            <>
+              <input
+                type="file"
+                ref={fileInputRef}
+                accept="image/*"
+                style={{ display: "none" }}
+                onChange={onChangeImage}
+              />
+              <ImageSelect
+                icon={<FaFileAlt />}
+                text="wstaw plik"
+                fullWidth
+                onClick={uploadImage as () => void}
+              />
+            </>
+          )}
 
           {imageSizeError && (
             <Styled.ImagesSizeErrorWrapper>

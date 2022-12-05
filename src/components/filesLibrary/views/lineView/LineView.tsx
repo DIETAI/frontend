@@ -19,9 +19,13 @@ import { IAssetData } from "interfaces/asset.interfaces";
 const LineView = ({
   uploadImage,
   assets,
+  assetInfo,
+  setAssetInfo,
 }: {
   uploadImage: () => void;
   assets: IAssetData[];
+  assetInfo?: IAssetData;
+  setAssetInfo: React.Dispatch<React.SetStateAction<IAssetData | undefined>>;
 }) => {
   const { selectAssetId, selectedAssetId } = useFileLibrary();
   // const { assets, assetsLoading, assetsError } = getAssets();
@@ -56,7 +60,7 @@ const LineView = ({
             <Styled.ItemOptionsWrapper>
               <Styled.ItemOptionWrapper
                 optionType="info"
-                // onClick={() => setOpenInfoDinnerModal(true)}
+                onClick={() => setAssetInfo(asset)}
               >
                 <FaInfoCircle />
               </Styled.ItemOptionWrapper>

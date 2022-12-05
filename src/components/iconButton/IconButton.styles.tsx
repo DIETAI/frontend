@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { IIconButtonProps } from "./IconButton.interfaces";
 
 const IconButtonWrapper = styled.button<
-  Pick<IIconButtonProps, "iconReverse" | "active">
+  Pick<IIconButtonProps, "iconReverse" | "active" | "variant">
 >(
   ({
     theme: {
@@ -15,6 +15,7 @@ const IconButtonWrapper = styled.button<
     },
     iconReverse,
     active,
+    variant,
   }) => css`
     display: flex;
     align-items: center;
@@ -64,6 +65,26 @@ const IconButtonWrapper = styled.button<
         }
       }
     }
+
+    ${variant &&
+    variant === "delete" &&
+    css`
+      svg {
+        path {
+          fill: red;
+        }
+      }
+
+      :hover {
+        background: #ff00001c;
+
+        svg {
+          path {
+            fill: red;
+          }
+        }
+      }
+    `}
   `
 );
 

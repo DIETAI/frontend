@@ -191,8 +191,8 @@ const BasicInfo = () => {
                     <Styled.GalleryWrapper>
                       {dinner.galleryArr.map((galleryImage) => (
                         <Styled.GalleryImage
-                          key={galleryImage._id}
-                          src={galleryImage.imageURL}
+                          key={galleryImage?._id}
+                          src={galleryImage?.imageURL || NoImage}
                         />
                       ))}
                     </Styled.GalleryWrapper>

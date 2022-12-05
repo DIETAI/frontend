@@ -7,4 +7,5 @@ export interface IIconButtonProps {
   className?: string;
   active?: boolean;
   modalText?: string;
+  variant?: "default" | "delete";
 }

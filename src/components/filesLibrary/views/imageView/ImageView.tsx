@@ -24,9 +24,13 @@ import { IAssetData } from "interfaces/asset.interfaces";
 const ImageView = ({
   uploadImage,
   assets,
+  assetInfo,
+  setAssetInfo,
 }: {
   uploadImage: () => void;
   assets: IAssetData[];
+  assetInfo?: IAssetData;
+  setAssetInfo: React.Dispatch<React.SetStateAction<IAssetData | undefined>>;
 }) => {
   // const { assets, assetsLoading, assetsError } = getAssets();
 
@@ -43,12 +47,27 @@ const ImageView = ({
       </Styled.ImageSelectWrapper>
       {assets &&
         assets.length > 0 &&
-        assets.map((asset) => <Image key={asset._id} asset={asset} />)}
+        assets.map((asset) => (
+          <Image
+            assetInfo={assetInfo}
+            setAssetInfo={setAssetInfo}
+            key={asset._id}
+            asset={asset}
+          />
+        ))}
     </Styled.ImagesWrapper>
   );
 };
 
-const Image = ({ asset }: { asset: IAssetData }) => {
+const Image = ({
+  asset,
+  assetInfo,
+  setAssetInfo,
+}: {
+  asset: IAssetData;
+  assetInfo?: IAssetData;
+  setAssetInfo: React.Dispatch<React.SetStateAction<IAssetData | undefined>>;
+}) => {
   const { selectAssetId, selectedAssetId } = useFileLibrary();
   const [openImageOptions, setOpenImageOptions] = useState(false);
 
@@ -75,7 +94,7 @@ const Image = ({ asset }: { asset: IAssetData }) => {
           >
             <Styled.ImageOptionWrapper
               optionType="info"
-              // onClick={() => setOpenInfoDinnerModal(true)}
+              onClick={() => setAssetInfo(asset)}
             >
               <FaInfoCircle />
             </Styled.ImageOptionWrapper>

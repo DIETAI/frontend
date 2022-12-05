@@ -1,7 +1,7 @@
 import * as yup from "yup";
 
 export const dinnerProductSchema = yup.object({
-  productId: yup.string().required("To pole jest wymagane"),
+  productId: yup.string().required("To pole jest wymagane").default(""),
   defaultAmount: yup
     .number()
     .typeError("To pole jest wymagane")

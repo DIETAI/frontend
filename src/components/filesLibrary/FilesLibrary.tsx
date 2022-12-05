@@ -19,6 +19,7 @@ import FilesLibraryNav from "./nav/FilesLibraryNav";
 import ImageView from "./views/imageView/ImageView";
 import LineView from "./views/lineView/LineView";
 import SelectedAsset from "./selectedAsset/SelectedAsset";
+import AssetInfoPopup from "./assetInfoPopup/AssetInfoPopup";
 
 //services
 import { getAssets } from "services/getAssets";
@@ -40,7 +41,7 @@ interface IFilesLibraryProps {
 
 export const maxImagesSize = 2000000000; //2GB
 
-const fileSizeFormat = (bytes: number, si = true, dp = 1) => {
+export const fileSizeFormat = (bytes: number, si = true, dp = 1) => {
   const thresh = si ? 1000 : 1024;
 
   if (Math.abs(bytes) < thresh) {
@@ -90,7 +91,7 @@ const FilesLibrary = ({ closeModal, onSubmitAction }: IFilesLibraryProps) => {
   const { selectAssetId, selectedAssetId } = useFileLibrary();
   const [searchValue, setSearchValue] = useState("");
   const [view, setView] = useState<View>("image");
-  const [openAssetInfo, setOpenAssetInfo] = useState(false);
+  const [assetInfo, setAssetInfo] = useState<IAssetData>();
 
   const { assets, assetsLoading, assetsError } = getAssets();
   const [openAddFileForm, setOpenAddFileForm] = useState(false);
@@ -155,35 +156,25 @@ const FilesLibrary = ({ closeModal, onSubmitAction }: IFilesLibraryProps) => {
         <ImageView
           assets={search(assets, searchValue)}
           uploadImage={uploadImage}
+          assetInfo={assetInfo}
+          setAssetInfo={setAssetInfo}
         />
       )}
       {view === "line" && (
         <LineView
           assets={search(assets, searchValue)}
           uploadImage={uploadImage}
+          assetInfo={assetInfo}
+          setAssetInfo={setAssetInfo}
         />
       )}
 
-      {/* {!openAddFileForm && assets.length > 0 && (
-        <Styled.FilesWrapper>
-          <ImagesContainer label="zdjęcia">
-            <ImageSelect
-              icon={<FaFileAlt />}
-              text="wstaw plik"
-              onClick={uploadImage as () => void}
-            />
-            {assets.map((asset) => (
-              <Styled.ImageWrapper
-                key={asset._id}
-                onClick={() => selectAssetId(asset._id)}
-                selected={selectedAssetId === asset._id}
-              >
-                <Image imageId={asset._id} />
-              </Styled.ImageWrapper>
-            ))}
-          </ImagesContainer>
-        </Styled.FilesWrapper>
-      )} */}
+      {assetInfo && (
+        <AssetInfoPopup
+          closePopup={() => setAssetInfo(undefined)}
+          asset={assetInfo}
+        />
+      )}
     </Styled.FilesLibraryContainer>
   );
 };

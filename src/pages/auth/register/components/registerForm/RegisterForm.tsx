@@ -39,6 +39,7 @@ const getData = (data: FieldValues) => {
 const Form = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+
   const methods = useForm({
     resolver: yupResolver(register_schema),
     shouldUnregister: false,

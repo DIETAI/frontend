@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 import { motion } from "framer-motion";
 
-const AddFileFormContainer = styled.div(
+const AssetInfoContainer = styled.div(
   ({
     theme: {
       palette,
@@ -22,6 +22,37 @@ const AddFileFormContainer = styled.div(
   `
 );
 
+const AssetContentWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    display: flex;
+    flex-direction: column;
+    width: 40rem;
+    min-height: 100%;
+    gap: 4rem;
+    padding-left: 4rem;
+    background: ${palette.common.main};
+    border-left: 0.1rem solid ${palette.primary.light};
+
+    p {
+      font-size: ${fontSize.s};
+      font-weight: ${fontWeight.light};
+      color: ${palette.common.text};
+    }
+
+    /* img {
+      width: 40rem;
+      height: 40rem;
+      object-fit: cover;
+    } */
+  `
+);
+
 const AssetHeadingWrapper = styled.div(
   ({
     theme: {
@@ -34,52 +65,6 @@ const AssetHeadingWrapper = styled.div(
     align-items: center;
     justify-content: space-between;
     width: 100%;
-  `
-);
-
-const AddFileFormWrapper = styled.form(
-  ({
-    theme: {
-      palette,
-      typography: { fontSize, fontWeight },
-      layout: { border },
-    },
-  }) => css`
-    display: flex;
-    flex-direction: column;
-    width: 60rem;
-    height: 100%;
-    overflow-y: auto;
-    gap: 4rem;
-    padding-left: 4rem;
-    background: ${palette.common.main};
-    border-left: 0.1rem solid ${palette.primary.light};
-
-    img {
-      width: 40rem;
-      height: 40rem;
-      object-fit: cover;
-    }
-  `
-);
-
-const ImagesSizeErrorWrapper = styled.div(
-  ({
-    theme: {
-      palette,
-      typography: { fontSize, fontWeight },
-      layout: { border },
-    },
-  }) => css`
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-
-    p {
-      font-size: ${fontSize.s};
-      font-weight: ${fontWeight.medium};
-      color: red;
-    }
   `
 );
 
@@ -138,25 +123,99 @@ const ImageWrapper = styled(motion.div)(
   `
 );
 
-const DeleteFileOptionWrapper = styled.div(
+const AssetInfoOptionsWrapper = styled.div(
   ({
     theme: {
       palette,
       typography: { fontSize, fontWeight },
       layout: { border },
+      media: { breakpoints, up },
     },
   }) => css`
-    position: absolute;
-    top: 2rem;
-    right: 2rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+
+    ${up(breakpoints.sm)} {
+      flex-direction: row;
+    }
+  `
+);
+
+interface IAssetInfoOption {
+  optionType: "edit" | "download" | "delete";
+}
+
+const AssetInfoOption = styled.button<IAssetInfoOption>(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+    optionType,
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    flex-grow: 1;
+    padding: 0.8rem 1rem;
+    border-radius: ${border.rounded.sm};
+    cursor: pointer;
+    transition: 0.3s ease-out;
+    font-size: 1.5rem;
+    font-weight: ${fontWeight.medium};
+    width: 100%;
+    max-width: 30rem;
+
+    :hover {
+      opacity: 0.7;
+    }
+
+    svg {
+      width: 1.2rem;
+      height: 1.2rem;
+    }
+
+    ${(optionType === "edit" || optionType === "download") &&
+    css`
+      background: ${palette.common.contrast};
+      color: ${palette.primary.main};
+
+      border: 0.1rem solid ${palette.primary.main};
+
+      svg {
+        path {
+          fill: ${palette.primary.main};
+        }
+      }
+    `}
+
+    ${optionType === "delete" &&
+    css`
+      background: #ff00001d;
+      border: 0.1rem solid #ff00004c;
+      color: red;
+
+      svg {
+        path {
+          fill: red;
+        }
+      }
+    `}
   `
 );
 
 export {
-  AddFileFormContainer,
+  AssetInfoContainer,
+  AssetContentWrapper,
   AssetHeadingWrapper,
-  AddFileFormWrapper,
-  ImagesSizeErrorWrapper,
   ImageWrapper,
-  DeleteFileOptionWrapper,
+  AssetInfoOptionsWrapper,
+  AssetInfoOption,
 };
