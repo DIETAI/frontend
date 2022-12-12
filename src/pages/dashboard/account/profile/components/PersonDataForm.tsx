@@ -67,6 +67,8 @@ const PersonDataForm = () => {
     watch,
   } = methods;
 
+  const photoURL = watch("photoURL");
+
   const onPersonDataFormSubmit = async (data: FieldValues) => {
     const editUserData = {
       ...data,
@@ -110,9 +112,10 @@ const PersonDataForm = () => {
             {/* {JSON.stringify(watch())} */}
             <Styled.ImageWrapper>
               <img src={DietAILogo} className="personData-backgroundImage" />
+
               <Styled.ImageSelectWrapper onClick={handleOpenFileLibrary}>
                 <img
-                  src={initialValues.photoURL}
+                  src={photoURL ? photoURL : initialValues.photoURL}
                   className="personData-avatarImage"
                 />
               </Styled.ImageSelectWrapper>

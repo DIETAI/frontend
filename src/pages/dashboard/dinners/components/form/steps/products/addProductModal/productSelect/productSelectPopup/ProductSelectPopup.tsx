@@ -1,15 +1,17 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useFormContext } from "react-hook-form";
+import { useParams } from "react-router";
 
 //components
 import Image from "components/form/images/image/Image";
 import AllProducts from "./allProducts/AllProducts";
-import RecommendedProducts from "./recommendedProducts/RecommendedProducts";
+import RecommendedProducts from "./recommendProductsV2/RecommendedProducts";
 
 //styles
 import * as Styled from "./ProductSelectPopup.styles";
 
 import { getProducts } from "services/getProducts";
+import { getDinnerProducts } from "services/getDinnerProducts";
 
 type IFilterOption = "recommend" | "all" | "group";
 
@@ -24,8 +26,14 @@ const ProductSelectPopup = ({
   openPopup,
   searchValue,
 }: ISelectProductPopupProps) => {
+  const { dinnerId } = useParams();
+
+  if (!dinnerId) return null;
+
   const [filterOption, setFilterOption] = useState<IFilterOption>("recommend");
   const { products, productsError, productsLoading } = getProducts();
+  const { dinnerProducts, dinnerProductsLoading, dinnerProductsError } =
+    getDinnerProducts(dinnerId);
 
   const {
     control,
@@ -66,18 +74,22 @@ const ProductSelectPopup = ({
 
   if (!openPopup) return null;
 
-  if (productsLoading) return <div>products loading</div>;
-  if (productsError) return <div>products error</div>;
+  if (productsLoading || dinnerProductsLoading)
+    return <div>products loading</div>;
+  if (productsError || dinnerProductsError) return <div>products error</div>;
 
   return (
     <Styled.SelectPopupWrapper ref={autocompleteRef}>
       <Styled.SelectPopupNav>
-        <Styled.SelectPopupNavItem
-          activeOption={filterOption === "recommend"}
-          onClick={() => setFilterOption("recommend")}
-        >
-          rekomendowane
-        </Styled.SelectPopupNavItem>
+        {dinnerProducts && dinnerProducts.length > 0 && (
+          <Styled.SelectPopupNavItem
+            activeOption={filterOption === "recommend"}
+            onClick={() => setFilterOption("recommend")}
+          >
+            rekomendowane
+          </Styled.SelectPopupNavItem>
+        )}
+
         <Styled.SelectPopupNavItem
           activeOption={filterOption === "all"}
           onClick={() => setFilterOption("all")}
@@ -86,9 +98,16 @@ const ProductSelectPopup = ({
         </Styled.SelectPopupNavItem>
         {/* <Styled.SelectPopupNavItem>grupy</Styled.SelectPopupNavItem> */}
       </Styled.SelectPopupNav>
-      {filterOption === "recommend" && (
+
+      {dinnerProducts &&
+        dinnerProducts.length > 0 &&
+        filterOption === "recommend" && (
+          <RecommendedProducts selectProduct={selectProduct} />
+        )}
+
+      {/* {filterOption === "recommend" && (
         <RecommendedProducts selectProduct={selectProduct} />
-      )}
+      )} */}
       {filterOption === "all" && (
         <AllProducts selectProduct={selectProduct} searchValue={searchValue} />
       )}
