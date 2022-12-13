@@ -21,17 +21,26 @@ const LineView = ({
   assets,
   assetInfo,
   setAssetInfo,
+  assetDelete,
+  setAssetDelete,
 }: {
   uploadImage: () => void;
   assets: IAssetData[];
   assetInfo?: IAssetData;
   setAssetInfo: React.Dispatch<React.SetStateAction<IAssetData | undefined>>;
+  assetDelete?: IAssetData;
+  setAssetDelete: React.Dispatch<React.SetStateAction<IAssetData | undefined>>;
 }) => {
   const { selectAssetId, selectedAssetId } = useFileLibrary();
   // const { assets, assetsLoading, assetsError } = getAssets();
 
   // if (assetsLoading) return <div>...loading</div>;
   // if (assetsError) return <div>error</div>;
+
+  const deleteAsset = (asset: IAssetData) => {
+    selectAssetId("");
+    setAssetDelete(asset);
+  };
 
   return (
     <Styled.LineViewWrapper>
@@ -72,7 +81,7 @@ const LineView = ({
               </Styled.ItemOptionWrapper>
               <Styled.ItemOptionWrapper
                 optionType="delete"
-                // onClick={() => setOpenDeleteDinnerModal(true)}
+                onClick={() => deleteAsset(asset)}
               >
                 <FaTrash />
               </Styled.ItemOptionWrapper>

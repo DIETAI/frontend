@@ -27,6 +27,7 @@ const RecommendedProducts = ({ selectProduct }: IRecommendedProductsProps) => {
   const { dinnerId } = useParams();
 
   if (!dinnerId) return null;
+
   const {
     recommendProducts,
     recommendProductsError,

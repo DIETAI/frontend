@@ -9,14 +9,15 @@ const fetcher = (url: string, headers = {}) =>
   axios
     .get(url, {
       headers,
+      //   withCredentials: true,
     })
     .then((res) => res.data);
 
 export const getRecommendProducts = (dinnerId: string) => {
   const { data, error } = useSWR<IRecommendProductData[]>(
     `${recommendProductsServerURL}/${dinnerId}`,
-    fetcher,
-    { refreshInterval: 1000 }
+    fetcher
+    // { refreshInterval: 1000 }
   );
 
   return {

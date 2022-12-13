@@ -20,6 +20,7 @@ import ImageView from "./views/imageView/ImageView";
 import LineView from "./views/lineView/LineView";
 import SelectedAsset from "./selectedAsset/SelectedAsset";
 import AssetInfoPopup from "./assetInfoPopup/AssetInfoPopup";
+import AssetDeletePopup from "./assetDeletePopup/AssetDeletePopup";
 
 //services
 import { getAssets } from "services/getAssets";
@@ -92,6 +93,7 @@ const FilesLibrary = ({ closeModal, onSubmitAction }: IFilesLibraryProps) => {
   const [searchValue, setSearchValue] = useState("");
   const [view, setView] = useState<View>("image");
   const [assetInfo, setAssetInfo] = useState<IAssetData>();
+  const [assetDelete, setAssetDelete] = useState<IAssetData>();
 
   const { assets, assetsLoading, assetsError } = getAssets();
   const [openAddFileForm, setOpenAddFileForm] = useState(false);
@@ -158,6 +160,8 @@ const FilesLibrary = ({ closeModal, onSubmitAction }: IFilesLibraryProps) => {
           uploadImage={uploadImage}
           assetInfo={assetInfo}
           setAssetInfo={setAssetInfo}
+          assetDelete={assetDelete}
+          setAssetDelete={setAssetDelete}
         />
       )}
       {view === "line" && (
@@ -166,6 +170,8 @@ const FilesLibrary = ({ closeModal, onSubmitAction }: IFilesLibraryProps) => {
           uploadImage={uploadImage}
           assetInfo={assetInfo}
           setAssetInfo={setAssetInfo}
+          assetDelete={assetDelete}
+          setAssetDelete={setAssetDelete}
         />
       )}
 
@@ -173,6 +179,13 @@ const FilesLibrary = ({ closeModal, onSubmitAction }: IFilesLibraryProps) => {
         <AssetInfoPopup
           closePopup={() => setAssetInfo(undefined)}
           asset={assetInfo}
+        />
+      )}
+
+      {assetDelete && (
+        <AssetDeletePopup
+          closePopup={() => setAssetDelete(undefined)}
+          asset={assetDelete}
         />
       )}
     </Styled.FilesLibraryContainer>

@@ -26,11 +26,15 @@ const ImageView = ({
   assets,
   assetInfo,
   setAssetInfo,
+  assetDelete,
+  setAssetDelete,
 }: {
   uploadImage: () => void;
   assets: IAssetData[];
   assetInfo?: IAssetData;
   setAssetInfo: React.Dispatch<React.SetStateAction<IAssetData | undefined>>;
+  assetDelete?: IAssetData;
+  setAssetDelete: React.Dispatch<React.SetStateAction<IAssetData | undefined>>;
 }) => {
   // const { assets, assetsLoading, assetsError } = getAssets();
 
@@ -51,6 +55,8 @@ const ImageView = ({
           <Image
             assetInfo={assetInfo}
             setAssetInfo={setAssetInfo}
+            assetDelete={assetDelete}
+            setAssetDelete={setAssetDelete}
             key={asset._id}
             asset={asset}
           />
@@ -63,10 +69,14 @@ const Image = ({
   asset,
   assetInfo,
   setAssetInfo,
+  assetDelete,
+  setAssetDelete,
 }: {
   asset: IAssetData;
   assetInfo?: IAssetData;
   setAssetInfo: React.Dispatch<React.SetStateAction<IAssetData | undefined>>;
+  assetDelete?: IAssetData;
+  setAssetDelete: React.Dispatch<React.SetStateAction<IAssetData | undefined>>;
 }) => {
   const { selectAssetId, selectedAssetId } = useFileLibrary();
   const [openImageOptions, setOpenImageOptions] = useState(false);
@@ -106,7 +116,7 @@ const Image = ({
             </Styled.ImageOptionWrapper>
             <Styled.ImageOptionWrapper
               optionType="delete"
-              // onClick={() => setOpenDeleteDinnerModal(true)}
+              onClick={() => setAssetDelete(asset)}
             >
               <FaTrash />
             </Styled.ImageOptionWrapper>
