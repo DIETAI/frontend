@@ -19,7 +19,7 @@ const VerifyRoutes = () => {
   const { user, userLoading, userError } = useUser();
 
   if (userLoading) return <PageLoading />;
-  if (userError) return <div>error..</div>;
+  // if (userError) return <div>error..</div>;
 
   // if (user.role) {
   //   return <Navigate to="/dashboard/profile" />;

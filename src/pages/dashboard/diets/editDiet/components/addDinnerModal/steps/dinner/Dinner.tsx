@@ -15,7 +15,7 @@ import { FaSearch } from "icons/icons";
 //components
 import Image from "components/form/images/image/Image";
 import AllDinners from "./allDinners/AllDinners";
-import RecommendDinners from "./recommendDinners/RecommendDinners";
+import RecommendDinners from "./recommendDinnersV2/RecommendDinners";
 import Button from "components/form/button/Button";
 
 type IFilterOption = "recommend" | "all";

@@ -18,10 +18,17 @@ import LogoBackground from "assets/logo-icon.svg";
 const AssetInfo = ({
   asset,
   closePopup,
+  setAssetDelete,
 }: {
   asset: IAssetData;
   closePopup: () => void;
+  setAssetDelete: React.Dispatch<React.SetStateAction<IAssetData | undefined>>;
 }) => {
+  const openDeleteModal = () => {
+    closePopup();
+    setAssetDelete(asset);
+  };
+
   return (
     <Styled.AssetInfoContainer>
       <Styled.AssetContentWrapper>
@@ -60,7 +67,7 @@ const AssetInfo = ({
           <Styled.AssetInfoOption
             optionType="delete"
             type="button"
-            // onClick={() => setOpenDeleteModal(true)}
+            onClick={openDeleteModal}
           >
             <span>
               <FaTrash />

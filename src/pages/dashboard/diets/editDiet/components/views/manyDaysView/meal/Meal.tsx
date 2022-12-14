@@ -90,6 +90,7 @@ const Meal = ({ meal, establishment }: IMeal) => {
           <MealEstablishmentModalContent />
         </IconModal> */}
       </Styled.MealHeading>
+      {/* {meal._id} */}
 
       <Styled.MealTotalWrapper>
         <SumModal

@@ -179,6 +179,7 @@ const FilesLibrary = ({ closeModal, onSubmitAction }: IFilesLibraryProps) => {
         <AssetInfoPopup
           closePopup={() => setAssetInfo(undefined)}
           asset={assetInfo}
+          setAssetDelete={setAssetDelete}
         />
       )}
 

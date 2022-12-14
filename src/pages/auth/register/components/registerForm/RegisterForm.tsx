@@ -67,6 +67,15 @@ const Form = () => {
 
       console.log({ registerData });
       reset();
+
+      const loginData = await axios.post(
+        "/api/v1/sessions",
+        { email: data.email, password: data.password },
+        {
+          withCredentials: true,
+        }
+      );
+
       navigate("/dashboard/home");
     } catch (e) {
       console.log(e);
