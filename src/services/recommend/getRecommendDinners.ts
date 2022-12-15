@@ -1,6 +1,7 @@
 import useSWR from "swr";
 import axios from "axios";
 import { IRecommendDinnerData } from "interfaces/recommend/recommendDinner.interface";
+import { IDietDayMealData } from "interfaces/diet/dietMeals.interfaces";
 
 const recommendDinnersServerURL =
   "https://recommend-server.dietai.pl/recommend-dinners";
@@ -13,9 +14,19 @@ const fetcher = (url: string, headers = {}) =>
     })
     .then((res) => res.data);
 
-export const getRecommendDinners = (mealId: string) => {
+interface IRecommendDinnersArgs {
+  dietMealId: string;
+  currentDayId: string;
+  mealType: IDietDayMealData["type"];
+}
+
+export const getRecommendDinners = ({
+  dietMealId,
+  currentDayId,
+  mealType,
+}: IRecommendDinnersArgs) => {
   const { data, error } = useSWR<IRecommendDinnerData[]>(
-    `${recommendDinnersServerURL}/${mealId}`,
+    `${recommendDinnersServerURL}?dietMealId=${dietMealId}&currentDayId=${currentDayId}&mealType=${mealType}`,
     fetcher
     // { refreshInterval: 1000 }
   );

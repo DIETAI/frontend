@@ -45,12 +45,13 @@ const RecommendDinners = ({ changeDinner }: IRecommendDinnersProps) => {
   } = useFormContext();
   const dayId = watch("dayId") as string;
   const mealId = watch("dietMealId") as string;
+  const mealType = watch("mealType");
 
   //if(allDayDietDinners.length < 1) return
   //if (mealDietDinners.length < 1) retrun getRecommendDinners (day)
 
   const { recommendDinners, recommendDinnersLoading, recommendDinnersError } =
-    getRecommendDinners(mealId);
+    getRecommendDinners({ dietMealId: mealId, currentDayId: dayId, mealType });
 
   if (recommendDinnersError)
     return (
