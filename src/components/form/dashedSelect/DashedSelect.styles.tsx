@@ -2,7 +2,9 @@ import styled, { css } from "styled-components";
 
 import { IDashedSelectProps } from "./DashedSelect.interfaces";
 
-const DashedSelectWrapper = styled.div<Pick<IDashedSelectProps, "fullWidth">>(
+const DashedSelectWrapper = styled.div<
+  Pick<IDashedSelectProps, "fullWidth" | "disabled">
+>(
   ({
     theme: {
       palette,
@@ -10,6 +12,7 @@ const DashedSelectWrapper = styled.div<Pick<IDashedSelectProps, "fullWidth">>(
       layout: { border },
     },
     fullWidth,
+    disabled,
   }) => css`
     display: flex;
     align-items: center;
@@ -52,6 +55,12 @@ const DashedSelectWrapper = styled.div<Pick<IDashedSelectProps, "fullWidth">>(
       color: ${palette.common.text};
       letter-spacing: 0.05rem;
     }
+
+    ${disabled &&
+    css`
+      pointer-events: none;
+      opacity: 0.7;
+    `}
   `
 );
 

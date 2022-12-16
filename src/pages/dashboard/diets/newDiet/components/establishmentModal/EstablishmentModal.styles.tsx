@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components";
+import { motion } from "framer-motion";
 
 const EstablishmentModalContainer = styled.div(
   ({
@@ -14,7 +15,7 @@ const EstablishmentModalContainer = styled.div(
   `
 );
 
-const EstablishmentModalNav = styled.div(
+const EstablishmentWrapper = styled.div(
   ({
     theme: {
       palette,
@@ -23,13 +24,59 @@ const EstablishmentModalNav = styled.div(
     },
   }) => css`
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    flex-direction: column;
+    width: 100%;
+    gap: 2rem;
+    position: relative;
+    min-height: 40rem;
+  `
+);
+
+const EstablishmentLoadingWrapper = styled(motion.div)(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+    flex: 1;
+    width: 100%;
+    transition: 0.3s ease-out;
+  `
+);
+
+const EstablishmentModalNav = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
     width: 100%;
     gap: 2rem;
 
+    button {
+      width: 100%;
+    }
+
     input {
-      border: none;
+      width: 100%;
+      max-width: 40rem;
+      border: 0.1rem solid ${palette.common.slate};
       border-radius: ${border.rounded.sm};
       padding: 1rem;
       color: ${palette.common.text};
@@ -39,8 +86,22 @@ const EstablishmentModalNav = styled.div(
         outline: none;
       }
       ::placeholder {
-        color: ${palette.common.grey};
+        color: ${palette.common.slate};
         font-weight: ${fontWeight.light};
+      }
+    }
+
+    ${up(breakpoints.md)} {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+
+      button {
+        width: auto;
+      }
+
+      input {
+        width: 30rem;
       }
     }
   `
@@ -73,12 +134,14 @@ const EstablishmentItem = styled.div<IActiveItem>(
       palette,
       typography: { fontSize, fontWeight },
       layout: { border },
+      media: { breakpoints, up },
     },
     activeItem,
   }) => css`
     display: flex;
     align-items: flex-start;
-    justify-content: space-between;
+    justify-content: flex-start;
+    flex-direction: column;
     width: 100%;
     gap: 2rem;
     padding: 2rem;
@@ -89,6 +152,11 @@ const EstablishmentItem = styled.div<IActiveItem>(
     css`
       border: 0.1rem dashed ${palette.primary.main};
     `}
+
+    ${up(breakpoints.xs)} {
+      flex-direction: row;
+      justify-content: space-between;
+    }
   `
 );
 
@@ -134,6 +202,40 @@ const EstablishmentItemMacroList = styled.div(
       color: ${palette.common.text};
       font-size: ${fontSize.s};
       font-weight: ${fontWeight.light};
+    }
+  `
+);
+
+const MacroItem = styled.li(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 1rem;
+    flex-direction: column;
+
+    ${up(breakpoints.sm)} {
+      flex-direction: row;
+      align-items: center;
+    }
+
+    h2 {
+      font-size: ${fontSize.s};
+      font-weight: ${fontWeight.medium};
+      color: ${palette.common.text};
+    }
+
+    p {
+      font-size: ${fontSize.s};
+      font-weight: ${fontWeight.light};
+      color: ${palette.common.text};
     }
   `
 );
@@ -218,32 +320,80 @@ const EstablishmentEmptyWrapper = styled.div(
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    gap: 2rem;
+    gap: 3rem;
     width: 100%;
     min-height: 30rem;
 
     img {
-      width: 20rem;
+      width: 15rem;
       height: 20rem;
       object-fit: contain;
     }
 
     h2 {
-      font-size: ${fontSize.l};
+      font-size: ${fontSize.m};
       font-weight: ${fontWeight.semibold};
       color: ${palette.common.text};
     }
   `
 );
 
+const ErrorWrapper = styled(motion.div)(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    padding: 4rem;
+    border: 0.1rem solid #ff000025;
+    border-radius: ${border.rounded.md};
+    background: #ff000019;
+    min-height: 40rem;
+
+    background: ${palette.common.contrast};
+    border: 0.1rem solid ${palette.primary.light};
+
+    svg {
+      width: 2.5rem;
+      height: 2.5rem;
+      path {
+        fill: red;
+      }
+    }
+
+    h3 {
+      color: ${palette.common.text};
+      font-size: ${fontSize.m};
+      font-weight: ${fontWeight.medium};
+    }
+
+    ${up(breakpoints.sm)} {
+      flex-direction: row;
+    }
+  `
+);
+
 export {
   EstablishmentModalContainer,
+  EstablishmentWrapper,
+  EstablishmentLoadingWrapper,
   EstablishmentModalNav,
   EstablishmentList,
   EstablishmentItem,
   EstablishmentItemContent,
   EstablishmentItemMacroList,
+  MacroItem,
   EstablishmentButtonWrapper,
   EstablishmentButton,
   EstablishmentEmptyWrapper,
+  ErrorWrapper,
 };

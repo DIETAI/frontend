@@ -11,9 +11,14 @@ const DashedSelect = ({
   text,
   onClick,
   fullWidth,
+  disabled,
 }: IDashedSelectProps) => {
   return (
-    <Styles.DashedSelectWrapper onClick={onClick} fullWidth={fullWidth}>
+    <Styles.DashedSelectWrapper
+      onClick={onClick}
+      fullWidth={fullWidth}
+      disabled={disabled}
+    >
       <span>{icon}</span> <p>{text}</p>
     </Styles.DashedSelectWrapper>
   );

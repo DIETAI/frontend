@@ -5,4 +5,5 @@ export interface IDashedSelectProps {
   text: string;
   onClick: () => void;
   fullWidth?: boolean;
+  disabled?: boolean;
 }

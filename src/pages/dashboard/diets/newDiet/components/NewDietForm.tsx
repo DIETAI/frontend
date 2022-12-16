@@ -89,6 +89,7 @@ const NewDietForm = () => {
 
   const establishmentId = getValues("establishmentId");
   const daysType = watch("daysType") as IDateType;
+  const clientId = getValues("clientId");
 
   const onDietFormSubmit = async (data: INewDietValues) => {
     console.log("wysyłanie założeń");
@@ -205,6 +206,7 @@ const NewDietForm = () => {
               text={establishmentId ? "zmień założenia" : "dodaj założenia"}
               onClick={openAddEstablishmentModal}
               fullWidth
+              disabled={!clientId}
             />
             {establishmentId && (
               <EstablishmentItem establishmentId={establishmentId} />

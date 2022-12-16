@@ -21,10 +21,16 @@ import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
 //icons
-import { FaPlus, FaSearch } from "icons/icons";
+import { FaPlus, FaSearch, FaExclamationCircle } from "icons/icons";
 
 //images
 import NoDataImg from "assets/noData.svg";
+
+//animations
+import { AnimatePresence } from "framer-motion";
+
+//components
+import LoadingGrid from "components/loading/loadingGrid/LoadingGrid";
 
 interface IEstablishmentModal {
   closeModal: () => void;
@@ -69,12 +75,19 @@ const EstablishmentModal = ({ closeModal }: IEstablishmentModal) => {
   const dietName = getValues("name");
   const daysAmount = getValues("daysAmount");
 
-  const [selectedEstablishmentId, setSelectedEstablishmentId] =
-    useState(currentEstablishment);
+  // const [selectedEstablishmentId, setSelectedEstablishmentId] =
+  //   useState(currentEstablishment);
 
-  if (dietEstablishmentsLoading)
-    return <div>dietEstablishments loading...</div>;
-  if (dietEstablishmentsError) return <div>dietEstablishments error</div>;
+  if (dietEstablishmentsError)
+    return (
+      <Styled.EstablishmentModalContainer>
+        <Heading icon={<FaFileAlt />} title="Dodaj założenia" />
+        <Styled.ErrorWrapper>
+          <FaExclamationCircle />
+          <h3>Brak danych</h3>
+        </Styled.ErrorWrapper>
+      </Styled.EstablishmentModalContainer>
+    );
 
   console.log({ dietEstablishments });
 
@@ -83,18 +96,25 @@ const EstablishmentModal = ({ closeModal }: IEstablishmentModal) => {
     closeModal();
   };
 
-  if (!client) return <div>dodaj pacjenta</div>;
+  const clientEstablishments = (establishments: IDietEstablishmentData[]) => {
+    const renderEstablishments = establishments.filter(
+      (establishment) => establishment.client === client
+    );
 
-  const clientEstablishments = dietEstablishments?.filter(
-    (establishment) => establishment.client === client
-  );
+    return renderEstablishments;
+  };
+
+  // const clientEstablishments = dietEstablishments?.filter(
+  //   (establishment) => establishment.client === client
+  // );
 
   const params = { dietName, patientId: client, daysAmount };
 
-  const renderDietEstablishments = optionFilter(
-    searchContent,
-    clientEstablishments
-  );
+  const renderDietEstablishments = (
+    clientEstablishments: IDietEstablishmentData[]
+  ) => {
+    return optionFilter(searchContent, clientEstablishments);
+  };
 
   return (
     <Styled.EstablishmentModalContainer>
@@ -104,73 +124,124 @@ const EstablishmentModal = ({ closeModal }: IEstablishmentModal) => {
         // title={t("diets.establishment.modal.title")}
         // description={t("diets.establishment.modal.description")}
       />
-
-      <Styled.EstablishmentModalNav>
-        <input
-          value={searchContent}
-          onChange={(e) => setSearchContent(e.currentTarget.value)}
-          placeholder="Szukaj..."
-        ></input>
-        <Button
-          onClick={() =>
-            navigate({
-              pathname: `/dashboard/diet-establishments/new`,
-              search: `?${createSearchParams(params)}`,
-            })
-          }
-        >
-          stwórz założenia
-        </Button>
-      </Styled.EstablishmentModalNav>
-
-      {!clientEstablishments ||
-        (clientEstablishments.length < 1 && (
-          <Styled.EstablishmentEmptyWrapper>
-            <img src={NoDataImg} />
-            <h2>Brak dostępnych założeń pacjenta, stwórz założenia.</h2>
-          </Styled.EstablishmentEmptyWrapper>
-        ))}
-
-      {clientEstablishments && clientEstablishments.length > 0 && (
-        <Styled.EstablishmentList>
-          {renderDietEstablishments.map((establishment) => (
-            <Styled.EstablishmentItem
-              key={establishment._id}
-              activeItem={currentEstablishment === establishment._id}
+      <Styled.EstablishmentWrapper>
+        <AnimatePresence>
+          {dietEstablishmentsLoading && (
+            <Styled.EstablishmentLoadingWrapper
+              initial={{ opacity: 1 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
             >
-              <Styled.EstablishmentItemContent>
-                <h2>{establishment.name}</h2>
-                <Styled.EstablishmentItemMacroList>
-                  <p>kcal: {establishment.kcal}</p>
-                  <p>białka (g): {establishment.protein.gram}</p>
-                  <p>tłuszcze (g): {establishment.fat.gram}</p>
-                  <p>węglowodany (g): {establishment.carbohydrates.gram}</p>
-                  <p>błonnik (g): {establishment.fiber.gram}</p>
-                </Styled.EstablishmentItemMacroList>
-              </Styled.EstablishmentItemContent>
+              <LoadingGrid rows={4} />
+            </Styled.EstablishmentLoadingWrapper>
+          )}
+        </AnimatePresence>
 
-              <Styled.EstablishmentButtonWrapper>
-                <Styled.EstablishmentButton
-                  buttonVariant="view"
-                  onClick={() =>
-                    navigate(
-                      `/dashboard/diet-establishments/${establishment._id}`
-                    )
-                  }
-                >
-                  <FaSearch />
-                </Styled.EstablishmentButton>
-                <Styled.EstablishmentButton
-                  buttonVariant="add"
-                  onClick={() => addEstablishment(establishment._id)}
-                >
-                  <FaPlus />
-                </Styled.EstablishmentButton>
-              </Styled.EstablishmentButtonWrapper>
-            </Styled.EstablishmentItem>
-          ))}
-        </Styled.EstablishmentList>
-      )}
+        {dietEstablishments && (
+          <>
+            <Styled.EstablishmentModalNav>
+              <input
+                value={searchContent}
+                onChange={(e) => setSearchContent(e.currentTarget.value)}
+                placeholder="Szukaj..."
+              ></input>
+              <Button
+                onClick={() =>
+                  navigate({
+                    pathname: `/dashboard/diet-establishments/new`,
+                    search: `?${createSearchParams(params)}`,
+                  })
+                }
+              >
+                stwórz założenia
+              </Button>
+            </Styled.EstablishmentModalNav>
+
+            {!clientEstablishments(dietEstablishments) ||
+              (clientEstablishments(dietEstablishments).length < 1 && (
+                <Styled.EstablishmentEmptyWrapper>
+                  <img src={NoDataImg} />
+                  <h2>Brak dostępnych założeń pacjenta, stwórz założenia.</h2>
+                </Styled.EstablishmentEmptyWrapper>
+              ))}
+
+            {clientEstablishments(dietEstablishments) &&
+              clientEstablishments(dietEstablishments).length > 0 && (
+                <>
+                  {renderDietEstablishments(
+                    clientEstablishments(dietEstablishments)
+                  ).length < 1 && (
+                    <Styled.EstablishmentEmptyWrapper>
+                      <img src={NoDataImg} />
+                      <h2>Nie znaleziono założeń</h2>
+                    </Styled.EstablishmentEmptyWrapper>
+                  )}
+
+                  <Styled.EstablishmentList>
+                    {renderDietEstablishments(
+                      clientEstablishments(dietEstablishments)
+                    ).map((establishment) => (
+                      <Styled.EstablishmentItem
+                        key={establishment._id}
+                        activeItem={currentEstablishment === establishment._id}
+                      >
+                        <Styled.EstablishmentItemContent>
+                          <h2>{establishment.name}</h2>
+                          <Styled.EstablishmentItemMacroList>
+                            <Styled.MacroItem>
+                              <h2>kcal: </h2>
+                              <p>{establishment.kcal}</p>
+                            </Styled.MacroItem>
+
+                            <Styled.MacroItem>
+                              <h2>białka (g): </h2>
+                              <p>{establishment.protein.gram}</p>
+                            </Styled.MacroItem>
+
+                            <Styled.MacroItem>
+                              <h2>tłuszcze (g): </h2>
+                              <p>{establishment.fat.gram}</p>
+                            </Styled.MacroItem>
+
+                            <Styled.MacroItem>
+                              <h2>węglowodany (g): </h2>
+                              <p>{establishment.carbohydrates.gram}</p>
+                            </Styled.MacroItem>
+
+                            <Styled.MacroItem>
+                              <h2>błonnik (g): </h2>
+                              <p>{establishment.fiber.gram}</p>
+                            </Styled.MacroItem>
+                          </Styled.EstablishmentItemMacroList>
+                        </Styled.EstablishmentItemContent>
+
+                        <Styled.EstablishmentButtonWrapper>
+                          <Styled.EstablishmentButton
+                            buttonVariant="view"
+                            onClick={() =>
+                              navigate(
+                                `/dashboard/diet-establishments/${establishment._id}`
+                              )
+                            }
+                          >
+                            <FaSearch />
+                          </Styled.EstablishmentButton>
+                          <Styled.EstablishmentButton
+                            buttonVariant="add"
+                            onClick={() => addEstablishment(establishment._id)}
+                          >
+                            <FaPlus />
+                          </Styled.EstablishmentButton>
+                        </Styled.EstablishmentButtonWrapper>
+                      </Styled.EstablishmentItem>
+                    ))}
+                  </Styled.EstablishmentList>
+                </>
+              )}
+          </>
+        )}
+      </Styled.EstablishmentWrapper>
     </Styled.EstablishmentModalContainer>
   );
 };
