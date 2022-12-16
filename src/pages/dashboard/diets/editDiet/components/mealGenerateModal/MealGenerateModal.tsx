@@ -192,6 +192,8 @@ const MealGenerateModal = ({
     //zapisać dietDinners
     console.log("add");
 
+    console.log({ dietEditId });
+
     const validMealDinnersPortions = await Promise.all(
       mealDinners.map(async (mealDinner) => {
         const dinnerPortions = await axios.get<IDinnerPortionQueryData[]>(
@@ -279,17 +281,19 @@ const MealGenerateModal = ({
             dinnerPortionId: newDinnerPortion.data._id,
           };
 
-          if(meal.dinners.length > 0){
-            await Promise.all(meal.dinners.map(async (dietDinner) => {
-              const deletedDinner = await axios.delete(
-                `/api/v1/dietDinners/${dietDinner._id}`,
-                {
-                  withCredentials: true,
-                }
-              );
+          if (meal.dinners.length > 0) {
+            await Promise.all(
+              meal.dinners.map(async (dietDinner) => {
+                const deletedDinner = await axios.delete(
+                  `/api/v1/dietDinners/${dietDinner._id}`,
+                  {
+                    withCredentials: true,
+                  }
+                );
 
-              console.log({deletedDinner})
-            } ))
+                console.log({ deletedDinner });
+              })
+            );
           }
 
           const newDietDinner = await axios.post(
@@ -304,6 +308,7 @@ const MealGenerateModal = ({
 
           dispatch(removeMealGenerate());
           closeModal();
+          await mutate(`/api/v1/diets/${dietEditId}/query`); //correct
           return newDietDinner;
         }
 
@@ -317,17 +322,19 @@ const MealGenerateModal = ({
         };
 
         //delete added diet dinners
-        if(meal.dinners.length > 0){
-          await Promise.all(meal.dinners.map(async (dietDinner) => {
-            const deletedDinner = await axios.delete(
-              `/api/v1/dietDinners/${dietDinner._id}`,
-              {
-                withCredentials: true,
-              }
-            );
+        if (meal.dinners.length > 0) {
+          await Promise.all(
+            meal.dinners.map(async (dietDinner) => {
+              const deletedDinner = await axios.delete(
+                `/api/v1/dietDinners/${dietDinner._id}`,
+                {
+                  withCredentials: true,
+                }
+              );
 
-            console.log({deletedDinner})
-          }))
+              console.log({ deletedDinner });
+            })
+          );
         }
 
         const newDietDinner = await axios.post(
@@ -336,11 +343,12 @@ const MealGenerateModal = ({
           {
             withCredentials: true,
           }
-        ); 
+        );
 
         console.log({ newDietDinner });
         dispatch(removeMealGenerate());
         closeModal();
+        await mutate(`/api/v1/diets/${dietEditId}/query`); //correct
         return newDietDinner;
       })
     );

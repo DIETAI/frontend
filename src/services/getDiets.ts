@@ -55,8 +55,8 @@ export const getDiet = (id: string) => {
 export const getDietQuery = (id: string) => {
   const { data, error } = useSWR<IDietQueryData | null>(
     `/api/v1/diets/${id}/query`,
-    fetcher
-    // { refreshInterval: 1000 }
+    fetcher,
+    { refreshInterval: 2000 }
   );
 
   return {
