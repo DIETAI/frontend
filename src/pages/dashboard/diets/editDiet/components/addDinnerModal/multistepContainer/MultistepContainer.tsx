@@ -6,7 +6,8 @@ import { IChildrenProps } from "interfaces/children.interfaces";
 import Button from "components/form/button/Button";
 import axios from "utils/api";
 import { useParams } from "react-router";
-import { mutate } from "swr";
+
+import useSWR, { useSWRConfig } from "swr";
 
 //components
 import AddDinnerNav from "../nav/AddDinnerNav";
@@ -41,6 +42,7 @@ const MultiStepContainer = ({
   defaultValues,
   closeModal,
 }: IMultiStepProps) => {
+  const { mutate } = useSWRConfig();
   const { dietEditId } = useParams();
   const [activeStep, setActiveStep] = useState(0);
 

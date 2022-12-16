@@ -7,6 +7,8 @@ import {
   percentageRangeClasses,
 } from "../../utils/procentClasses";
 
+import useSWR, { useSWRConfig } from "swr";
+
 //helpers
 import { generateMeal } from "./helpers/generateMealV3";
 // import { generateMeal } from "./helpers/generateMeal";
@@ -43,7 +45,6 @@ import GenerateMealImage from "assets/generateMeal.svg";
 
 import axios from "utils/api";
 import { useParams } from "react-router";
-import { mutate } from "swr";
 import {
   IDinnerPortionData,
   IDinnerPortionQueryData,
@@ -130,6 +131,7 @@ const MealGenerateModal = ({
   dietEstablishment: IDietEstablishmentData;
   closeModal: () => void;
 }) => {
+  const { mutate } = useSWRConfig();
   const { dietEditId } = useParams();
   const [mealGenerateOption, setMealGenerateOption] =
     useState<IMealGenerateOption>("newMeal");
