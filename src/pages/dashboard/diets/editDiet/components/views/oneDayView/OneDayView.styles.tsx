@@ -7,13 +7,15 @@ const OneDayViewContainer = styled.div(
       palette,
       typography: { fontSize, fontWeight },
       layout: { border },
+      media: { up, breakpoints },
     },
   }) => css`
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
     flex-direction: column;
-    width: 100%;
+
+    overflow-x: auto;
   `
 );
 
@@ -32,6 +34,7 @@ const OneDayViewNav = styled.ul(
     margin-bottom: 3rem;
     border-bottom: 0.1rem ${palette.primary.light};
     gap: 2rem;
+    width: 100%;
   `
 );
 
