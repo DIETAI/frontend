@@ -14,7 +14,7 @@ const OneDayViewContainer = styled.div(
     align-items: flex-start;
     justify-content: flex-start;
     flex-direction: column;
-
+    width: 100%;
     overflow-x: auto;
   `
 );
@@ -25,16 +25,21 @@ const OneDayViewNav = styled.ul(
       palette,
       typography: { fontSize, fontWeight },
       layout: { border },
+      media: { breakpoints, up },
     },
   }) => css`
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
-    width: 100%;
+
     margin-bottom: 3rem;
     border-bottom: 0.1rem ${palette.primary.light};
     gap: 2rem;
-    width: 100%;
+    width: fit-content;
+
+    ${up(breakpoints.xl)} {
+      width: 100%;
+    }
   `
 );
 
@@ -48,6 +53,7 @@ const OneDayViewNavItem = styled.li<INavItemActive>(
       palette,
       typography: { fontSize, fontWeight },
       layout: { border },
+      media: { breakpoints, up },
     },
     active,
   }) => css`
@@ -64,7 +70,12 @@ const OneDayViewNavItem = styled.li<INavItemActive>(
     font-size: 1.4rem;
     transition: 0.3s ease-out;
     cursor: pointer;
-    flex: 1;
+    width: 15rem;
+
+    ${up(breakpoints.xl)} {
+      flex-grow: 1;
+      width: auto;
+    }
 
     :hover {
       opacity: 0.7;
@@ -85,6 +96,7 @@ const OneDayViewTotalWrapper = styled.ul(
       palette,
       typography: { fontSize, fontWeight },
       layout: { border },
+      media: { up, breakpoints },
     },
   }) => css`
     display: flex;
@@ -92,7 +104,12 @@ const OneDayViewTotalWrapper = styled.ul(
     justify-content: flex-start;
     gap: 1rem;
     margin-bottom: 3rem;
-    width: 100%;
+
+    width: fit-content;
+
+    ${up(breakpoints.xl)} {
+      width: 100%;
+    }
   `
 );
 
@@ -106,17 +123,19 @@ const OneDayViewTotalItem = styled.li<ITotalVariant>(
       palette,
       typography: { fontSize, fontWeight },
       layout: { border },
+      media: { up, breakpoints },
     },
     variant,
   }) => css`
     display: flex;
-    align-items: center;
-    justify-content: center;
     padding: 1rem 2rem;
     border: 0.1rem solid ${palette.primary.light};
     border-radius: ${border.rounded.md};
     gap: 1rem;
     flex-grow: 1;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
 
     h2 {
       color: ${palette.common.text};
@@ -150,6 +169,17 @@ const OneDayViewTotalItem = styled.li<ITotalVariant>(
         color: red;
       }
     `}
+
+
+    min-width: 15rem;
+
+    ${up(breakpoints.xl)} {
+      flex-grow: 1;
+      width: auto;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+    }
   `
 );
 
@@ -159,18 +189,22 @@ const OneDayViewTableWrapper = styled.div(
       palette,
       typography: { fontSize, fontWeight },
       layout: { border },
+      media: { up, breakpoints },
     },
   }) => css`
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
     flex-direction: column;
-    width: 100%;
     position: relative;
     border-right: 0.1rem solid ${palette.common.border};
     border-left: 0.1rem solid ${palette.common.border};
 
-    //w-full flex flex-col overflow-x-auto relative
+    width: fit-content;
+
+    ${up(breakpoints.xl)} {
+      width: 100%;
+    }
   `
 );
 
@@ -180,6 +214,7 @@ const OneDayViewTableHeaderWrapper = styled.ul(
       palette,
       typography: { fontSize, fontWeight },
       layout: { border },
+      media: { breakpoints, up },
     },
   }) => css`
     display: flex;
@@ -188,6 +223,11 @@ const OneDayViewTableHeaderWrapper = styled.ul(
     width: 100%;
     border-top: 0.1rem solid ${palette.common.border};
     border-bottom: 0.1rem solid ${palette.common.border};
+    width: fit-content;
+
+    ${up(breakpoints.xl)} {
+      width: 100%;
+    }
 
     //w-fit flex border-x border-y 2xl:w-full
   `
@@ -204,20 +244,41 @@ const TableHeaderItem = styled.li(
     display: flex;
     align-items: center;
     justify-content: center;
-    /* width: 16rem; //160px */
     padding: 2rem;
     font-size: 1.4rem;
     font-weight: ${fontWeight.medium};
     color: ${palette.common.text};
-    /* flex: 1; */
     border-right: 0.1rem solid ${palette.common.border};
-    /* width: 25rem; */
     width: 12rem;
-    //w-40 p-5 border-r flex items-center justify-center text-base font-semibold 2xl:flex-auto
 
     :last-of-type {
       border: none;
     }
+  `
+);
+
+const TableHeaderMealItem = styled(TableHeaderItem)(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    flex-grow: 1;
+    min-width: 26rem;
+  `
+);
+
+const TableHeaderDinnerItem = styled(TableHeaderItem)(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    width: 26rem;
   `
 );
 
@@ -227,6 +288,7 @@ const TotalItem = styled.li<ITotalVariant>(
       palette,
       typography: { fontSize, fontWeight },
       layout: { border },
+      media: { up, breakpoints },
     },
     variant,
   }) => css`
@@ -239,6 +301,10 @@ const TotalItem = styled.li<ITotalVariant>(
     gap: 0.5rem;
     flex-grow: 1;
     position: relative;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    min-width: 15rem;
 
     h2,
     h3 {
@@ -273,6 +339,14 @@ const TotalItem = styled.li<ITotalVariant>(
         color: red;
       }
     `}
+
+    ${up(breakpoints.xl)} {
+      flex-grow: 1;
+      width: auto;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+    }
   `
 );
 
@@ -294,6 +368,7 @@ const TotalItemModal = styled(motion.div)(
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 1;
 
     box-shadow: ${palette.common["box-shadow"]};
 
@@ -314,6 +389,8 @@ export {
   OneDayViewTableWrapper,
   OneDayViewTableHeaderWrapper,
   TableHeaderItem,
+  TableHeaderMealItem,
+  TableHeaderDinnerItem,
   TotalItem,
   TotalItemModal,
 };

@@ -1,24 +1,9 @@
-import { IDietDayMealData } from "interfaces/diet/dietMeals.interfaces";
-import { IDietMealQueryData } from "interfaces/diet/dietQuery.interfaces";
 import React, { useState } from "react";
+
+import { IDietMealQueryData } from "interfaces/diet/dietQuery.interfaces";
 
 //utils
 import { procentClasses } from "pages/dashboard/diets/editDiet/utils/procentClasses";
-
-// import { columns } from "../OneDayView";
-
-//interfaces
-// import { DietDays } from "../../../../../helpers/createDays";
-
-//popup
-// import PopupContainer from "@/components/popup/PopupContainer";
-
-//context
-// import ModalContainer from "@/components/modal/Modal";
-// import { useCurrentMeal } from "../../../../context/currentMeal.context";
-
-//form
-import { useFormContext } from "react-hook-form";
 
 //icons
 import {
@@ -54,11 +39,6 @@ const Meal = ({
   establishment: IDietEstablishmentData;
 }) => {
   const [addDinnerModalOpen, setDinnerModalOpen] = useState(false);
-  // const { mealId, mealPopupOpen, setMealPopupOpen } = useCurrentMeal();
-
-  // const currentMealDinners = dietDinners.filter(
-  //   ({ mealId }) => mealId === meal.id
-  // );
 
   const mealEstablishment = establishment.meals.find(
     ({ _id }) => _id === meal.establishmentMealId
@@ -66,9 +46,9 @@ const Meal = ({
 
   return (
     <>
-      <Styled.MealWrapper className="w-fit flex flex-col 2xl:w-full">
-        <Styled.Meal className="w-fit flex border-x border-b  2xl:w-full">
-          <Styled.MealNameWrapper className="w-40 border-r p-5 2xl:flex-auto relative">
+      <Styled.MealWrapper>
+        <Styled.Meal>
+          <Styled.MealNameWrapper>
             <Styled.MealNameHeading>
               {meal.name}
               <IconModal icon={<FaEllipsisV />}>
@@ -83,7 +63,7 @@ const Meal = ({
               dodaj pozycję
             </Styled.AddDinnerButtonWrapper>
           </Styled.MealNameWrapper>
-          <Styled.MealDinnersWrapper className="flex flex-col divide-y">
+          <Styled.MealDinnersWrapper>
             {meal.dinners.length < 1 && (
               <Styled.EmptyMealWrapper>
                 <Styled.EmptyMealContent
@@ -96,7 +76,7 @@ const Meal = ({
             {meal.dinners.length > 0 &&
               meal.dinners.map((dinner, index) => (
                 <>
-                  <Styled.DinnerWrapper key={dinner._id} className="flex">
+                  <Styled.DinnerWrapper key={dinner._id}>
                     <DinnerNameWrapper dinner={dinner} />
                     <Styled.DinnerProductsWrapper>
                       {dinner.dinnerPortion.dinnerProducts.length > 0 &&
@@ -107,14 +87,8 @@ const Meal = ({
                             portion,
                             total,
                           }) => (
-                            <Styled.DinnerProduct
-                              key={dinnerProductId}
-                              className="flex flex-grow"
-                            >
-                              <Styled.DinnerProductItem
-                                style={{ width: "26rem" }}
-                                className="w-40 p-5 border-r flex 2xl:w-64"
-                              >
+                            <Styled.DinnerProduct key={dinnerProductId}>
+                              <Styled.DinnerProductItem>
                                 <span>
                                   {dinnerProduct.product.image && (
                                     <div>
@@ -128,19 +102,19 @@ const Meal = ({
                                   <p>{dinnerProduct.product.name}</p>
                                 </span>
                               </Styled.DinnerProductItem>
-                              <Styled.DinnerProductItem className="w-20 p-5 border-r 2xl:w-32">
+                              <Styled.DinnerProductItem>
                                 {portion}
                               </Styled.DinnerProductItem>
-                              <Styled.DinnerProductItem className="w-20 p-5 border-r last-of-type:border-none 2xl:w-32">
+                              <Styled.DinnerProductItem>
                                 {total.protein.gram}
                               </Styled.DinnerProductItem>
-                              <Styled.DinnerProductItem className="w-20 p-5 border-r last-of-type:border-none 2xl:w-32">
+                              <Styled.DinnerProductItem>
                                 {total.fat.gram}
                               </Styled.DinnerProductItem>
-                              <Styled.DinnerProductItem className="w-20 p-5 border-r last-of-type:border-none 2xl:w-32">
+                              <Styled.DinnerProductItem>
                                 {total.carbohydrates.gram}
                               </Styled.DinnerProductItem>
-                              <Styled.DinnerProductItem className="w-20 p-5 border-r last-of-type:border-none 2xl:w-32">
+                              <Styled.DinnerProductItem>
                                 {total.kcal}
                               </Styled.DinnerProductItem>
                             </Styled.DinnerProduct>
@@ -172,15 +146,6 @@ const Meal = ({
                       )}
                     </Styled.DinnerProductsWrapper>
                   </Styled.DinnerWrapper>
-
-                  {/* {columns.map((column) => (
-                              <div
-                                key={column.key}
-                                className="w-20 p-5 border-r last-of-type:border-none 2xl:w-32"
-                              >
-                                {dinnerProduct.macrohydrates[column.key]}
-                              </div>
-                            ))} */}
                 </>
               ))}
 
@@ -209,42 +174,6 @@ const Meal = ({
             )}
           </Styled.MealDinnersWrapper>
         </Styled.Meal>
-
-        {/* <div className="flex border-x border-b items-center w-full">
-          <div className=" w-[30rem] p-5 border-r 2xl:w-[32rem] 2xl:flex-auto">
-            Razem:{" "}
-            <b>
-              {" "}
-              {meal.total.procent} / {meal.establishments.procent} %
-            </b>
-          </div>
-          <div className="w-20 p-5 border-r 2xl:w-32">
-            <b>{meal.total.gram}</b>
-          </div>
-          <MealMacroTotalItem
-            total={meal.total.protein.gram}
-            establishment={meal.establishments.protein.gram}
-            macroDifferentMeal={elasticEstablishment}
-          />
-
-          <MealMacroTotalItem
-            total={meal.total.fat.gram}
-            establishment={meal.establishments.fat.gram}
-            macroDifferentMeal={elasticEstablishment}
-          />
-
-          <MealMacroTotalItem
-            total={meal.total.carbohydrates.gram}
-            establishment={meal.establishments.carbohydrates.gram}
-            macroDifferentMeal={elasticEstablishment}
-          />
-
-          <MealMacroTotalItem
-            total={meal.total.kcal}
-            establishment={meal.establishments.kcal}
-            macroDifferentMeal={elasticEstablishment}
-          />
-        </div> */}
       </Styled.MealWrapper>
 
       <Modal
@@ -259,17 +188,6 @@ const Meal = ({
     </>
   );
 };
-
-// export const procentClasses = (procent: number) => {
-//   if (procent >= 50) {
-//     return "text-red-400";
-//   }
-
-//   if (procent <= 5) {
-//     return "text-green-500";
-//   }
-//   return "text-yellow-400";
-// };
 
 const DinnerNameWrapper = ({ dinner }: { dinner: IDietDinnerQueryData }) => {
   const [openDeleteDinnerModal, setOpenDeleteDinnerModal] = useState(false);
@@ -397,51 +315,6 @@ export const procentCount = (dietMacro: number, establishmentMacro: number) => {
 
 const roundMacro = (macro: number) => {
   return Math.round(macro * 1e2) / 1e2;
-};
-
-interface IMealMacroTotal {
-  total: number;
-  establishment: number;
-  macroDifferentMeal?: boolean;
-}
-
-// const MealMacroTotalItem = ({
-//   total,
-//   establishment,
-//   macroDifferentMeal,
-// }: IMealMacroTotal) => {
-//   const [macroModalOpen, setMacroModalOpen] = useState(false);
-
-//   return (
-//     <div
-//       className="w-20 p-5 2xl:w-32 border-r last-of-type:border-0 relative"
-//       onMouseEnter={() => setMacroModalOpen(true)}
-//       onMouseLeave={() => setMacroModalOpen(false)}
-//     >
-//       <b
-//         className={` ${
-//           !macroDifferentMeal
-//             ? procentClasses(procentCount(total, establishment))
-//             : "text-slate-700"
-//         }`}
-//       >
-//         {total}
-//       </b>
-//       {!macroDifferentMeal && macroModalOpen && (
-//         <MacroModal total={total} establishment={establishment} />
-//       )}
-//     </div>
-//   );
-// };
-
-const MacroModal = ({ total, establishment }: IMealMacroTotal) => {
-  return (
-    <div className="absolute flex items-center justify-center top-3/4 left-0 w-full px-5 py-3 bg-black z-10 rounded-md">
-      <p className=" font-medium text-xs text-white">
-        <b>{total} </b> / {establishment}
-      </p>
-    </div>
-  );
 };
 
 export default Meal;

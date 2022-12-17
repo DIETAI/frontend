@@ -15,6 +15,7 @@ const PageNavContainer = styled.div(
     gap: 1rem;
     margin-bottom: 1rem;
     flex-direction: column;
+    z-index: 1;
 
     ${up(breakpoints.sm)} {
       flex-direction: row;
