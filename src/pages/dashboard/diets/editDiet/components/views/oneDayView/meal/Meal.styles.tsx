@@ -395,13 +395,18 @@ const SumItem = styled.div<ISumItemVariant>(
   `
 );
 
-const SumItemModal = styled(motion.div)(
+interface ISumModalDisplay {
+  modalDisplay: "bottom" | "top";
+}
+
+const SumItemModal = styled(motion.div)<ISumModalDisplay>(
   ({
     theme: {
       palette,
       typography: { fontSize, fontWeight },
       layout: { border },
     },
+    modalDisplay,
   }) => css`
     position: absolute;
     left: 0;
@@ -421,6 +426,12 @@ const SumItemModal = styled(motion.div)(
       font-size: ${fontSize.xs};
       font-weight: ${fontWeight.medium};
     }
+
+    ${modalDisplay === "top" &&
+    css`
+      bottom: 110%;
+      top: auto;
+    `}
   `
 );
 

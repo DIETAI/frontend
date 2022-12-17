@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 import { IDietMealQueryData } from "interfaces/diet/dietQuery.interfaces";
 
@@ -272,6 +272,8 @@ const DinnerNameWrapper = ({ dinner }: { dinner: IDietDinnerQueryData }) => {
   );
 };
 
+export type ISumModalPosition = "bottom" | "top";
+
 const SumModal = ({
   totalValue,
   establishmentValue,
@@ -279,9 +281,29 @@ const SumModal = ({
   totalValue: number;
   establishmentValue: number;
 }) => {
+  const [modalDisplay, setModalDisplay] = useState<ISumModalPosition>("bottom");
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const currentYPosition = getCurrentYPosition();
+
+    if (!currentYPosition) return;
+
+    if (currentYPosition > 1500) {
+      return setModalDisplay("top");
+    }
+  }, []);
+
+  const getCurrentYPosition = () => {
+    const position = modalRef.current?.getBoundingClientRect();
+    return position?.y;
+  };
+
+  console.log({ sumModalPosition: getCurrentYPosition() });
   const [sumModalOpen, setSumModalOpen] = useState(false);
   return (
     <Styled.SumItem
+      ref={modalRef}
       onMouseEnter={() => setSumModalOpen(true)}
       onMouseLeave={() => setSumModalOpen(false)}
       variant={procentClasses({
@@ -296,6 +318,7 @@ const SumModal = ({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            modalDisplay={modalDisplay}
           >
             <p>
               <b>{totalValue}</b> / {establishmentValue}
