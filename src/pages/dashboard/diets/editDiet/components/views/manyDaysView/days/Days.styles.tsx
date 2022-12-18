@@ -28,12 +28,18 @@ const DaysNav = styled.div(
     },
   }) => css`
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: flex-start;
     width: 100%;
     padding: 2rem;
     border-bottom: 0.1rem ${palette.primary.light};
     gap: 2rem;
+
+    p {
+      font-size: ${fontSize.s};
+      font-weight: ${fontWeight.medium};
+      color: ${palette.common.text};
+    }
   `
 );
 
