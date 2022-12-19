@@ -28,6 +28,8 @@ const ImageView = ({
   setAssetInfo,
   assetDelete,
   setAssetDelete,
+  editAssetFormOpen,
+  setEditAssetFormOpen,
 }: {
   uploadImage: () => void;
   assets: IAssetData[];
@@ -35,6 +37,10 @@ const ImageView = ({
   setAssetInfo: React.Dispatch<React.SetStateAction<IAssetData | undefined>>;
   assetDelete?: IAssetData;
   setAssetDelete: React.Dispatch<React.SetStateAction<IAssetData | undefined>>;
+  editAssetFormOpen?: IAssetData;
+  setEditAssetFormOpen: React.Dispatch<
+    React.SetStateAction<IAssetData | undefined>
+  >;
 }) => {
   // const { assets, assetsLoading, assetsError } = getAssets();
 
@@ -59,6 +65,8 @@ const ImageView = ({
             setAssetDelete={setAssetDelete}
             key={asset._id}
             asset={asset}
+            editAssetFormOpen={editAssetFormOpen}
+            setEditAssetFormOpen={setEditAssetFormOpen}
           />
         ))}
     </Styled.ImagesWrapper>
@@ -71,12 +79,18 @@ const Image = ({
   setAssetInfo,
   assetDelete,
   setAssetDelete,
+  editAssetFormOpen,
+  setEditAssetFormOpen,
 }: {
   asset: IAssetData;
   assetInfo?: IAssetData;
   setAssetInfo: React.Dispatch<React.SetStateAction<IAssetData | undefined>>;
   assetDelete?: IAssetData;
   setAssetDelete: React.Dispatch<React.SetStateAction<IAssetData | undefined>>;
+  editAssetFormOpen?: IAssetData;
+  setEditAssetFormOpen: React.Dispatch<
+    React.SetStateAction<IAssetData | undefined>
+  >;
 }) => {
   const { selectAssetId, selectedAssetId } = useFileLibrary();
   const [openImageOptions, setOpenImageOptions] = useState(false);
@@ -110,7 +124,7 @@ const Image = ({
             </Styled.ImageOptionWrapper>
             <Styled.ImageOptionWrapper
               optionType="edit"
-              // onClick={() => setOpenEditDinnerModal(true)}
+              onClick={() => setEditAssetFormOpen(asset)}
             >
               <FaEdit />
             </Styled.ImageOptionWrapper>

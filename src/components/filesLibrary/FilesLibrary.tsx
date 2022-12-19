@@ -15,6 +15,7 @@ import NoData from "assets/noData.svg";
 //components
 import Button from "components/form/button/Button";
 import AddFileForm from "./addFileForm/AddFileForm";
+import EditFileForm from "./editFileForm/EditFileForm";
 import FilesLibraryNav from "./nav/FilesLibraryNav";
 import ImageView from "./views/imageView/ImageView";
 import LineView from "./views/lineView/LineView";
@@ -96,7 +97,8 @@ const FilesLibrary = ({ closeModal, onSubmitAction }: IFilesLibraryProps) => {
   const [assetDelete, setAssetDelete] = useState<IAssetData>();
 
   const { assets, assetsLoading, assetsError } = getAssets();
-  const [openAddFileForm, setOpenAddFileForm] = useState(false);
+  const [openAddFileForm, setOpenAddFileForm] = useState<boolean>(false);
+  const [openEditFileForm, setOpenEditFileForm] = useState<IAssetData>();
   const [selectedImageId, setSelectedImageId] = useState<string>();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -119,13 +121,6 @@ const FilesLibrary = ({ closeModal, onSubmitAction }: IFilesLibraryProps) => {
         setView={setView}
       />
 
-      {openAddFileForm && (
-        <AddFileForm
-          closeForm={() => setOpenAddFileForm(false)}
-          assets={assets}
-        />
-      )}
-
       <Styled.HeaderWrapper>
         <Styled.NavInfoWrapper>
           <span>
@@ -140,7 +135,7 @@ const FilesLibrary = ({ closeModal, onSubmitAction }: IFilesLibraryProps) => {
         <SelectedAsset />
       </Styled.HeaderWrapper>
 
-      {!openAddFileForm && assets.length < 1 && (
+      {assets.length < 1 && (
         <Styled.NotFoundFilesWrapper>
           <img src={NoData} />
           <Styled.NotFoundFilesHeading>
@@ -149,7 +144,7 @@ const FilesLibrary = ({ closeModal, onSubmitAction }: IFilesLibraryProps) => {
           </Styled.NotFoundFilesHeading>
 
           <Button onClick={() => setOpenAddFileForm(true)} variant="primary">
-            wstaw plik v2
+            wstaw plik
           </Button>
         </Styled.NotFoundFilesWrapper>
       )}
@@ -162,6 +157,8 @@ const FilesLibrary = ({ closeModal, onSubmitAction }: IFilesLibraryProps) => {
           setAssetInfo={setAssetInfo}
           assetDelete={assetDelete}
           setAssetDelete={setAssetDelete}
+          editAssetFormOpen={openEditFileForm}
+          setEditAssetFormOpen={setOpenEditFileForm}
         />
       )}
       {view === "line" && (
@@ -172,6 +169,23 @@ const FilesLibrary = ({ closeModal, onSubmitAction }: IFilesLibraryProps) => {
           setAssetInfo={setAssetInfo}
           assetDelete={assetDelete}
           setAssetDelete={setAssetDelete}
+          editAssetFormOpen={openEditFileForm}
+          setEditAssetFormOpen={setOpenEditFileForm}
+        />
+      )}
+
+      {openAddFileForm && (
+        <AddFileForm
+          closeForm={() => setOpenAddFileForm(false)}
+          assets={assets}
+        />
+      )}
+
+      {openEditFileForm && (
+        <EditFileForm
+          closeForm={() => setOpenEditFileForm(undefined)}
+          assets={assets}
+          editAsset={openEditFileForm}
         />
       )}
 

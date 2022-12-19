@@ -19,7 +19,6 @@ export type DaysView = "oneDay" | "manyDays";
 const EditDiet = () => {
   const [view, setView] = useState<DaysView>("manyDays");
   const { dietEditId } = useParams();
-  console.log({ dietEditId });
 
   if (!dietEditId) return <div>not found</div>;
 

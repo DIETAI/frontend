@@ -23,6 +23,8 @@ const LineView = ({
   setAssetInfo,
   assetDelete,
   setAssetDelete,
+  editAssetFormOpen,
+  setEditAssetFormOpen,
 }: {
   uploadImage: () => void;
   assets: IAssetData[];
@@ -30,6 +32,10 @@ const LineView = ({
   setAssetInfo: React.Dispatch<React.SetStateAction<IAssetData | undefined>>;
   assetDelete?: IAssetData;
   setAssetDelete: React.Dispatch<React.SetStateAction<IAssetData | undefined>>;
+  editAssetFormOpen?: IAssetData;
+  setEditAssetFormOpen: React.Dispatch<
+    React.SetStateAction<IAssetData | undefined>
+  >;
 }) => {
   const { selectAssetId, selectedAssetId } = useFileLibrary();
   // const { assets, assetsLoading, assetsError } = getAssets();
@@ -65,7 +71,6 @@ const LineView = ({
               </Styled.ImageWrapper>
               <h2>{asset.title}</h2>
             </Styled.ItemTitleWrapper>
-            {/* {asset.size && <h3>{fileSizeFormat(asset.size)}</h3>} */}
             <Styled.ItemOptionsWrapper>
               <Styled.ItemOptionWrapper
                 optionType="info"
@@ -75,7 +80,7 @@ const LineView = ({
               </Styled.ItemOptionWrapper>
               <Styled.ItemOptionWrapper
                 optionType="edit"
-                // onClick={() => setOpenEditDinnerModal(true)}
+                onClick={() => setEditAssetFormOpen(asset)}
               >
                 <FaEdit />
               </Styled.ItemOptionWrapper>
