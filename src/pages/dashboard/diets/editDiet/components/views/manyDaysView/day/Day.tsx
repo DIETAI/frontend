@@ -1,14 +1,16 @@
 import React, { useState } from "react";
-import { IDietDayQueryData } from "interfaces/diet/dietQuery.interfaces";
-import { getDietDayMeals } from "services/getDietMeals";
+
+//animations
 import { AnimatePresence } from "framer-motion";
-import format from "date-fns/format";
-import { pl } from "date-fns/locale";
+
+//queries
+import { IDietDayQueryData } from "interfaces/diet/dietQuery.interfaces";
+
+//utils
+import { dateFormat } from "../../../../utils/dayDateFormat";
 
 //components
 import Meal from "../meal/Meal";
-import IconModal from "components/iconModal/IconModal";
-import DayEstablishmentModalContent from "./dayEstablishmentModal/DayEstablishmentModalContent";
 
 //styles
 import * as Styled from "./Day.styles";
@@ -20,9 +22,10 @@ import {
 } from "../../../../utils/procentClasses";
 
 //icons
-import { FaEllipsisV } from "icons/icons";
+import { FaCalendar } from "icons/icons";
+
+//interfaces
 import { IDietEstablishmentData } from "interfaces/dietEstablishment.interfaces";
-import CheckBoxWrapper from "components/checkbox/CheckboxWrapper";
 
 interface IDay {
   day: IDietDayQueryData;
@@ -30,69 +33,12 @@ interface IDay {
 }
 
 const Day = ({ day, establishment }: IDay) => {
-  // const { dietDayMeals, dietDayMealsError, dietDayMealsLoading } =
-  //   getDietDayMeals(day._id);
-
-  // console.log({ dietDayMeals });
-
-  // if (dietDayMealsLoading) return <div>dietDayMeals loading...</div>;
-  // if (dietDayMealsError || !dietDayMeals) return <div>dietDayMeals error</div>;
-
-  //query to dayMeals
-
-  //   const {
-  //     changeDietGenerateAction,
-  //     loading,
-  //     dayId,
-  //     loadingMsg,
-  //     generatedDays,
-  //   } = useGenerateDietAction();
-
-  //   const dayLoaded = generatedDays.includes(day.id);
-
-  const dateFormat = (date: Date) => {
-    const formatDate = format(new Date(date), "eeee / dd.MM.yyyy", {
-      locale: pl,
-    });
-
-    return formatDate;
-  };
-
   return (
     <Styled.DayWrapper>
       <Styled.DayHeading>
+        <FaCalendar />
         <h2>{day.date ? dateFormat(day.date) : `Dzień ${day.order}`}</h2>
-        {/* <IconModal icon={<FaEllipsisV />}>
-          <DayEstablishmentModalContent />
-        </IconModal> */}
       </Styled.DayHeading>
-      {/* <Styled.DayTotal>
-        <Styled.DayTotalItem>
-          <span>B (g)</span>
-          <p>
-            <b>{day.total.protein.gram}</b>/{establishment.protein.gram}
-          </p>
-        </Styled.DayTotalItem>
-        <Styled.DayTotalItem>
-          <span>T (g)</span>
-          <p>
-            <b>{day.total.fat.gram}</b>/{establishment.fat.gram}
-          </p>
-        </Styled.DayTotalItem>
-        <Styled.DayTotalItem>
-          <span>W (g)</span>
-          <p>
-            <b>{day.total.carbohydrates.gram}</b>/
-            {establishment.carbohydrates.gram}
-          </p>
-        </Styled.DayTotalItem>
-        <Styled.DayTotalItem>
-          <span>Kcal</span>
-          <p>
-            <b>{day.total.kcal}</b>/{establishment.kcal}
-          </p>
-        </Styled.DayTotalItem>
-      </Styled.DayTotal> */}
       <Styled.DayTotalWrapper>
         <SumModal
           macroType="kcal"
@@ -131,22 +77,6 @@ const Day = ({ day, establishment }: IDay) => {
           ))}
       </Styled.DayMealsWrapper>
     </Styled.DayWrapper>
-
-    // <div className="flex flex-col flex-1 border relative p-4 gap-2">
-    //   <div className="flex p-4 bg-orange-50 w-full  justify-center items-center">
-    //     <h2 className=" text-orange-300 text-base font-medium">
-    //       Dzień {day.id}
-    //     </h2>
-    //   </div>
-    //   {currentDayMeals.map((meal) => (
-    //     <Meal key={meal.id} meal={meal} />
-    //   ))}
-    //   {loading && !dayLoaded && (
-    //     <div className=" flex items-center justify-center w-full h-full absolute top-0 left-0 backdrop-blur-sm">
-    //       <Spinner />
-    //     </div>
-    //   )}
-    // </div>
   );
 };
 
@@ -213,30 +143,7 @@ export const SumModal = ({
 
             {establishmentMinGram && (
               <>
-                {/* <Styled.SumItemNav>
-                  <Styled.SumItemNavOption>
-                    <CheckBoxWrapper
-                      checked={option === "perfectProcent"}
-                      onClick={() => setOption("perfectProcent")}
-                    />
-                    <p>
-                      licz do preferowanej wartości procentowej z odchyleniem 5%
-                    </p>
-                  </Styled.SumItemNavOption>
-                  <Styled.SumItemNavOption>
-                    <CheckBoxWrapper
-                      checked={option === "percentageRange"}
-                      onClick={() => setOption("percentageRange")}
-                    />
-                    <p>licz do przedziału %</p>
-                  </Styled.SumItemNavOption>
-                </Styled.SumItemNav> */}
                 {option === "percentageRange" && (
-                  // <div>
-                  //   <p>przedział procentowy: 10-22%</p>
-                  //   <p>preferowana wartość %: 15%</p>
-                  //   <p>obecna wartość %: 5%</p>
-                  // </div>
                   <Styled.PercentageRangeWrapper
                     variant={percentageRangeClasses({
                       value: totalValue,
