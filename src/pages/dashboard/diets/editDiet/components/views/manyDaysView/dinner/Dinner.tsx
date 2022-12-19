@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+
+//animations
 import { AnimatePresence } from "framer-motion";
 
+//drag
 import { DraggableProvided } from "react-beautiful-dnd";
 
 //interfaces
@@ -14,10 +17,10 @@ import Image from "components/form/images/image/Image";
 import DeleteDinnerModalContent from "./deleteModal/DeleteModalContent";
 import InfoModalContent from "./infoModal/InfoModalContent";
 import EditDinnerModalContent from "../../../editDinnerModal/EditDinnerModal";
+import Modal from "components/modal/Modal";
 
 //icons
 import { FaEdit, FaTrash, FaInfoCircle, FaLongArrowAltUp } from "icons/icons";
-import Modal from "components/modal/Modal";
 
 interface IDietDinner {
   dietDinner: IDietDinnerQueryData;
@@ -64,15 +67,6 @@ const Dinner = ({ dietDinner, provided }: IDietDinner) => {
           </p>
         </Styled.DietDinnerTotalWrapper>
 
-        {/* <div>
-        produkty:{" "}
-        {dietDinner.dinnerPortion.dinnerProducts.map((dinnerPortionProduct) => (
-          <div key={dinnerPortionProduct.dinnerProductId}>
-            <p>produkt: {dinnerPortionProduct.dinnerProductId}</p>{" "}
-            <p>ilość: {dinnerPortionProduct.portion} g</p>
-          </div>
-        ))}{" "}
-      </div> */}
         <AnimatePresence>
           {openDinnerOptions && (
             <Styled.DietDinnerOptionsWrapper
