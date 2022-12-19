@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { IDietMealQueryData } from "interfaces/diet/dietQuery.interfaces";
 import axios from "utils/api";
 import { mutate } from "swr";
+
+//interfaces
+import { IDietMealQueryData } from "interfaces/diet/dietQuery.interfaces";
 
 //react-beautiful-dnd
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
@@ -12,14 +14,12 @@ import * as Styled from "./Meal.styles";
 //components
 import Modal from "components/modal/Modal";
 import AddDinnerModalContent from "../../../addDinnerModal/AddDinnerModal";
-import IconModal from "components/iconModal/IconModal";
-import MealEstablishmentModalContent from "./mealEstablishmentModal/MealEstablishmentModalContent";
 import Dinner from "../dinner/Dinner";
 import { SumModal } from "../day/Day";
 import MealGenerateModalContent from "../../../mealGenerateModal/MealGenerateModal";
 
 //icons
-import { FaEllipsisV, FaPlus, FaFileAlt } from "icons/icons";
+import { FaPlus, FaFileAlt } from "icons/icons";
 import { IDietEstablishmentData } from "interfaces/dietEstablishment.interfaces";
 
 interface IMeal {
@@ -36,9 +36,6 @@ const Meal = ({ meal, establishment }: IMeal) => {
     setMealDinners(meal.dinners);
   }, [...meal.dinners]);
 
-  // const { dietDinners, dietDinnersError, dietDinnersLoading } = getDietDinners(
-  //   meal._id
-  // );
   const mealEstablishment = establishment.meals.find(
     ({ _id }) => _id === meal.establishmentMealId
   );
@@ -54,8 +51,6 @@ const Meal = ({ meal, establishment }: IMeal) => {
     newMealDinners.splice(result.destination.index, 0, reorderedItem);
 
     setMealDinners(newMealDinners);
-
-    //edit dietDinnersOrder == dinnerIndex + 1
 
     const newDietDinnersOrder = await Promise.all(
       newMealDinners.map(async (mealDinner, mealDinnerIndex) => {
@@ -85,12 +80,7 @@ const Meal = ({ meal, establishment }: IMeal) => {
       <Styled.MealHeading>
         <h3>{meal.name}</h3>
         <h3>{mealEstablishment.time}</h3>
-
-        {/* <IconModal icon={<FaEllipsisV />}>
-          <MealEstablishmentModalContent />
-        </IconModal> */}
       </Styled.MealHeading>
-      {/* {meal._id} */}
 
       <Styled.MealTotalWrapper>
         <SumModal
@@ -98,9 +88,7 @@ const Meal = ({ meal, establishment }: IMeal) => {
           totalValue={meal.total.kcal}
           establishmentValue={mealEstablishment?.kcal as number}
         />
-        {/* <p>
-          kcal: <b>{meal.total?.kcal}</b>
-        </p> */}
+
         <p>
           B: <b>{meal.total?.protein.gram}</b>{" "}
         </p>
@@ -136,9 +124,6 @@ const Meal = ({ meal, establishment }: IMeal) => {
         </Droppable>
       </DragDropContext>
 
-      {/* {sortedMealDinners.map((dietDinner) => (
-        <Dinner key={dietDinner._id} dietDinner={dietDinner} />
-      ))} */}
       <Styled.AddDinnerButton onClick={() => setDinnerModalOpen(true)}>
         <FaPlus />
         dodaj pozycję
@@ -158,10 +143,7 @@ const Meal = ({ meal, establishment }: IMeal) => {
           closeModal={() => setDinnerModalOpen(false)}
         />
       </Modal>
-      <Modal
-        // onClose={() => setGenerateMealModalOpen(false)}
-        open={generateMealModalOpen}
-      >
+      <Modal open={generateMealModalOpen}>
         <MealGenerateModalContent
           meal={meal}
           mealEstablishment={mealEstablishment}
