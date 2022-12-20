@@ -414,6 +414,402 @@ const ProductTotalFeature = styled.li(
     font-size: 1.1rem;
   `
 );
+const DinnerInfoWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    gap: 3rem;
+    width: 100%;
+    position: relative;
+    overflow-y: hidden;
+
+    /* ${up(breakpoints.lg)} {
+      flex-direction: row;
+    } */
+  `
+);
+
+const DinnerInfoImageWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* width: 30rem;
+    height: 30rem; */
+    /* background: ${palette.common.contrast}; */
+    border: 0.1rem solid ${palette.primary.light};
+    border-radius: ${border.rounded.md};
+    padding: 2rem;
+    position: relative;
+
+    .productImg {
+      /* width: 100%;
+      height: 100%; */
+      width: 100%;
+      max-width: 40rem;
+      max-height: 40rem;
+      object-fit: contain;
+      z-index: 1;
+      border-radius: ${border.rounded.md};
+    }
+
+    .backgroundImg {
+      /* width: 100%
+      height: 100%; */
+      width: 100%;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      opacity: 0.08;
+      filter: blur(3px);
+
+      object-fit: cover;
+      border-radius: ${border.rounded.md};
+    }
+  `
+);
+
+const DinnerInfoDescriptionWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    gap: 2rem;
+    width: 100%;
+    /* border-top: 0.1rem dashed ${palette.primary.light};
+    padding-top: 2rem; */
+
+    h2 {
+      font-size: ${fontSize.l};
+      font-weight: ${fontWeight.semibold};
+      color: ${palette.common.text};
+    }
+
+    p {
+      font-size: ${fontSize.s};
+      font-weight: ${fontWeight.light};
+      color: ${palette.common.text};
+    }
+  `
+);
+
+const DinnerInfoMacroWrapper = styled.ul(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 1rem;
+    width: 100%;
+    list-style: none;
+    flex-wrap: wrap;
+
+    li {
+      font-size: ${fontSize.s};
+      font-weight: ${fontWeight.light};
+      color: ${palette.common.text};
+      border-radius: ${border.rounded.sm};
+      border: 0.1rem dashed ${palette.common.slate};
+      padding: 0.6rem 1rem;
+    }
+  `
+);
+
+const DinnerInfoDescriptionItem = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    gap: 1.5rem;
+    border-bottom: 0.1rem dashed ${palette.primary.light};
+    padding-bottom: 1.5rem;
+    width: 100%;
+
+    p {
+      font-size: ${fontSize.s};
+      font-weight: ${fontWeight.light};
+      color: ${palette.common.text};
+    }
+  `
+);
+
+const DinnerInfoDescriptionNavItem = styled.span(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 1rem;
+    padding: 0.2rem 1rem;
+    border-radius: ${border.rounded.sm};
+    background: ${palette.common.contrast};
+    border: 0.1rem solid ${palette.primary.light};
+    font-size: 1.4rem;
+    font-weight: ${fontWeight.medium};
+    color: ${palette.primary.main};
+  `
+);
+
+interface IOpenAllNutrients {
+  openAllNutrients: boolean;
+}
+
+const AllNutrientsButton = styled.button<IOpenAllNutrients>(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+    openAllNutrients,
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+    font-size: ${fontSize.s};
+    font-weight: ${fontWeight.medium};
+    color: ${palette.primary.main};
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    transition: 0.3s ease-out;
+    margin: 1rem 0;
+
+    svg {
+      width: 1.6rem;
+      height: 1.6rem;
+      path {
+        fill: ${palette.primary.main};
+      }
+    }
+
+    ${openAllNutrients &&
+    css`
+      svg {
+        transform: rotate(180deg);
+      }
+    `}
+
+    :hover {
+      opacity: 0.7;
+    }
+  `
+);
+
+const DinnerItemsWrapper = styled.ul(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 3rem;
+    /* padding: 1rem 0; */
+    width: 100%;
+
+    button {
+      margin-top: 1rem;
+    }
+  `
+);
+
+const FieldWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 2rem;
+    width: 100%;
+    padding: 2rem;
+    border-radius: 0.4rem;
+    border: 0.2rem dashed ${palette.primary.light};
+
+    ${up(breakpoints.sm)} {
+      padding: 4rem;
+    }
+  `
+);
+
+const FieldHeadWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    gap: 2rem;
+    width: 100%;
+
+    h2 {
+      font-size: ${fontSize.m};
+      font-weight: ${fontWeight.semibold};
+      color: ${palette.common.text};
+    }
+
+    ${up(breakpoints.sm)} {
+      flex-direction: row;
+      align-items: center;
+    }
+  `
+);
+
+const FieldItemsWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    gap: 2rem;
+  `
+);
+
+const FieldImageWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 0.1rem solid ${palette.primary.light};
+    border-radius: ${border.rounded.md};
+    padding: 1rem;
+    position: relative;
+
+    .productImg {
+      width: 100%;
+      max-width: 4rem;
+      max-height: 4rem;
+      object-fit: contain;
+      z-index: 1;
+      border-radius: ${border.rounded.sm};
+    }
+
+    .backgroundImg {
+      width: 100%;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      opacity: 0.08;
+      filter: blur(3px);
+
+      object-fit: cover;
+      border-radius: ${border.rounded.md};
+    }
+  `
+);
+
+const ProductContentItemItem = styled.li(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 1rem;
+    flex-direction: column;
+
+    ${up(breakpoints.sm)} {
+      flex-direction: row;
+      align-items: center;
+    }
+
+    h2 {
+      font-size: ${fontSize.s};
+      font-weight: ${fontWeight.medium};
+      color: ${palette.common.text};
+    }
+
+    p {
+      font-size: ${fontSize.s};
+      font-weight: ${fontWeight.light};
+      color: ${palette.common.text};
+    }
+  `
+);
 
 export {
   ModalContentWrapper,
@@ -435,4 +831,18 @@ export {
   ProductPortionItem,
   ProductTotalFeaturesWrapper,
   ProductTotalFeature,
+  //new
+  DinnerInfoWrapper,
+  DinnerInfoImageWrapper,
+  DinnerInfoDescriptionWrapper,
+  DinnerInfoDescriptionItem,
+  DinnerInfoDescriptionNavItem,
+  DinnerInfoMacroWrapper,
+  AllNutrientsButton,
+  DinnerItemsWrapper,
+  FieldWrapper,
+  FieldHeadWrapper,
+  FieldItemsWrapper,
+  FieldImageWrapper,
+  ProductContentItemItem,
 };
