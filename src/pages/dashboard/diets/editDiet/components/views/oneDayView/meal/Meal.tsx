@@ -23,7 +23,7 @@ import AddDinnerModalContent from "../../../addDinnerModal/AddDinnerModal";
 import Image from "components/form/images/image/Image";
 import DeleteDinnerModalContent from "../../../deleteDinnerModal/DeleteModalContent";
 import EditDinnerModalContent from "../../../editDinnerModal/EditDinnerModal";
-import InfoDinnerModalContent from "../../../infoDinnerModal/InfoModalContent";
+import InfoDinnerModalContent from "../../../infoDinnerModal/InfoDinnerModalContent";
 
 //services
 import { IDietEstablishmentData } from "interfaces/dietEstablishment.interfaces";

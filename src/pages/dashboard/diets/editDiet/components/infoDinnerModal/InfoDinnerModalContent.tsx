@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { IDietDinnerQueryData } from "interfaces/diet/dietQuery.interfaces";
 
 //styles
-import * as Styled from "./InfoModalContent.styles";
+import * as Styled from "./InfoDinnerModalContent.styles";
 
 //components
 import Heading from "components/heading/Heading";

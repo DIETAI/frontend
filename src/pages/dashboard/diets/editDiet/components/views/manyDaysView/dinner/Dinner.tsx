@@ -15,7 +15,7 @@ import * as Styled from "./Dinner.styles";
 //components
 import Image from "components/form/images/image/Image";
 import DeleteDinnerModalContent from "./deleteModal/DeleteModalContent";
-import InfoModalContent from "./infoModal/InfoModalContent";
+import InfoModalContent from "../../../infoDinnerModal/InfoDinnerModalContent";
 import EditDinnerModalContent from "../../../editDinnerModal/EditDinnerModal";
 import Modal from "components/modal/Modal";
 
