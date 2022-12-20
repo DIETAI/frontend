@@ -66,6 +66,7 @@ import {
   FaGripLines,
   FaGripVertical,
   FaImages,
+  FaStar,
 } from "react-icons/fa";
 
 export {
@@ -136,4 +137,5 @@ export {
   FaGripLines,
   FaGripVertical,
   FaImages,
+  FaStar,
 };

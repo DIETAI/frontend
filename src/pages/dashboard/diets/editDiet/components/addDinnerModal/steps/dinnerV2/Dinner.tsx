@@ -13,10 +13,14 @@ import axios, { AxiosResponse } from "axios";
 import * as Styled from "./Dinner.styles";
 
 //icons
-import { FaSearch } from "icons/icons";
+import { FaSearch, FaStar } from "icons/icons";
 
 //components
 import Button from "components/form/button/Button";
+
+//assets
+import LogoBackground from "assets/logo-icon.svg";
+import NoImage from "assets/noImage.svg";
 
 type IFilterOption = "recommend" | "all";
 
@@ -93,16 +97,35 @@ const Dinner = () => {
           stwórz posiłek
         </Button>
       </Styled.AddDinnerNavWrapper>
-      <div>
+      <Styled.DinnerList>
         {allDinnersLoading && <p>loading...</p>}
         {allDinners &&
           allDinners.map((dinner) => (
-            <li key={dinner._id}>
-              <h2>{dinner.name}</h2>
-              <p>rekomendowany: {dinner.recommendDistance ? "tak" : "nie"}</p>
-            </li>
+            <Styled.DinnerItem
+              key={dinner._id}
+              activeItem={selectedDinnerId === dinner._id}
+            >
+              <Styled.DinnerItemContent>
+                <Styled.DinnerItemName>
+                  <Styled.ImageWrapper>
+                    <img className="backgroundImg" src={LogoBackground} />
+                    <img
+                      className="itemImg"
+                      src={dinner.imageObj?.imageURL || NoImage}
+                    />
+                  </Styled.ImageWrapper>
+                  <h2>{dinner.name}</h2>
+                </Styled.DinnerItemName>
+
+                {dinner.recommendDistance && (
+                  <Styled.RecommendItem>
+                    <FaStar /> rekomendowany
+                  </Styled.RecommendItem>
+                )}
+              </Styled.DinnerItemContent>
+            </Styled.DinnerItem>
           ))}
-      </div>
+      </Styled.DinnerList>
     </>
   );
 };

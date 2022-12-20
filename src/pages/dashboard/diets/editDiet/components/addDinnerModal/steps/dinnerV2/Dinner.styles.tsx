@@ -167,13 +167,21 @@ const DinnerItemContent = styled.div(
       palette,
       typography: { fontSize, fontWeight },
       layout: { border },
+      media: { breakpoints, up },
     },
   }) => css`
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column-reverse;
     gap: 2rem;
     width: 100%;
+
+    ${up(breakpoints.sm)} {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
   `
 );
 
@@ -199,12 +207,21 @@ const DinnerItemName = styled.div(
       palette,
       typography: { fontSize, fontWeight },
       layout: { border },
+      media: { breakpoints, up },
     },
   }) => css`
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: flex-start;
-    gap: 1rem;
+    flex-direction: column;
+    gap: 1.5rem;
+    flex-grow: 1;
+    width: 100%;
+
+    ${up(breakpoints.md)} {
+      flex-direction: row;
+      align-items: center;
+    }
   `
 );
 
@@ -478,6 +495,110 @@ const EmptyDataWrapper = styled(motion.div)(
   `
 );
 
+//new
+const ImageWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    position: relative;
+    width: 100%;
+    max-width: 8rem;
+    border: 0.1rem solid ${palette.primary.light};
+    border-radius: ${border.rounded.sm};
+    cursor: pointer;
+    transition: 0.3s ease-out;
+
+    .itemImg {
+      /* width: 100%; */
+      max-width: 7rem;
+      max-height: 4rem;
+      object-fit: cover;
+      z-index: 1;
+      border-radius: ${border.rounded.sm};
+      transition: 0.3s ease-out;
+
+      :hover {
+        opacity: 0.7;
+      }
+    }
+
+    .backgroundImg {
+      /* width: 100%
+          height: 100%; */
+      width: 100%;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      opacity: 0.08;
+      filter: blur(3px);
+
+      object-fit: cover;
+      border-radius: ${border.rounded.sm};
+    }
+  `
+);
+
+//new
+const RecommendItem = styled.span(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 0.7rem 1rem;
+    color: white;
+    font-size: 1.4rem;
+    font-weight: ${fontWeight.light};
+    border-radius: ${border.rounded.sm};
+
+    svg {
+      width: 1.6rem;
+      height: 1.6rem;
+      path {
+        fill: white;
+      }
+    }
+
+    /* background: radial-gradient(
+        ellipse farthest-corner at right bottom,
+        #fedb37 0%,
+        #fdb931 8%,
+        #9f7928 30%,
+        #8a6e2f 40%,
+        transparent 80%
+      ),
+      radial-gradient(
+        ellipse farthest-corner at left top,
+        #ffffff 0%,
+        #ffffac 8%,
+        #d1b464 25%,
+        #5d4a1f 62.5%,
+        #5d4a1f 100%
+      ); //gold */
+
+    background: #d4af37;
+    /* background: #ffd700; */
+
+    //https://www.htmlcsscolor.com/hex/D4AF37
+  `
+);
+
 export {
   AddDinnerNavWrapper,
   DinnerList,
@@ -495,4 +616,7 @@ export {
   DinnerItemButton,
   DinnerItemContent,
   ErrorWrapper,
+  //new
+  ImageWrapper,
+  RecommendItem,
 };
