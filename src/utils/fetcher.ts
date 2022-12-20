@@ -8,6 +8,10 @@ const fetcher = (url: string, headers = {}) =>
     })
     .then((res) => res.data);
 
+export const multiFetcher = (...urls: string[]) => {
+  return Promise.all(urls.map((url) => fetcher(url)));
+};
+
 // const fetcher = async <T>(url: string, headers = {}): Promise<T | null> => {
 //   try {
 //     const { data } = await axios.get<T>(url, {

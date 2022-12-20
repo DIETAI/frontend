@@ -1,5 +1,5 @@
 export interface IRecommendDinnerData {
-  distance: string;
+  distance: number;
   recommendDinnerId: string;
   recommendDinnerName: string;
 }

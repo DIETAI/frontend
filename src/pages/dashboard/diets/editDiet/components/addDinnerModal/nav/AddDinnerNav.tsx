@@ -19,17 +19,6 @@ const SubscriptionPlanNav = ({
   valid,
   isLastStep,
 }: ISubscriptionPlanNavProps) => {
-  // const [activeItem, setActiveItem] = useState(subscriptionPlanSteps[0].id);
-
-  // const currentPage = activePage === link.id;
-
-  // const notValid =
-  //   (!valid && link.id > activePage) ||
-  //   !links
-  //     .slice(0, activePage + 2)
-  //     .map((link) => link.id)
-  //     .includes(link.id);
-
   const validItem = (itemIndex: number) => {
     if (itemIndex - activePage > 1) {
       return false;
@@ -43,9 +32,9 @@ const SubscriptionPlanNav = ({
   };
 
   return (
-    <Styled.SubscriptionPlanNavWrapper>
+    <Styled.NavWrapper>
       {dietDinnerSteps.map((step, stepIndex) => (
-        <Styled.SubscriptionPlanNavItem
+        <Styled.NavItem
           valid={validItem(stepIndex)}
           key={step.id}
           active={stepIndex === activePage}
@@ -53,9 +42,9 @@ const SubscriptionPlanNav = ({
         >
           {step.icon}
           <h2>{step.name}</h2>
-        </Styled.SubscriptionPlanNavItem>
+        </Styled.NavItem>
       ))}
-    </Styled.SubscriptionPlanNavWrapper>
+    </Styled.NavWrapper>
   );
 };
 
