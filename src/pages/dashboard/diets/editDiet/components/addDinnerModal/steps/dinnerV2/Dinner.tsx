@@ -1,13 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { baseURL } from "utils/api";
+import React, { useState } from "react";
 import { useFormContext } from "react-hook-form";
-import { getDinners } from "services/getDinners";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { createSearchParams } from "react-router-dom";
 import { useParams } from "react-router";
 import { getAllDinners } from "services/recommend/getAllDinners";
-import axios, { AxiosResponse } from "axios";
 
 //styles
 import * as Styled from "./Dinner.styles";
