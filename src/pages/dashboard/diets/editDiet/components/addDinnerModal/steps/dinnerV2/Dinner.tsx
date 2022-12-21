@@ -20,11 +20,15 @@ import {
 
 //components
 import Button from "components/form/button/Button";
+import ReactLoading from "react-loading";
 
 //assets
 import LogoBackground from "assets/logo-icon.svg";
 import NoImage from "assets/noImage.svg";
 import NoData from "assets/noData.svg";
+
+//animations
+import { AnimatePresence } from "framer-motion";
 
 type IFilterOption = "recommend" | "all";
 
@@ -112,7 +116,24 @@ const Dinner = () => {
         </Button>
       </Styled.AddDinnerNavWrapper>
       <Styled.DinnerList>
-        {allDinnersLoading && <p>loading...</p>}
+        <AnimatePresence>
+          {allDinnersLoading && (
+            <Styled.DinnersLoadingWrapper
+              initial={{ opacity: 1 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <ReactLoading
+                type="spin"
+                color="#7722FF"
+                height={50}
+                width={50}
+              />
+              <h3>pobieranie posiłków</h3>
+            </Styled.DinnersLoadingWrapper>
+          )}
+        </AnimatePresence>
 
         {allDinnersError && (
           <Styled.ErrorWrapper>

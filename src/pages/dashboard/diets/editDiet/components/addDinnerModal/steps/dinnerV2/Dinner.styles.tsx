@@ -691,6 +691,41 @@ const ErrorWrapper = styled(motion.div)(
   `
 );
 
+const DinnersLoadingWrapper = styled(motion.div)(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 2rem;
+    width: 100%;
+    transition: 0.3s ease-out;
+    min-height: 30rem;
+    background: ${palette.common.main};
+    border: 0.1rem solid ${palette.primary.light};
+    border-radius: ${border.rounded.sm};
+    z-index: 10;
+    padding: 1rem;
+
+    h3 {
+      color: ${palette.common.text};
+      font-size: ${fontSize.m};
+      font-weight: ${fontWeight.medium};
+      text-align: center;
+    }
+  `
+);
+
 export {
   AddDinnerNavWrapper,
   DinnerList,
@@ -714,4 +749,5 @@ export {
   OptionsContainer,
   EmptyWrapper,
   ErrorWrapper,
+  DinnersLoadingWrapper,
 };
