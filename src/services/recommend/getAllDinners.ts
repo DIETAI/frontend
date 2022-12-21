@@ -16,21 +16,9 @@ interface IRecommendDinnersArgs {
   mealType: IDietDayMealData["type"];
 }
 
-interface IAllDinner extends IDinnerData {
+export interface IAllDinner extends IDinnerData {
   recommendDistance?: number;
 }
-
-const sortData = (data: IAllDinner[]) => {
-  const sortedData = [...data].sort((a, b) => {
-    if (a.recommendDistance === undefined || b.recommendDistance === undefined)
-      return 0;
-    if (a.recommendDistance < b.recommendDistance) return -1;
-    if (a.recommendDistance > b.recommendDistance) return 1;
-    return 0;
-  });
-
-  return sortedData;
-};
 
 export function getAllDinners({
   dietMealId,
@@ -97,8 +85,6 @@ export function getAllDinners({
           if (b.recommendDistance === undefined) return -1;
           return a.recommendDistance - b.recommendDistance;
         }); // [1, 2, 3, 5, undefined, undefined]
-
-        // const sortedData = resultDinners.sort((a, b) => !!a.recommendDistance ? a.recommendDistance > b.recommendDistance : true)
 
         console.log({ sortedData });
 

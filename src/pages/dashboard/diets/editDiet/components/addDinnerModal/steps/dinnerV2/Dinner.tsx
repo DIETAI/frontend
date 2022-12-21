@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { createSearchParams } from "react-router-dom";
 import { useParams } from "react-router";
-import { getAllDinners } from "services/recommend/getAllDinners";
+import { getAllDinners, IAllDinner } from "services/recommend/getAllDinners";
 
 //styles
 import * as Styled from "./Dinner.styles";
@@ -20,6 +20,14 @@ import LogoBackground from "assets/logo-icon.svg";
 import NoImage from "assets/noImage.svg";
 
 type IFilterOption = "recommend" | "all";
+
+const search = (currentData: IAllDinner[], query: string) => {
+  const dataFilter = currentData.filter(
+    (row) => row.name.toLowerCase().indexOf(query.toLowerCase()) > -1
+  );
+
+  return dataFilter;
+};
 
 const Dinner = () => {
   const { dietEditId } = useParams();
@@ -70,6 +78,8 @@ const Dinner = () => {
     editDinnerId: selectedDinnerId || "",
   };
 
+  console.log({ allDinners });
+
   return (
     <>
       <Styled.AddDinnerNavWrapper>
@@ -96,8 +106,9 @@ const Dinner = () => {
       </Styled.AddDinnerNavWrapper>
       <Styled.DinnerList>
         {allDinnersLoading && <p>loading...</p>}
+        {allDinnersError && <p>error...</p>}
         {allDinners &&
-          allDinners.map((dinner) => (
+          search(allDinners, searchValue).map((dinner) => (
             <Styled.DinnerItem
               key={dinner._id}
               activeItem={selectedDinnerId === dinner._id}
