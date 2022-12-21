@@ -225,6 +225,22 @@ const DinnerItemName = styled.div(
   `
 );
 
+const OptionsContainer = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    flex-direction: column;
+    gap: 2rem;
+  `
+);
+
 const DinnerItemOptionsWrapper = styled.div(
   ({
     theme: {
@@ -619,4 +635,5 @@ export {
   //new
   ImageWrapper,
   RecommendItem,
+  OptionsContainer,
 };

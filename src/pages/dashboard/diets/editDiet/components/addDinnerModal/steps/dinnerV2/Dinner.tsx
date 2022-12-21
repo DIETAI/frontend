@@ -10,7 +10,7 @@ import { getAllDinners, IAllDinner } from "services/recommend/getAllDinners";
 import * as Styled from "./Dinner.styles";
 
 //icons
-import { FaSearch, FaStar } from "icons/icons";
+import { FaSearch, FaStar, FaEdit, FaPlus } from "icons/icons";
 
 //components
 import Button from "components/form/button/Button";
@@ -107,32 +107,81 @@ const Dinner = () => {
       <Styled.DinnerList>
         {allDinnersLoading && <p>loading...</p>}
         {allDinnersError && <p>error...</p>}
-        {allDinners &&
-          search(allDinners, searchValue).map((dinner) => (
-            <Styled.DinnerItem
-              key={dinner._id}
-              activeItem={selectedDinnerId === dinner._id}
-            >
-              <Styled.DinnerItemContent>
-                <Styled.DinnerItemName>
-                  <Styled.ImageWrapper>
-                    <img className="backgroundImg" src={LogoBackground} />
-                    <img
-                      className="itemImg"
-                      src={dinner.imageObj?.imageURL || NoImage}
-                    />
-                  </Styled.ImageWrapper>
-                  <h2>{dinner.name}</h2>
-                </Styled.DinnerItemName>
+        {allDinners && (
+          <>
+            {search(allDinners, searchValue).length > 0 &&
+              search(allDinners, searchValue).map((dinner) => (
+                <Styled.DinnerItem
+                  key={dinner._id}
+                  activeItem={selectedDinnerId === dinner._id}
+                >
+                  <Styled.DinnerItemContent>
+                    <Styled.DinnerItemName>
+                      <Styled.ImageWrapper>
+                        <img className="backgroundImg" src={LogoBackground} />
+                        <img
+                          className="itemImg"
+                          src={dinner.imageObj?.imageURL || NoImage}
+                        />
+                      </Styled.ImageWrapper>
+                      <h2>{dinner.name}</h2>
+                    </Styled.DinnerItemName>
 
-                {dinner.recommendDistance && (
-                  <Styled.RecommendItem>
-                    <FaStar /> rekomendowany
-                  </Styled.RecommendItem>
-                )}
-              </Styled.DinnerItemContent>
-            </Styled.DinnerItem>
-          ))}
+                    <Styled.OptionsContainer>
+                      {dinner.recommendDistance && (
+                        <Styled.RecommendItem>
+                          <FaStar /> rekomendowany
+                        </Styled.RecommendItem>
+                      )}
+
+                      <Styled.DinnerItemOptionsWrapper>
+                        <Styled.DinnerItemButton
+                          buttonVariant="add"
+                          onClick={() => changeDinner(dinner._id)}
+                          type="button"
+                          disabled={selectedDinnerId === dinner._id}
+                        >
+                          <FaPlus />
+                        </Styled.DinnerItemButton>
+                        <Styled.DinnerItemButton
+                          buttonVariant="view"
+                          type="button"
+                          onClick={() =>
+                            navigate({
+                              pathname: `/dashboard/dinners/${dinner._id}`,
+                              search: `?${createSearchParams(
+                                newDietDinnerParams
+                              )}`,
+                            })
+                          }
+                        >
+                          <FaSearch />
+                        </Styled.DinnerItemButton>
+                        <Styled.DinnerItemButton
+                          buttonVariant="edit"
+                          type="button"
+                          onClick={() =>
+                            navigate({
+                              pathname: `/dashboard/dinners/edit/${dinner._id}`,
+                              search: `?${createSearchParams(
+                                newDietDinnerParams
+                              )}`,
+                            })
+                          }
+                        >
+                          <FaEdit />
+                        </Styled.DinnerItemButton>
+                      </Styled.DinnerItemOptionsWrapper>
+                    </Styled.OptionsContainer>
+                  </Styled.DinnerItemContent>
+                </Styled.DinnerItem>
+              ))}
+
+            {search(allDinners, searchValue).length < 1 && (
+              <p>Nie znaleziono posiłków</p>
+            )}
+          </>
+        )}
       </Styled.DinnerList>
     </>
   );
