@@ -231,13 +231,18 @@ const OptionsContainer = styled.div(
       palette,
       typography: { fontSize, fontWeight },
       layout: { border },
+      media: { breakpoints, up },
     },
   }) => css`
     display: flex;
-    align-items: flex-end;
-    justify-content: flex-end;
+    align-items: flex-start;
+    justify-content: flex-start;
     flex-direction: column;
     gap: 2rem;
+
+    ${up(breakpoints.sm)} {
+      align-items: flex-end;
+    }
   `
 );
 
