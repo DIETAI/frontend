@@ -18,6 +18,7 @@ import Button from "components/form/button/Button";
 //assets
 import LogoBackground from "assets/logo-icon.svg";
 import NoImage from "assets/noImage.svg";
+import NoData from "assets/noData.svg";
 
 type IFilterOption = "recommend" | "all";
 
@@ -178,7 +179,10 @@ const Dinner = () => {
               ))}
 
             {search(allDinners, searchValue).length < 1 && (
-              <p>Nie znaleziono posiłków</p>
+              <Styled.EmptyWrapper>
+                <img src={NoData} />
+                <h3>nie znaleziono posiłków</h3>
+              </Styled.EmptyWrapper>
             )}
           </>
         )}

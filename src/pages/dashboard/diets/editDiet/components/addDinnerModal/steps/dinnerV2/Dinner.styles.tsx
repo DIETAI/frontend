@@ -620,6 +620,40 @@ const RecommendItem = styled.span(
   `
 );
 
+const EmptyWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      media: { breakpoints, down },
+      layout: { border },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 4rem;
+    width: 100%;
+    padding: 1rem;
+    min-height: 30rem;
+    border-radius: ${border.rounded.sm};
+    border: 0.1rem solid ${palette.primary.light};
+
+    img {
+      width: 10rem;
+      height: 10rem;
+    }
+
+    h3 {
+      font-size: ${fontSize.m};
+      font-weight: ${fontWeight.semibold};
+      color: ${palette.common.text};
+      text-align: center;
+    }
+  `
+);
+
 export {
   AddDinnerNavWrapper,
   DinnerList,
@@ -641,4 +675,5 @@ export {
   ImageWrapper,
   RecommendItem,
   OptionsContainer,
+  EmptyWrapper,
 };
