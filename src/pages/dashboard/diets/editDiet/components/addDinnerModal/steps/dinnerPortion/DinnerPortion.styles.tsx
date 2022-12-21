@@ -20,13 +20,19 @@ const PortionsMacroContainer = styled.div(
       palette,
       typography: { fontSize, fontWeight },
       layout: { border },
+      media: { up, breakpoints },
     },
   }) => css`
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
+    flex-direction: column;
     width: 100%;
     gap: 1rem;
+
+    ${up(breakpoints.md)} {
+      flex-direction: row;
+    }
   `
 );
 

@@ -7,6 +7,7 @@ const TotalContainer = styled.div(
       palette,
       typography: { fontSize, fontWeight },
       layout: { border },
+      media: { up, breakpoints },
     },
   }) => css`
     display: flex;
@@ -17,11 +18,16 @@ const TotalContainer = styled.div(
     border: 0.1rem dashed ${palette.primary.light};
     border-radius: ${border.rounded.sm};
     flex-grow: 1;
+    width: 100%;
 
     h2 {
       font-size: ${fontSize.s};
       font-weight: ${fontWeight.semibold};
       color: ${palette.common.text};
+    }
+
+    ${up(breakpoints.md)} {
+      width: auto;
     }
   `
 );

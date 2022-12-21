@@ -55,15 +55,23 @@ const ButtonsWrapper = styled.div(
     margin: 3rem 0;
     gap: 1rem;
     position: sticky;
-    bottom: 0;
+    bottom: 1rem;
     background: ${palette.common.main};
-    background: red;
     padding: 2rem;
     z-index: 1;
+    border: 0.1rem solid ${palette.primary.light};
+    flex-direction: column;
 
-    /* position: sticky;
-    top: 0;
-    left: 0; */
+    button {
+      width: 100%;
+    }
+
+    ${up(breakpoints.md)} {
+      flex-direction: row;
+      button {
+        width: auto;
+      }
+    }
   `
 );
 
