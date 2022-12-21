@@ -7,21 +7,16 @@ const ModalContainer = styled.div(
       media: { breakpoints, up },
     },
   }) => css`
-    width: 100%;
+    width: 100vw;
     height: 100vh;
     position: fixed;
     top: 0;
     left: 0;
     background: ${palette.common.backdrop};
     z-index: 30;
-    padding: 10rem 2rem;
-
+    padding: 0 2rem;
     backdrop-filter: blur(0.2rem);
     overflow-y: auto;
-
-    ${up(breakpoints.sm)} {
-      padding: 10rem 5rem;
-    }
   `
 );
 
@@ -42,18 +37,18 @@ const ModalContentWrapper = styled.div<IModalContentWidth>(
     background: ${palette.common.main};
     border-radius: ${border.rounded.md};
     box-shadow: ${palette.common["box-shadow"]};
-    margin: auto;
     padding: 3rem;
     z-index: 40;
     position: relative;
-
+    margin: 2rem 0;
     ${modalWidth &&
     css`
       max-width: ${modalWidth};
     `}
 
-    ${up(breakpoints.sm)} {
+    ${up(breakpoints.md)} {
       padding: 5rem;
+      margin: 10rem auto;
     }
   `
 );
