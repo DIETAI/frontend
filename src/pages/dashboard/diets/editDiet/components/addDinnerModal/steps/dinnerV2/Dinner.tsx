@@ -10,7 +10,13 @@ import { getAllDinners, IAllDinner } from "services/recommend/getAllDinners";
 import * as Styled from "./Dinner.styles";
 
 //icons
-import { FaSearch, FaStar, FaEdit, FaPlus } from "icons/icons";
+import {
+  FaSearch,
+  FaStar,
+  FaEdit,
+  FaPlus,
+  FaExclamationCircle,
+} from "icons/icons";
 
 //components
 import Button from "components/form/button/Button";
@@ -107,7 +113,14 @@ const Dinner = () => {
       </Styled.AddDinnerNavWrapper>
       <Styled.DinnerList>
         {allDinnersLoading && <p>loading...</p>}
-        {allDinnersError && <p>error...</p>}
+
+        {allDinnersError && (
+          <Styled.ErrorWrapper>
+            <FaExclamationCircle />
+            <h3>Wystąpił błąd podczas pobierania posiłków</h3>
+          </Styled.ErrorWrapper>
+        )}
+
         {allDinners && (
           <>
             {search(allDinners, searchValue).length > 0 &&

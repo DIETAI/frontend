@@ -185,7 +185,7 @@ const DinnerItemContent = styled.div(
   `
 );
 
-const ErrorWrapper = styled.div(
+const ErrorNameWrapper = styled.div(
   ({
     theme: {
       palette,
@@ -654,6 +654,43 @@ const EmptyWrapper = styled.div(
   `
 );
 
+const ErrorWrapper = styled(motion.div)(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    padding: 1rem;
+    min-height: 30rem;
+    border-radius: ${border.rounded.sm};
+    border: 0.1rem solid ${palette.primary.light};
+
+    svg {
+      width: 4rem;
+      height: 4rem;
+      path {
+        fill: red;
+      }
+    }
+
+    h3 {
+      color: ${palette.common.text};
+      font-size: ${fontSize.m};
+      font-weight: ${fontWeight.medium};
+      text-align: center;
+    }
+  `
+);
+
 export {
   AddDinnerNavWrapper,
   DinnerList,
@@ -670,10 +707,11 @@ export {
   DinnerItemOptionsWrapper,
   DinnerItemButton,
   DinnerItemContent,
-  ErrorWrapper,
+  ErrorNameWrapper,
   //new
   ImageWrapper,
   RecommendItem,
   OptionsContainer,
   EmptyWrapper,
+  ErrorWrapper,
 };
