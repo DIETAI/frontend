@@ -33,7 +33,7 @@ const AddedPortions = () => {
   };
 
   return (
-    <div>
+    <Styled.PortionsListWrapper>
       {dinnerPortionsQuery?.map((dinnerPortion, dinnerPortionIndex) => (
         <Styled.PortionWrapper
           key={dinnerPortion._id}
@@ -131,7 +131,7 @@ const AddedPortions = () => {
           </Styled.ProductsWrapper>
         </Styled.PortionWrapper>
       ))}
-    </div>
+    </Styled.PortionsListWrapper>
   );
 };
 
