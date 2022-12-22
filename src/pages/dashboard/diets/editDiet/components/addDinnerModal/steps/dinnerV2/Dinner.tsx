@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { createSearchParams } from "react-router-dom";
 import { useParams } from "react-router";
-import { getAllDinners, IAllDinner } from "services/recommend/getAllDinners";
+import {
+  getAllDinners,
+  getAllDinnersSWR,
+  IAllDinner,
+} from "services/recommend/getAllDinners";
 
 //styles
 import * as Styled from "./Dinner.styles";
@@ -60,7 +64,7 @@ const Dinner = () => {
   const mealId = watch("dietMealId") as string;
   const mealType = watch("mealType");
 
-  const { allDinners, allDinnersLoading, allDinnersError } = getAllDinners({
+  const { allDinners, allDinnersLoading, allDinnersError } = getAllDinnersSWR({
     dietMealId: mealId,
     currentDayId: dayId,
     mealType,
