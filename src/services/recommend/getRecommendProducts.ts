@@ -2,8 +2,11 @@ import useSWR from "swr";
 import axios from "axios";
 import { IRecommendProductData } from "interfaces/recommend/recommendProduct.interface";
 
+// const recommendProductsServerURL =
+//   "https://recommend-server.dietai.pl/recommend-products";
+
 const recommendProductsServerURL =
-  "https://recommend-server.dietai.pl/recommend-products";
+  "https://europe-central2-dietai-372609.cloudfunctions.net/recommend-server/recommend-products";
 
 const fetcher = (url: string, headers = {}) =>
   axios
