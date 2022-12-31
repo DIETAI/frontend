@@ -42,13 +42,21 @@ const PortionFilterWrapper = styled.div(
       palette,
       typography: { fontSize, fontWeight },
       layout: { border },
+      media: { up, breakpoints },
     },
   }) => css`
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 2rem;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
     margin: 2rem 0;
+
+    ${up(breakpoints.sm)} {
+      align-items: center;
+      justify-content: space-between;
+      flex-direction: row;
+      gap: 2rem;
+    }
   `
 );
 
@@ -58,12 +66,21 @@ const PortionFilterActions = styled.div(
       palette,
       typography: { fontSize, fontWeight },
       layout: { border },
+      media: { up, breakpoints },
     },
   }) => css`
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 2rem;
     margin: 2rem 0;
+    flex-direction: column;
+    width: 100%;
+
+    ${up(breakpoints.sm)} {
+      align-items: center;
+      flex-direction: row;
+      width: auto;
+    }
   `
 );
 
@@ -77,6 +94,7 @@ const PortionNavItem = styled.li<IActiveOption>(
       palette,
       typography: { fontSize, fontWeight },
       layout: { border },
+      media: { breakpoints, up },
     },
     activeOption,
   }) => css`
@@ -91,6 +109,7 @@ const PortionNavItem = styled.li<IActiveOption>(
     font-size: 1.4rem;
     transition: 0.3s ease-out;
     cursor: pointer;
+    width: 100%;
 
     ${activeOption &&
     css`
@@ -101,6 +120,26 @@ const PortionNavItem = styled.li<IActiveOption>(
     :hover {
       opacity: 0.7;
     }
+
+    ${up(breakpoints.sm)} {
+      width: auto;
+    }
+  `
+);
+const PortionsListWrapper = styled.ul(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    gap: 2rem;
+    width: 100%;
   `
 );
 
@@ -120,11 +159,12 @@ const PortionWrapper = styled.div<IActivePortion>(
     display: flex;
     flex-direction: column;
     gap: 2rem;
-    padding: 3rem;
-    border-radius: ${border.rounded.md};
-    border: 0.1rem dashed ${palette.primary.light};
+    padding: 2rem;
+    border-radius: ${border.rounded.sm};
+    border: 0.1rem dashed ${palette.common.slate};
     cursor: pointer;
     transition: 0.3s ease-out;
+    width: 100%;
 
     ${active &&
     css`
@@ -248,6 +288,7 @@ const PortionTotalFeature = styled.li(
       palette,
       typography: { fontSize, fontWeight },
       layout: { border },
+      media: { up, breakpoints },
     },
   }) => css`
     display: flex;
@@ -261,6 +302,11 @@ const PortionTotalFeature = styled.li(
     color: ${palette.primary.main};
     font-weight: ${fontWeight.medium};
     font-size: 1.3rem;
+    width: 100%;
+
+    ${up(breakpoints.sm)} {
+      width: auto;
+    }
   `
 );
 
@@ -285,15 +331,24 @@ const ProductWrapper = styled.li(
       palette,
       typography: { fontSize, fontWeight },
       layout: { border },
+      media: { up, breakpoints },
     },
   }) => css`
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
     padding: 2rem;
-    gap: 1rem;
+    gap: 2rem;
     border: 0.1rem solid ${palette.primary.light};
     border-radius: ${border.rounded.md};
+
+    ${up(breakpoints.sm)} {
+      align-items: center;
+      justify-content: space-between;
+      flex-direction: row;
+      gap: 1rem;
+    }
   `
 );
 
@@ -449,4 +504,5 @@ export {
   PortionFilterActions,
   PortionNavItem,
   LoadingWrapper,
+  PortionsListWrapper,
 };

@@ -40,6 +40,7 @@ const Day = ({ day, establishment }: IDay) => {
         <h2>{day.date ? dateFormat(day.date) : `Dzień ${day.order}`}</h2>
       </Styled.DayHeading>
       <Styled.DayTotalWrapper>
+        {/* {day._id} */}
         <SumModal
           macroType="kcal"
           totalValue={day.total.kcal}

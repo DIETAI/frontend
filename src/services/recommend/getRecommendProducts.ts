@@ -2,8 +2,10 @@ import useSWR from "swr";
 import axios from "axios";
 import { IRecommendProductData } from "interfaces/recommend/recommendProduct.interface";
 
-const recommendProductsServerURL =
-  "https://recommend-server.dietai.pl/recommend-products";
+// const recommendProductsServerURL =
+//   "https://recommend-server.dietai.pl/recommend-products";
+
+const recommendProductsServerURL = `${process.env.REACT_APP_RECOMMEND_SERVER_URL}/recommend-products`;
 
 const fetcher = (url: string, headers = {}) =>
   axios
