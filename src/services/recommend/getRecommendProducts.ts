@@ -5,8 +5,7 @@ import { IRecommendProductData } from "interfaces/recommend/recommendProduct.int
 // const recommendProductsServerURL =
 //   "https://recommend-server.dietai.pl/recommend-products";
 
-const recommendProductsServerURL =
-  "https://europe-central2-dietai-372609.cloudfunctions.net/recommend-server/recommend-products";
+const recommendProductsServerURL = `${process.env.REACT_APP_RECOMMEND_SERVER_URL}/recommend-products`;
 
 const fetcher = (url: string, headers = {}) =>
   axios
