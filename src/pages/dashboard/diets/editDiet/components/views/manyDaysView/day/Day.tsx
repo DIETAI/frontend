@@ -41,6 +41,7 @@ const Day = ({ day, establishment }: IDay) => {
       </Styled.DayHeading>
       <Styled.DayTotalWrapper>
         {/* {day._id} */}
+        {/* {day.establishmentId} */}
         <SumModal
           macroType="kcal"
           totalValue={day.total.kcal}

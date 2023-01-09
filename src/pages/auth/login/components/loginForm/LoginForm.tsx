@@ -26,16 +26,9 @@ import {
 
 //translation
 import { useTranslation } from "react-i18next";
+import { mutate } from "swr";
 
 const defaultValues = login_schema.cast({});
-
-const getData = (data: FieldValues) => {
-  return new Promise<FieldValues>((resolve, reject) => {
-    setTimeout(() => {
-      resolve(data);
-    }, 2000);
-  });
-};
 
 const Form = () => {
   const navigate = useNavigate();
@@ -63,8 +56,9 @@ const Form = () => {
         withCredentials: true,
       });
       console.log({ loginData });
+      mutate("/api/v1/user");
+      // navigate("/dashboard/home");
       reset();
-      navigate("/dashboard/home");
     } catch (e) {
       console.log(e);
       //set error alert

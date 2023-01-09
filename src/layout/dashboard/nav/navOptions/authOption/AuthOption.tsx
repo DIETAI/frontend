@@ -1,7 +1,7 @@
 import React from "react";
 import AvatarImg from "assets/avatar.png";
 import axios from "utils/api";
-import { useNavigate } from "react-router";
+import { useNavigate, redirect } from "react-router";
 import NoUserImg from "assets/noUser.svg";
 import { Link } from "react-router-dom";
 
@@ -20,10 +20,11 @@ const AuthOption = () => {
       withCredentials: true,
     });
 
-    console.log({ logout });
-    // mutate(`/api/v1/user`);
-    window.location.reload();
-    // navigate("/auth/login");
+    // console.log({ logout });
+    mutate("/api/v1/user", null);
+    // window.location.reload();
+    navigate("/auth/login");
+    // return redirect("/auth/login");
   };
 
   return (

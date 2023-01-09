@@ -17,7 +17,6 @@ import { useUser } from "services/useUser";
 
 const Dietetic = () => {
   //useSwr checkUserRole = dietetic
-  const { user, userLoading, userError } = useUser();
 
   // if (!user.role || user.role.name !== "dietetic") {
   //   return <Navigate to="/dashboard/profile" />;

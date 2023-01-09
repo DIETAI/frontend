@@ -82,6 +82,7 @@ const Meal = ({ meal, establishment }: IMeal) => {
         <h3>{mealEstablishment.time}</h3>
       </Styled.MealHeading>
       {/* {meal._id} */}
+      {/* {meal.establishmentMealId} */}
       <Styled.MealTotalWrapper>
         <SumModal
           macroType="kcal"

@@ -12,13 +12,13 @@ import PageLoading from "components/loading/PageLoading";
 import { useUser } from "services/useUser";
 
 const AuthRoutes = () => {
-  const { user, userLoading, userError } = useUser();
+  const { user, userLoading, loggedOut } = useUser();
 
   if (userLoading) return <PageLoading />;
-  // if (userError) return <div>error..</div>;
 
-  if (user) {
+  if (user && !loggedOut) {
     return <Navigate to="/dashboard/home" />;
+    // return <div>404</div>;
   }
 
   return (

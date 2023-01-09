@@ -28,14 +28,6 @@ import { Link } from "react-router-dom";
 
 const defaultValues = register_schema.cast({});
 
-const getData = (data: FieldValues) => {
-  return new Promise<FieldValues>((resolve, reject) => {
-    setTimeout(() => {
-      resolve(data);
-    }, 2000);
-  });
-};
-
 const Form = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -66,7 +58,6 @@ const Form = () => {
       });
 
       console.log({ registerData });
-      reset();
 
       const loginData = await axios.post(
         "/api/v1/sessions",
@@ -77,6 +68,7 @@ const Form = () => {
       );
 
       navigate("/dashboard/home");
+      reset();
     } catch (e) {
       console.log(e);
       //set error alert
