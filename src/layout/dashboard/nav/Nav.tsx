@@ -66,7 +66,7 @@ const Nav = () => {
           <NotificationOption />
         </IconModal> */}
         {/* <IconModal icon={<FaCog />} /> */}
-        <IconModal img={user?.avatar || NoUserImg} background>
+        <IconModal img={user?.avatar?.imageURL || NoUserImg} background>
           <AuthOption />
         </IconModal>
       </Styled.NavOptionsWrapper>

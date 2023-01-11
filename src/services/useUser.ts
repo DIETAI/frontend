@@ -1,5 +1,6 @@
 import useSWR from "swr";
 import axios from "utils/api";
+import { IUser } from "interfaces/user.interfaces";
 // import fetcher from "utils/fetcher";
 
 // const accessToken = localStorage.getItem("accessToken");
@@ -10,14 +11,6 @@ import axios from "utils/api";
 //     authorization: `Bearer ${accessToken}`,
 //   },
 // };
-
-interface IUser {
-  name: string;
-  lastName: string;
-  fullName: string;
-  email: string;
-  avatar?: string;
-}
 
 const fetcher = async (url: string, headers = {}) => {
   const res = await axios.get(url, {

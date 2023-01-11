@@ -30,7 +30,7 @@ const AuthOption = () => {
   return (
     <Styled.AuthOptionWrapper>
       <Styled.PersonWrapper background={!user?.avatar}>
-        <img src={user?.avatar || NoUserImg} />
+        <img src={user?.avatar?.imageURL || NoUserImg} />
         <Styled.PersonInfoWrapper>
           <h2>{user?.fullName}</h2>
           <p>{user?.email}</p>

@@ -31,11 +31,20 @@ import AvatarImg from "assets/avatar.png";
 
 //interfaces
 import { IPersonData } from "../schema/personData.schema";
+import { getAsset } from "services/getAssets";
 
 const defaultValues = personDataSchema.cast({});
 
+const Image = ({ assetId }: { assetId: string }) => {
+  if (!assetId) return <img src={NoUser} className="personData-avatarImage" />;
+
+  const { asset } = getAsset(assetId);
+
+  return <img src={asset?.imageURL} className="personData-avatarImage" />;
+};
+
 const PersonDataForm = () => {
-  const { selectAssetId, selectedAssetId } = useFileLibrary();
+  const { selectedAssetId } = useFileLibrary();
   const [openFileLibrary, setOpenFileLibrary] = useState(false);
 
   const { handleAlert } = useAlert();
@@ -46,7 +55,7 @@ const PersonDataForm = () => {
     name: user?.name || "",
     lastName: user?.lastName || "",
     email: user?.email || "",
-    photoURL: user?.avatar || NoUser,
+    avatar: user?.avatar?._id || "",
   };
 
   const methods = useForm({
@@ -67,29 +76,20 @@ const PersonDataForm = () => {
     watch,
   } = methods;
 
-  const photoURL = watch("photoURL");
+  const avatarAssetId = watch("avatar");
 
   const onPersonDataFormSubmit = async (data: FieldValues) => {
-    const editUserData = {
-      ...data,
-      fullName: data.name + " " + data.lastName,
-    };
-
-    console.log({ editUserData });
-
     try {
-      const editUser = await axios.put(`/api/v1/user`, editUserData, {
+      const editUser = await axios.put(`/api/v1/user`, data, {
         withCredentials: true,
       });
 
       console.log({ editUser });
-      handleAlert("success", "Zaktualizowano dane");
+      handleAlert("success", "Zaktualizowano dane użytkownika");
     } catch (e) {
       console.log(e);
       handleAlert("error", "Edytowanie danych nie powiodło się");
     }
-
-    console.log("data");
   };
 
   const handleOpenFileLibrary = () => {
@@ -97,9 +97,7 @@ const PersonDataForm = () => {
   };
 
   const addMainImage = () => {
-    console.log("changeImg");
-
-    setValue("photoURL", selectedAssetId);
+    setValue("avatar", selectedAssetId);
     return setOpenFileLibrary(false);
   };
 
@@ -109,28 +107,15 @@ const PersonDataForm = () => {
         <Heading icon={<FaUser />} title="Twoje dane" />
         <FormProvider {...methods}>
           <form onSubmit={handleSubmit(onPersonDataFormSubmit)}>
-            {/* {JSON.stringify(watch())} */}
             <Styled.ImageWrapper>
               <img src={DietAILogo} className="personData-backgroundImage" />
-
               <Styled.ImageSelectWrapper onClick={handleOpenFileLibrary}>
-                <img
-                  src={photoURL ? photoURL : initialValues.photoURL}
-                  className="personData-avatarImage"
-                />
+                <Image assetId={avatarAssetId} />
               </Styled.ImageSelectWrapper>
             </Styled.ImageWrapper>
             <Input label="imię" name="name" fullWidth />
             <Input label="nazwisko" name="lastName" fullWidth />
-            <Input label="email" name="email" fullWidth disabled />
-            {/* <Input label="nr telefonu" name="phone" fullWidth /> */}
-            {/* <Input label="rola" name="role" fullWidth /> */}
-            {/* <Input
-            label="metoda uwierzytelniania"
-            name="authProvider"
-            fullWidth
-          /> */}
-            {/* <p>logo</p> */}
+            <Input label="email" name="email" fullWidth />
             <Button
               type="submit"
               variant={!isValid || isSubmitting ? "disabled" : "primary"}
