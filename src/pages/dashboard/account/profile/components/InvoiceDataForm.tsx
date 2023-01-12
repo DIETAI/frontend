@@ -20,13 +20,12 @@ import Button from "components/form/button/Button";
 
 //icons
 import { FaFileInvoice } from "icons/icons";
-import { getInvoices } from "services/getInvoices";
+import { getInvoice } from "services/getInvoices";
 
 const defaultValues = invoiceDataSchema.cast({});
 
 const InvoiceDataForm = () => {
   const { handleAlert } = useAlert();
-  const { invoices, invoicesLoading, invoicesError } = getInvoices();
 
   const methods = useForm({
     resolver: yupResolver(invoiceDataSchema),
@@ -38,18 +37,13 @@ const InvoiceDataForm = () => {
   const {
     handleSubmit,
     formState: { errors, isSubmitting, isDirty, isValid, isSubmitSuccessful },
-    trigger,
-    reset,
-    setFocus,
-    getValues,
     setValue,
-    watch,
   } = methods;
 
-  useEffect(() => {
-    if (invoices && invoices.length > 0) {
-      const invoice = invoices[0];
+  const { invoice, invoiceLoading } = getInvoice();
 
+  useEffect(() => {
+    if (invoice) {
       const invoiceDefaultValues = {
         companyName: invoice.companyName,
         taxpayerIdentificationNumber: invoice.taxpayerIdentificationNumber,
@@ -64,17 +58,13 @@ const InvoiceDataForm = () => {
         setValue(key as any, value);
       }
     }
-  }, [invoices]);
-
-  if (invoicesLoading) return <div>loading...</div>;
-  if (invoicesError || !invoices) return <div>error...</div>;
+  }, [invoice]); //trzeba użyć useEffect w porównaniu do usera, ponieważ invoices nie są wcześniej załadowane jak user => ograniczenie, nie można użyć dirty w walidacji
 
   const onInvoiceDataFormSubmit = async (data: FieldValues) => {
-    console.log("bla bla");
-    if (invoices.length > 0) {
+    if (invoice) {
       try {
         const editInvoice = await axios.put(
-          `/api/v1/invoices/${invoices[0]._id}`,
+          `/api/v1/invoices/${invoice._id}`,
           data,
           {
             withCredentials: true,
@@ -93,7 +83,7 @@ const InvoiceDataForm = () => {
     try {
       const newInvoice = await axios.post("/api/v1/invoices", data, {
         withCredentials: true,
-      });
+      }); //findOrCreate
 
       console.log({ newInvoice });
       handleAlert("success", "Dodano dane do faktury");
@@ -102,8 +92,6 @@ const InvoiceDataForm = () => {
       handleAlert("error", "Wysyłanie danych do faktury nie powiodło się");
     }
   };
-
-  console.log({ invoices });
 
   return (
     <Styled.FormWrapper>

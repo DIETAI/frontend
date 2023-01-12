@@ -90,11 +90,6 @@ const Calendar = () => {
   };
 
   const handleChangeDay = (day: Date) => {
-    const newDay = new Date(day);
-    const newDayFormat = newDay.toJSON();
-
-    console.log(newDayFormat);
-
     setSelectedDay(day);
   };
 
@@ -198,8 +193,6 @@ const CalendarDay = ({
   const currentDateCalendarNotes = calendarNotes.filter((calendarNote) =>
     isSameDay(new Date(calendarNote.date), day)
   );
-
-  console.log({ currentDateCalendarNotes });
 
   return (
     <>
