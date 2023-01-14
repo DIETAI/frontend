@@ -9,7 +9,7 @@ import { Login, Register } from "pages/auth";
 import NotFound from "pages/information/notFound/notFound.page";
 import PageLoading from "components/loading/PageLoading";
 
-import { useUser } from "services/useUser";
+import { useUser } from "services/getUser";
 
 const AuthRoutes = () => {
   const { user, userLoading, loggedOut } = useUser();

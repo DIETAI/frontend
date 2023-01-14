@@ -11,12 +11,10 @@ import AdminRoutes from "./admin/admin.routes";
 import NotFoundPage from "pages/information/notFound/notFound.page";
 import PageLoading from "components/loading/PageLoading";
 
-import { useUser } from "services/useUser";
+import { useUser } from "services/getUser";
 
 const Dashboard = () => {
   const { user, userLoading, userError, loggedOut } = useUser();
-
-  console.log({ user });
 
   if (userLoading) return <PageLoading />;
 

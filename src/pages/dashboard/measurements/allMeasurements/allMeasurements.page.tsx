@@ -18,7 +18,7 @@ import PageNav from "components/pageNav/PageNav";
 import { IColumn } from "pages/dashboard/components/dataGridv2/DataGrid.interfaces";
 
 //services
-import { useMeasurements } from "services/useMeasurements";
+import { getMeasurements } from "services/getMeasurements";
 import { measurementsNavLinks } from "../utlis/navLinks";
 
 const columns: IColumn[] = [
@@ -41,7 +41,7 @@ const AllMeasurements = () => {
   const [pageCount, setPageCount] = useState(0);
 
   const { measurements, measurementsError, measurementsLoading, pagination } =
-    useMeasurements(page.toString(), itemsPerPage);
+    getMeasurements(page.toString(), itemsPerPage);
 
   useEffect(() => {
     if (pagination) {
@@ -49,23 +49,17 @@ const AllMeasurements = () => {
     }
   }, [pagination]);
 
-  // if (measurementsError) return <div>measurements error</div>;
-  // if (measurementsLoading) return <div>measurements loading...</div>;
-
-  console.log({ measurements });
-
   const measurementsData = measurements?.map((data) => ({
     _id: data._id,
     name: data.name,
     createdAt: format(new Date(data.createdAt), "dd.MM.yyyy"),
-    client: data.measurementClient.fullName,
+    client: data.client.name + " " + data.client.lastName,
     weight: data.weight,
     height: data.height,
     bmi: data.bmi,
     ppmMifflin: data.ppmMifflin,
     ppmHarris: data.ppmHarris,
     cpm: data.cpm,
-
     // gender: data.gender,
   }));
 

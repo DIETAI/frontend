@@ -17,7 +17,7 @@ import { measurementFormSteps } from "../utlis/steps";
 import { measurementsNavLinks } from "../utlis/navLinks";
 
 //queries
-import { useMeasurement } from "services/useMeasurements";
+import { getMeasurement } from "services/getMeasurements";
 
 const measurementSidebarPages = [
   {
@@ -37,7 +37,7 @@ const EditMeasurement = () => {
 
   if (!measurementEditId) return <div>not found</div>;
   const { measurement, measurementError, measurementLoading } =
-    useMeasurement(measurementEditId);
+    getMeasurement(measurementEditId);
 
   if (measurementLoading) return <div>measurement loading...</div>;
   if (measurementError || !measurement) return <div>measurement error</div>;

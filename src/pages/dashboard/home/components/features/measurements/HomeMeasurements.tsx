@@ -1,5 +1,5 @@
 import React from "react";
-import { useMeasurements } from "services/useMeasurements";
+import { getMeasurements } from "services/getMeasurements";
 import { format } from "date-fns";
 import { pl } from "date-fns/locale";
 import { useNavigate } from "react-router";
@@ -10,7 +10,7 @@ import * as Styled from "./HomeMeasurements.styles";
 const HomeMeasurements = () => {
   const navigate = useNavigate();
   const { measurements, measurementsLoading, measurementsError } =
-    useMeasurements();
+    getMeasurements();
 
   if (measurementsLoading) return <div>loading...</div>;
   if (measurementsError) return <div>error...</div>;

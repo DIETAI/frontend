@@ -53,8 +53,6 @@ const DataGridPagination = ({
     };
   }, []);
 
-  console.log({ pageCount });
-
   const paginationRender = (currentPageIndex: number) => {
     const pages = Array(Math.ceil(pageCount))
       .fill(null)

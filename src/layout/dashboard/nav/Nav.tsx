@@ -33,7 +33,7 @@ import {
 import AvatarImg from "assets/avatar.png";
 import Button from "components/form/button/Button";
 import Select from "components/select/Select";
-import { useUser } from "services/useUser";
+import { useUser } from "services/getUser";
 
 const Nav = () => {
   const { user } = useUser();
