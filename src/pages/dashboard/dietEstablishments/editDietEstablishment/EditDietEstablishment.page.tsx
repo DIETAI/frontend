@@ -17,7 +17,7 @@ import DietEstablishmentSidebarSteps from "../components/form/sidebar/steps/Diet
 import { dietEstablishmentsFormSteps } from "../utils/steps";
 
 //queries
-import { useDietEstablishment } from "services/useDietEstablishments";
+import { getDietEstablishment } from "services/getDietEstablishments";
 
 const dietEstablishmentSidebarPages = [
   {
@@ -44,7 +44,7 @@ const EditDietEstablishment = () => {
     dietEstablishment,
     dietEstablishmentError,
     dietEstablishmentLoading,
-  } = useDietEstablishment(dietEstablishmentId);
+  } = getDietEstablishment(dietEstablishmentId);
 
   if (dietEstablishmentLoading) return <div>dietEstablishment loading...</div>;
   if (dietEstablishmentError || !dietEstablishment)

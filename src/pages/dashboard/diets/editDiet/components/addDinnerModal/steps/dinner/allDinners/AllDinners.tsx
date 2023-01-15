@@ -22,7 +22,7 @@ import { getDinnerProductsQuery } from "services/getDinnerProducts";
 
 import { IProductData } from "interfaces/product.interfaces";
 import { IDietEstablishmentData } from "interfaces/dietEstablishment.interfaces";
-import { useDietEstablishment } from "services/useDietEstablishments";
+import { getDietEstablishment } from "services/getDietEstablishments";
 import { getDiet } from "services/getDiets";
 
 const checkDietKindProduct = ({
@@ -38,7 +38,7 @@ const checkDietKindProduct = ({
       valid: true,
     };
   }
-  if (product.dietKindsExclude.includes(dietEstablishment.dietKind)) {
+  if (product.dietKindsExclude.includes(dietEstablishment.dietKind._id)) {
     return {
       info: "Produkt niedostępny w tym rodzaju diety",
       valid: false,
@@ -132,7 +132,7 @@ const Dinner = ({
 
   if (!diet) return null;
 
-  const { dietEstablishment } = useDietEstablishment(diet.establishmentId);
+  const { dietEstablishment } = getDietEstablishment(diet.establishmentId);
   const { dinnerProductsQuery } = getDinnerProductsQuery(dinner._id);
 
   if (!dietEstablishment) return null;

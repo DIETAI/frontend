@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import * as Styled from "../DinnerPortionMacroTotal.styles";
 import { useFormContext } from "react-hook-form";
 import { getDietDay } from "services/getDietDays";
-import { useDietEstablishment } from "services/useDietEstablishments";
+import { getDietEstablishment } from "services/getDietEstablishments";
 import { getDiet } from "services/getDiets";
 import { getDinnerPortion } from "services/getDinnerPortions";
 
@@ -37,7 +37,7 @@ const DinnerPortionMacroTotal = () => {
   if (!diet) return null;
 
   const { dietDay } = getDietDay(dayId);
-  const { dietEstablishment: establishment } = useDietEstablishment(
+  const { dietEstablishment: establishment } = getDietEstablishment(
     diet.establishmentId
   );
 

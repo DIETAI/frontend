@@ -10,7 +10,7 @@ import { FaGripHorizontal } from "icons/icons";
 
 //components
 import LoadingGrid from "../../loading/LoadingGrid";
-import { getDietEstablishmentQuery } from "services/useDietEstablishments";
+import { getDietEstablishment } from "services/getDietEstablishments";
 
 const Vitamins = () => {
   const { dietEstablishmentId } = useParams();
@@ -18,12 +18,12 @@ const Vitamins = () => {
 
   if (!dietEstablishmentId) return <div>not found</div>;
   const {
-    dietEstablishmentQuery,
-    dietEstablishmentQueryError,
-    dietEstablishmentQueryLoading,
-  } = getDietEstablishmentQuery(dietEstablishmentId);
+    dietEstablishment,
+    dietEstablishmentError,
+    dietEstablishmentLoading,
+  } = getDietEstablishment(dietEstablishmentId);
 
-  if (dietEstablishmentQueryError) return <div>Diet establishment error</div>;
+  if (dietEstablishmentError) return <div>Diet establishment error</div>;
 
   return (
     <StepStyled.DietEstablishmentStepWrapper>
@@ -35,7 +35,7 @@ const Vitamins = () => {
       </StepStyled.StepHeadingWrapper>
       <StepStyled.DietEstablishmentStepContentContainer>
         <AnimatePresence>
-          {dietEstablishmentQueryLoading && (
+          {dietEstablishmentLoading && (
             <StepStyled.DietEstablishmentLoadingWrapper
               initial={{ opacity: 1 }}
               animate={{ opacity: 1 }}
@@ -46,7 +46,7 @@ const Vitamins = () => {
             </StepStyled.DietEstablishmentLoadingWrapper>
           )}
         </AnimatePresence>
-        {dietEstablishmentQuery && (
+        {dietEstablishment && (
           <StepStyled.DietEstablishmentStepContentWrapper
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -54,76 +54,75 @@ const Vitamins = () => {
           >
             <StepStyled.DietEstablishmentItemsWrapper>
               <StepStyled.DietEstablishmentItem>
-                <h2>witamina A ({dietEstablishmentQuery.vitaminA?.unit}): </h2>
-                <p>{dietEstablishmentQuery.vitaminA?.amount || "-"}</p>
+                <h2>witamina A ({dietEstablishment.vitaminA?.unit}): </h2>
+                <p>{dietEstablishment.vitaminA?.amount || "-"}</p>
               </StepStyled.DietEstablishmentItem>
               {/* <StepStyled.DietEstablishmentItem>
-                <h2>witamina B1 (tiamina) ({dietEstablishmentQuery.vitaminB1?.unit}): </h2>
-                <p>{dietEstablishmentQuery.vitaminB1?.amount || "-"}</p>
+                <h2>witamina B1 (tiamina) ({dietEstablishment.vitaminB1?.unit}): </h2>
+                <p>{dietEstablishment.vitaminB1?.amount || "-"}</p>
               </StepStyled.DietEstablishmentItem> */}
               <StepStyled.DietEstablishmentItem>
                 <h2>
-                  witamina B2 (ryboflawina) (
-                  {dietEstablishmentQuery.vitaminB2?.unit}):{" "}
+                  witamina B2 (ryboflawina) ({dietEstablishment.vitaminB2?.unit}
+                  ):{" "}
                 </h2>
-                <p>{dietEstablishmentQuery.vitaminB2?.amount || "-"}</p>
+                <p>{dietEstablishment.vitaminB2?.amount || "-"}</p>
               </StepStyled.DietEstablishmentItem>
               <StepStyled.DietEstablishmentItem>
                 <h2>
-                  witamina B3 (niacyna) (
-                  {dietEstablishmentQuery.vitaminPP?.unit}):{" "}
+                  witamina B3 (niacyna) ({dietEstablishment.vitaminPP?.unit}):{" "}
                 </h2>
-                <p>{dietEstablishmentQuery.vitaminPP?.amount || "-"}</p>
+                <p>{dietEstablishment.vitaminPP?.amount || "-"}</p>
               </StepStyled.DietEstablishmentItem>
               <StepStyled.DietEstablishmentItem>
                 <h2>
                   witamina B5 (kwas pantotenowy) (
-                  {dietEstablishmentQuery.vitaminB5?.unit}):{" "}
+                  {dietEstablishment.vitaminB5?.unit}):{" "}
                 </h2>
-                <p>{dietEstablishmentQuery.vitaminB5?.amount || "-"}</p>
+                <p>{dietEstablishment.vitaminB5?.amount || "-"}</p>
               </StepStyled.DietEstablishmentItem>
               <StepStyled.DietEstablishmentItem>
                 <h2>
-                  witamina B6 (pirydoksyna) (
-                  {dietEstablishmentQuery.vitaminB6?.unit}):{" "}
+                  witamina B6 (pirydoksyna) ({dietEstablishment.vitaminB6?.unit}
+                  ):{" "}
                 </h2>
-                <p>{dietEstablishmentQuery.vitaminB6?.amount || "-"}</p>
+                <p>{dietEstablishment.vitaminB6?.amount || "-"}</p>
               </StepStyled.DietEstablishmentItem>
               <StepStyled.DietEstablishmentItem>
                 <h2>
-                  witamina B7 (biotyna) ({dietEstablishmentQuery.biotin?.unit}):{" "}
+                  witamina B7 (biotyna) ({dietEstablishment.biotin?.unit}):{" "}
                 </h2>
-                <p>{dietEstablishmentQuery.biotin?.amount || "-"}</p>
+                <p>{dietEstablishment.biotin?.amount || "-"}</p>
               </StepStyled.DietEstablishmentItem>
               <StepStyled.DietEstablishmentItem>
                 <h2>
                   witamina B9 (kwas foliowy) (
-                  {dietEstablishmentQuery.folicAcid?.unit}):{" "}
+                  {dietEstablishment.folicAcid?.unit}):{" "}
                 </h2>
-                <p>{dietEstablishmentQuery.folicAcid?.amount || "-"}</p>
+                <p>{dietEstablishment.folicAcid?.amount || "-"}</p>
               </StepStyled.DietEstablishmentItem>
               <StepStyled.DietEstablishmentItem>
                 <h2>
                   witamina B12 (kobalamina) (
-                  {dietEstablishmentQuery.vitaminB12?.unit}):{" "}
+                  {dietEstablishment.vitaminB12?.unit}):{" "}
                 </h2>
-                <p>{dietEstablishmentQuery.vitaminB12?.amount || "-"}</p>
+                <p>{dietEstablishment.vitaminB12?.amount || "-"}</p>
               </StepStyled.DietEstablishmentItem>
               <StepStyled.DietEstablishmentItem>
-                <h2>witamina C ({dietEstablishmentQuery.vitaminC?.unit}): </h2>
-                <p>{dietEstablishmentQuery.vitaminC?.amount || "-"}</p>
+                <h2>witamina C ({dietEstablishment.vitaminC?.unit}): </h2>
+                <p>{dietEstablishment.vitaminC?.amount || "-"}</p>
               </StepStyled.DietEstablishmentItem>
               <StepStyled.DietEstablishmentItem>
-                <h2>witamina D ({dietEstablishmentQuery.vitaminD?.unit}): </h2>
-                <p>{dietEstablishmentQuery.vitaminD?.amount || "-"}</p>
+                <h2>witamina D ({dietEstablishment.vitaminD?.unit}): </h2>
+                <p>{dietEstablishment.vitaminD?.amount || "-"}</p>
               </StepStyled.DietEstablishmentItem>
               <StepStyled.DietEstablishmentItem>
-                <h2>witamina E ({dietEstablishmentQuery.vitaminE?.unit}): </h2>
-                <p>{dietEstablishmentQuery.vitaminE?.amount || "-"}</p>
+                <h2>witamina E ({dietEstablishment.vitaminE?.unit}): </h2>
+                <p>{dietEstablishment.vitaminE?.amount || "-"}</p>
               </StepStyled.DietEstablishmentItem>
               <StepStyled.DietEstablishmentItem>
-                <h2>witamina K ({dietEstablishmentQuery.vitaminK?.unit}): </h2>
-                <p>{dietEstablishmentQuery.vitaminK?.amount || "-"}</p>
+                <h2>witamina K ({dietEstablishment.vitaminK?.unit}): </h2>
+                <p>{dietEstablishment.vitaminK?.amount || "-"}</p>
               </StepStyled.DietEstablishmentItem>
             </StepStyled.DietEstablishmentItemsWrapper>
           </StepStyled.DietEstablishmentStepContentWrapper>

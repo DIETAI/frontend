@@ -1,8 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { IProductData } from "interfaces/product.interfaces";
 import { useParams } from "react-router";
-import { getProduct } from "services/getProducts";
 import { AnimatePresence } from "framer-motion";
 
 //styles
@@ -17,16 +15,7 @@ import NoDataImg from "assets/noData.svg";
 
 //components
 import LoadingGrid from "../../../loading/LoadingGrid";
-import { getDietEstablishmentQuery } from "services/useDietEstablishments";
-
-// interface IProductPrices {
-//   prices: IProductData["prices"];
-// }
-
-const pricesTest = [
-  { shop: "sklep 1", price: 20, currency: "PLN" },
-  { shop: "sklep 2", price: 30, currency: "PLN" },
-];
+import { getDietEstablishment } from "services/getDietEstablishments";
 
 const Meals = () => {
   const { t } = useTranslation();
@@ -36,12 +25,12 @@ const Meals = () => {
 
   if (!dietEstablishmentId) return <div>not found</div>;
   const {
-    dietEstablishmentQuery,
-    dietEstablishmentQueryError,
-    dietEstablishmentQueryLoading,
-  } = getDietEstablishmentQuery(dietEstablishmentId);
+    dietEstablishment,
+    dietEstablishmentError,
+    dietEstablishmentLoading,
+  } = getDietEstablishment(dietEstablishmentId);
 
-  if (dietEstablishmentQueryError) return <div>Diet establishment error</div>;
+  if (dietEstablishmentError) return <div>Diet establishment error</div>;
 
   return (
     <StepStyled.DietEstablishmentStepWrapper>
@@ -53,7 +42,7 @@ const Meals = () => {
       </StepStyled.StepHeadingWrapper>
       <StepStyled.DietEstablishmentStepContentContainer>
         <AnimatePresence>
-          {dietEstablishmentQueryLoading && (
+          {dietEstablishmentLoading && (
             <StepStyled.DietEstablishmentLoadingWrapper
               initial={{ opacity: 1 }}
               animate={{ opacity: 1 }}
@@ -64,21 +53,21 @@ const Meals = () => {
             </StepStyled.DietEstablishmentLoadingWrapper>
           )}
         </AnimatePresence>
-        {dietEstablishmentQuery && (
+        {dietEstablishment && (
           <StepStyled.DietEstablishmentStepContentWrapper
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1.3 }}
           >
-            {dietEstablishmentQuery.meals.length < 1 && (
+            {dietEstablishment.meals.length < 1 && (
               <StepStyled.DietEstablishmentEmptyItemWrapper>
                 <img src={NoDataImg} />
                 <h2>Brak dodanych posiłków</h2>
               </StepStyled.DietEstablishmentEmptyItemWrapper>
             )}
-            {dietEstablishmentQuery.meals.length > 1 && (
+            {dietEstablishment.meals.length > 1 && (
               <StepStyled.DietEstablishmentItemsWrapper>
-                {dietEstablishmentQuery.meals.map((meal, index) => (
+                {dietEstablishment.meals.map((meal, index) => (
                   <Styled.FieldWrapper key={meal._id}>
                     <Styled.FieldHeadWrapper>
                       <Styled.FieldNumberWrapper>

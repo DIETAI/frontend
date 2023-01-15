@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getDiet } from "services/getDiets";
 import { useParams } from "react-router";
-import { useDietEstablishment } from "services/useDietEstablishments";
+import { getDietEstablishment } from "services/getDietEstablishments";
 import { useFormContext, useFieldArray } from "react-hook-form";
 import { AnimatePresence, AnimateSharedLayout, motion } from "framer-motion";
 import ReactLoading from "react-loading";
@@ -50,7 +50,7 @@ const Default = () => {
     dietEstablishment,
     dietEstablishmentError,
     dietEstablishmentLoading,
-  } = useDietEstablishment(diet.establishmentId as string);
+  } = getDietEstablishment(diet.establishmentId as string);
 
   useEffect(() => {
     if (dietEstablishment) {

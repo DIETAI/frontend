@@ -31,7 +31,7 @@ import { FaFileInvoice } from "icons/icons";
 
 //context
 import { useAlert } from "layout/dashboard/context/alert.context";
-import { useDietEstablishment } from "services/useDietEstablishments";
+import { getDietEstablishment } from "services/getDietEstablishments";
 
 const defaultValues = dietDataSchema.cast({});
 type INewDietValues = typeof defaultValues;
@@ -243,7 +243,7 @@ const EstablishmentItem = ({
     dietEstablishment,
     dietEstablishmentLoading,
     dietEstablishmentError,
-  } = useDietEstablishment(establishmentId);
+  } = getDietEstablishment(establishmentId);
 
   if (dietEstablishmentLoading) return <div>loading..</div>;
   if (dietEstablishmentError) return <div>error..</div>;

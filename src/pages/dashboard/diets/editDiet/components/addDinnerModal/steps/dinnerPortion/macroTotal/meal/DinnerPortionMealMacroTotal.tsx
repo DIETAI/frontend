@@ -3,7 +3,7 @@ import * as Styled from "../DinnerPortionMacroTotal.styles";
 import { useFormContext } from "react-hook-form";
 import { getDiet } from "services/getDiets";
 import { getDietDayMeal } from "services/getDietMeals";
-import { useDietEstablishment } from "services/useDietEstablishments";
+import { getDietEstablishment } from "services/getDietEstablishments";
 import { SumModal } from "../sumModal/SumModal";
 import { getDinnerPortion } from "services/getDinnerPortions";
 
@@ -36,7 +36,7 @@ const DinnerPortionMealMacroTotal = () => {
   if (!diet) return null;
 
   const { dietDayMeal: meal } = getDietDayMeal(mealId);
-  const { dietEstablishment: establishment } = useDietEstablishment(
+  const { dietEstablishment: establishment } = getDietEstablishment(
     diet.establishmentId
   );
 

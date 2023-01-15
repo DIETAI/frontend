@@ -10,7 +10,7 @@ import { FaTh } from "icons/icons";
 
 //components
 import LoadingGrid from "../../loading/LoadingGrid";
-import { getDietEstablishmentQuery } from "services/useDietEstablishments";
+import { getDietEstablishment } from "services/getDietEstablishments";
 
 const Minerals = () => {
   const { dietEstablishmentId } = useParams();
@@ -18,12 +18,12 @@ const Minerals = () => {
 
   if (!dietEstablishmentId) return <div>not found</div>;
   const {
-    dietEstablishmentQuery,
-    dietEstablishmentQueryError,
-    dietEstablishmentQueryLoading,
-  } = getDietEstablishmentQuery(dietEstablishmentId);
+    dietEstablishment,
+    dietEstablishmentError,
+    dietEstablishmentLoading,
+  } = getDietEstablishment(dietEstablishmentId);
 
-  if (dietEstablishmentQueryError) return <div>Diet establishment error</div>;
+  if (dietEstablishmentError) return <div>Diet establishment error</div>;
 
   return (
     <StepStyled.DietEstablishmentStepWrapper>
@@ -35,7 +35,7 @@ const Minerals = () => {
       </StepStyled.StepHeadingWrapper>
       <StepStyled.DietEstablishmentStepContentContainer>
         <AnimatePresence>
-          {dietEstablishmentQueryLoading && (
+          {dietEstablishmentLoading && (
             <StepStyled.DietEstablishmentLoadingWrapper
               initial={{ opacity: 1 }}
               animate={{ opacity: 1 }}
@@ -46,7 +46,7 @@ const Minerals = () => {
             </StepStyled.DietEstablishmentLoadingWrapper>
           )}
         </AnimatePresence>
-        {dietEstablishmentQuery && (
+        {dietEstablishment && (
           <StepStyled.DietEstablishmentStepContentWrapper
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -54,40 +54,40 @@ const Minerals = () => {
           >
             <StepStyled.DietEstablishmentItemsWrapper>
               <StepStyled.DietEstablishmentItem>
-                <h2>cynk ({dietEstablishmentQuery.zinc?.unit}): </h2>
-                <p>{dietEstablishmentQuery.zinc?.amount || "-"}</p>
+                <h2>cynk ({dietEstablishment.zinc?.unit}): </h2>
+                <p>{dietEstablishment.zinc?.amount || "-"}</p>
               </StepStyled.DietEstablishmentItem>
               <StepStyled.DietEstablishmentItem>
-                <h2>fosfor ({dietEstablishmentQuery.phosphorus?.unit}): </h2>
-                <p>{dietEstablishmentQuery.phosphorus?.amount || "-"}</p>
+                <h2>fosfor ({dietEstablishment.phosphorus?.unit}): </h2>
+                <p>{dietEstablishment.phosphorus?.amount || "-"}</p>
               </StepStyled.DietEstablishmentItem>
               <StepStyled.DietEstablishmentItem>
-                <h2>magnez ({dietEstablishmentQuery.magnesium?.unit}): </h2>
-                <p>{dietEstablishmentQuery.magnesium?.amount || "-"}</p>
+                <h2>magnez ({dietEstablishment.magnesium?.unit}): </h2>
+                <p>{dietEstablishment.magnesium?.amount || "-"}</p>
               </StepStyled.DietEstablishmentItem>
               <StepStyled.DietEstablishmentItem>
-                <h2>miedź ({dietEstablishmentQuery.copper?.unit}): </h2>
-                <p>{dietEstablishmentQuery.copper?.amount || "-"}</p>
+                <h2>miedź ({dietEstablishment.copper?.unit}): </h2>
+                <p>{dietEstablishment.copper?.amount || "-"}</p>
               </StepStyled.DietEstablishmentItem>
               <StepStyled.DietEstablishmentItem>
-                <h2>potas ({dietEstablishmentQuery.potassium?.unit}): </h2>
-                <p>{dietEstablishmentQuery.potassium?.amount || "-"}</p>
+                <h2>potas ({dietEstablishment.potassium?.unit}): </h2>
+                <p>{dietEstablishment.potassium?.amount || "-"}</p>
               </StepStyled.DietEstablishmentItem>
               <StepStyled.DietEstablishmentItem>
-                <h2>selen ({dietEstablishmentQuery.selenium?.unit}): </h2>
-                <p>{dietEstablishmentQuery.selenium?.amount || "-"}</p>
+                <h2>selen ({dietEstablishment.selenium?.unit}): </h2>
+                <p>{dietEstablishment.selenium?.amount || "-"}</p>
               </StepStyled.DietEstablishmentItem>
               <StepStyled.DietEstablishmentItem>
-                <h2>sód ({dietEstablishmentQuery.sodium?.unit}): </h2>
-                <p>{dietEstablishmentQuery.sodium?.amount || "-"}</p>
+                <h2>sód ({dietEstablishment.sodium?.unit}): </h2>
+                <p>{dietEstablishment.sodium?.amount || "-"}</p>
               </StepStyled.DietEstablishmentItem>
               <StepStyled.DietEstablishmentItem>
-                <h2>wapń ({dietEstablishmentQuery.calcium?.unit}): </h2>
-                <p>{dietEstablishmentQuery.calcium?.amount || "-"}</p>
+                <h2>wapń ({dietEstablishment.calcium?.unit}): </h2>
+                <p>{dietEstablishment.calcium?.amount || "-"}</p>
               </StepStyled.DietEstablishmentItem>
               <StepStyled.DietEstablishmentItem>
-                <h2>żelazo ({dietEstablishmentQuery.iron?.unit}): </h2>
-                <p>{dietEstablishmentQuery.iron?.amount || "-"}</p>
+                <h2>żelazo ({dietEstablishment.iron?.unit}): </h2>
+                <p>{dietEstablishment.iron?.amount || "-"}</p>
               </StepStyled.DietEstablishmentItem>
             </StepStyled.DietEstablishmentItemsWrapper>
           </StepStyled.DietEstablishmentStepContentWrapper>

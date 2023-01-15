@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDietEstablishments } from "services/useDietEstablishments";
+import { getDietEstablishments } from "services/getDietEstablishments";
 import { useNavigate } from "react-router";
 import { createSearchParams } from "react-router-dom";
 import { IDietEstablishmentData } from "interfaces/dietEstablishment.interfaces";
@@ -60,7 +60,7 @@ const EstablishmentModal = ({ closeModal }: IEstablishmentModal) => {
     dietEstablishments,
     dietEstablishmentsError,
     dietEstablishmentsLoading,
-  } = useDietEstablishments();
+  } = getDietEstablishments();
 
   const {
     control,
@@ -89,8 +89,6 @@ const EstablishmentModal = ({ closeModal }: IEstablishmentModal) => {
       </Styled.EstablishmentModalContainer>
     );
 
-  console.log({ dietEstablishments });
-
   const addEstablishment = (id: string) => {
     setValue("establishmentId", id);
     closeModal();
@@ -98,15 +96,11 @@ const EstablishmentModal = ({ closeModal }: IEstablishmentModal) => {
 
   const clientEstablishments = (establishments: IDietEstablishmentData[]) => {
     const renderEstablishments = establishments.filter(
-      (establishment) => establishment.client === client
+      (establishment) => establishment.client._id === client
     );
 
     return renderEstablishments;
   };
-
-  // const clientEstablishments = dietEstablishments?.filter(
-  //   (establishment) => establishment.client === client
-  // );
 
   const params = { dietName, patientId: client, daysAmount };
 

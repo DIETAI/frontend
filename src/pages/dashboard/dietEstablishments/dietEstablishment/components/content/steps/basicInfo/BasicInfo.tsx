@@ -11,47 +11,14 @@ import * as StepStyled from "../../DietEstablishmentContent.styles";
 import * as Styled from "./BasicInfo.styles";
 
 //components
-import Image from "components/form/images/image/Image";
 import LoadingGrid from "../../../loading/LoadingGrid";
 
 //icons
 import { FaInfoCircle, FaExclamationCircle } from "icons/icons";
 
 import LogoBackground from "assets/logo-icon.svg";
-import { IClientData } from "interfaces/client.interfaces";
-import {
-  getDietEstablishmentQuery,
-  useDietEstablishment,
-} from "services/useDietEstablishments";
 
-const renderGender = (gender: IClientData["gender"]) => {
-  if (gender === "female") {
-    return "kobieta";
-  }
-
-  return "mężczyzna";
-};
-
-const renderClientPhysiologicalState = (
-  physiologicalState: IClientData["physiologicalState"]
-) => {
-  if (physiologicalState === "lactation") {
-    return "laktacja";
-  }
-
-  if (physiologicalState === "pregnancy") {
-    return "ciąża";
-  }
-  return "brak";
-};
-
-const dateFormat = (date: Date) => {
-  const formatDate = format(new Date(date), "dd.MM.yyyy", {
-    locale: pl,
-  });
-
-  return formatDate;
-};
+import { getDietEstablishment } from "services/getDietEstablishments";
 
 const BasicInfo = () => {
   const { dietEstablishmentId } = useParams();
@@ -59,14 +26,12 @@ const BasicInfo = () => {
 
   if (!dietEstablishmentId) return <div>not found</div>;
   const {
-    dietEstablishmentQuery,
-    dietEstablishmentQueryError,
-    dietEstablishmentQueryLoading,
-  } = getDietEstablishmentQuery(dietEstablishmentId);
+    dietEstablishment,
+    dietEstablishmentError,
+    dietEstablishmentLoading,
+  } = getDietEstablishment(dietEstablishmentId);
 
-  console.log({ dietEstablishmentQuery });
-
-  if (dietEstablishmentQueryError)
+  if (dietEstablishmentError)
     return (
       <StepStyled.DietEstablishmentStepWrapper>
         <StepStyled.StepHeadingWrapper>
@@ -92,7 +57,7 @@ const BasicInfo = () => {
       </StepStyled.StepHeadingWrapper>
       <StepStyled.DietEstablishmentStepContentContainer>
         <AnimatePresence>
-          {dietEstablishmentQueryLoading && (
+          {dietEstablishmentLoading && (
             <StepStyled.DietEstablishmentLoadingWrapper
               initial={{ opacity: 1 }}
               animate={{ opacity: 1 }}
@@ -103,7 +68,7 @@ const BasicInfo = () => {
             </StepStyled.DietEstablishmentLoadingWrapper>
           )}
         </AnimatePresence>
-        {dietEstablishmentQuery && (
+        {dietEstablishment && (
           <StepStyled.DietEstablishmentStepContentWrapper
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -117,39 +82,39 @@ const BasicInfo = () => {
               </Styled.DietEstablishmentInfoImageWrapper>
 
               <Styled.DietEstablishmentInfoDescriptionWrapper>
-                <h2>{dietEstablishmentQuery.name}</h2>
+                <h2>{dietEstablishment.name}</h2>
               </Styled.DietEstablishmentInfoDescriptionWrapper>
 
               <StepStyled.DietEstablishmentItemsWrapper>
-                {dietEstablishmentQuery.description && (
+                {dietEstablishment.description && (
                   <StepStyled.DietEstablishmentItem>
                     <h2>opis: </h2>
-                    <p>{dietEstablishmentQuery.description}</p>
+                    <p>{dietEstablishment.description}</p>
                   </StepStyled.DietEstablishmentItem>
                 )}
 
                 <StepStyled.DietEstablishmentItem>
                   <h2>pacjent: </h2>
                   <p>
-                    {dietEstablishmentQuery.patientObj.name +
+                    {dietEstablishment.client.name +
                       " " +
-                      dietEstablishmentQuery.patientObj.lastName}
+                      dietEstablishment.client.lastName}
                   </p>
                 </StepStyled.DietEstablishmentItem>
 
-                {dietEstablishmentQuery.measurementObj && (
+                {dietEstablishment.measurementId && (
                   <StepStyled.DietEstablishmentItem>
                     <h2>pomiar: </h2>
-                    <p>{dietEstablishmentQuery.measurementObj.name}</p>
+                    <p>{dietEstablishment.measurementId.name}</p>
                   </StepStyled.DietEstablishmentItem>
                 )}
                 <StepStyled.DietEstablishmentItem>
                   <h2>kcal: </h2>
-                  <p>{dietEstablishmentQuery.kcal}</p>
+                  <p>{dietEstablishment.kcal}</p>
                 </StepStyled.DietEstablishmentItem>
                 <StepStyled.DietEstablishmentItem>
                   <h2>rodzaj diety: </h2>
-                  <p>{dietEstablishmentQuery.dietKindObj.name}</p>
+                  <p>{dietEstablishment.dietKind?.name}</p>
                 </StepStyled.DietEstablishmentItem>
               </StepStyled.DietEstablishmentItemsWrapper>
             </Styled.DietEstablishmentInfoWrapper>

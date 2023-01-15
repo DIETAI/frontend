@@ -1,8 +1,6 @@
 import React from "react";
 import { useParams } from "react-router";
 import { AnimatePresence } from "framer-motion";
-import EstablishmentImg from "assets/establishment.svg";
-import { getClient } from "services/getClients";
 import format from "date-fns/format";
 import { pl } from "date-fns/locale";
 import measurementImg from "assets/noMeasurement.svg";
@@ -12,7 +10,6 @@ import * as StepStyled from "../../MeasurementContent.styles";
 import * as Styled from "./BasicInfo.styles";
 
 //components
-import Image from "components/form/images/image/Image";
 import LoadingGrid from "../../../loading/LoadingGrid";
 
 //icons
@@ -20,40 +17,7 @@ import { FaInfoCircle, FaExclamationCircle } from "icons/icons";
 
 import LogoBackground from "assets/logo-icon.svg";
 import { IClientData } from "interfaces/client.interfaces";
-import {
-  getDietEstablishmentQuery,
-  useDietEstablishment,
-} from "services/useDietEstablishments";
 import { getMeasurement } from "services/getMeasurements";
-
-const renderGender = (gender: IClientData["gender"]) => {
-  if (gender === "female") {
-    return "kobieta";
-  }
-
-  return "mężczyzna";
-};
-
-const renderClientPhysiologicalState = (
-  physiologicalState: IClientData["physiologicalState"]
-) => {
-  if (physiologicalState === "lactation") {
-    return "laktacja";
-  }
-
-  if (physiologicalState === "pregnancy") {
-    return "ciąża";
-  }
-  return "brak";
-};
-
-const dateFormat = (date: Date) => {
-  const formatDate = format(new Date(date), "dd.MM.yyyy", {
-    locale: pl,
-  });
-
-  return formatDate;
-};
 
 const BasicInfo = () => {
   const { measurementId } = useParams();

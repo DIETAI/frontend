@@ -4,7 +4,7 @@ import axios from "utils/api";
 
 import { getDiet } from "services/getDiets";
 import { getDietDayMeal } from "services/getDietMeals";
-import { useDietEstablishment } from "services/useDietEstablishments";
+import { getDietEstablishment } from "services/getDietEstablishments";
 import { getDinnerPortionsQuery } from "services/getDinnerPortions";
 import {
   getDinnerProductsQuery,
@@ -148,7 +148,7 @@ const RecommendPortion = ({
   if (!diet) return null;
 
   const { dietDayMeal: meal } = getDietDayMeal(mealId);
-  const { dietEstablishment: establishment } = useDietEstablishment(
+  const { dietEstablishment: establishment } = getDietEstablishment(
     diet.establishmentId
   );
 
