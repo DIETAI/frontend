@@ -18,6 +18,7 @@ export const getDinnerProducts = (dinnerId: string) => {
   };
 };
 
+//usunąć
 export const getDinnerProductsQuery = (dinnerId: string) => {
   const { data, error } = useSWR<IDinnerProductQueryData[] | null>(
     `/api/v1/dinnerProducts/dinner/${dinnerId}/query`,

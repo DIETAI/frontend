@@ -486,7 +486,7 @@ const DinnerProduct = ({
         {dinnerProductQuery.product.image && (
           <div>
             <Image
-              imageId={dinnerProductQuery.product.image}
+              imageId={dinnerProductQuery.product.image._id}
               roundedDataGrid={true}
             />
           </div>

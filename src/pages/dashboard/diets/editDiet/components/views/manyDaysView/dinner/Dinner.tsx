@@ -21,9 +21,10 @@ import Modal from "components/modal/Modal";
 
 //icons
 import { FaEdit, FaTrash, FaInfoCircle, FaLongArrowAltUp } from "icons/icons";
+import { IDietDinnerPopulateData } from "interfaces/diet/dietPopulate.interfaces";
 
 interface IDietDinner {
-  dietDinner: IDietDinnerQueryData;
+  dietDinner: IDietDinnerPopulateData;
   provided: DraggableProvided;
 }
 
@@ -32,7 +33,7 @@ const Dinner = ({ dietDinner, provided }: IDietDinner) => {
   const [openInfoDinnerModal, setOpenInfoDinnerModal] = useState(false);
   const [openEditDinnerModal, setOpenEditDinnerModal] = useState(false);
   const [openDinnerOptions, setOpenDinnerOptions] = useState(false);
-  const { image } = dietDinner.dinnerPortion.dinner;
+  const { image } = dietDinner.dinnerPortionId.dinnerId;
 
   return (
     <>
@@ -46,24 +47,24 @@ const Dinner = ({ dietDinner, provided }: IDietDinner) => {
         <Styled.DietDinner>
           {image && (
             <div>
-              <Image roundedDataGrid={true} imageId={image} />
+              <Image roundedDataGrid={true} imageId={image._id} />
             </div>
           )}
 
-          <h4>{dietDinner.dinnerPortion.dinner.name}</h4>
+          <h4>{dietDinner.dinnerPortionId.dinnerId.name}</h4>
         </Styled.DietDinner>
         <Styled.DietDinnerTotalWrapper>
           <p>
-            B: <b>{dietDinner.dinnerPortion.total.protein.gram}</b>
+            B: <b>{dietDinner.dinnerPortionId.total.protein.gram}</b>
           </p>
           <p>
-            T: <b>{dietDinner.dinnerPortion.total.fat.gram}</b>
+            T: <b>{dietDinner.dinnerPortionId.total.fat.gram}</b>
           </p>
           <p>
-            W: <b>{dietDinner.dinnerPortion.total.carbohydrates.gram}</b>
+            W: <b>{dietDinner.dinnerPortionId.total.carbohydrates.gram}</b>
           </p>
           <p>
-            kcal: <b>{dietDinner.dinnerPortion.total.kcal}</b>
+            kcal: <b>{dietDinner.dinnerPortionId.total.kcal}</b>
           </p>
         </Styled.DietDinnerTotalWrapper>
 

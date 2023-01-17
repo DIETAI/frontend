@@ -76,14 +76,16 @@ const AddedPortions = () => {
           </Styled.PortionTotalWrapper>
           <Styled.ProductsWrapper>
             {dinnerPortion.dinnerProducts.map((dinnerPortionProduct) => (
-              <Styled.ProductWrapper key={dinnerPortionProduct.dinnerProductId}>
+              <Styled.ProductWrapper
+                key={dinnerPortionProduct.dinnerProductId._id}
+              >
                 <Styled.ProductMainWrapper>
                   {dinnerPortionProduct.dinnerProduct.product.image && (
                     <div>
                       <Image
                         roundedDataGrid={true}
                         imageId={
-                          dinnerPortionProduct.dinnerProduct.product.image
+                          dinnerPortionProduct.dinnerProduct.product.image._id
                         }
                       />
                     </div>

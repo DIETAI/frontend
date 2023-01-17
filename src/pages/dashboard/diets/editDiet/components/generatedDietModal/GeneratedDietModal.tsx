@@ -185,7 +185,8 @@ const GeneratedDietModal = ({ closeModal }: { closeModal: () => void }) => {
                     type: "custom",
                     dinnerId: mealDinner.dinnerId,
                     total: sumTotal({
-                      dinnerPortionProducts: newDinnerPortionProductsData,
+                      dinnerPortionProducts:
+                        newDinnerPortionProductsData as any,
                     }),
                     dinnerProducts: newDinnerPortionProductsData,
                   };

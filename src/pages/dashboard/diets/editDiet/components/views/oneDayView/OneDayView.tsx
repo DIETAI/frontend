@@ -5,7 +5,7 @@ import {
   IDietQueryData,
 } from "interfaces/diet/dietQuery.interfaces";
 import { useParams } from "react-router";
-import { getDietQuery } from "services/getDiets";
+import { getDietPopulate, getDietQuery } from "services/getDiets";
 import { AnimatePresence } from "framer-motion";
 import format from "date-fns/format";
 import { pl } from "date-fns/locale";
@@ -21,24 +21,24 @@ import Meal from "./meal/Meal";
 
 //styles
 import * as Styled from "./OneDayView.styles";
+import { IDietDayPopulateData } from "interfaces/diet/dietPopulate.interfaces";
 
 const OneDayView = () => {
   const { dietEditId } = useParams();
   if (!dietEditId) return <div>brak diety</div>;
 
-  const { dietQuery, dietQueryLoading, dietQueryError } =
-    getDietQuery(dietEditId);
+  const { diet, dietLoading, dietError } = getDietPopulate(dietEditId);
 
-  const [currentDay, setCurrentDay] = useState<IDietDayQueryData>();
+  const [currentDay, setCurrentDay] = useState<IDietDayPopulateData>();
 
   useEffect(() => {
-    if (dietQuery) {
-      setCurrentDay(dietQuery.days[0]);
+    if (diet) {
+      setCurrentDay(diet.dietDays[0]);
     }
-  }, [dietQuery]);
+  }, [diet]);
 
-  if (dietQueryLoading) return <div>dietDays loading...</div>;
-  if (dietQueryError || !dietQuery) return <div>diet query error</div>;
+  if (dietLoading) return <div>dietDays loading...</div>;
+  if (dietError || !diet) return <div>diet query error</div>;
 
   const dateFormat = (date: Date) => {
     const formatDate = format(new Date(date), "eee / dd.MM.yyyy", {
@@ -51,7 +51,7 @@ const OneDayView = () => {
   return (
     <Styled.OneDayViewContainer>
       <Styled.OneDayViewNav>
-        {dietQuery.days.map((dietDay) => (
+        {diet.dietDays.map((dietDay) => (
           <Styled.OneDayViewNavItem
             active={currentDay?._id === dietDay._id}
             key={dietDay._id}
@@ -65,55 +65,55 @@ const OneDayView = () => {
         <TotalItem
           macroType="B (g)"
           variant={percentageRangeClasses({
-            minValue: dietQuery.establishment.protein.min_gram,
-            maxValue: dietQuery.establishment.protein.max_gram,
+            minValue: diet.establishmentId.protein.min_gram,
+            maxValue: diet.establishmentId.protein.max_gram,
             value: currentDay?.total.protein.gram || 0,
           })}
           totalValue={currentDay?.total.protein.gram || 0}
-          modalContent={`${dietQuery.establishment.protein.min_gram} - ${dietQuery.establishment.protein.max_gram} g`}
+          modalContent={`${diet.establishmentId.protein.min_gram} - ${diet.establishmentId.protein.max_gram} g`}
         />
         <TotalItem
           macroType="T (g)"
           variant={percentageRangeClasses({
-            minValue: dietQuery.establishment.fat.min_gram,
-            maxValue: dietQuery.establishment.fat.max_gram,
+            minValue: diet.establishmentId.fat.min_gram,
+            maxValue: diet.establishmentId.fat.max_gram,
             value: currentDay?.total.fat.gram || 0,
           })}
           totalValue={currentDay?.total.fat.gram || 0}
-          modalContent={`${dietQuery.establishment.fat.min_gram} - ${dietQuery.establishment.fat.max_gram} g`}
+          modalContent={`${diet.establishmentId.fat.min_gram} - ${diet.establishmentId.fat.max_gram} g`}
         />
         <TotalItem
           macroType="W (g)"
           variant={percentageRangeClasses({
-            minValue: dietQuery.establishment.carbohydrates.min_gram,
-            maxValue: dietQuery.establishment.carbohydrates.max_gram,
+            minValue: diet.establishmentId.carbohydrates.min_gram,
+            maxValue: diet.establishmentId.carbohydrates.max_gram,
             value: currentDay?.total.carbohydrates.gram || 0,
           })}
           totalValue={currentDay?.total.carbohydrates.gram || 0}
-          modalContent={`${dietQuery.establishment.carbohydrates.min_gram} - ${dietQuery.establishment.carbohydrates.max_gram} g`}
+          modalContent={`${diet.establishmentId.carbohydrates.min_gram} - ${diet.establishmentId.carbohydrates.max_gram} g`}
         />
 
         <Styled.OneDayViewTotalItem
           variant={procentClasses({
-            establishment: dietQuery.establishment.fiber.gram,
+            establishment: diet.establishmentId.fiber.gram,
             total: currentDay?.total.fiber.gram || 0,
           })}
         >
           <h2>Bł (g):</h2>
           <p>
             <b>{currentDay?.total.fiber.gram}</b>/
-            {dietQuery.establishment.fiber.gram}
+            {diet.establishmentId.fiber.gram}
           </p>
         </Styled.OneDayViewTotalItem>
         <Styled.OneDayViewTotalItem
           variant={procentClasses({
-            establishment: dietQuery.establishment.kcal,
+            establishment: diet.establishmentId.kcal,
             total: currentDay?.total.kcal || 0,
           })}
         >
           <h2>Kcal:</h2>
           <p>
-            <b>{currentDay?.total.kcal}</b>/{dietQuery.establishment.kcal}
+            <b>{currentDay?.total.kcal}</b>/{diet.establishmentId.kcal}
           </p>
         </Styled.OneDayViewTotalItem>
       </Styled.OneDayViewTotalWrapper>
@@ -130,12 +130,8 @@ const OneDayView = () => {
           <Styled.TableHeaderItem>kcal</Styled.TableHeaderItem>
         </Styled.OneDayViewTableHeaderWrapper>
 
-        {currentDay?.meals.map((meal, index) => (
-          <Meal
-            key={index}
-            meal={meal}
-            establishment={dietQuery.establishment}
-          />
+        {currentDay?.dietMeals.map((meal, index) => (
+          <Meal key={index} meal={meal} establishment={diet.establishmentId} />
         ))}
       </Styled.OneDayViewTableWrapper>
     </Styled.OneDayViewContainer>

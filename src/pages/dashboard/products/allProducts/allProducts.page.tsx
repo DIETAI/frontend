@@ -4,11 +4,7 @@ import { getProducts } from "services/getProducts";
 import { productNavLinks } from "../utils/navLinks";
 import NoProductImage from "assets/noImage.svg";
 
-//date-fns
-import format from "date-fns/format";
-
 //components
-import PageHeading from "pages/dashboard/components/pageHeading/PageHeading";
 import PageNav from "components/pageNav/PageNav";
 
 import {
@@ -17,7 +13,6 @@ import {
   DataGridList,
   DataGridPagination,
 } from "../../components/dataGridv3";
-import Section from "../components/section/Section";
 
 //interfaces
 import { IColumn } from "pages/dashboard/components/dataGridv2/DataGrid.interfaces";
@@ -53,24 +48,9 @@ const AllProducts = () => {
     }
   }, [pagination]);
 
-  const handleBack = () => {
-    if (page === 1) return;
-    setPage(page - 1);
-  };
-
-  const handleNext = () => {
-    if (page === pageCount) return;
-    setPage(page + 1);
-  };
-
-  console.log({ products });
-
-  // if (measurementsLoading) return <div>measurements loading...</div>;
-  // if (productsError || !products) return <div>products error</div>;
-
   const productsData = products?.map((data) => ({
     _id: data._id,
-    imageURL: data.imageURL,
+    imageURL: data.image?.imageURL,
     name: data.name,
     kcal: data.kcal,
     proteinGram: data.protein.gram,
@@ -79,8 +59,6 @@ const AllProducts = () => {
     fiberGram: data.fiber.gram,
     digestableCarbohydratesGram: data.digestableCarbohydrates.gram,
   }));
-
-  console.log({ productsData });
 
   const deleteProducts = () => {
     return;

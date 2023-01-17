@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useParams } from "react-router";
-import { getDiet, getDietQuery } from "services/getDiets";
+import { getDiet, getDietPopulate, getDietQuery } from "services/getDiets";
 import ReactLoading from "react-loading";
 import { dietsNavLinks } from "../utils/navLinks";
 
@@ -22,7 +22,8 @@ const EditDiet = () => {
 
   if (!dietEditId) return <div>not found</div>;
 
-  const { diet, dietError, dietLoading } = getDiet(dietEditId);
+  // const { diet, dietError, dietLoading } = getDiet(dietEditId);
+  const { diet, dietLoading, dietError } = getDietPopulate(dietEditId);
 
   if (dietLoading)
     return (
@@ -56,7 +57,12 @@ const EditDiet = () => {
           },
         ]}
       />
-      <DietNav setView={setView} view={view} diet={diet} />
+      <DietNav
+        setView={setView}
+        view={view}
+        dietId={diet._id}
+        dietName={diet.name}
+      />
       <DietContent>
         {view === "oneDay" ? <OneDayView /> : <ManyDaysView />}
       </DietContent>

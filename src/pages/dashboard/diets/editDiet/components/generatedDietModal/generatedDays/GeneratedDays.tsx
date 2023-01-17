@@ -222,7 +222,10 @@ const AddedDietDinner = ({ dietDinner }: { dietDinner: IDietMealDinner }) => {
       <Styled.DietDinner>
         {dietDinner.dinner.image && (
           <div>
-            <Image roundedDataGrid={true} imageId={dietDinner.dinner.image} />
+            <Image
+              roundedDataGrid={true}
+              imageId={dietDinner.dinner.image._id}
+            />
           </div>
         )}
         <h4>{dietDinner.dinner.name}</h4>

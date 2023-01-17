@@ -1,3 +1,5 @@
+import { IAssetData } from "./asset.interfaces";
+
 export interface IMacrohydrate {
   gram: number;
   kcal: number;
@@ -38,8 +40,7 @@ export interface IProductData {
   updatedAt: string;
   user: string;
   name: string;
-  image?: string;
-  imageURL?: string;
+  image?: IAssetData;
   gallery?: string[];
   description?: string;
   subGroupId?: string;

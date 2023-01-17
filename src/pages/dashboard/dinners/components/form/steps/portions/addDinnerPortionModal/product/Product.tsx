@@ -37,7 +37,9 @@ const Product = ({ productId, defaultAmount }: IProductProps) => {
 
   return (
     <Styled.ItemWrapper>
-      {product?.image && <Image imageId={product.image} roundedSelect={true} />}
+      {product?.image && (
+        <Image imageId={product.image._id} roundedSelect={true} />
+      )}
 
       <Styled.ItemContent>
         <h2>{product?.name}</h2>

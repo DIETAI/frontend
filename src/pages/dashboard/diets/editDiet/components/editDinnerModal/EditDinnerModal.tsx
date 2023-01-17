@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router";
+import { useParams } from "react-router";
 
 //translation
 import { useTranslation } from "react-i18next";
@@ -26,6 +27,7 @@ import {
   dietDinnerPortionSchema,
   dietDinnerSchema,
 } from "../addDinnerModal/AddDinnerModel.schema";
+import { IDietDinnerPopulateData } from "interfaces/diet/dietPopulate.interfaces";
 
 const defaultValues = dietDinnerSchema.concat(dietDinnerPortionSchema).cast({});
 
@@ -34,24 +36,25 @@ const EditDinnerModal = ({
   dietDinner,
 }: {
   closeModal: () => void;
-  dietDinner: IDietDinnerQueryData;
+  dietDinner: IDietDinnerPopulateData;
 }) => {
+  const { dietEditId } = useParams();
   const { t } = useTranslation();
 
   const editDinnerDefaultValues = {
-    dietId: dietDinner.dietId,
+    dietId: dietEditId,
     dayId: dietDinner.dayId,
     dietMealId: dietDinner.dietMealId,
     order: 1,
-    dinnerId: dietDinner.dinnerPortion.dinnerId,
-    dinnerPortionId: dietDinner.dinnerPortion._id,
+    dinnerId: dietDinner.dinnerPortionId.dinnerId._id,
+    dinnerPortionId: dietDinner.dinnerPortionId._id,
   };
 
   return (
     <Styled.DinnerModalContainer>
       <Heading
         icon={<FaUserCog />}
-        title={dietDinner.dinnerPortion.dinner.name}
+        title={dietDinner.dinnerPortionId.dinnerId.name}
       />
       <MultiStepContainer
         defaultValues={editDinnerDefaultValues}

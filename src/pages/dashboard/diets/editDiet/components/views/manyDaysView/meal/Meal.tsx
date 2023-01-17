@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "utils/api";
 import { mutate } from "swr";
+import { useParams } from "react-router";
 
 //interfaces
 import { IDietMealQueryData } from "interfaces/diet/dietQuery.interfaces";
@@ -21,20 +22,25 @@ import MealGenerateModalContent from "../../../mealGenerateModal/MealGenerateMod
 //icons
 import { FaPlus, FaFileAlt } from "icons/icons";
 import { IDietEstablishmentData } from "interfaces/dietEstablishment.interfaces";
+import {
+  IDietMealPopulateData,
+  IDietPopulateData,
+} from "interfaces/diet/dietPopulate.interfaces";
 
 interface IMeal {
-  meal: IDietMealQueryData;
-  establishment: IDietEstablishmentData;
+  meal: IDietMealPopulateData;
+  establishment: IDietPopulateData["establishmentId"];
 }
 
 const Meal = ({ meal, establishment }: IMeal) => {
+  const { dietEditId } = useParams();
   const [addDinnerModalOpen, setDinnerModalOpen] = useState(false);
   const [generateMealModalOpen, setGenerateMealModalOpen] = useState(false);
-  const [mealDinners, setMealDinners] = useState(meal.dinners);
+  const [mealDinners, setMealDinners] = useState(meal.dietDinners);
 
   useEffect(() => {
-    setMealDinners(meal.dinners);
-  }, [...meal.dinners]);
+    setMealDinners(meal.dietDinners);
+  }, [...meal.dietDinners]);
 
   const mealEstablishment = establishment.meals.find(
     ({ _id }) => _id === meal.establishmentMealId
@@ -67,7 +73,7 @@ const Meal = ({ meal, establishment }: IMeal) => {
           console.log({ newMealDinner, editDietDinner });
 
           //mutate dietquery obj
-          await mutate(`/api/v1/diets/${mealDinner.dietId}/query`); //correct
+          await mutate(`/api/v1/diets/${dietEditId}/populate`); //correct
         } catch (e) {
           console.log(e);
         }

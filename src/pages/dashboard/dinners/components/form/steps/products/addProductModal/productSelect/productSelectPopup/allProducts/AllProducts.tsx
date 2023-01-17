@@ -42,7 +42,7 @@ const AllProducts = ({ selectProduct, searchValue }: IAllProductsProps) => {
             onClick={() => selectProduct(product._id)}
           >
             {product.image && (
-              <Image imageId={product.image} roundedDataGrid={true} />
+              <Image imageId={product.image._id} roundedDataGrid={true} />
             )}
 
             <Styled.ItemContent>

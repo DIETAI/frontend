@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useParams } from "react-router";
 import { getDietDays } from "services/getDietDays";
 import { getDietQuery } from "services/getDiets";
+import { getDietPopulate } from "services/getDiets";
 import ReactLoading from "react-loading";
 
 //components
@@ -24,22 +25,21 @@ const ManyDaysView = () => {
 
   if (!dietEditId) return <div>brak diety</div>;
 
-  const { dietQuery, dietQueryLoading, dietQueryError } =
-    getDietQuery(dietEditId);
+  const { diet } = getDietPopulate(dietEditId);
 
-  if (dietQueryLoading)
-    return (
-      <Styled.DaysLoadingWrapper>
-        <ReactLoading type="spin" color="blue" height={50} width={50} />
-        <h3>pobieranie dni</h3>
-      </Styled.DaysLoadingWrapper>
-    );
+  // if (dietQueryLoading)
+  //   return (
+  //     <Styled.DaysLoadingWrapper>
+  //       <ReactLoading type="spin" color="blue" height={50} width={50} />
+  //       <h3>pobieranie dni</h3>
+  //     </Styled.DaysLoadingWrapper>
+  //   );
 
-  if (dietQueryError || !dietQuery) return <div>diet query error</div>;
+  // if (dietQueryError || !dietQuery) return <div>diet query error</div>;
 
   const indexOfLastData = currentPage * dayPerPage;
   const indexOfFirstData = indexOfLastData - dayPerPage;
-  const currentDays = dietQuery.days.slice(indexOfFirstData, indexOfLastData);
+  const currentDays = diet?.dietDays.slice(indexOfFirstData, indexOfLastData);
 
   const paginate = () => {
     if (currentPage === 1) {
@@ -49,39 +49,44 @@ const ManyDaysView = () => {
   };
 
   return (
-    <Styled.DaysContainer>
-      <Styled.DaysNav>
-        {dietQuery.days.length > dayPerPage ? (
-          <>
-            <IconButton icon={<FaChevronLeft />} onClick={paginate} />
-            <p>
-              dni:{" "}
-              <b>
-                {indexOfFirstData + 1} / {indexOfLastData}
-              </b>
-            </p>
-            <IconButton icon={<FaChevronRight />} onClick={paginate} />
-          </>
-        ) : (
-          <p>
-            dni:{" "}
-            <b>
-              {indexOfFirstData + 1} / {indexOfLastData}
-            </b>
-          </p>
-        )}
-      </Styled.DaysNav>
+    <>
+      {diet && (
+        <Styled.DaysContainer>
+          <Styled.DaysNav>
+            {diet.dietDays.length > dayPerPage ? (
+              <>
+                <IconButton icon={<FaChevronLeft />} onClick={paginate} />
+                <p>
+                  dni:{" "}
+                  <b>
+                    {indexOfFirstData + 1} / {indexOfLastData}
+                  </b>
+                </p>
+                <IconButton icon={<FaChevronRight />} onClick={paginate} />
+              </>
+            ) : (
+              <p>
+                dni:{" "}
+                <b>
+                  {indexOfFirstData + 1} / {indexOfLastData}
+                </b>
+              </p>
+            )}
+          </Styled.DaysNav>
 
-      <Styled.DaysContentWrapper>
-        {currentDays.map((day) => (
-          <Day
-            key={day._id}
-            day={day}
-            establishment={dietQuery.establishment}
-          />
-        ))}
-      </Styled.DaysContentWrapper>
-    </Styled.DaysContainer>
+          <Styled.DaysContentWrapper>
+            {currentDays &&
+              currentDays.map((day) => (
+                <Day
+                  key={day._id}
+                  day={day}
+                  establishment={diet.establishmentId}
+                />
+              ))}
+          </Styled.DaysContentWrapper>
+        </Styled.DaysContainer>
+      )}
+    </>
   );
 };
 

@@ -127,7 +127,7 @@ const PortionProduct = ({
       <Styled.PortionHeading>
         {dinnerProductQuery.product.image && (
           <Image
-            imageId={dinnerProductQuery.product.image}
+            imageId={dinnerProductQuery.product.image._id}
             roundedDataGrid={true}
           />
         )}

@@ -31,7 +31,7 @@ const ProductSelectPopup = ({
   if (!dinnerId) return null;
 
   const [filterOption, setFilterOption] = useState<IFilterOption>("recommend");
-  const { products, productsError, productsLoading } = getProducts();
+
   const { dinnerProducts, dinnerProductsLoading, dinnerProductsError } =
     getDinnerProducts(dinnerId);
 
@@ -74,9 +74,8 @@ const ProductSelectPopup = ({
 
   if (!openPopup) return null;
 
-  if (productsLoading || dinnerProductsLoading)
-    return <div>products loading</div>;
-  if (productsError || dinnerProductsError) return <div>products error</div>;
+  if (dinnerProductsLoading) return <div>products loading</div>;
+  if (dinnerProductsError) return <div>products error</div>;
 
   return (
     <Styled.SelectPopupWrapper ref={autocompleteRef}>

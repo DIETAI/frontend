@@ -14,12 +14,13 @@ import { FaUtensils, FaChevronDown } from "icons/icons";
 //assets
 import LogoBackground from "assets/logo-icon.svg";
 import NoImage from "assets/noImage.svg";
+import { IDietDinnerPopulateData } from "interfaces/diet/dietPopulate.interfaces";
 
 const InfoModalContent = ({
   dietDinner,
   closeModal,
 }: {
-  dietDinner: IDietDinnerQueryData;
+  dietDinner: IDietDinnerPopulateData;
   closeModal: () => void;
 }) => {
   const [openAllNutrients, setOpenAllNutrients] = useState(false);
@@ -27,7 +28,7 @@ const InfoModalContent = ({
     setOpenAllNutrients(!openAllNutrients);
   };
 
-  const { dinnerPortion } = dietDinner;
+  const { dinnerPortionId } = dietDinner;
   return (
     <Styled.ModalContentWrapper>
       <Heading
@@ -41,20 +42,20 @@ const InfoModalContent = ({
 
           <img
             className="productImg"
-            src={dinnerPortion.dinner.imageObj?.imageURL || NoImage}
+            src={dinnerPortionId.dinnerId.image?.imageURL || NoImage}
           />
         </Styled.DinnerInfoImageWrapper>
         <Styled.DinnerInfoDescriptionWrapper>
-          <h2>{dinnerPortion.dinner.name}</h2>
+          <h2>{dinnerPortionId.dinnerId.name}</h2>
 
-          {dinnerPortion.dinner.recipe && (
+          {/* {dinnerPortionId.dinnerId.recipe && (
             <Styled.DinnerInfoDescriptionItem>
               <Styled.DinnerInfoDescriptionNavItem>
                 przepis
               </Styled.DinnerInfoDescriptionNavItem>
-              <p>{dinnerPortion.dinner.recipe}</p>
+              <p>{dinnerPortionId.dinnerId.recipe}</p>
             </Styled.DinnerInfoDescriptionItem>
-          )}
+          )} */}
 
           <Styled.DinnerInfoDescriptionItem>
             <Styled.DinnerInfoDescriptionNavItem>
@@ -62,23 +63,23 @@ const InfoModalContent = ({
             </Styled.DinnerInfoDescriptionNavItem>
             <Styled.DinnerInfoMacroWrapper>
               <li>
-                kcal: <b>{dinnerPortion.total.kcal}</b>
+                kcal: <b>{dinnerPortionId.total.kcal}</b>
               </li>
               <li>
-                B (g): <b>{dinnerPortion.total.protein.gram}</b>
+                B (g): <b>{dinnerPortionId.total.protein.gram}</b>
               </li>
               <li>
-                T (g): <b>{dinnerPortion.total.fat.gram}</b>
+                T (g): <b>{dinnerPortionId.total.fat.gram}</b>
               </li>
               <li>
-                W (g): <b>{dinnerPortion.total.carbohydrates.gram}</b>
+                W (g): <b>{dinnerPortionId.total.carbohydrates.gram}</b>
               </li>
               <li>
                 Wp (g):{" "}
-                <b>{dinnerPortion.total.digestableCarbohydrates.gram}</b>
+                <b>{dinnerPortionId.total.digestableCarbohydrates.gram}</b>
               </li>
               <li>
-                Bł (g): <b>{dinnerPortion.total.fiber.gram}</b>
+                Bł (g): <b>{dinnerPortionId.total.fiber.gram}</b>
               </li>
             </Styled.DinnerInfoMacroWrapper>
           </Styled.DinnerInfoDescriptionItem>
@@ -104,32 +105,32 @@ const InfoModalContent = ({
                 <Styled.DinnerInfoMacroWrapper>
                   <li>
                     nasycone kwasy tłuszczowe:{" "}
-                    <b>{dinnerPortion.total.saturatedFattyAcids || "-"}</b>
+                    <b>{dinnerPortionId.total.saturatedFattyAcids || "-"}</b>
                   </li>
                   <li>
                     wielonienasycone kwasy tłuszczowe:{" "}
                     <b>
-                      {dinnerPortion.total.pollyunsaturatedFattyAcids || "-"}
+                      {dinnerPortionId.total.pollyunsaturatedFattyAcids || "-"}
                     </b>
                   </li>
                   <li>
                     wielonienasycone kwasy tłuszczowe omega-3:{" "}
                     <b>
-                      {dinnerPortion.total.pollyunsaturatedFattyAcidsOmega3 ||
+                      {dinnerPortionId.total.pollyunsaturatedFattyAcidsOmega3 ||
                         "-"}
                     </b>
                   </li>
                   <li>
                     wielonienasycone kwasy tłuszczowe omega-6:{" "}
                     <b>
-                      {dinnerPortion.total.pollyunsaturatedFattyAcidsOmega6 ||
+                      {dinnerPortionId.total.pollyunsaturatedFattyAcidsOmega6 ||
                         "-"}
                     </b>
                   </li>
                   <li>
                     jednonienasycone kwasy tłuszczowe:{" "}
                     <b>
-                      {dinnerPortion.total.monounsaturatedFattyAcids || "-"}
+                      {dinnerPortionId.total.monounsaturatedFattyAcids || "-"}
                     </b>
                   </li>
                 </Styled.DinnerInfoMacroWrapper>
@@ -142,55 +143,55 @@ const InfoModalContent = ({
                 <Styled.DinnerInfoMacroWrapper>
                   <li>
                     witamina A [mg]:{" "}
-                    <b>{dinnerPortion.total.vitaminA?.amount || "-"}</b>
+                    <b>{dinnerPortionId.total.vitaminA?.amount || "-"}</b>
                   </li>
                   <li>
                     witamina B1 (tiamina) [mg]:{" "}
-                    <b>{dinnerPortion.total.vitaminB1?.amount || "-"}</b>
+                    <b>{dinnerPortionId.total.vitaminB1?.amount || "-"}</b>
                   </li>
                   <li>
                     witamina B2 (ryboflawina) [mg]:{" "}
-                    <b>{dinnerPortion.total.vitaminB2?.amount || "-"}</b>
+                    <b>{dinnerPortionId.total.vitaminB2?.amount || "-"}</b>
                   </li>
                   <li>
                     witamina B3 (niacyna) [mg]:{" "}
-                    <b>{dinnerPortion.total.vitaminPP?.amount || "-"}</b>
+                    <b>{dinnerPortionId.total.vitaminPP?.amount || "-"}</b>
                   </li>
                   <li>
                     witamina B5 (kwas pantotenowy) [mg]:{" "}
-                    <b>{dinnerPortion.total.vitaminB5?.amount || "-"}</b>
+                    <b>{dinnerPortionId.total.vitaminB5?.amount || "-"}</b>
                   </li>
                   <li>
                     witamina B6 (pirydoksyna) [mg]:{" "}
-                    <b>{dinnerPortion.total.vitaminB6?.amount || "-"}</b>
+                    <b>{dinnerPortionId.total.vitaminB6?.amount || "-"}</b>
                   </li>
                   <li>
                     witamina B7 (biotyna) [mg]:{" "}
-                    <b>{dinnerPortion.total.biotin?.amount || "-"}</b>
+                    <b>{dinnerPortionId.total.biotin?.amount || "-"}</b>
                   </li>
                   <li>
                     witamina B9 (kwas foliowy) [mg]:{" "}
-                    <b>{dinnerPortion.total.folicAcid?.amount || "-"}</b>
+                    <b>{dinnerPortionId.total.folicAcid?.amount || "-"}</b>
                   </li>
                   <li>
                     witamina B12 (kobalamina) [mg]:{" "}
-                    <b>{dinnerPortion.total.vitaminB12?.amount || "-"}</b>
+                    <b>{dinnerPortionId.total.vitaminB12?.amount || "-"}</b>
                   </li>
                   <li>
                     witamina C [mg]:{" "}
-                    <b>{dinnerPortion.total.vitaminC?.amount || "-"}</b>
+                    <b>{dinnerPortionId.total.vitaminC?.amount || "-"}</b>
                   </li>
                   <li>
                     witamina D [mg]:{" "}
-                    <b>{dinnerPortion.total.vitaminD?.amount || "-"}</b>
+                    <b>{dinnerPortionId.total.vitaminD?.amount || "-"}</b>
                   </li>
                   <li>
                     witamina E [mg]:{" "}
-                    <b>{dinnerPortion.total.vitaminE?.amount || "-"}</b>
+                    <b>{dinnerPortionId.total.vitaminE?.amount || "-"}</b>
                   </li>
                   <li>
                     witamina K [mg]:{" "}
-                    <b>{dinnerPortion.total.vitaminK?.amount || "-"}</b>
+                    <b>{dinnerPortionId.total.vitaminK?.amount || "-"}</b>
                   </li>
                 </Styled.DinnerInfoMacroWrapper>
               </Styled.DinnerInfoDescriptionItem>
@@ -200,37 +201,40 @@ const InfoModalContent = ({
                 </Styled.DinnerInfoDescriptionNavItem>
                 <Styled.DinnerInfoMacroWrapper>
                   <li>
-                    cynk [mg]: <b>{dinnerPortion.total.zinc?.amount || "-"}</b>
+                    cynk [mg]:{" "}
+                    <b>{dinnerPortionId.total.zinc?.amount || "-"}</b>
                   </li>
                   <li>
                     fosfor [mg]:{" "}
-                    <b>{dinnerPortion.total.phosphorus?.amount || "-"}</b>
+                    <b>{dinnerPortionId.total.phosphorus?.amount || "-"}</b>
                   </li>
                   <li>
                     magnez [mg]:{" "}
-                    <b>{dinnerPortion.total.magnesium?.amount || "-"}</b>
+                    <b>{dinnerPortionId.total.magnesium?.amount || "-"}</b>
                   </li>
                   <li>
                     miedź [mg]:{" "}
-                    <b>{dinnerPortion.total.copper?.amount || "-"}</b>
+                    <b>{dinnerPortionId.total.copper?.amount || "-"}</b>
                   </li>
                   <li>
                     potas [mg]:{" "}
-                    <b>{dinnerPortion.total.potassium?.amount || "-"}</b>
+                    <b>{dinnerPortionId.total.potassium?.amount || "-"}</b>
                   </li>
                   <li>
                     selen [mg]:{" "}
-                    <b>{dinnerPortion.total.selenium?.amount || "-"}</b>
+                    <b>{dinnerPortionId.total.selenium?.amount || "-"}</b>
                   </li>
                   <li>
-                    sód [mg]: <b>{dinnerPortion.total.sodium?.amount || "-"}</b>
+                    sód [mg]:{" "}
+                    <b>{dinnerPortionId.total.sodium?.amount || "-"}</b>
                   </li>
                   <li>
                     wapń [mg]:{" "}
-                    <b>{dinnerPortion.total.calcium?.amount || "-"}</b>
+                    <b>{dinnerPortionId.total.calcium?.amount || "-"}</b>
                   </li>
                   <li>
-                    żelazo[mg]: <b>{dinnerPortion.total.iron?.amount || "-"}</b>
+                    żelazo[mg]:{" "}
+                    <b>{dinnerPortionId.total.iron?.amount || "-"}</b>
                   </li>
                 </Styled.DinnerInfoMacroWrapper>
               </Styled.DinnerInfoDescriptionItem>
@@ -243,19 +247,21 @@ const InfoModalContent = ({
             </Styled.DinnerInfoDescriptionNavItem>
 
             <Styled.DinnerItemsWrapper>
-              {dinnerPortion.dinnerProducts.map(
-                ({ dinnerProduct, portion, total }, index) => (
-                  <Styled.FieldWrapper key={dinnerProduct._id}>
+              {dinnerPortionId.dinnerProducts.map(
+                ({ dinnerProductId, portion, total }, index) => (
+                  <Styled.FieldWrapper key={dinnerProductId._id}>
                     <Styled.FieldHeadWrapper>
                       <Styled.FieldImageWrapper>
                         <img className="backgroundImg" src={LogoBackground} />
 
                         <img
                           className="productImg"
-                          src={dinnerProduct.product.imageURL || NoImage}
+                          src={
+                            dinnerProductId.productId.image?.imageURL || NoImage
+                          }
                         />
                       </Styled.FieldImageWrapper>
-                      <h2>{dinnerProduct.product.name}</h2>
+                      <h2>{dinnerProductId.productId.name}</h2>
                     </Styled.FieldHeadWrapper>
                     <Styled.FieldItemsWrapper>
                       <Styled.ProductContentItemItem>

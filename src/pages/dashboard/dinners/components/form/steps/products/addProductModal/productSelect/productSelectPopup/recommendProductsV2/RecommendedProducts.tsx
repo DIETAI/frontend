@@ -99,7 +99,7 @@ const RecommendProduct = ({
       exit={{ opacity: 0 }}
     >
       {product.image && (
-        <Image imageId={product.image} roundedDataGrid={true} />
+        <Image imageId={product.image._id} roundedDataGrid={true} />
       )}
 
       <Styled.ItemContent>

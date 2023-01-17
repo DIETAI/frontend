@@ -100,7 +100,7 @@ const NewPortion = ({
       );
 
       const total = sumTotal({
-        dinnerPortionProducts: initialDinnerProducts,
+        dinnerPortionProducts: initialDinnerProducts as any,
       });
 
       setValue("type", "custom");
@@ -305,7 +305,7 @@ const DinnerProduct = ({
         {dinnerProductQuery.product.image && (
           <div>
             <Image
-              imageId={dinnerProductQuery.product.image}
+              imageId={dinnerProductQuery.product.image._id}
               roundedDataGrid={true}
             />
           </div>

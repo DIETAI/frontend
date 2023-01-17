@@ -225,7 +225,7 @@ const generateMeals = ({
         macroTotalCount: meal.groups.main.group?.macroTotalCount,
         missingProcentCount: meal.groups.main.group?.missingProcentCount,
       },
-      generatedDinners: mealDinners,
+      generatedDinners: mealDinners as any,
       total: {
         kcal: meal.groups.main.group.macroTotalCount?.total_kcal,
         procent: 0,

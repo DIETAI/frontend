@@ -160,7 +160,7 @@ const Dinner = () => {
                         <img className="backgroundImg" src={LogoBackground} />
                         <img
                           className="itemImg"
-                          src={dinner.imageObj?.imageURL || NoImage}
+                          src={dinner.image?.imageURL || NoImage}
                         />
                       </Styled.ImageWrapper>
                       <h2>{dinner.name}</h2>

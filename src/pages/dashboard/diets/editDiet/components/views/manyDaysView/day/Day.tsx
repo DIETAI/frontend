@@ -26,10 +26,14 @@ import { FaCalendar } from "icons/icons";
 
 //interfaces
 import { IDietEstablishmentData } from "interfaces/dietEstablishment.interfaces";
+import {
+  IDietDayPopulateData,
+  IDietPopulateData,
+} from "interfaces/diet/dietPopulate.interfaces";
 
 interface IDay {
-  day: IDietDayQueryData;
-  establishment: IDietEstablishmentData;
+  day: IDietDayPopulateData;
+  establishment: IDietPopulateData["establishmentId"];
 }
 
 const Day = ({ day, establishment }: IDay) => {
@@ -73,8 +77,8 @@ const Day = ({ day, establishment }: IDay) => {
         />
       </Styled.DayTotalWrapper>
       <Styled.DayMealsWrapper>
-        {day.meals.length > 0 &&
-          day.meals.map((meal) => (
+        {day.dietMeals.length > 0 &&
+          day.dietMeals.map((meal) => (
             <Meal key={meal._id} meal={meal} establishment={establishment} />
           ))}
       </Styled.DayMealsWrapper>

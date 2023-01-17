@@ -177,7 +177,7 @@ const Dinner = ({
       <Styled.DinnerItemContent>
         <Styled.DinnerItemName>
           {dinner.image && (
-            <Image imageId={dinner.image} roundedDataGrid={true} />
+            <Image imageId={dinner.image._id} roundedDataGrid={true} />
           )}
 
           <h2>{dinner.name}</h2>

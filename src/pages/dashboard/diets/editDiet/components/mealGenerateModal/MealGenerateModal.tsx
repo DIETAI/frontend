@@ -53,6 +53,10 @@ import { IDinnerPortion } from "pages/dashboard/dinners/components/form/steps/po
 import { AnimatePresence } from "framer-motion";
 import { roundMacro } from "./helpers/cartesianDinners/cartesianDinners";
 import { IDietMealData } from "interfaces/diet/dietMeals.interfaces";
+import {
+  IDietMealPopulateData,
+  IDietPopulateData,
+} from "interfaces/diet/dietPopulate.interfaces";
 
 export interface IMealGenerateAction {
   actionType: string;
@@ -126,9 +130,9 @@ const MealGenerateModal = ({
   dietEstablishment,
   closeModal,
 }: {
-  meal: IDietMealQueryData;
-  mealEstablishment: IDietEstablishmentMeal;
-  dietEstablishment: IDietEstablishmentData;
+  meal: IDietMealPopulateData;
+  mealEstablishment: IDietPopulateData["establishmentId"]["meals"][0];
+  dietEstablishment: IDietPopulateData["establishmentId"];
   closeModal: () => void;
 }) => {
   const { mutate } = useSWRConfig();
@@ -181,7 +185,7 @@ const MealGenerateModal = ({
     };
 
     const generatedDietMeal = generateMeal({
-      ...generateMealInitialData,
+      ...(generateMealInitialData as any),
     });
 
     console.log({ generatedDietMeal });
@@ -257,7 +261,7 @@ const MealGenerateModal = ({
           const newDinnerPortionData = {
             type: "custom",
             total: sumTotal({
-              dinnerPortionProducts: newDinnerPortionProductsData,
+              dinnerPortionProducts: newDinnerPortionProductsData as any,
             }),
             dinnerProducts: newDinnerPortionProductsData,
           };
@@ -275,7 +279,7 @@ const MealGenerateModal = ({
           console.log({ newDinnerPortion });
 
           const newDietDinnerData = {
-            dietId: meal.dietId,
+            dietId: dietEditId,
             dayId: meal.dayId,
             dietMealId: meal._id,
             order: 1,
@@ -283,9 +287,9 @@ const MealGenerateModal = ({
             dinnerPortionId: newDinnerPortion.data._id,
           };
 
-          if (meal.dinners.length > 0) {
+          if (meal.dietDinners.length > 0) {
             await Promise.all(
-              meal.dinners.map(async (dietDinner) => {
+              meal.dietDinners.map(async (dietDinner) => {
                 const deletedDinner = await axios.delete(
                   `/api/v1/dietDinners/${dietDinner._id}`,
                   {
@@ -315,7 +319,7 @@ const MealGenerateModal = ({
         }
 
         const newDietDinnerData = {
-          dietId: meal.dietId,
+          dietId: dietEditId,
           dayId: meal.dayId,
           dietMealId: meal._id,
           order: 1,
@@ -324,9 +328,9 @@ const MealGenerateModal = ({
         };
 
         //delete added diet dinners
-        if (meal.dinners.length > 0) {
+        if (meal.dietDinners.length > 0) {
           await Promise.all(
-            meal.dinners.map(async (dietDinner) => {
+            meal.dietDinners.map(async (dietDinner) => {
               const deletedDinner = await axios.delete(
                 `/api/v1/dietDinners/${dietDinner._id}`,
                 {
@@ -434,7 +438,7 @@ const MealGenerateModal = ({
                 {/* <img src={GenerateMealImage} /> */}
                 <FaPlus />
                 <h2>
-                  {meal.dinners.length > 0
+                  {meal.dietDinners.length > 0
                     ? "zamień dodane potrawy"
                     : "generuj nowe potrawy"}
                 </h2>
@@ -445,7 +449,7 @@ const MealGenerateModal = ({
                 }
                 type="changeAmountAddedMealDinners"
                 active={mealGenerateOption === "changeAmountAddedMealDinners"}
-                disabled={meal.dinners.length < 1}
+                disabled={meal.dietDinners.length < 1}
               >
                 {/* <img src={GenerateMealImage} /> */}
                 <FaExchangeAlt />

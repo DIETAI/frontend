@@ -11,24 +11,16 @@ import {
 } from "pages/dashboard/dinners/components/form/steps/BasicInfo";
 
 //components
-import Image from "components/form/images/image/Image";
 import LoadingGrid from "../../../loading/LoadingGrid";
 
 //icons
 import { FaInfoCircle, FaExclamationCircle } from "icons/icons";
 
-import { IDinnerData } from "interfaces/dinner/dinner.interfaces";
 import { getDinner } from "services/getDinners";
 
 //assets
 import LogoBackground from "assets/logo-icon.svg";
 import NoImage from "assets/noImage.svg";
-
-// interface IDinnerInfo {
-//   name: IDinnerData["name"];
-//   image: IDinnerData["image"];
-//   gallery: IDinnerData["gallery"];
-// }
 
 const renderDinnerPreparationTime = (preparationTime: string) => {
   const preparationTimeObj = preparationTimeOptions.find(
@@ -117,7 +109,7 @@ const BasicInfo = () => {
 
                 <img
                   className="dinnerImg"
-                  src={dinner.imageObj?.imageURL || NoImage}
+                  src={dinner.image?.imageURL || NoImage}
                 />
               </Styled.DinnerInfoImageWrapper>
               <Styled.DinnerInfoDescriptionWrapper>
@@ -183,13 +175,13 @@ const BasicInfo = () => {
                   </Styled.DinnerInfoDescriptionItem>
                 )}
 
-                {dinner.galleryArr && dinner.galleryArr.length > 0 && (
+                {dinner.gallery && dinner.gallery.length > 0 && (
                   <Styled.DinnerInfoDescriptionItem>
                     <Styled.DinnerInfoDescriptionNavItem>
                       galeria
                     </Styled.DinnerInfoDescriptionNavItem>
                     <Styled.GalleryWrapper>
-                      {dinner.galleryArr.map((galleryImage) => (
+                      {dinner.gallery.map((galleryImage) => (
                         <Styled.GalleryImage
                           key={galleryImage?._id}
                           src={galleryImage?.imageURL || NoImage}
