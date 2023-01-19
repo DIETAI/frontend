@@ -95,7 +95,7 @@ const MultiStepContainer = ({
       console.log({ newDietDinner });
 
       //mutate dietquery obj
-      await mutate(`/api/v1/diets/${dietEditId}/query`); //correct
+      await mutate(`/api/v1/diets/${dietEditId}/populate`); //correct
 
       closeModal();
     } catch (e) {

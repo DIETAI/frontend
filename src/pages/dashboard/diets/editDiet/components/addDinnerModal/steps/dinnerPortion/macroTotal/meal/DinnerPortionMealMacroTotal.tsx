@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import * as Styled from "../DinnerPortionMacroTotal.styles";
 import { useFormContext } from "react-hook-form";
-import { getDiet } from "services/getDiets";
+import { getDiet, getDietPopulate } from "services/getDiets";
 import { getDietDayMeal } from "services/getDietMeals";
 import { getDietEstablishment } from "services/getDietEstablishments";
 import { SumModal } from "../sumModal/SumModal";
@@ -31,14 +31,9 @@ const DinnerPortionMealMacroTotal = () => {
 
   const { dinnerPortion } = getDinnerPortion(selectedDinnerPortionId);
 
-  const { diet } = getDiet(dietId);
-
-  if (!diet) return null;
-
+  const { diet } = getDietPopulate(dietId);
   const { dietDayMeal: meal } = getDietDayMeal(mealId);
-  const { dietEstablishment: establishment } = getDietEstablishment(
-    diet.establishmentId
-  );
+  const establishment = diet?.establishmentId;
 
   useEffect(() => {
     if (dinnerPortion && meal) {

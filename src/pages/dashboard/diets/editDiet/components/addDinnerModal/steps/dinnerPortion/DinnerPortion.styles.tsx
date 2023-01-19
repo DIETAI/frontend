@@ -14,6 +14,19 @@ const PortionsWrapper = styled.div(
     gap: 2rem;
   `
 );
+const PortionsTitle = styled.h2(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+    },
+  }) => css`
+    font-size: ${fontSize.m};
+    font-weight: ${fontWeight.medium};
+    color: ${palette.common.text};
+  `
+);
 const PortionsMacroContainer = styled.div(
   ({
     theme: {
@@ -485,6 +498,7 @@ const LoadingWrapper = styled(motion.div)(
 
 export {
   PortionsWrapper,
+  PortionsTitle,
   PortionsMacroContainer,
   PortionWrapper,
   PortionHeadingWrapper,
