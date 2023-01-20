@@ -44,6 +44,7 @@ const DeleteModalContent = ({
         title="Usuń posiłek"
         // description={t("dinner.form.products.modal.description")}
       />
+
       <Styled.ContentWrapper>
         <img src={DeleteImg} />
         <h2>

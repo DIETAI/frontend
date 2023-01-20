@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "utils/api";
 import { mutate } from "swr";
-import { IDietDinnerQueryData } from "interfaces/diet/dietQuery.interfaces";
+import { useParams } from "react-router";
 
 //styles
 import * as Styled from "./DeleteModalContent.styles";
@@ -24,6 +24,7 @@ const DeleteModalContent = ({
   dietDinner: IDietDinnerPopulateData;
   closeModal: () => void;
 }) => {
+  const { dietEditId } = useParams();
   const deleteDietDinner = async () => {
     try {
       await axios.delete(`/api/v1/dietDinners/${dietDinner._id}`, {
@@ -31,6 +32,7 @@ const DeleteModalContent = ({
       });
 
       console.log("usunięto posiłek z diety");
+      await mutate(`/api/v1/diets/${dietEditId}/populate`);
       closeModal();
     } catch (e) {
       console.log(e);

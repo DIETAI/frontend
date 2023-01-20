@@ -26,6 +26,7 @@ import {
   IDietMealPopulateData,
   IDietPopulateData,
 } from "interfaces/diet/dietPopulate.interfaces";
+import { getDietPopulate } from "services/getDiets";
 
 interface IMeal {
   meal: IDietMealPopulateData;
@@ -40,7 +41,7 @@ const Meal = ({ meal, establishment }: IMeal) => {
 
   useEffect(() => {
     setMealDinners(meal.dietDinners);
-  }, [...meal.dietDinners]);
+  }, [meal]);
 
   const mealEstablishment = establishment.meals.find(
     ({ _id }) => _id === meal.establishmentMealId
