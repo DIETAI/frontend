@@ -3,6 +3,9 @@ import axios from "utils/api";
 import { mutate } from "swr";
 import { useParams } from "react-router";
 
+//context
+import { useAlert } from "layout/dashboard/context/alert.context";
+
 //interfaces
 import { IDietMealQueryData } from "interfaces/diet/dietQuery.interfaces";
 
@@ -34,6 +37,7 @@ interface IMeal {
 }
 
 const Meal = ({ meal, establishment }: IMeal) => {
+  const { handleAlert } = useAlert();
   const { dietEditId } = useParams();
   const [addDinnerModalOpen, setDinnerModalOpen] = useState(false);
   const [generateMealModalOpen, setGenerateMealModalOpen] = useState(false);
@@ -61,7 +65,14 @@ const Meal = ({ meal, establishment }: IMeal) => {
 
     const newDietDinnersOrder = await Promise.all(
       newMealDinners.map(async (mealDinner, mealDinnerIndex) => {
-        const newMealDinner = { ...mealDinner, order: mealDinnerIndex + 1 };
+        //zmiana dinner order -> correct
+        const newMealDinner = {
+          ...mealDinner,
+          dietId: dietEditId,
+          dinnerPortionId: mealDinner.dinnerPortionId._id,
+          order: mealDinnerIndex + 1,
+        };
+
         try {
           const editDietDinner = await axios.put(
             `/api/v1/dietDinners/${newMealDinner._id}`,
@@ -72,14 +83,19 @@ const Meal = ({ meal, establishment }: IMeal) => {
           );
 
           console.log({ newMealDinner, editDietDinner });
-
-          //mutate dietquery obj
-          await mutate(`/api/v1/diets/${dietEditId}/populate`); //correct
         } catch (e) {
+          handleAlert(
+            "error",
+            "Wystąpił błąd podczas zmiany kolejności potraw w posiłku"
+          );
           console.log(e);
         }
       })
     );
+
+    //mutate dietquery obj
+    handleAlert("success", "Zmieniono kolejność potraw w posiłku");
+    await mutate(`/api/v1/diets/${dietEditId}/populate`); //correct
   };
 
   return (
