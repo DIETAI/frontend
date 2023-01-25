@@ -8,6 +8,9 @@ import { useParams } from "react-router";
 
 import useSWR, { useSWRConfig } from "swr";
 
+//context
+import { useAlert } from "layout/dashboard/context/alert.context";
+
 //components
 import AddDinnerNav from "../nav/AddDinnerNav";
 
@@ -39,6 +42,7 @@ const MultiStepContainer = ({
   defaultValues,
   closeModal,
 }: IMultiStepProps) => {
+  const { handleAlert } = useAlert();
   const { mutate } = useSWRConfig();
   const { dietEditId } = useParams();
   const [activeStep, setActiveStep] = useState(0);
@@ -94,12 +98,15 @@ const MultiStepContainer = ({
       });
       console.log({ newDietDinner });
 
+      handleAlert("success", "Dodano posiłek");
+
       //mutate dietquery obj
       await mutate(`/api/v1/diets/${dietEditId}/populate`); //correct
 
       closeModal();
     } catch (e) {
       console.log(e);
+      handleAlert("error", "Wystąpił błąd podczas dodawania posiłku");
     }
   };
 
