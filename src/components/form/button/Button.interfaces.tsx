@@ -15,6 +15,7 @@ export interface IButtonProps {
     | "delete";
   onClick?: () =>
     | void
+    | Promise<void>
     | ((e: React.FormEvent<HTMLFormElement>) => Promise<void>);
   width?: string;
   type?: "submit" | "button";

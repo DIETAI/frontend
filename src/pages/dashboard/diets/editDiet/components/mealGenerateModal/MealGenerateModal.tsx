@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import { IDietMealQueryData } from "interfaces/diet/dietQuery.interfaces";
-import { getAllDietMeals } from "services/getDietMeals";
 import { getDinnerPortionsQuery } from "services/getDinnerPortions";
 import {
   procentClasses,
@@ -11,8 +9,6 @@ import useSWR, { useSWRConfig } from "swr";
 
 //helpers
 import { generateMeal } from "./helpers/generateMealV3";
-// import { generateMeal } from "./helpers/generateMeal";
-// import { generateMeal } from "./helpers/generateMealV2";
 import { countTotal } from "helpers/countTotal";
 import { sumTotal } from "helpers/sumTotal";
 
@@ -24,10 +20,6 @@ import {
 } from "store/dietMealGenerate";
 import { RootState } from "store/store";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  IDietEstablishmentData,
-  IDietEstablishmentMeal,
-} from "interfaces/dietEstablishment.interfaces";
 
 //components
 import Heading from "components/heading/Heading";
@@ -40,18 +32,13 @@ import { FaUserCog, FaPlus, FaExchangeAlt } from "icons/icons";
 //styles
 import * as Styled from "./MealGenerateModal.styles";
 
-//images
-import GenerateMealImage from "assets/generateMeal.svg";
-
 import axios from "utils/api";
 import { useParams } from "react-router";
 import {
   IDinnerPortionData,
   IDinnerPortionQueryData,
 } from "interfaces/dinner/dinnerPortions.interfaces";
-import { IDinnerPortion } from "pages/dashboard/dinners/components/form/steps/portions/addDinnerPortionModal/schema/dinnerPortion.schema";
 import { AnimatePresence } from "framer-motion";
-import { roundMacro } from "./helpers/cartesianDinners/cartesianDinners";
 import { IDietMealData } from "interfaces/diet/dietMeals.interfaces";
 import {
   IDietMealPopulateData,
