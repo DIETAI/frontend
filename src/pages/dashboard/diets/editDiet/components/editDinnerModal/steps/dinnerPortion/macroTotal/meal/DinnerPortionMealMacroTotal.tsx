@@ -89,7 +89,7 @@ const DinnerPortionMealMacroTotal = () => {
             W: <b>{meal.total?.carbohydrates.gram}</b>{" "}
           </p>
         </Styled.TotalMacroItemsWrapper>
-        <h3>Po dodaniu porcji:</h3>
+        <h3>Po zmianie porcji:</h3>
         <Styled.TotalMacroItemsWrapper>
           <SumModal
             macroType="kcal"

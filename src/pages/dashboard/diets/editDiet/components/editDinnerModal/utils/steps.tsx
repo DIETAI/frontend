@@ -13,13 +13,13 @@ import {
 } from "../EditDinnerModel.schema";
 
 export const editDietDinnerSteps = [
-  {
-    id: 1,
-    icon: <FaBuffer />,
-    name: "posiłek/produkt",
-    step: <Step.Dinner />,
-    validationSchema: dietDinnerSchema,
-  },
+  // {
+  //   id: 1,
+  //   icon: <FaBuffer />,
+  //   name: "posiłek/produkt",
+  //   step: <Step.Dinner />,
+  //   validationSchema: dietDinnerSchema,
+  // },
   {
     id: 2,
     icon: <FaBusinessTime />,

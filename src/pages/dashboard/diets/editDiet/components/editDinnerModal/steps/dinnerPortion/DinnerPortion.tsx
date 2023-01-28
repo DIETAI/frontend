@@ -88,12 +88,12 @@ const DinnerPortion = () => {
 
   return (
     <Styled.PortionsWrapper>
-      <Styled.PortionsMacroContainer>
+      {/* <Styled.PortionsMacroContainer>
         <DinnerPortionDayMacroTotal />
         <DinnerPortionMealMacroTotal />
-      </Styled.PortionsMacroContainer>
+      </Styled.PortionsMacroContainer> */}
 
-      <Styled.PortionFilterWrapper>
+      {/* <Styled.PortionFilterWrapper>
         <Styled.PortionNavItem
           activeOption={dinnerPortionOption === "added"}
           onClick={() => setDinnerPortionOption("added")}
@@ -114,7 +114,7 @@ const DinnerPortion = () => {
             stwórz porcję
           </Styled.PortionNavItem>
         </Styled.PortionFilterActions>
-      </Styled.PortionFilterWrapper>
+      </Styled.PortionFilterWrapper> */}
 
       <Step.AddedPortions />
       {openAddDinnerPortionPopup && (

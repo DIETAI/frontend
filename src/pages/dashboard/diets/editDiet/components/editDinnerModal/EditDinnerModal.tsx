@@ -11,7 +11,7 @@ import Heading from "components/heading/Heading";
 import * as Styled from "../addDinnerModal/AddDinnerModal.styles";
 
 //icons
-import { FaUserCog } from "icons/icons";
+import { FaUserCog, FaUtensils } from "icons/icons";
 
 //utils
 import { editDietDinnerSteps } from "./utils/steps";
@@ -38,10 +38,7 @@ const EditDinnerModal = ({
 
   return (
     <Styled.DinnerModalContainer>
-      <Heading
-        icon={<FaUserCog />}
-        title={dietDinner.dinnerPortionId.dinnerId.name}
-      />
+      <Heading icon={<FaUtensils />} title={"Edytuj posiłek"} />
       <MultiStepContainer
         defaultValues={editDinnerDefaultValues}
         closeModal={closeModal}

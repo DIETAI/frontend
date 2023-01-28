@@ -101,7 +101,7 @@ const DinnerPortionMacroTotal = () => {
             optionType="percentageRange"
           />
         </Styled.TotalMacroItemsWrapper>
-        <h3>Po dodaniu porcji:</h3>
+        <h3>Po zmianie porcji:</h3>
         <Styled.TotalMacroItemsWrapper>
           <SumModal
             macroType="kcal"

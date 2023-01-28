@@ -127,12 +127,12 @@ const MultiStepContainer = ({
 
   return (
     <Styled.MultistepWrapper>
-      <AddDinnerNav
+      {/* <AddDinnerNav
         activePage={activeStep}
         setActivePage={setActiveStep}
         valid={isValid}
         isLastStep={isLastStep()}
-      />
+      /> */}
 
       <Styled.MultistepContent>
         <FormProvider {...methods}>
