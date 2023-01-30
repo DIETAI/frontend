@@ -27,7 +27,7 @@ import Button from "components/form/button/Button";
 import ReactLoading from "react-loading";
 
 //icons
-import { FaUserCog, FaPlus, FaExchangeAlt } from "icons/icons";
+import { FaUserCog, FaPlus, FaExchangeAlt, FaUtensils } from "icons/icons";
 
 //styles
 import * as Styled from "./MealGenerateModal.styles";
@@ -407,12 +407,7 @@ const MealGenerateModal = ({
 
   return (
     <Styled.GenerateMealModalContainer>
-      <Heading
-        icon={<FaUserCog />}
-        title="Generowanie posiłku"
-        // title={t("diet.form.dinner.modal.title")}
-        // description={t("diet.form.dinner.modal.description")}
-      />
+      <Heading icon={<FaUtensils />} title="Generowanie posiłku" />
       <Styled.MealGenerateContentWrapper>
         {mealDinners.length < 1 && (
           <Styled.ContentWrapper>
@@ -422,7 +417,6 @@ const MealGenerateModal = ({
                 active={mealGenerateOption === "newMeal"}
                 type="newMeal"
               >
-                {/* <img src={GenerateMealImage} /> */}
                 <FaPlus />
                 <h2>
                   {meal.dietDinners.length > 0
@@ -438,7 +432,6 @@ const MealGenerateModal = ({
                 active={mealGenerateOption === "changeAmountAddedMealDinners"}
                 disabled={meal.dietDinners.length < 1}
               >
-                {/* <img src={GenerateMealImage} /> */}
                 <FaExchangeAlt />
 
                 <h2>
@@ -455,9 +448,7 @@ const MealGenerateModal = ({
               >
                 generuj posiłek
               </Button>
-              {/* <Button type="button" onClick={handleGenerateDietMeal as any}>
-                generuj posiłek
-              </Button> */}
+
               <Button type="button" onClick={closeModal} variant="secondary">
                 anuluj
               </Button>
@@ -566,17 +557,10 @@ const MealGenerateModal = ({
                 </p>
               </Styled.OneDayViewTotalItem>
             </Styled.OneDayViewTotalWrapper>
-            <Styled.SelectedGroupInfo>
+            {/* <Styled.SelectedGroupInfo>
               <p>wybrana grupa na podstawie: </p>
               <h3> {selectedMealGroup?.description}</h3>
-            </Styled.SelectedGroupInfo>
-
-            {/* <Styled.GeneratedMealTotalWrapper>
-              <h3>
-                razem: {selectedMealGroup?.macroTotalCount.total_kcal} /{" "}
-                {mealEstablishment.kcal} kcal
-              </h3>
-            </Styled.GeneratedMealTotalWrapper> */}
+            </Styled.SelectedGroupInfo> */}
 
             <Styled.PortionsWrapper>
               {mealDinners.map((mealDinner, dinnerIndex) => (
