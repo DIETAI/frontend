@@ -31,6 +31,9 @@ import {
   IDietPopulateData,
 } from "interfaces/diet/dietPopulate.interfaces";
 
+import { round2 } from "helpers/round2";
+import { roundValue } from "../../../dietGenerateModal/helpers/generateDiet";
+
 interface IDay {
   day: IDietDayPopulateData;
   establishment: IDietPopulateData["establishmentId"];
@@ -124,7 +127,7 @@ export const SumModal = ({
       }
     >
       <p>
-        {macroType}: <b>{totalValue}</b>
+        {macroType}: <b>{round2(totalValue)}</b>
       </p>
 
       <AnimatePresence>
@@ -142,7 +145,7 @@ export const SumModal = ({
                 })}
               >
                 <p>
-                  <b>{totalValue}</b>/{establishmentValue}
+                  <b>{round2(totalValue)}</b>/{round2(establishmentValue)}
                 </p>
               </Styled.PerfectProcent>
             )}
@@ -159,7 +162,7 @@ export const SumModal = ({
                   >
                     <Styled.PercentageRangeItem>
                       <p>
-                        <b>{totalValue}</b> g
+                        <b>{roundValue(totalValue)}</b> g
                       </p>
                     </Styled.PercentageRangeItem>
                     <Styled.PercentageRangeItem>
@@ -178,7 +181,8 @@ export const SumModal = ({
                     })}
                   >
                     <p>
-                      <b>{totalValue}</b>/{establishmentValue}
+                      <b>{roundValue(totalValue)}</b>/
+                      {roundValue(establishmentValue)}
                     </p>
                   </Styled.PerfectProcent>
                 )}

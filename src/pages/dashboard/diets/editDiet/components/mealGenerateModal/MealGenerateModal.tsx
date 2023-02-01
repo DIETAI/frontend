@@ -122,6 +122,7 @@ const MealGenerateModal = ({
   dietEstablishment: IDietPopulateData["establishmentId"];
   closeModal: () => void;
 }) => {
+  const [loading, setLoading] = useState(false);
   const { mutate } = useSWRConfig();
   const { dietEditId } = useParams();
   const [mealGenerateOption, setMealGenerateOption] =
@@ -184,6 +185,8 @@ const MealGenerateModal = ({
     //zapisać wygenerowany zestaw porcji jeśli nie jest już dodany! => validPortion
     //zapisać dietDinners
     console.log("add");
+
+    setLoading(true);
 
     console.log({ dietEditId });
 
@@ -300,8 +303,9 @@ const MealGenerateModal = ({
           console.log({ newDietDinner });
 
           dispatch(removeMealGenerate());
+          setLoading(false);
           closeModal();
-          await mutate(`/api/v1/diets/${dietEditId}/query`); //correct
+          await mutate(`/api/v1/diets/${dietEditId}/populate`); //correct
           return newDietDinner;
         }
 
@@ -340,8 +344,9 @@ const MealGenerateModal = ({
 
         console.log({ newDietDinner });
         dispatch(removeMealGenerate());
+        setLoading(false);
         closeModal();
-        await mutate(`/api/v1/diets/${dietEditId}/query`); //correct
+        await mutate(`/api/v1/diets/${dietEditId}/populate`); //correct
         return newDietDinner;
       })
     );
@@ -480,7 +485,11 @@ const MealGenerateModal = ({
                 >
                   generuj ponownie posiłek
                 </Button>
-                <Button type="button" onClick={addMealToDiet as any}>
+                <Button
+                  variant={loading ? "disabled" : "primary"}
+                  type="button"
+                  onClick={addMealToDiet as any}
+                >
                   dodaj posiłek do diety
                 </Button>
                 <Button

@@ -521,6 +521,7 @@ const LoadingWrapper = styled(motion.div)(
     position: absolute;
     top: 0;
     left: 0;
+    height: 100%;
 
     gap: 2rem;
     padding: 2rem;

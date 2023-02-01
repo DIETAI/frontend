@@ -22,6 +22,7 @@ import Meal from "./meal/Meal";
 //styles
 import * as Styled from "./OneDayView.styles";
 import { IDietDayPopulateData } from "interfaces/diet/dietPopulate.interfaces";
+import { round2 } from "helpers/round2";
 
 const OneDayView = () => {
   const { dietEditId } = useParams();
@@ -160,7 +161,7 @@ const TotalItem = ({
     >
       <h2>{macroType}:</h2>
       <h3>
-        <b>{totalValue}</b>
+        <b>{round2(totalValue as number)}</b>
       </h3>
       {macroProcent && (
         <h3>

@@ -30,6 +30,7 @@ import {
   IDietPopulateData,
 } from "interfaces/diet/dietPopulate.interfaces";
 import { getDietPopulate } from "services/getDiets";
+import { round2 } from "helpers/round2";
 
 interface IMeal {
   meal: IDietMealPopulateData;
@@ -114,13 +115,13 @@ const Meal = ({ meal, establishment }: IMeal) => {
         />
 
         <p>
-          B: <b>{meal.total?.protein.gram}</b>{" "}
+          B: <b>{round2(meal.total?.protein.gram)}</b>{" "}
         </p>
         <p>
-          T: <b>{meal.total?.fat.gram}</b>{" "}
+          T: <b>{round2(meal.total?.fat.gram)}</b>{" "}
         </p>
         <p>
-          W: <b>{meal.total?.carbohydrates.gram}</b>{" "}
+          W: <b>{round2(meal.total?.carbohydrates.gram)}</b>{" "}
         </p>
       </Styled.MealTotalWrapper>
 
