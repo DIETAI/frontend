@@ -1,62 +1,6 @@
 import styled, { css } from "styled-components";
 import { motion } from "framer-motion";
 
-const LoadingWrapper = styled(motion.div)(
-  ({
-    theme: {
-      palette,
-      typography: { fontSize, fontWeight },
-      layout: { border },
-    },
-  }) => css`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    min-height: 30rem;
-
-    gap: 2rem;
-    padding: 2rem;
-    border-radius: ${border.rounded.sm};
-    border: 0.1rem solid ${palette.primary.light};
-    background: ${palette.common.main};
-
-    h2 {
-      color: ${palette.primary.main};
-      font-weight: ${fontWeight.medium};
-      font-size: ${fontSize.m};
-    }
-  `
-);
-
-const EmptyDataWrapper = styled(motion.div)(
-  ({
-    theme: {
-      palette,
-      typography: { fontSize, fontWeight },
-      layout: { border },
-    },
-  }) => css`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    min-height: 30rem;
-
-    gap: 2rem;
-    padding: 2rem;
-    border-radius: ${border.rounded.sm};
-    border: 0.1rem solid ${palette.primary.light};
-    background: ${palette.common.main};
-
-    h2 {
-      color: ${palette.primary.main};
-      font-weight: ${fontWeight.medium};
-      font-size: ${fontSize.m};
-    }
-  `
-);
-
 const DefaultMealsWrapper = styled(motion.ul)(
   ({
     theme: {
@@ -72,8 +16,6 @@ const DefaultMealsWrapper = styled(motion.ul)(
     flex-direction: column;
     width: 100%;
     gap: 1rem;
-    /* border: 0.1rem solid ${palette.primary.light};
-    border-radius: ${border.rounded.md}; */
   `
 );
 
@@ -97,7 +39,7 @@ const MealItem = styled(motion.li)<IActiveItem>(
     flex-direction: column;
     gap: 2rem;
     width: 100%;
-    padding: 2rem;
+    padding: 1.6rem;
     border: 0.1rem solid ${palette.primary.light};
     border-radius: ${border.rounded.sm};
     transition: 0.3s ease-out;
@@ -105,10 +47,9 @@ const MealItem = styled(motion.li)<IActiveItem>(
     ${active &&
     css`
       border: 0.1rem solid ${palette.primary.main};
-      /* background: ${palette.common.contrast}; */
 
       h2 {
-        color: ${palette.primary.main} !important;
+        color: ${palette.primary.main};
       }
     `}
   `
@@ -120,13 +61,21 @@ const MealItemHeader = styled.div(
       palette,
       typography: { fontSize, fontWeight },
       layout: { border },
-      media: { breakpoints },
+      media: { up, breakpoints },
     },
   }) => css`
     display: flex;
     align-items: flex-start;
-    justify-content: space-between;
+    justify-content: flex-start;
     width: 100%;
+    flex-direction: column-reverse;
+    gap: 1.6rem;
+
+    ${up(breakpoints.xs)} {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
   `
 );
 
@@ -212,7 +161,6 @@ const MealOption = styled.button<IOptionType>(
     svg {
       transition: 0.3s ease-out;
     }
-    /* border-radius: ${border.rounded.sm}; */
 
     ${optionType === "add" &&
     css`
@@ -291,6 +239,4 @@ export {
   MealOption,
   DinnerTypesWrapper,
   DinnerType,
-  LoadingWrapper,
-  EmptyDataWrapper,
 };

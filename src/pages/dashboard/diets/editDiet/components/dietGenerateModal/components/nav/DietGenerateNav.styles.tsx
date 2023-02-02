@@ -1,19 +1,26 @@
 import styled, { css } from "styled-components";
 
-const DietGenerateNavWrapper = styled.div(
+const NavWrapper = styled.div(
   ({
     theme: {
       palette,
       typography: { fontSize, fontWeight },
       layout: { border },
-      media: { breakpoints },
+      media: { breakpoints, up },
     },
   }) => css`
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
     gap: 2rem;
     width: 100%;
+
+    ${up(breakpoints.xs)} {
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+    }
   `
 );
 
@@ -22,12 +29,13 @@ interface IActiveItem {
   valid: boolean;
 }
 
-const DietGenerateNavItem = styled.div<IActiveItem>(
+const NavItem = styled.div<IActiveItem>(
   ({
     theme: {
       palette,
       typography: { fontSize, fontWeight },
       layout: { border },
+      media: { breakpoints, up },
     },
     active,
     valid,
@@ -39,9 +47,10 @@ const DietGenerateNavItem = styled.div<IActiveItem>(
     flex-direction: column;
     gap: 1rem;
     background: transparent;
-    border-radius: ${border.rounded.md};
+    border-radius: ${border.rounded.sm};
     cursor: pointer;
     transition: 0.3s ease-out;
+    width: 100%;
 
     svg {
       width: 2rem;
@@ -75,7 +84,12 @@ const DietGenerateNavItem = styled.div<IActiveItem>(
       pointer-events: none;
       opacity: 0.5;
     `}
+
+    ${up(breakpoints.xs)} {
+      width: auto;
+      padding: 1.5rem;
+    }
   `
 );
 
-export { DietGenerateNavWrapper, DietGenerateNavItem };
+export { NavWrapper, NavItem };

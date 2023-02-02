@@ -16,7 +16,6 @@ const DietGenerateDaysContainer = styled.div(
     flex-direction: column;
     width: 100%;
     gap: 2rem;
-    padding: 2rem;
   `
 );
 
@@ -26,19 +25,24 @@ const DaysOptions = styled.div(
       palette,
       typography: { fontSize, fontWeight },
       layout: { border },
-      media: { breakpoints },
+      media: { up, breakpoints },
     },
   }) => css`
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: flex-start;
+    flex-direction: column;
     gap: 1rem;
-    padding: 2rem;
 
     span {
       color: ${palette.common.text};
       font-size: ${fontSize.s};
       font-weight: ${fontWeight.light};
+    }
+
+    ${up(breakpoints.xs)} {
+      flex-direction: row;
+      align-items: center;
     }
   `
 );
@@ -57,7 +61,6 @@ const DaysWrapper = styled.div(
     justify-content: flex-start;
     width: 100%;
     gap: 2rem;
-    padding: 2rem;
     flex-wrap: wrap;
   `
 );

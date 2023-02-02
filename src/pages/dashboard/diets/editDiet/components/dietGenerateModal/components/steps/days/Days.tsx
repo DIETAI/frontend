@@ -1,27 +1,23 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router";
-import ReactLoading from "react-loading";
 import format from "date-fns/format";
 import { pl } from "date-fns/locale";
 
 //form
 import { useFormContext } from "react-hook-form";
 
-//query
-import { getDietDays } from "services/getDietDays";
-
 //styles
 import * as Styled from "./Days.styles";
 
 //icons
 import { FaCalendarDay } from "icons/icons";
-import { dietGenerateDaysSchema } from "../../../schema/dietGenerate.schema";
 
 // //interfaces
 import { IDietGenerateDaysSchema } from "../../../schema/dietGenerate.schema";
 
 //components
 import CheckBoxWrapper from "components/checkbox/CheckboxWrapper";
+import { getDietPopulate } from "services/getDiets";
 
 const dateFormat = (date: Date) => {
   const formatDate = format(new Date(date), "eee dd.MM.yyyy", {
@@ -45,26 +41,19 @@ const PlanLength = () => {
   console.log({ dietEditId });
 
   if (!dietEditId) return <div>not found</div>;
-  const { dietDays, dietDaysError, dietDaysLoading } = getDietDays(dietEditId);
+  const { diet } = getDietPopulate(dietEditId);
 
-  // const subscriptionPlanId = getValues("subscriptionPlanId") as string;
   const dietGenerateDays = watch("days") as IDietGenerateDaysSchema["days"];
 
-  // const { subscriptionPlan, subscriptionPlanError, subscriptionPlanLoading } =
-  //   getSubscriptionPlan(subscriptionPlanId);
-
-  // if (subscriptionPlanLoading) return <div>loading...</div>;
-  // if (subscriptionPlanError) return <div>error..</div>;
-
   const checkAllDays = () => {
-    if (dietGenerateDays.length === dietDays?.length) {
+    if (dietGenerateDays.length === diet?.dietDays?.length) {
       setValue("days", []);
       return trigger();
     }
 
     setValue(
       "days",
-      dietDays?.map((dietDay) => dietDay._id)
+      diet?.dietDays?.map((dietDay) => dietDay._id)
     );
 
     return trigger();
@@ -82,39 +71,39 @@ const PlanLength = () => {
     return trigger();
   };
 
-  if (dietDaysLoading)
-    return (
-      <Styled.LoadingWrapper
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-      >
-        <ReactLoading type="spin" color="blue" height={50} width={50} />
-        <h2>Pobieranie dni</h2>
-      </Styled.LoadingWrapper>
-    );
-  if (dietDaysError)
-    return (
-      <Styled.EmptyDataWrapper>
-        <h2>
-          pobieranie dni nie powiodło się, spróbuj ponownie później wygenerować
-          dietę
-        </h2>
-      </Styled.EmptyDataWrapper>
-    );
+  // if (dietDaysLoading)
+  //   return (
+  //     <Styled.LoadingWrapper
+  //       initial={{ opacity: 0 }}
+  //       animate={{ opacity: 1 }}
+  //       exit={{ opacity: 0 }}
+  //     >
+  //       <ReactLoading type="spin" color="blue" height={50} width={50} />
+  //       <h2>Pobieranie dni</h2>
+  //     </Styled.LoadingWrapper>
+  //   );
+  // if (dietDaysError)
+  //   return (
+  //     <Styled.EmptyDataWrapper>
+  //       <h2>
+  //         pobieranie dni nie powiodło się, spróbuj ponownie później wygenerować
+  //         dietę
+  //       </h2>
+  //     </Styled.EmptyDataWrapper>
+  //   );
 
   return (
     <Styled.DietGenerateDaysContainer>
       <Styled.DaysOptions>
         <CheckBoxWrapper
           onClick={checkAllDays}
-          checked={dietGenerateDays.length === dietDays?.length}
+          checked={dietGenerateDays.length === diet?.dietDays?.length}
         />
         <span>wszystkie dni</span>
       </Styled.DaysOptions>
       <Styled.DaysWrapper>
-        {dietDays?.length &&
-          dietDays.map((dietDay) => (
+        {diet?.dietDays?.length &&
+          diet.dietDays.map((dietDay) => (
             <Styled.DayItem
               key={dietDay._id}
               onClick={() => changeDays(dietDay._id)}
@@ -129,16 +118,6 @@ const PlanLength = () => {
             </Styled.DayItem>
           ))}
       </Styled.DaysWrapper>
-      {/* <h2>Plan: {subscriptionPlan?.name}</h2>
-      {subscriptionPlan?.variants.map((variant) => (
-        <Styled.PlanLTimeItemWrapper
-          onClick={() => changePlanTime(variant.stripePriceId)}
-          key={variant.stripePriceId}
-          selectedTimePlan={variant.stripePriceId === selectedPlanTime}
-        >
-          <h3>nazwa: {variant.name}</h3> <h3>cena: {variant.price}</h3>
-        </Styled.PlanLTimeItemWrapper>
-      ))} */}
     </Styled.DietGenerateDaysContainer>
   );
 };

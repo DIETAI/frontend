@@ -18,12 +18,8 @@ import {
   // dietGeneratePreferencesSchema,
 } from "./schema/dietGenerate.schema";
 
-// //styles
-// import * as Styled from "./SubscriptionPlansPage.styles";
-
 // //utils
 import { dietGenerateSteps } from "./utils/steps";
-import { IDietEstablishmentData } from "interfaces/dietEstablishment.interfaces";
 
 const defaultValues = dietGenerateDaysSchema
   .concat(dietGenerateMealsSchema)
@@ -35,11 +31,7 @@ export type IDietGenerateValues = typeof defaultValues;
 const DietGenerateModal = ({ closeModal }: { closeModal: () => void }) => {
   return (
     <Styled.DietGenerateModalContainer>
-      <Heading
-        icon={<FaCalendarPlus />}
-        title="Generuj dietę"
-        // description={t("dinner.form.products.modal.description")}
-      />
+      <Heading icon={<FaCalendarPlus />} title="Generuj dietę" />
       <MultiStepContainer defaultValues={defaultValues} closeModal={closeModal}>
         {dietGenerateSteps.map(({ step, name, icon, id, validationSchema }) => (
           <FormStep

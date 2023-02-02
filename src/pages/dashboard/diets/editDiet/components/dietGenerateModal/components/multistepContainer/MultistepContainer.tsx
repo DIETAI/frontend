@@ -1,16 +1,12 @@
 import React, { useEffect, useState, useLayoutEffect } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { FieldValues } from "react-hook-form";
 import { IChildrenProps } from "interfaces/children.interfaces";
 import Button from "components/form/button/Button";
 import axios from "utils/api";
 
 //components
 import DietGenerateNav from "../nav/DietGenerateNav";
-import Heading from "components/heading/Heading";
-import GeneratedDays from "./generatedDays/GeneratedDays";
-import GeneratedDaysLoading from "./generatedDaysLoading/GeneratedDaysLoading";
 
 //interfaces
 import {
@@ -24,13 +20,8 @@ import {
   // IDietGeneratePreferencesSchema,
 } from "../../schema/dietGenerate.schema";
 
-//helpers
-// import { generateDiet } from "../../helpers/generateDiet";
-import { generateDiet as generateDietV2 } from "../../helpers/generateDietV2";
-
 //styles
 import * as Styled from "./MultistepContainer.styles";
-import { AxiosResponse } from "axios";
 import { getAllDietMeals } from "services/getDietMeals";
 
 //store
@@ -38,13 +29,10 @@ import { RootState } from "store/store";
 import { useSelector, useDispatch } from "react-redux";
 import {
   addDietDaysToGenerate,
-  addDietGenerate,
   addDietGenerateAction,
   addDietGenerateDay,
   IDietGenerateDay,
 } from "store/dietGenerate";
-import { IDietEstablishmentData } from "interfaces/dietEstablishment.interfaces";
-import { getDietDay } from "services/getDietDays";
 
 type DietGenerate = IDietGenerateDaysSchema & IDietGenerateMealsSchema;
 // IDietGeneratePreferencesSchema;
@@ -90,7 +78,7 @@ const MultiStepContainer = ({
     (state: RootState) => state.dietGenerate
   );
 
-  const { dietMeals } = getAllDietMeals();
+  // const { dietMeals } = getAllDietMeals();
 
   const [activeStep, setActiveStep] = useState(0);
 
@@ -146,7 +134,7 @@ const MultiStepContainer = ({
 
     console.log({ generateDietLoading });
 
-    if (!dietMeals) return;
+    // if (!dietMeals) return;
 
     // const initialStateGenerateDays = data.days.map((dayId) => ({
     //   loading: true,

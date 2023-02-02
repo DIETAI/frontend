@@ -14,7 +14,7 @@ const DietGenerateModalContainer = styled.div(
     flex-direction: column;
     flex-wrap: wrap;
     width: 100%;
-    gap: 2rem;
+    gap: 4rem;
   `
 );
 

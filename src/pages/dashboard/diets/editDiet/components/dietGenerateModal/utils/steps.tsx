@@ -1,14 +1,7 @@
 import React from "react";
 
 //icons
-import {
-  FaBusinessTime,
-  FaBuffer,
-  FaCreditCard,
-  FaUtensils,
-  FaHeart,
-  FaCalendarWeek,
-} from "icons/icons";
+import { FaUtensils, FaCalendarWeek } from "icons/icons";
 
 //steps content
 import * as Step from "../components/steps";

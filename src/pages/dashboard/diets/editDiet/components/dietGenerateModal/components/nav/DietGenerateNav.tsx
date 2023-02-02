@@ -17,19 +17,7 @@ const DietGenerateNav = ({
   activePage,
   setActivePage,
   valid,
-  isLastStep,
 }: IDietGenerateNavProps) => {
-  // const [activeItem, setActiveItem] = useState(subscriptionPlanSteps[0].id);
-
-  // const currentPage = activePage === link.id;
-
-  // const notValid =
-  //   (!valid && link.id > activePage) ||
-  //   !links
-  //     .slice(0, activePage + 2)
-  //     .map((link) => link.id)
-  //     .includes(link.id);
-
   const validItem = (itemIndex: number) => {
     if (itemIndex - activePage > 1) {
       return false;
@@ -43,9 +31,9 @@ const DietGenerateNav = ({
   };
 
   return (
-    <Styled.DietGenerateNavWrapper>
+    <Styled.NavWrapper>
       {dietGenerateSteps.map((step, stepIndex) => (
-        <Styled.DietGenerateNavItem
+        <Styled.NavItem
           valid={validItem(stepIndex)}
           key={step.id}
           active={stepIndex === activePage}
@@ -53,9 +41,9 @@ const DietGenerateNav = ({
         >
           {step.icon}
           <h2>{step.name}</h2>
-        </Styled.DietGenerateNavItem>
+        </Styled.NavItem>
       ))}
-    </Styled.DietGenerateNavWrapper>
+    </Styled.NavWrapper>
   );
 };
 
