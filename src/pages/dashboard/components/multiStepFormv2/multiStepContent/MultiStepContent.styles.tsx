@@ -17,7 +17,6 @@ const MultiStepContainer = styled.div(
     width: 100%;
 
     ${up(breakpoints.lg)} {
-      /* width: auto; */
       width: 100%;
       flex-direction: row;
     }
@@ -36,13 +35,11 @@ const MultiStepContentWrapper = styled.div(
     display: flex;
     flex-direction: column;
     gap: 4rem;
-    flex: 1;
     width: 100%;
 
-    /* ${up(breakpoints.xl)} {
-      width: 70rem;
-      flex: none;
-    } */
+    ${up(breakpoints.xl)} {
+      max-width: ${breakpoints.md};
+    }
   `
 );
 
@@ -65,7 +62,7 @@ const SaveOptionsWrapper = styled.div(
     bottom: 1rem;
     left: 0;
     width: 100%;
-    z-index: 10;
+    z-index: 2;
     padding: 2rem;
     background: ${palette.common.main};
     border-radius: ${border.rounded.md};
@@ -97,7 +94,7 @@ const SaveOptionsWrapper = styled.div(
       left: 0;
       flex-direction: column;
       padding: 4rem;
-      width: 30rem;
+      width: 35rem;
 
       p {
         display: block;

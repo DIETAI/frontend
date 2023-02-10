@@ -8,6 +8,8 @@ import axios from "utils/api";
 //components
 import DietGenerateNav from "../nav/DietGenerateNav";
 
+import { DietGenerateState } from "../../DietGenerateModal";
+
 //interfaces
 import {
   IFormStepProps,
@@ -17,12 +19,10 @@ import {
 import {
   IDietGenerateDaysSchema,
   IDietGenerateMealsSchema,
-  // IDietGeneratePreferencesSchema,
 } from "../../schema/dietGenerate.schema";
 
 //styles
 import * as Styled from "./MultistepContainer.styles";
-import { getAllDietMeals } from "services/getDietMeals";
 
 //store
 import { RootState } from "store/store";
@@ -55,12 +55,14 @@ interface IMultiStepProps {
   children: IChildrenProps["children"];
   defaultValues: IDefaultValues["defaultValues"];
   closeModal: () => void;
+  setGenerateDiet: React.Dispatch<React.SetStateAction<DietGenerateState>>;
 }
 
 const MultiStepContainer = ({
   children,
   defaultValues,
   closeModal,
+  setGenerateDiet,
 }: IMultiStepProps) => {
   const [dietGenerateAction, setDietGenerateAction] =
     useState<IDietGenerateAction>({
@@ -128,23 +130,17 @@ const MultiStepContainer = ({
     return activeStep === childrenArray.length - 1;
   };
 
+  const onSubmitv2 = async (data: DietGenerate) => {
+    setGenerateDiet("generated");
+    // zmiana stanu ładowania generowania diety
+    // wyświetlenie innego modal content w obecnym modalu
+    // przekazanie danych do serwera
+    // na serwerze najpierw rekomendacja posiłków, tak aby się nie powtarzały
+    // rekomendowanie 3 posiłków na jedno miejsce i wybranie najlepszego zestawu
+    // generowanie wartości na serwerze
+  };
+
   const onSubmit = async (data: DietGenerate) => {
-    //stripe session
-    console.log(`diet generate: ${data}`);
-
-    console.log({ generateDietLoading });
-
-    // if (!dietMeals) return;
-
-    // const initialStateGenerateDays = data.days.map((dayId) => ({
-    //   loading: true,
-    //   error: false,
-    //   generated: false,
-    //   _id: dayId,
-    //   name: `Dzień ${dayId}`,
-    //   dietId: "",
-    // }));
-
     closeModal();
     dispatch(addDietGenerateAction(true));
 
