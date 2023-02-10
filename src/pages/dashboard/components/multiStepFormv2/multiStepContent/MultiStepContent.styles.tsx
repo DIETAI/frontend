@@ -93,7 +93,7 @@ const SaveOptionsWrapper = styled.div(
       top: 14rem;
       left: 0;
       flex-direction: column;
-      padding: 4rem;
+      padding: 3.2rem;
       width: 35rem;
 
       p {

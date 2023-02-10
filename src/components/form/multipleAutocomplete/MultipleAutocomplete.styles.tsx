@@ -77,17 +77,15 @@ const MultipleAutoCompleteContentWrapper = styled.div(
     transition: 0.1s ease-out;
 
     input {
-      padding: 0.7rem;
-      /* border-radius: ${border.rounded.sm}; */
+      padding: 0.4rem;
       font-size: 1.4rem;
       font-weight: ${fontWeight.light};
       color: ${palette.common.text};
-      /* border: 0.1rem solid ${palette.common.slate}; */
+
       letter-spacing: 0.05rem;
       background: transparent;
-      /* transition: 0.1s ease-out; */
+
       border: none;
-      height: 100%;
 
       ::placeholder {
         font-size: 1.4rem;
@@ -103,14 +101,6 @@ const MultipleAutoCompleteContentWrapper = styled.div(
       outline: none;
       border: 0.1rem solid ${palette.primary.main};
     }
-
-    /* p {
-      font-size: ${fontSize.xs};
-      font-weight: ${fontWeight.light};
-      color: ${palette.common.error};
-      margin-top: 0.5rem;
-      letter-spacing: 0.05rem;
-    } */
   `
 );
 
