@@ -62,6 +62,8 @@ const EstablishmentModal = ({ closeModal }: IEstablishmentModal) => {
     dietEstablishmentsLoading,
   } = getDietEstablishments();
 
+  console.log({ dietEstablishments });
+
   const {
     control,
     formState: { errors },

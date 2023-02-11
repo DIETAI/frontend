@@ -100,7 +100,7 @@ const NewDietForm = () => {
       if (data.daysType === "amount") {
         const dietDays = Array.from(Array(data.daysAmount).keys());
         days = dietDays.map((dietDay) => ({
-          order: dietDay,
+          order: dietDay + 1,
         }));
       } else if (data.daysType === "date" && data.dayStart && data.dayEnd) {
         const dietDays = eachDayOfInterval({
