@@ -3,11 +3,10 @@ import { useTranslation } from "react-i18next";
 import { useFormContext } from "react-hook-form";
 
 //icons
-import { FaFolderPlus, FaFolderOpen, FaFileAlt } from "icons/icons";
+import { FaFileAlt } from "icons/icons";
 
 //components
 import Input from "components/form/input/Input";
-import DashedSelect from "components/form/dashedSelect/DashedSelect";
 import ImagesContainer from "components/form/images/imagesContainer/ImagesContainer";
 import ImageSelect from "components/form/images/imageSelect/ImageSelect";
 import Modal from "components/modal/Modal";
@@ -22,11 +21,6 @@ import { getClients } from "services/getClients";
 
 //context
 import { useFileLibrary } from "layout/dashboard/context/fileLibrary.context";
-
-const genderOptions = [
-  { id: 1, name: "mężczyzna", type: "male" },
-  { id: 2, name: "kobieta", type: "female" },
-];
 
 const Informations = () => {
   const { selectAssetId, selectedAssetId } = useFileLibrary();
@@ -45,18 +39,6 @@ const Informations = () => {
 
   const images = watch("images") as IMeasurementInformations["images"];
 
-  const openAddFolderModal = () => {
-    console.log("dodaj folder");
-  };
-
-  const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
-    const value = !e.currentTarget.value
-      ? undefined
-      : parseInt(e.currentTarget.value);
-
-    setValue(e.currentTarget.name, value);
-  };
-
   const addImageToForm = () => {
     console.log("changeImg");
 
@@ -72,6 +54,8 @@ const Informations = () => {
 
   if (clientsLoading) return <div>clients loading</div>;
   if (clientsError) return <div>clients error</div>;
+
+  console.log({ clients });
 
   const clientsData = clients?.map((client) => ({
     _id: client._id,
@@ -99,22 +83,6 @@ const Informations = () => {
         optionLabel={"fullName"}
         optionRender={"_id"}
       />
-      {/* <Autocomplete
-        name="sex"
-        fullWidth
-        label={`${t("measurement.form.informations.sex")} *`}
-        options={genderOptions as []}
-        optionLabel={"name"}
-        optionRender={"type"}
-      /> */}
-      {/* <Input
-        label={`${t("measurement.form.informations.age")} *`}
-        type="number"
-        name="age"
-        fullWidth
-        controlled
-        onChange={handleChange}
-      /> */}
       <Input
         label={`${t("measurement.form.informations.notes")}`}
         type="text"

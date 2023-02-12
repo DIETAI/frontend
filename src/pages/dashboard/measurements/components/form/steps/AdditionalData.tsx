@@ -34,7 +34,7 @@ const AdditionalData = () => {
       return setValue("whtr", whtr);
     }
 
-    return setValue("whtr", 0);
+    return setValue("whtr", undefined);
   }, [waist, height]);
 
   useEffect(() => {
@@ -43,7 +43,7 @@ const AdditionalData = () => {
       return setValue("whr", whr);
     }
 
-    return setValue("whr", 0);
+    return setValue("whr", undefined);
   }, [waist, hip]);
 
   useEffect(() => {
@@ -52,7 +52,7 @@ const AdditionalData = () => {
       return setValue("ymca", ymca);
     }
 
-    return setValue("ymca", 0);
+    return setValue("ymca", undefined);
   }, [waist, weight, sex]);
 
   const handleChange = (e: React.FormEvent<HTMLInputElement>) => {

@@ -68,6 +68,7 @@ const EditMeasurementForm = ({ measurement }: IMeasurementProps) => {
 
   const measurementDefaultValues = {
     ...measurement,
+    client: measurement.client._id,
   };
 
   return (
