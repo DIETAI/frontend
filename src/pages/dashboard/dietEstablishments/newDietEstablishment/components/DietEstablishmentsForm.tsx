@@ -1,11 +1,18 @@
 import React, { useEffect } from "react";
-import axios from "utils/api";
 import { useNavigate } from "react-router";
+import axios from "utils/api";
+import { useTranslation } from "react-i18next";
 import { useSearchParams, createSearchParams } from "react-router-dom";
 
+//icons
+import { FaUser } from "icons/icons";
+
 //components
-import MultiStepFormContent from "../../../components/multiStepForm/multiStepContent/MultiStepContent";
-import FormStep from "../../../components/multiStepForm/step/Step";
+import MultiStepFormContent from "../../../components/multiStepFormv2/multiStepContent/MultiStepContent";
+import MultiStepContainer from "../../../components/multiStepFormv2/multiStepContainer/MultiStepContainer";
+import MultiStepSidebar from "../../../components/multiStepFormv2/multistepSidebar/MultiStepSidebar";
+import DietEstablishmentSidebarSteps from "../../components/form/sidebar/steps/DietEstablishmentSidebarSteps";
+import FormStep from "../../../components/multiStepFormv2/step/Step";
 
 //steps
 import { dietEstablishmentsFormSteps } from "../../utils/steps";
@@ -33,21 +40,31 @@ const allDietEstablishmentSchemas = establishmentBasicInfoSchema
 const defaultDietEstablishmentsValues = allDietEstablishmentSchemas.cast({});
 type IDietEstablishmentValues = typeof defaultDietEstablishmentsValues;
 
-const DietEstablishmentForm = () => {
+const dietEstablishmentSidebarPages = [
+  {
+    id: 1,
+    title: "sekcje",
+    component: (
+      <DietEstablishmentSidebarSteps
+        dietEstablishmentFormSteps={dietEstablishmentsFormSteps}
+      />
+    ),
+  },
+];
+
+const NewDietEstablishmentForm = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const patientIdParam = searchParams.get("patientId"); //from newDiet
   const newDietNameParam = searchParams.get("dietName"); //from newDiet
   const newDietDaysAmountParam = searchParams.get("daysAmount"); //from newDiet
 
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const { handleAlert } = useAlert();
 
   const onDietEstablishmentFormSubmit = async (
     data: IDietEstablishmentValues
   ) => {
-    //zmiana isSubmitting
-    //brak zmiany treści alertu
-    //przekierowanie do edycji
     console.log("wysyłanie założeń");
     console.log(data);
     try {
@@ -58,7 +75,7 @@ const DietEstablishmentForm = () => {
           withCredentials: true,
         }
       );
-      console.log({ newDietEstablishment });
+
       handleAlert("success", "Dodano nowe założenia żywieniowe");
 
       if (patientIdParam) {
@@ -84,25 +101,32 @@ const DietEstablishmentForm = () => {
   };
 
   return (
-    <MultiStepFormContent
+    <MultiStepContainer
       defaultValues={defaultDietEstablishmentsValues}
       onSubmitAction={onDietEstablishmentFormSubmit}
       validationSchema={allDietEstablishmentSchemas}
     >
-      {dietEstablishmentsFormSteps.map((step) => (
-        <FormStep
-          key={step.id}
-          icon={step.icon}
-          label={step.title}
-          validationSchema={step.validationSchema}
-          id={step.sectionId}
-          sectionId={step.sectionId}
-        >
-          {step.stepContent}
-        </FormStep>
-      ))}
-    </MultiStepFormContent>
+      <MultiStepSidebar
+        icon={<FaUser />}
+        title={t("dietEstablishment.sidebar.title")}
+        pages={dietEstablishmentSidebarPages}
+      />
+      <MultiStepFormContent>
+        {dietEstablishmentsFormSteps.map((step) => (
+          <FormStep
+            key={step.id}
+            icon={step.icon}
+            label={step.title}
+            validationSchema={step.validationSchema}
+            id={step.sectionId}
+            sectionId={step.sectionId}
+          >
+            {step.stepContent}
+          </FormStep>
+        ))}
+      </MultiStepFormContent>
+    </MultiStepContainer>
   );
 };
 
-export default DietEstablishmentForm;
+export default NewDietEstablishmentForm;
