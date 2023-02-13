@@ -3,8 +3,11 @@ import { useNavigate } from "react-router";
 import axios from "utils/api";
 
 //components
-import MultiStepFormContent from "../../../components/multiStepForm/multiStepContent/MultiStepContent";
-import FormStep from "../../../components/multiStepForm/step/Step";
+import MultiStepFormContent from "../../../components/multiStepFormv2/multiStepContent/MultiStepContent";
+import MultiStepContainer from "../../../components/multiStepFormv2/multiStepContainer/MultiStepContainer";
+import MultiStepSidebar from "../../../components/multiStepFormv2/multistepSidebar/MultiStepSidebar";
+import DietEstablishmentSidebarSteps from "../../components/form/sidebar/steps/DietEstablishmentSidebarSteps";
+import FormStep from "../../../components/multiStepFormv2/step/Step";
 
 //schema
 import {
@@ -24,6 +27,7 @@ import { useAlert } from "layout/dashboard/context/alert.context";
 
 //interfaces
 import { IDietEstablishmentProps } from "interfaces/dietEstablishment.interfaces";
+import { FaUser } from "react-icons/fa";
 
 const allDietEstablishmentSchemas = establishmentBasicInfoSchema
   .concat(establishmentMealsSchema)
@@ -35,10 +39,21 @@ const allDietEstablishmentSchemas = establishmentBasicInfoSchema
 const defaultDietEstablishmentsValues = allDietEstablishmentSchemas.cast({});
 type IDietEstablishmentValues = typeof defaultDietEstablishmentsValues;
 
+const dietEstablishmentSidebarPages = [
+  {
+    id: 1,
+    title: "sekcje",
+    component: (
+      <DietEstablishmentSidebarSteps
+        dietEstablishmentFormSteps={dietEstablishmentsFormSteps}
+      />
+    ),
+  },
+];
+
 const EditDietEstablishmentForm = ({
   dietEstablishment,
 }: IDietEstablishmentProps) => {
-  const navigate = useNavigate();
   const { handleAlert } = useAlert();
 
   const onDietEstablishmentFormSubmit = async (
@@ -56,7 +71,6 @@ const EditDietEstablishmentForm = ({
       );
       console.log({ editDietEstablishment });
       handleAlert("success", "Edytowano założenia żywieniowe");
-      // navigate(`/dashboard/measurements/edit/${editMeasurement.data._id}`);
     } catch (e) {
       console.log(e);
       handleAlert("error", "Edytowanie założeń nie powiodło się");
@@ -69,27 +83,35 @@ const EditDietEstablishmentForm = ({
   };
 
   return (
-    <MultiStepFormContent
+    <MultiStepContainer
       defaultValues={defaultEst}
       onSubmitAction={onDietEstablishmentFormSubmit}
       validationSchema={allDietEstablishmentSchemas}
-      itemId={dietEstablishment._id}
-      itemCreatedAt={dietEstablishment.createdAt}
-      itemUpdatedAt={dietEstablishment.updatedAt}
     >
-      {dietEstablishmentsFormSteps.map((step) => (
-        <FormStep
-          key={step.id}
-          icon={step.icon}
-          label={step.title}
-          validationSchema={step.validationSchema}
-          id={step.sectionId}
-          sectionId={step.sectionId}
-        >
-          {step.stepContent}
-        </FormStep>
-      ))}
-    </MultiStepFormContent>
+      <MultiStepSidebar
+        icon={<FaUser />}
+        title={dietEstablishment.name}
+        pages={dietEstablishmentSidebarPages}
+      />
+      <MultiStepFormContent
+        itemId={dietEstablishment._id}
+        itemCreatedAt={dietEstablishment.createdAt}
+        itemUpdatedAt={dietEstablishment.updatedAt}
+      >
+        {dietEstablishmentsFormSteps.map((step) => (
+          <FormStep
+            key={step.id}
+            icon={step.icon}
+            label={step.title}
+            validationSchema={step.validationSchema}
+            id={step.sectionId}
+            sectionId={step.sectionId}
+          >
+            {step.stepContent}
+          </FormStep>
+        ))}
+      </MultiStepFormContent>
+    </MultiStepContainer>
   );
 };
 
