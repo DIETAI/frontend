@@ -50,11 +50,11 @@ const EditDiet = () => {
         headingTitle={"Jadłospisy"}
         pageNavLinks={[
           ...dietsNavLinks,
-          {
-            id: dietsNavLinks.length + 1,
-            title: diet.name || "jadłospis",
-            path: `/dashboard/diets/edit/${dietEditId}`,
-          },
+          // {
+          //   id: dietsNavLinks.length + 1,
+          //   title: diet.name || "jadłospis",
+          //   path: `/dashboard/diets/edit/${dietEditId}`,
+          // },
         ]}
       />
       <DietNav

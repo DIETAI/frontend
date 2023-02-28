@@ -7,7 +7,10 @@ export interface IGenerateDinner {
   _id: string;
   dinnerId: string;
   dinnerName: string;
-  dinnerImage?: string;
+  dinnerImage?: {
+    _id: string;
+    imageURL: string;
+  };
   dinnerProducts: ICartesianResult["products"];
   total: {
     kcal: number;

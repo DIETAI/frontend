@@ -29,7 +29,7 @@ import { IDietData } from "interfaces/diet/diet.interfaces";
 //components
 import IconButton from "components/iconButton/IconButton";
 import Modal from "components/modal/Modal";
-import DietGenerateModal from "../dietGenerateModal/DietGenerateModal";
+import DietGenerateModal from "../dietGenerateModalV2/DietGenerateModal";
 import DeleteModalContent from "pages/dashboard/components/deleteModal/DeleteModal";
 import GeneratedDietModal from "../generatedDietModal/GeneratedDietModal";
 import DietSettingsModal from "../dietSettingsModal/DietSettingsModal";
@@ -154,6 +154,7 @@ const DietNav = ({
       >
         <DietGenerateModal closeModal={() => setDietGenerateModalOpen(false)} />
       </Modal>
+
       <Modal open={openDeleteModal} onClose={() => setOpenDeleteModal(false)}>
         <DeleteModalContent
           deleteItemName={dietName}
@@ -166,11 +167,11 @@ const DietNav = ({
       >
         <DietSettingsModal />
       </Modal>
-      <Modal open={generatedDietModalOpen} width="1536px">
+      {/* <Modal open={generatedDietModalOpen} width="1536px">
         <GeneratedDietModal
           closeModal={() => setGeneratedDietModalOpen(false)}
         />
-      </Modal>
+      </Modal> */}
       <Modal
         onClose={() => setOpenDietExportModal(false)}
         open={openDietExportModal}
