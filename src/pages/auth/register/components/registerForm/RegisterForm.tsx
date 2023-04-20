@@ -1,7 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router";
-import axios from "utils/api";
-import { useForm, FormProvider, FieldValues } from "react-hook-form";
+import axios from "axios";
+import axiosInstance from "utils/api";
+import { useForm, FormProvider } from "react-hook-form";
+import { useAlert } from "layout/dashboard/context/alert.context";
 
 //schema
 import { register_schema } from "./RegisterForm.schema";
@@ -29,6 +31,7 @@ import { Link } from "react-router-dom";
 const defaultValues = register_schema.cast({});
 
 const Form = () => {
+  const { handleAlert } = useAlert();
   const { t } = useTranslation();
   const navigate = useNavigate();
 
@@ -53,13 +56,17 @@ const Form = () => {
         fullName,
       };
 
-      const registerData = await axios.post("/api/v1/user", registerFormData, {
-        withCredentials: true,
-      });
+      const registerData = await axiosInstance.post(
+        "/api/v1/user",
+        registerFormData,
+        {
+          withCredentials: true,
+        }
+      );
 
       console.log({ registerData });
 
-      const loginData = await axios.post(
+      const loginData = await axiosInstance.post(
         "/api/v1/sessions",
         { email: data.email, password: data.password },
         {
@@ -71,11 +78,17 @@ const Form = () => {
       reset();
     } catch (e) {
       console.log(e);
-      //set error alert
-      //https://stackoverflow.com/questions/36824106/express-doesnt-set-a-cookie
-    }
+      if (axios.isAxiosError(e)) {
+        if (e.response?.status === 409) {
+          return handleAlert(
+            "error",
+            "Istnieje już użytkownik o podanym adresie e-mail"
+          );
+        }
+      }
 
-    // await getData(data);
+      handleAlert("error", "Wystąpił błąd podczas rejestracji");
+    }
   };
 
   return (

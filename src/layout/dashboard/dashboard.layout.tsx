@@ -10,21 +10,18 @@ import * as Styled from "./dashboard.layout.styles";
 
 //context
 import { SidebarViewProvider } from "./context/sidebarView.context";
-import { AlertProvider } from "./context/alert.context";
 import { FileLibraryProvider } from "./context/fileLibrary.context";
 
 const DashboardLayout = ({ children }: IChildrenProps) => {
   return (
-    <AlertProvider>
-      <SidebarViewProvider>
-        <FileLibraryProvider>
-          <Styled.DashboardWrapper>
-            <Sidebar />
-            <Content>{children}</Content>
-          </Styled.DashboardWrapper>
-        </FileLibraryProvider>
-      </SidebarViewProvider>
-    </AlertProvider>
+    <SidebarViewProvider>
+      <FileLibraryProvider>
+        <Styled.DashboardWrapper>
+          <Sidebar />
+          <Content>{children}</Content>
+        </Styled.DashboardWrapper>
+      </FileLibraryProvider>
+    </SidebarViewProvider>
   );
 };
 
