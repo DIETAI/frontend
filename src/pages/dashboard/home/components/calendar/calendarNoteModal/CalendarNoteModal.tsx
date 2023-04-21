@@ -25,9 +25,11 @@ const CalendarNoteModal = ({
 }: {
   date: Date;
   closeModal: () => void;
-  calendarNote: ICalendarNoteData;
+  calendarNote?: ICalendarNoteData;
 }) => {
   const [page, setPage] = useState<IPage>("info");
+
+  if (!calendarNote) return null;
 
   return (
     <Styled.ModalContentWrapper>

@@ -23,9 +23,7 @@ const columns: IColumn[] = [
   { label: "zdjęcie", key: "imageURL", type: "image" },
   { label: "imię", key: "name", type: "text" },
   { label: "nazwisko", key: "lastName", type: "text" },
-  // { label: "email", key: "email", type: "text" },
   { label: "data urodzenia", key: "dateOfBirth", type: "text" },
-  // { label: "płeć", key: "gender", type: "text" },
 ];
 
 const AllClients = () => {
@@ -49,14 +47,9 @@ const AllClients = () => {
     imageURL: data.image?.imageURL,
     name: data.name,
     lastName: data.lastName,
-    // email: data.email,
     dateOfBirth: format(new Date(data.dateOfBirth), "dd.MM.yyyy"),
-    // gender: data.gender,
   }));
 
-  const deleteClients = () => {
-    return;
-  };
   const deleteClient = () => {
     console.log("delete client");
   };

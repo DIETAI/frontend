@@ -4,13 +4,19 @@ import * as Styled from "./HomeCalendar.styles";
 import { useFormContext } from "react-hook-form";
 
 //icons
-import { FaCalendar, FaChevronRight, FaChevronLeft } from "icons/icons";
+import {
+  FaCalendar,
+  FaChevronRight,
+  FaChevronLeft,
+  FaExclamationCircle,
+} from "icons/icons";
 
 //components
 import Heading from "components/heading/Heading";
 import Modal from "components/modal/Modal";
 import NewCalendarNoteModal from "./newCalendarNoteModal/NewCalendarNoteModal";
 import CalendarNoteModal from "./calendarNoteModal/CalendarNoteModal";
+import LoadingGrid from "components/loading/loadingGrid/LoadingGrid";
 
 //date-fns
 import eachDayOfInterval from "date-fns/eachDayOfInterval";
@@ -93,34 +99,26 @@ const Calendar = () => {
     setSelectedDay(day);
   };
 
-  if (!open) return null;
-
-  if (calendarNotesLoading) return <div>loading...</div>;
-  if (calendarNotesError || !calendarNotes) return <div>error</div>;
+  if (calendarNotesLoading)
+    return (
+      <Styled.CalendarStateWrapper>
+        <LoadingGrid />
+      </Styled.CalendarStateWrapper>
+    );
+  if (calendarNotesError)
+    return (
+      <Styled.ErrorWrapper>
+        <FaExclamationCircle />
+        <h3>Wystąpił błąd podczas pobierania danych kalendarza</h3>
+      </Styled.ErrorWrapper>
+    );
 
   return (
     <Styled.CalendarWrapper>
       <Styled.HomeCalendarHeadingWrapper>
         <Heading title="Kalendarz" icon={<FaCalendar />} />
-        {/* <Button variant="secondary">
-          <img src={GoogleCalendarImg} /> połącz z kalendarzem google
-        </Button> */}
-        {/* <button>
-          <img src={GoogleCalendarImg} /> połącz z kalendarzem google
-        </button> */}
       </Styled.HomeCalendarHeadingWrapper>
-      {/* <Styled.CalendarNavWrapper>
-        <Styled.NavOptionsWrapper>
-          <Styled.NavOption active={true}>wydarzenia</Styled.NavOption>
-          <Styled.NavOption active={false}>jadłospisy</Styled.NavOption>
-          <Styled.NavOption active={false}>raporty</Styled.NavOption>
-        </Styled.NavOptionsWrapper>
-        <Styled.NavDisplayDaysOptionsWrapper>
-          <Styled.NavOption active={false}>dzień</Styled.NavOption>
-          <Styled.NavOption active={true}>tydzień</Styled.NavOption>
-          <Styled.NavOption active={false}>miesiąc</Styled.NavOption>
-        </Styled.NavDisplayDaysOptionsWrapper>
-      </Styled.CalendarNavWrapper> */}
+
       <Styled.CalendarOptions>
         <Styled.ChevronWrapper type="button" onClick={prevMonth}>
           <FaChevronLeft />
@@ -174,13 +172,11 @@ const CalendarDay = ({
   selectedDay: Date;
   month: Date;
   handleChangeDay: (day: Date) => void;
-  calendarNotes: ICalendarNoteData[];
+  calendarNotes?: ICalendarNoteData[];
 }) => {
   const [newCalendarNoteModal, setNewCalendarNoteModal] = useState(false);
   const [calendarNoteModal, setCalendarNoteModal] = useState(false);
-  const [selectedNote, setSelectedNote] = useState<ICalendarNoteData>(
-    calendarNotes[0]
-  );
+  const [selectedNote, setSelectedNote] = useState<ICalendarNoteData>();
 
   const handleOpenNewCalendarNoteModal = () => {
     setNewCalendarNoteModal(true);
@@ -190,7 +186,7 @@ const CalendarDay = ({
     setCalendarNoteModal(true);
   };
 
-  const currentDateCalendarNotes = calendarNotes.filter((calendarNote) =>
+  const currentDateCalendarNotes = calendarNotes?.filter((calendarNote) =>
     isSameDay(new Date(calendarNote.date), day)
   );
 
@@ -206,7 +202,8 @@ const CalendarDay = ({
           {format(day, "dd")}
           <button onClick={handleOpenNewCalendarNoteModal}>+</button>
         </Styled.CalendarDayHeading>
-        {currentDateCalendarNotes.length > 0 &&
+        {currentDateCalendarNotes &&
+          currentDateCalendarNotes.length > 0 &&
           currentDateCalendarNotes.map((calendarNote) => (
             <Styled.CalendarNotesWrapper key={calendarNote._id}>
               <Styled.CalendarNote

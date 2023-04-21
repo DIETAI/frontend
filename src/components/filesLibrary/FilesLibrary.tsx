@@ -149,29 +149,33 @@ const FilesLibrary = ({ closeModal, onSubmitAction }: IFilesLibraryProps) => {
         </Styled.NotFoundFilesWrapper>
       )}
 
-      {view === "image" && (
-        <ImageView
-          assets={search(assets, searchValue)}
-          uploadImage={uploadImage}
-          assetInfo={assetInfo}
-          setAssetInfo={setAssetInfo}
-          assetDelete={assetDelete}
-          setAssetDelete={setAssetDelete}
-          editAssetFormOpen={openEditFileForm}
-          setEditAssetFormOpen={setOpenEditFileForm}
-        />
-      )}
-      {view === "line" && (
-        <LineView
-          assets={search(assets, searchValue)}
-          uploadImage={uploadImage}
-          assetInfo={assetInfo}
-          setAssetInfo={setAssetInfo}
-          assetDelete={assetDelete}
-          setAssetDelete={setAssetDelete}
-          editAssetFormOpen={openEditFileForm}
-          setEditAssetFormOpen={setOpenEditFileForm}
-        />
+      {assets.length > 0 && (
+        <>
+          {view === "image" && (
+            <ImageView
+              assets={search(assets, searchValue)}
+              uploadImage={uploadImage}
+              assetInfo={assetInfo}
+              setAssetInfo={setAssetInfo}
+              assetDelete={assetDelete}
+              setAssetDelete={setAssetDelete}
+              editAssetFormOpen={openEditFileForm}
+              setEditAssetFormOpen={setOpenEditFileForm}
+            />
+          )}
+          {view === "line" && (
+            <LineView
+              assets={search(assets, searchValue)}
+              uploadImage={uploadImage}
+              assetInfo={assetInfo}
+              setAssetInfo={setAssetInfo}
+              assetDelete={assetDelete}
+              setAssetDelete={setAssetDelete}
+              editAssetFormOpen={openEditFileForm}
+              setEditAssetFormOpen={setOpenEditFileForm}
+            />
+          )}
+        </>
       )}
 
       {openAddFileForm && (

@@ -74,6 +74,9 @@ const DataGridList = ({
       </Styled.ErrorWrapper>
     );
 
+  if (!data || data.length < 1 || search(data, searchValue).length < 1)
+    return <EmptyGrid />;
+
   return (
     <Styled.ListContainer>
       <AnimatePresence>
@@ -112,34 +115,8 @@ const DataGridList = ({
           )}
         </>
       )}
-      {!data ||
-        data.length < 1 ||
-        (search(data, searchValue).length < 1 && <EmptyGrid />)}
     </Styled.ListContainer>
   );
-
-  // if (view === "line")
-  //   return (
-  //     <DataGridLineView
-  //       columns={columns}
-  //       data={search(data, searchValue)}
-  //       initialDataLength={data.length}
-  //       linkPage={viewLink}
-  //       editLink={editLink}
-  //       deleteAction={deleteAction}
-  //     />
-  //   );
-
-  // return (
-  //   <GridView
-  //     gridViewImage={gridViewImage}
-  //     data={search(data, searchValue)}
-  //     renderKey={renderKey}
-  //     renderLabel={renderLabel}
-  //     renderImage={renderImage}
-  //     linkPage={viewLink}
-  //   />
-  // );
 };
 
 export default DataGridList;
