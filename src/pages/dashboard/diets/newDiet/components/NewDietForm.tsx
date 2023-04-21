@@ -32,6 +32,7 @@ import { FaFileInvoice } from "icons/icons";
 //context
 import { useAlert } from "layout/dashboard/context/alert.context";
 import { getDietEstablishment } from "services/getDietEstablishments";
+import NoClientsModal from "./noClientsModal/NoClientsModal";
 
 const defaultValues = dietDataSchema.cast({});
 type INewDietValues = typeof defaultValues;
@@ -145,6 +146,8 @@ const NewDietForm = () => {
     fullName: client.name + " " + client.lastName,
   }));
 
+  console.log({ clientsData });
+
   const handleChangeDaysOption = (optionType: IDateType) => {
     setValue("dayStart", undefined);
     setValue("dayEnd", undefined);
@@ -158,7 +161,6 @@ const NewDietForm = () => {
       <Heading icon={<FaFileInvoice />} title="Nowa dieta" />
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onDietFormSubmit)} autoComplete="off">
-          {/* {JSON.stringify(watch())} */}
           <Input label="nazwa" name="name" fullWidth />
           <Styled.OptionsWrapper>
             <Styled.Option>
@@ -190,16 +192,17 @@ const NewDietForm = () => {
             </>
           )}
 
-          {/* <Input label="start diety" name="dayStart" fullWidth />
-          <Input label="koniec diety" name="dayEnd" fullWidth /> */}
-          <Autocomplete
-            name="clientId"
-            fullWidth
-            label="pacjent"
-            options={clientsData as []}
-            optionLabel={"fullName"}
-            optionRender={"_id"}
-          />
+          {clientsData && clientsData.length > 0 && (
+            <Autocomplete
+              name="clientId"
+              fullWidth
+              label="pacjent"
+              options={clientsData as []}
+              optionLabel={"fullName"}
+              optionRender={"_id"}
+            />
+          )}
+
           <Styled.EstablishmentWrapper>
             <DashedSelect
               icon={<FaFileInvoice />}
@@ -229,6 +232,11 @@ const NewDietForm = () => {
             closeModal={() => setEstablishmentModal(false)}
           />
         </Modal>
+        {clientsData && (
+          <Modal open={clientsData.length < 1}>
+            <NoClientsModal />
+          </Modal>
+        )}
       </FormProvider>
     </Styled.FormWrapper>
   );
