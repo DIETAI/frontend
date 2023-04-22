@@ -201,13 +201,6 @@ const BasicInfo = () => {
                 <Styled.NoMeasurementWrapper>
                   <img src={NoDataImg} />
                   <h3>brak pomiarów pacjenta</h3>
-                  {/* <Button
-                    variant="primary"
-                    type="button"
-                    onClick={() => console.log("hello")}
-                  >
-                    dodaj pomiar
-                  </Button> */}
                 </Styled.NoMeasurementWrapper>
               )}
             </>
@@ -225,21 +218,16 @@ const BasicInfo = () => {
           />
         </>
       )}
-
-      {/* <DashedSelect
-        icon={<FaFolderPlus />}
-        text={`${t("dietEstablishment.form.basic_info.dietKind")}`}
-        onClick={openAddFolderModal}
-        fullWidth
-      /> */}
-      <Autocomplete
-        name="dietKind"
-        label={`${t("dietEstablishment.form.basic_info.dietKind")}`}
-        options={dietKinds as any}
-        optionLabel="name"
-        optionRender="_id"
-        fullWidth
-      />
+      {dietKinds && dietKinds.length > 0 && (
+        <Autocomplete
+          name="dietKind"
+          label={`${t("dietEstablishment.form.basic_info.dietKind")}`}
+          options={dietKinds as any}
+          optionLabel="name"
+          optionRender="_id"
+          fullWidth
+        />
+      )}
     </>
   );
 };

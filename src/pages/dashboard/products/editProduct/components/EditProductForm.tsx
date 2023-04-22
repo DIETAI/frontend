@@ -63,6 +63,7 @@ const EditProductForm = ({ product }: IProductProps) => {
 
   const defaultEditProductValues = {
     ...product,
+    image: product.image?._id,
     dietKindsExclude: product.dietKindsExclude || [],
     tags: product.tags || [],
   };
