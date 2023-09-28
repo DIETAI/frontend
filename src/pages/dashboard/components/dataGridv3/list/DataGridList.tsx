@@ -66,6 +66,22 @@ const DataGridList = ({
     return;
   }, [searchValue, selectedItems]);
 
+  const renderEmptyData = () => {
+    if (!loadingData && !data) {
+      return <EmptyGrid />;
+    }
+
+    if (!loadingData && data && data.length < 1) {
+      return <EmptyGrid />;
+    }
+
+    if (!loadingData && data && search(data, searchValue).length < 1) {
+      return <EmptyGrid />;
+    }
+
+    return null;
+  };
+
   if (errorData)
     return (
       <Styled.ErrorWrapper>
@@ -73,6 +89,9 @@ const DataGridList = ({
         <h3>Wystąpił błąd podczas pobierania danych</h3>
       </Styled.ErrorWrapper>
     );
+
+  //błąd => wyskakuje -> nie znaleziono danych
+  console.log({ data });
 
   return (
     <Styled.ListContainer>
@@ -112,9 +131,13 @@ const DataGridList = ({
           )}
         </>
       )}
-      {!data ||
-        data.length < 1 ||
-        (search(data, searchValue).length < 1 && <EmptyGrid />)}
+
+      {renderEmptyData()}
+      {/* {(!loadingData && !data) ||
+        (!loadingData && data && data.length < 1) ||
+        (!loadingData && data && search(data, searchValue).length < 1 && (
+          <EmptyGrid />
+        ))} */}
     </Styled.ListContainer>
   );
 
