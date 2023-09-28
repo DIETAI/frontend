@@ -106,7 +106,10 @@ const BasicInfo = () => {
               <Styled.ProductInfoImageWrapper>
                 <img className="backgroundImg" src={LogoBackground} />
 
-                <img className="productImg" src={product.imageURL || NoImage} />
+                <img
+                  className="productImg"
+                  src={product.image?.imageURL || NoImage}
+                />
               </Styled.ProductInfoImageWrapper>
               <Styled.ProductInfoDescriptionWrapper>
                 <h2>{product.name}</h2>

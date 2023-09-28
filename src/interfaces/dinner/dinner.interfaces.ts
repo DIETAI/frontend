@@ -6,10 +6,8 @@ export interface IDinnerData {
   updatedAt: string;
   user: string;
   name: string;
-  image?: string;
-  imageObj?: IAssetData;
-  gallery?: string[];
-  galleryArr?: IAssetData[];
+  image?: Pick<IAssetData, "_id" | "imageURL">;
+  gallery?: Pick<IAssetData, "_id" | "imageURL">[];
   mealTypes: (
     | "breakfast"
     | "dinner"

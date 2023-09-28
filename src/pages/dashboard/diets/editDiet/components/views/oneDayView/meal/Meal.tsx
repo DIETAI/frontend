@@ -30,13 +30,18 @@ import { IDietEstablishmentData } from "interfaces/dietEstablishment.interfaces"
 import { AnimatePresence } from "framer-motion";
 import IconModal from "components/iconModal/IconModal";
 import { IDietDinnerQueryData } from "interfaces/diet/dietQuery.interfaces";
+import {
+  IDietDinnerPopulateData,
+  IDietMealPopulateData,
+  IDietPopulateData,
+} from "interfaces/diet/dietPopulate.interfaces";
 
 const Meal = ({
   meal,
   establishment,
 }: {
-  meal: IDietMealQueryData;
-  establishment: IDietEstablishmentData;
+  meal: IDietMealPopulateData;
+  establishment: IDietPopulateData["establishmentId"];
 }) => {
   const [addDinnerModalOpen, setDinnerModalOpen] = useState(false);
 
@@ -64,7 +69,7 @@ const Meal = ({
             </Styled.AddDinnerButtonWrapper>
           </Styled.MealNameWrapper>
           <Styled.MealDinnersWrapper>
-            {meal.dinners.length < 1 && (
+            {meal.dietDinners.length < 1 && (
               <Styled.EmptyMealWrapper>
                 <Styled.EmptyMealContent
                   onClick={() => setDinnerModalOpen(true)}
@@ -73,33 +78,30 @@ const Meal = ({
                 </Styled.EmptyMealContent>
               </Styled.EmptyMealWrapper>
             )}
-            {meal.dinners.length > 0 &&
-              meal.dinners.map((dinner, index) => (
+            {meal.dietDinners.length > 0 &&
+              meal.dietDinners.map((dinner, index) => (
                 <>
                   <Styled.DinnerWrapper key={dinner._id}>
                     <DinnerNameWrapper dinner={dinner} />
                     <Styled.DinnerProductsWrapper>
-                      {dinner.dinnerPortion.dinnerProducts.length > 0 &&
-                        dinner.dinnerPortion.dinnerProducts.map(
-                          ({
-                            dinnerProduct,
-                            dinnerProductId,
-                            portion,
-                            total,
-                          }) => (
-                            <Styled.DinnerProduct key={dinnerProductId}>
+                      {dinner.dinnerPortionId.dinnerProducts.length > 0 &&
+                        dinner.dinnerPortionId.dinnerProducts.map(
+                          ({ dinnerProductId, portion, total }) => (
+                            <Styled.DinnerProduct key={dinnerProductId._id}>
                               <Styled.DinnerProductItem>
                                 <span>
-                                  {dinnerProduct.product.image && (
+                                  {dinnerProductId.productId.image && (
                                     <div>
                                       <Image
                                         roundedDataGrid={true}
-                                        imageId={dinnerProduct.product.image}
+                                        imageId={
+                                          dinnerProductId.productId.image._id
+                                        }
                                       />
                                     </div>
                                   )}
 
-                                  <p>{dinnerProduct.product.name}</p>
+                                  <p>{dinnerProductId.productId.name}</p>
                                 </span>
                               </Styled.DinnerProductItem>
                               <Styled.DinnerProductItem>
@@ -120,7 +122,7 @@ const Meal = ({
                             </Styled.DinnerProduct>
                           )
                         )}
-                      {meal.dinners.length > 1 && (
+                      {meal.dietDinners.length > 1 && (
                         <Styled.SumWrapper>
                           <Styled.SumHeadingWrapper variant="dinnerSum">
                             <b>Razem:</b>
@@ -129,18 +131,18 @@ const Meal = ({
                             <b>-</b>
                           </Styled.SumItem>
                           <Styled.SumItem>
-                            <b>{dinner.dinnerPortion.total.protein.gram}</b>
+                            <b>{dinner.dinnerPortionId.total.protein.gram}</b>
                           </Styled.SumItem>
                           <Styled.SumItem>
-                            <b>{dinner.dinnerPortion.total.fat.gram}</b>
+                            <b>{dinner.dinnerPortionId.total.fat.gram}</b>
                           </Styled.SumItem>
                           <Styled.SumItem>
                             <b>
-                              {dinner.dinnerPortion.total.carbohydrates.gram}
+                              {dinner.dinnerPortionId.total.carbohydrates.gram}
                             </b>
                           </Styled.SumItem>
                           <Styled.SumItem>
-                            <b>{dinner.dinnerPortion.total.kcal}</b>
+                            <b>{dinner.dinnerPortionId.total.kcal}</b>
                           </Styled.SumItem>
                         </Styled.SumWrapper>
                       )}
@@ -149,7 +151,7 @@ const Meal = ({
                 </>
               ))}
 
-            {meal.dinners.length > 0 && (
+            {meal.dietDinners.length > 0 && (
               <Styled.SumWrapper>
                 <Styled.SumHeadingWrapper variant="mealSum">
                   <b>Razem:</b>
@@ -189,7 +191,7 @@ const Meal = ({
   );
 };
 
-const DinnerNameWrapper = ({ dinner }: { dinner: IDietDinnerQueryData }) => {
+const DinnerNameWrapper = ({ dinner }: { dinner: IDietDinnerPopulateData }) => {
   const [openDeleteDinnerModal, setOpenDeleteDinnerModal] = useState(false);
   const [openInfoDinnerModal, setOpenInfoDinnerModal] = useState(false);
   const [openEditDinnerModal, setOpenEditDinnerModal] = useState(false);
@@ -202,15 +204,15 @@ const DinnerNameWrapper = ({ dinner }: { dinner: IDietDinnerQueryData }) => {
         onMouseLeave={() => setOpenDinnerOptions(false)}
       >
         <span>
-          {dinner.dinnerPortion.dinner.image && (
+          {dinner.dinnerPortionId.dinnerId.image && (
             <div>
               <Image
                 roundedDataGrid={true}
-                imageId={dinner.dinnerPortion.dinner.image}
+                imageId={dinner.dinnerPortionId.dinnerId.image._id}
               />
             </div>
           )}
-          {dinner.dinnerPortion.dinner.name}
+          {dinner.dinnerPortionId.dinnerId.name}
         </span>
         <AnimatePresence>
           {openDinnerOptions && (

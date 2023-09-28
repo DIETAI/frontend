@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { useDietEstablishments } from "services/useDietEstablishments";
-import { Link } from "react-router-dom";
+import { getDietEstablishments } from "services/getDietEstablishments";
 import { dietEstablishmentsNavLinks } from "../utils/dietEstablishmentLinks";
 import EstablishmentImg from "assets/establishment.svg";
 
 //date-fns
 import format from "date-fns/format";
-
-//components
-import DataGrid from "../../components/dataGridv2/DataGrid";
 
 //components
 import {
@@ -18,6 +14,7 @@ import {
   DataGridList,
   DataGridPagination,
 } from "../../components/dataGridv3";
+
 import PageNav from "components/pageNav/PageNav";
 
 //interfaces
@@ -44,7 +41,7 @@ const AllDietEstablishments = () => {
     dietEstablishmentsError,
     dietEstablishmentsLoading,
     pagination,
-  } = useDietEstablishments(page.toString(), itemsPerPage);
+  } = getDietEstablishments(page.toString(), itemsPerPage);
 
   useEffect(() => {
     if (pagination) {
@@ -52,16 +49,10 @@ const AllDietEstablishments = () => {
     }
   }, [pagination]);
 
-  // if (measurementsLoading) return <div>measurements loading...</div>;
-  // if (dietEstablishmentsError || !dietEstablishments)
-  //   return <div>diet establishments error</div>;
-
-  console.log({ dietEstablishments });
-
   const dietEstablishmentData = dietEstablishments?.map((data) => ({
     _id: data._id,
     name: data.name,
-    client: data.patient.fullName,
+    client: data.client.name + " " + data.client.lastName,
     createdAt: format(new Date(data.createdAt), "dd.MM.yyyy"),
     kcal: data.kcal,
     proteinProcent: data.protein.procent,

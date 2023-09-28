@@ -13,11 +13,10 @@ import DietRoutes from "./diets.routes";
 import ClientRoutes from "./clients.routes";
 
 //swr
-import { useUser } from "services/useUser";
+import { useUser } from "services/getUser";
 
 const Dietetic = () => {
   //useSwr checkUserRole = dietetic
-  const { user, userLoading, userError } = useUser();
 
   // if (!user.role || user.role.name !== "dietetic") {
   //   return <Navigate to="/dashboard/profile" />;

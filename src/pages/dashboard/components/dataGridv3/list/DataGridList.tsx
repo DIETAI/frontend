@@ -91,7 +91,6 @@ const DataGridList = ({
     );
 
   //błąd => wyskakuje -> nie znaleziono danych
-  console.log({ data });
 
   return (
     <Styled.ListContainer>
@@ -140,29 +139,6 @@ const DataGridList = ({
         ))} */}
     </Styled.ListContainer>
   );
-
-  // if (view === "line")
-  //   return (
-  //     <DataGridLineView
-  //       columns={columns}
-  //       data={search(data, searchValue)}
-  //       initialDataLength={data.length}
-  //       linkPage={viewLink}
-  //       editLink={editLink}
-  //       deleteAction={deleteAction}
-  //     />
-  //   );
-
-  // return (
-  //   <GridView
-  //     gridViewImage={gridViewImage}
-  //     data={search(data, searchValue)}
-  //     renderKey={renderKey}
-  //     renderLabel={renderLabel}
-  //     renderImage={renderImage}
-  //     linkPage={viewLink}
-  //   />
-  // );
 };
 
 export default DataGridList;

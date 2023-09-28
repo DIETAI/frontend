@@ -1,16 +1,14 @@
 import React, { useEffect, useState, useLayoutEffect } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { FieldValues } from "react-hook-form";
 import { IChildrenProps } from "interfaces/children.interfaces";
 import Button from "components/form/button/Button";
 import axios from "utils/api";
 
 //components
 import DietGenerateNav from "../nav/DietGenerateNav";
-import Heading from "components/heading/Heading";
-import GeneratedDays from "./generatedDays/GeneratedDays";
-import GeneratedDaysLoading from "./generatedDaysLoading/GeneratedDaysLoading";
+
+import { DietGenerateState } from "../../DietGenerateModal";
 
 //interfaces
 import {
@@ -21,30 +19,20 @@ import {
 import {
   IDietGenerateDaysSchema,
   IDietGenerateMealsSchema,
-  // IDietGeneratePreferencesSchema,
 } from "../../schema/dietGenerate.schema";
-
-//helpers
-// import { generateDiet } from "../../helpers/generateDiet";
-import { generateDiet as generateDietV2 } from "../../helpers/generateDietV2";
 
 //styles
 import * as Styled from "./MultistepContainer.styles";
-import { AxiosResponse } from "axios";
-import { getAllDietMeals } from "services/getDietMeals";
 
 //store
 import { RootState } from "store/store";
 import { useSelector, useDispatch } from "react-redux";
 import {
   addDietDaysToGenerate,
-  addDietGenerate,
   addDietGenerateAction,
   addDietGenerateDay,
   IDietGenerateDay,
 } from "store/dietGenerate";
-import { IDietEstablishmentData } from "interfaces/dietEstablishment.interfaces";
-import { getDietDay } from "services/getDietDays";
 
 type DietGenerate = IDietGenerateDaysSchema & IDietGenerateMealsSchema;
 // IDietGeneratePreferencesSchema;
@@ -67,12 +55,14 @@ interface IMultiStepProps {
   children: IChildrenProps["children"];
   defaultValues: IDefaultValues["defaultValues"];
   closeModal: () => void;
+  setGenerateDiet: React.Dispatch<React.SetStateAction<DietGenerateState>>;
 }
 
 const MultiStepContainer = ({
   children,
   defaultValues,
   closeModal,
+  setGenerateDiet,
 }: IMultiStepProps) => {
   const [dietGenerateAction, setDietGenerateAction] =
     useState<IDietGenerateAction>({
@@ -90,7 +80,7 @@ const MultiStepContainer = ({
     (state: RootState) => state.dietGenerate
   );
 
-  const { dietMeals } = getAllDietMeals();
+  // const { dietMeals } = getAllDietMeals();
 
   const [activeStep, setActiveStep] = useState(0);
 
@@ -140,23 +130,17 @@ const MultiStepContainer = ({
     return activeStep === childrenArray.length - 1;
   };
 
+  const onSubmitv2 = async (data: DietGenerate) => {
+    setGenerateDiet("generated");
+    // zmiana stanu ładowania generowania diety
+    // wyświetlenie innego modal content w obecnym modalu
+    // przekazanie danych do serwera
+    // na serwerze najpierw rekomendacja posiłków, tak aby się nie powtarzały
+    // rekomendowanie 3 posiłków na jedno miejsce i wybranie najlepszego zestawu
+    // generowanie wartości na serwerze
+  };
+
   const onSubmit = async (data: DietGenerate) => {
-    //stripe session
-    console.log(`diet generate: ${data}`);
-
-    console.log({ generateDietLoading });
-
-    if (!dietMeals) return;
-
-    // const initialStateGenerateDays = data.days.map((dayId) => ({
-    //   loading: true,
-    //   error: false,
-    //   generated: false,
-    //   _id: dayId,
-    //   name: `Dzień ${dayId}`,
-    //   dietId: "",
-    // }));
-
     closeModal();
     dispatch(addDietGenerateAction(true));
 

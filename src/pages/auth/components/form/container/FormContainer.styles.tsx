@@ -19,7 +19,7 @@ const FormContainer = styled.div(
     gap: 2rem;
     padding: 4rem 2rem;
     border-radius: ${border.rounded.md};
-    z-index: 10;
+    z-index: 1;
 
     form {
       display: flex;

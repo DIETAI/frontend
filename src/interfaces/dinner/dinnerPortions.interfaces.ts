@@ -5,7 +5,8 @@ import { ITotal } from "../total.interfaces";
 type IDinnerPortionType = "default" | "custom";
 
 export interface IDinnerProductPortion {
-  dinnerProductId: string;
+  _id: String;
+  dinnerProductId: IDinnerProductData;
   portion: number;
   total: ITotal;
 }

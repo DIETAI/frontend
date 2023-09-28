@@ -15,6 +15,7 @@ const MultistepWrapper = styled.div(
     justify-content: flex-start;
     gap: 5rem;
     width: 100%;
+    position: relative;
     /* border: 0.1rem solid blue; */
 
     background: ${palette.common.main};
@@ -34,6 +35,7 @@ const MultistepContent = styled.div(
     flex-direction: column;
     gap: 2rem;
     width: 100%;
+    position: relative;
   `
 );
 
@@ -43,7 +45,7 @@ const ButtonsWrapper = styled.div(
       palette,
       typography: { fontSize, fontWeight },
       layout: { border },
-      media: { breakpoints },
+      media: { breakpoints, up },
     },
   }) => css`
     display: flex;
@@ -52,6 +54,24 @@ const ButtonsWrapper = styled.div(
     width: 100%;
     margin: 3rem 0;
     gap: 1rem;
+    position: sticky;
+    bottom: 1rem;
+    background: ${palette.common.main};
+    padding: 2rem;
+    z-index: 1;
+    border: 0.1rem solid ${palette.primary.light};
+    flex-direction: column;
+
+    button {
+      width: 100%;
+    }
+
+    ${up(breakpoints.md)} {
+      flex-direction: row;
+      button {
+        width: auto;
+      }
+    }
   `
 );
 

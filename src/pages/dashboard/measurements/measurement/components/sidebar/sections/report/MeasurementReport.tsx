@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useMeasurements } from "services/useMeasurements";
+import { getMeasurement, getMeasurements } from "services/getMeasurements";
 import { AnimatePresence } from "framer-motion";
 import format from "date-fns/format";
 import { pl } from "date-fns/locale";
 import { useTheme } from "styled-components";
 import LoadingGrid from "../../../loading/LoadingGrid";
+import { useParams } from "react-router";
 
 import {
   LineChart,
@@ -69,7 +70,7 @@ const renderMeasurementReportValue = ({
   const value =
     measurementEnd[currentOption.key] - measurementStart[currentOption.key];
 
-  return `${value > 0 && "+"} ${round2(value)} ${currentOption.unit}`;
+  return `${value > 0 ? "+" : " "} ${round2(value)} ${currentOption.unit}`;
 };
 
 const dateFormat = (date: string) => {
@@ -81,9 +82,14 @@ const dateFormat = (date: string) => {
 };
 
 const MeasurementReport = () => {
+  const { measurementId } = useParams();
   const theme = useTheme();
+  const { measurement, measurementError, measurementLoading } = getMeasurement(
+    measurementId as string
+  );
+
   const { measurements, measurementsLoading, measurementsError } =
-    useMeasurements();
+    getMeasurements();
 
   const [currentOption, setCurrentOption] = useState(measurementOptions[0]);
   const [measurementStart, setMeasurementStart] = useState<IMeasurementData>();
@@ -93,11 +99,15 @@ const MeasurementReport = () => {
   const [allMeasurementsOpen, setAllMeasurementsOpen] = useState(false);
 
   useEffect(() => {
-    if (measurements) {
-      setMeasurementStart(measurements[0]);
-      setMeasurementEnd(measurements[measurements.length - 1]);
+    if (measurements && measurement) {
+      const clientMeasurements = measurements.filter(
+        (item) => item.client._id === measurement.client._id
+      );
+
+      setMeasurementStart(clientMeasurements[0]);
+      setMeasurementEnd(clientMeasurements[clientMeasurements.length - 1]);
     }
-  }, [measurements]);
+  }, [measurements, measurement]);
 
   const openAllMeasurementValuesModal = () => {
     console.log("openAllMeasurementValuesModal");
@@ -108,6 +118,10 @@ const MeasurementReport = () => {
   };
 
   if (measurementsError) return <div>measurements error</div>;
+
+  const clientMeasurements = measurements?.filter(
+    (item) => item.client._id === measurement?.client._id
+  );
 
   return (
     <>
@@ -125,7 +139,7 @@ const MeasurementReport = () => {
           )}
         </AnimatePresence>
 
-        {measurements && measurements.length < 2 && (
+        {clientMeasurements && clientMeasurements.length < 2 && (
           <Styled.MeasurementEmptyReportWrapper
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -136,7 +150,7 @@ const MeasurementReport = () => {
           </Styled.MeasurementEmptyReportWrapper>
         )}
 
-        {measurements && measurements.length > 1 && (
+        {clientMeasurements && clientMeasurements.length > 1 && (
           <Styled.MeasurementReportWrapper
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -189,7 +203,7 @@ const MeasurementReport = () => {
             )}
 
             <ResponsiveContainer width="100%" height={250}>
-              <AreaChart data={measurements}>
+              <AreaChart data={clientMeasurements}>
                 <CartesianGrid
                   strokeDasharray="3 3"
                   stroke={theme.palette.common.slate}

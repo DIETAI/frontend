@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "utils/api";
 import { mutate } from "swr";
+import { useParams } from "react-router";
+
+//context
+import { useAlert } from "layout/dashboard/context/alert.context";
 
 //interfaces
 import { IDietMealQueryData } from "interfaces/diet/dietQuery.interfaces";
@@ -21,20 +25,28 @@ import MealGenerateModalContent from "../../../mealGenerateModal/MealGenerateMod
 //icons
 import { FaPlus, FaFileAlt } from "icons/icons";
 import { IDietEstablishmentData } from "interfaces/dietEstablishment.interfaces";
+import {
+  IDietMealPopulateData,
+  IDietPopulateData,
+} from "interfaces/diet/dietPopulate.interfaces";
+import { getDietPopulate } from "services/getDiets";
+import { round2 } from "helpers/round2";
 
 interface IMeal {
-  meal: IDietMealQueryData;
-  establishment: IDietEstablishmentData;
+  meal: IDietMealPopulateData;
+  establishment: IDietPopulateData["establishmentId"];
 }
 
 const Meal = ({ meal, establishment }: IMeal) => {
+  const { handleAlert } = useAlert();
+  const { dietEditId } = useParams();
   const [addDinnerModalOpen, setDinnerModalOpen] = useState(false);
   const [generateMealModalOpen, setGenerateMealModalOpen] = useState(false);
-  const [mealDinners, setMealDinners] = useState(meal.dinners);
+  const [mealDinners, setMealDinners] = useState(meal.dietDinners);
 
   useEffect(() => {
-    setMealDinners(meal.dinners);
-  }, [...meal.dinners]);
+    setMealDinners(meal.dietDinners);
+  }, [meal]);
 
   const mealEstablishment = establishment.meals.find(
     ({ _id }) => _id === meal.establishmentMealId
@@ -54,7 +66,14 @@ const Meal = ({ meal, establishment }: IMeal) => {
 
     const newDietDinnersOrder = await Promise.all(
       newMealDinners.map(async (mealDinner, mealDinnerIndex) => {
-        const newMealDinner = { ...mealDinner, order: mealDinnerIndex + 1 };
+        //zmiana dinner order -> correct
+        const newMealDinner = {
+          ...mealDinner,
+          dietId: dietEditId,
+          dinnerPortionId: mealDinner.dinnerPortionId._id,
+          order: mealDinnerIndex + 1,
+        };
+
         try {
           const editDietDinner = await axios.put(
             `/api/v1/dietDinners/${newMealDinner._id}`,
@@ -65,14 +84,19 @@ const Meal = ({ meal, establishment }: IMeal) => {
           );
 
           console.log({ newMealDinner, editDietDinner });
-
-          //mutate dietquery obj
-          await mutate(`/api/v1/diets/${mealDinner.dietId}/query`); //correct
         } catch (e) {
+          handleAlert(
+            "error",
+            "Wystąpił błąd podczas zmiany kolejności potraw w posiłku"
+          );
           console.log(e);
         }
       })
     );
+
+    //mutate dietquery obj
+    handleAlert("success", "Zmieniono kolejność potraw w posiłku");
+    await mutate(`/api/v1/diets/${dietEditId}/populate`); //correct
   };
 
   return (
@@ -82,6 +106,7 @@ const Meal = ({ meal, establishment }: IMeal) => {
         <h3>{mealEstablishment.time}</h3>
       </Styled.MealHeading>
       {/* {meal._id} */}
+      {/* {meal.establishmentMealId} */}
       <Styled.MealTotalWrapper>
         <SumModal
           macroType="kcal"
@@ -90,13 +115,13 @@ const Meal = ({ meal, establishment }: IMeal) => {
         />
 
         <p>
-          B: <b>{meal.total?.protein.gram}</b>{" "}
+          B: <b>{round2(meal.total?.protein.gram)}</b>{" "}
         </p>
         <p>
-          T: <b>{meal.total?.fat.gram}</b>{" "}
+          T: <b>{round2(meal.total?.fat.gram)}</b>{" "}
         </p>
         <p>
-          W: <b>{meal.total?.carbohydrates.gram}</b>{" "}
+          W: <b>{round2(meal.total?.carbohydrates.gram)}</b>{" "}
         </p>
       </Styled.MealTotalWrapper>
 

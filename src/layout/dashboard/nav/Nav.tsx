@@ -33,7 +33,7 @@ import {
 import AvatarImg from "assets/avatar.png";
 import Button from "components/form/button/Button";
 import Select from "components/select/Select";
-import { useUser } from "services/useUser";
+import { useUser } from "services/getUser";
 
 const Nav = () => {
   const { user } = useUser();
@@ -66,7 +66,7 @@ const Nav = () => {
           <NotificationOption />
         </IconModal> */}
         {/* <IconModal icon={<FaCog />} /> */}
-        <IconModal img={user?.avatar || NoUserImg} background>
+        <IconModal img={user?.avatar?.imageURL || NoUserImg} background>
           <AuthOption />
         </IconModal>
       </Styled.NavOptionsWrapper>

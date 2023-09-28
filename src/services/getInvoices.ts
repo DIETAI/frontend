@@ -2,29 +2,16 @@ import useSWR from "swr";
 import axios from "utils/api";
 import { IInvoiceData } from "interfaces/account/invoice.interfaces";
 
-const fetcher = (url: string, headers = {}) =>
-  axios
-    .get(url, {
-      headers,
-      withCredentials: true,
-    })
-    .then((res) => res.data);
-
-export const getInvoices = () => {
-  const { data, error } = useSWR<IInvoiceData[]>(`/api/v1/invoices`, fetcher);
-
-  return {
-    invoices: data,
-    invoicesLoading: !error && !data,
-    invoicesError: error,
-  };
+const fetcher = async (url: string, headers = {}) => {
+  const res = await axios.get(url, {
+    headers,
+    withCredentials: true,
+  });
+  return res.data;
 };
 
-export const getInvoice = (id: string) => {
-  const { data, error } = useSWR<IInvoiceData>(
-    `/api/v1/invoices/${id}`,
-    fetcher
-  );
+export const getInvoice = () => {
+  const { data, error } = useSWR<IInvoiceData>(`/api/v1/invoices`, fetcher);
 
   return {
     invoice: data,

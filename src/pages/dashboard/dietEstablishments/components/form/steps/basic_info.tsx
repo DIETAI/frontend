@@ -4,7 +4,7 @@ import { getDietKinds } from "services/getDietKinds";
 
 import { FaFolderPlus, FaFolderOpen } from "icons/icons";
 import { useTranslation } from "react-i18next";
-import { useMeasurements } from "services/useMeasurements";
+import { getMeasurements } from "services/getMeasurements";
 
 //queries
 import { getClients } from "services/getClients";
@@ -51,7 +51,7 @@ const BasicInfo = () => {
   }, [patientIdParam]);
 
   const { measurements, measurementsLoading, measurementsError } =
-    useMeasurements();
+    getMeasurements();
 
   const { t } = useTranslation();
   const openAddFolderModal = () => {
@@ -91,7 +91,7 @@ const BasicInfo = () => {
   //getClientMeasurements
 
   const clientMeasurements = measurements.filter(
-    (measurement) => measurement.client === client
+    (measurement) => measurement.client._id === client
   );
 
   const measurementsOptions = clientMeasurements?.map((measurement) => ({
@@ -201,13 +201,6 @@ const BasicInfo = () => {
                 <Styled.NoMeasurementWrapper>
                   <img src={NoDataImg} />
                   <h3>brak pomiarów pacjenta</h3>
-                  {/* <Button
-                    variant="primary"
-                    type="button"
-                    onClick={() => console.log("hello")}
-                  >
-                    dodaj pomiar
-                  </Button> */}
                 </Styled.NoMeasurementWrapper>
               )}
             </>
@@ -225,21 +218,16 @@ const BasicInfo = () => {
           />
         </>
       )}
-
-      {/* <DashedSelect
-        icon={<FaFolderPlus />}
-        text={`${t("dietEstablishment.form.basic_info.dietKind")}`}
-        onClick={openAddFolderModal}
-        fullWidth
-      /> */}
-      <Autocomplete
-        name="dietKind"
-        label={`${t("dietEstablishment.form.basic_info.dietKind")}`}
-        options={dietKinds as any}
-        optionLabel="name"
-        optionRender="_id"
-        fullWidth
-      />
+      {dietKinds && dietKinds.length > 0 && (
+        <Autocomplete
+          name="dietKind"
+          label={`${t("dietEstablishment.form.basic_info.dietKind")}`}
+          options={dietKinds as any}
+          optionLabel="name"
+          optionRender="_id"
+          fullWidth
+        />
+      )}
     </>
   );
 };

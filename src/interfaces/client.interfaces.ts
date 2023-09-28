@@ -1,3 +1,5 @@
+import { IAssetData } from "./asset.interfaces";
+
 type IDisease =
   | "flatulence"
   | "constipation"
@@ -23,8 +25,7 @@ export interface IClientData {
   physiologicalState?: "lack" | "pregnancy" | "lactation";
   email?: string;
   onlineAccount?: boolean;
-  image?: string;
-  imageURL?: string;
+  image?: IAssetData;
   phoneNumber?: string;
   street?: string;
   zipCode?: string;

@@ -7,6 +7,7 @@ import {
   procentClasses,
   percentageRangeClasses,
 } from "pages/dashboard/diets/editDiet/utils/procentClasses";
+import { round2 } from "helpers/round2";
 
 type ISumModalEstablishmentOption = "perfectProcent" | "percentageRange";
 
@@ -46,7 +47,7 @@ export const SumModal = ({
       }
     >
       <p>
-        {macroType}: <b>{totalValue}</b>
+        {macroType}: <b>{round2(totalValue)}</b>
       </p>
 
       <AnimatePresence>

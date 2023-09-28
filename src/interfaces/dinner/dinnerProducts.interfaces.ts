@@ -6,7 +6,7 @@ export interface IDinnerProductData {
   updatedAt: string;
   user: string;
   dinnerId: string;
-  productId: string;
+  productId: IProductData;
   defaultAmount: number;
   minAmount?: number;
   maxAmount?: number;
@@ -17,6 +17,7 @@ export interface IDinnerProductProps {
   dinnerProduct: IDinnerProductData;
 }
 
+//usunąć
 export interface IDinnerProductQueryData extends IDinnerProductData {
   product: IProductData;
 }

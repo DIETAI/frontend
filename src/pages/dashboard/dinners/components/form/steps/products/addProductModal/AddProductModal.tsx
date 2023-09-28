@@ -52,14 +52,10 @@ const AddProductModal = ({ closeModal }: IProductModalProps) => {
     // data: IDinnerProductValues,
     e: BaseSyntheticEvent
   ) => {
-    console.log({ e });
     e.preventDefault();
     e.stopPropagation();
 
     handleAddProductSubmit(async (data) => {
-      console.log("wysyłanie produktu");
-      // const data = getValues();
-      console.log(data);
       const dinnerProductData = { ...data, dinnerId: dinnerId, order: 1 };
       try {
         const newDinnerProduct = await axios.post(
@@ -72,13 +68,10 @@ const AddProductModal = ({ closeModal }: IProductModalProps) => {
 
         await mutate(`/api/v1/dinnerProducts/dinner/${dinnerId}`);
         await mutate(`/api/v1/dinnerPortions/dinner/${dinnerId}`);
-
-        console.log({ newDinnerProduct });
       } catch (e) {
         console.log(e);
       }
     })(e);
-
     closeModal();
   };
 

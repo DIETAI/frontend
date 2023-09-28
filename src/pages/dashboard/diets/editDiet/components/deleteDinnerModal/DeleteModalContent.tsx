@@ -15,12 +15,13 @@ import { FaUtensils } from "react-icons/fa";
 
 //assets
 import DeleteImg from "assets/delete.svg";
+import { IDietDinnerPopulateData } from "interfaces/diet/dietPopulate.interfaces";
 
 const DeleteModalContent = ({
   dietDinner,
   closeModal,
 }: {
-  dietDinner: IDietDinnerQueryData;
+  dietDinner: IDietDinnerPopulateData;
   closeModal: () => void;
 }) => {
   const deleteDietDinner = async () => {
@@ -43,11 +44,12 @@ const DeleteModalContent = ({
         title="Usuń posiłek"
         // description={t("dinner.form.products.modal.description")}
       />
+
       <Styled.ContentWrapper>
         <img src={DeleteImg} />
         <h2>
           Czy napewno chcesz usunąć{" "}
-          <b>{dietDinner.dinnerPortion.dinner.name}</b> ?
+          <b>{dietDinner.dinnerPortionId.dinnerId.name}</b> ?
         </h2>
 
         <Button type="button" onClick={deleteDietDinner as () => void}>

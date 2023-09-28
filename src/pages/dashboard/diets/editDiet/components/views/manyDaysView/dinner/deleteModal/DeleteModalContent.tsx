@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "utils/api";
 import { mutate } from "swr";
-import { IDietDinnerQueryData } from "interfaces/diet/dietQuery.interfaces";
+import { useParams } from "react-router";
 
 //styles
 import * as Styled from "./DeleteModalContent.styles";
@@ -15,14 +15,16 @@ import { FaUtensils } from "react-icons/fa";
 
 //assets
 import DeleteImg from "assets/delete.svg";
+import { IDietDinnerPopulateData } from "interfaces/diet/dietPopulate.interfaces";
 
 const DeleteModalContent = ({
   dietDinner,
   closeModal,
 }: {
-  dietDinner: IDietDinnerQueryData;
+  dietDinner: IDietDinnerPopulateData;
   closeModal: () => void;
 }) => {
+  const { dietEditId } = useParams();
   const deleteDietDinner = async () => {
     try {
       await axios.delete(`/api/v1/dietDinners/${dietDinner._id}`, {
@@ -30,6 +32,7 @@ const DeleteModalContent = ({
       });
 
       console.log("usunięto posiłek z diety");
+      await mutate(`/api/v1/diets/${dietEditId}/populate`);
       closeModal();
     } catch (e) {
       console.log(e);
@@ -47,7 +50,7 @@ const DeleteModalContent = ({
         <img src={DeleteImg} />
         <h2>
           Czy napewno chcesz usunąć{" "}
-          <b>{dietDinner.dinnerPortion.dinner.name}</b> ?
+          <b>{dietDinner.dinnerPortionId.dinnerId.name}</b> ?
         </h2>
 
         <Button type="button" onClick={deleteDietDinner as () => void}>

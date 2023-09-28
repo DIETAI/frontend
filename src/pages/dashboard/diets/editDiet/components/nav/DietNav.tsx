@@ -29,20 +29,23 @@ import { IDietData } from "interfaces/diet/diet.interfaces";
 //components
 import IconButton from "components/iconButton/IconButton";
 import Modal from "components/modal/Modal";
-import DietGenerateModal from "../dietGenerateModal/DietGenerateModal";
+import DietGenerateModal from "../dietGenerateModalV2/DietGenerateModal";
 import DeleteModalContent from "pages/dashboard/components/deleteModal/DeleteModal";
 import GeneratedDietModal from "../generatedDietModal/GeneratedDietModal";
 import DietSettingsModal from "../dietSettingsModal/DietSettingsModal";
 import ExportDietModal from "../exportDietModal/ExportDietModal";
+import { IDietPopulateData } from "interfaces/diet/dietPopulate.interfaces";
 
 const DietNav = ({
   setView,
   view,
-  diet,
+  dietId,
+  dietName,
 }: {
   setView: (day: DaysView) => void;
   view: DaysView;
-  diet: IDietData;
+  dietId: IDietPopulateData["_id"];
+  dietName: IDietPopulateData["name"];
 }) => {
   const { generatedDays, generateDietLoading } = useSelector(
     (state: RootState) => state.dietGenerate
@@ -89,7 +92,7 @@ const DietNav = ({
   const deleteDiet = async () => {
     //open delete item popup
     try {
-      await axios.delete(`/api/v1/diets/${diet._id}`, {
+      await axios.delete(`/api/v1/diets/${dietId}`, {
         withCredentials: true,
       });
 
@@ -151,9 +154,10 @@ const DietNav = ({
       >
         <DietGenerateModal closeModal={() => setDietGenerateModalOpen(false)} />
       </Modal>
+
       <Modal open={openDeleteModal} onClose={() => setOpenDeleteModal(false)}>
         <DeleteModalContent
-          deleteItemName={diet.name}
+          deleteItemName={dietName}
           deleteAction={deleteDiet}
         />
       </Modal>
@@ -163,11 +167,11 @@ const DietNav = ({
       >
         <DietSettingsModal />
       </Modal>
-      <Modal open={generatedDietModalOpen} width="1536px">
+      {/* <Modal open={generatedDietModalOpen} width="1536px">
         <GeneratedDietModal
           closeModal={() => setGeneratedDietModalOpen(false)}
         />
-      </Modal>
+      </Modal> */}
       <Modal
         onClose={() => setOpenDietExportModal(false)}
         open={openDietExportModal}

@@ -13,11 +13,11 @@ const MultiStepSidebarWrapper = styled.div(
     align-items: flex-start;
     justify-content: flex-start;
     flex-direction: column;
-    gap: 2rem;
+    gap: 2.4rem;
     transition: 0.3s ease-out;
     background: ${palette.common.main};
     border: 2px solid ${palette.common.border};
-    padding: 2rem;
+    padding: 1.6rem;
     border-radius: ${border.rounded.md};
     border: 0.1rem solid ${palette.primary.light};
     position: static;
@@ -27,9 +27,8 @@ const MultiStepSidebarWrapper = styled.div(
     ${up(breakpoints.xl)} {
       position: sticky;
       top: 14rem;
-      width: 50rem;
-      height: auto;
-      /* height: 70rem; */
+      width: 48rem;
+      height: 100%;
     }
   `
 );
@@ -46,14 +45,12 @@ const HeadingWrapper = styled.div(
     display: flex;
     flex-direction: column;
     gap: 2rem;
-    padding: 0 2rem;
-    padding-top: 2rem;
+    padding: 1.8rem;
 
     h2 {
       font-size: ${fontSize.l};
       font-weight: ${fontWeight.semibold};
       color: ${palette.common.text};
-      margin-bottom: 0.5rem;
       letter-spacing: 0.05rem;
       font-style: normal;
     }
@@ -76,15 +73,15 @@ const IconWrapper = styled.div(
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 5rem;
-    height: 5rem;
+    width: 4.8rem;
+    height: 4.8rem;
     border: 0.2rem solid ${palette.common.border};
     border-radius: ${border.rounded.sm};
     background: ${palette.primary.light};
 
     svg {
-      width: 2rem;
-      height: 2rem;
+      width: 1.8rem;
+      height: 1.8rem;
       path {
         fill: ${palette.primary.main};
       }
@@ -107,7 +104,6 @@ const SidebarNav = styled.ul(
     width: 100%;
     gap: 1rem;
     margin: 1rem 0;
-    /* border-bottom: 0.1rem solid ${palette.primary.light}; */
   `
 );
 

@@ -25,6 +25,7 @@ const AlertContainer = styled(motion.div)<Pick<IAlertProps, "type">>(
     background: ${palette.common.main};
     padding: 3rem;
     border-radius: ${border.rounded.md} 0 0 ${border.rounded.md};
+    z-index: 2;
 
     ${type === "success" &&
     css`
@@ -33,7 +34,7 @@ const AlertContainer = styled(motion.div)<Pick<IAlertProps, "type">>(
 
     ${type === "error" &&
     css`
-      border: 0.2rem solid lightgreen;
+      border: 0.2rem solid red;
     `}
 
     ${type === "info" &&

@@ -10,7 +10,7 @@ import { FaTint } from "icons/icons";
 
 //components
 import LoadingGrid from "../../loading/LoadingGrid";
-import { getDietEstablishmentQuery } from "services/useDietEstablishments";
+import { getDietEstablishment } from "services/getDietEstablishments";
 
 const FattyAcids = () => {
   const { dietEstablishmentId } = useParams();
@@ -18,12 +18,12 @@ const FattyAcids = () => {
 
   if (!dietEstablishmentId) return <div>not found</div>;
   const {
-    dietEstablishmentQuery,
-    dietEstablishmentQueryError,
-    dietEstablishmentQueryLoading,
-  } = getDietEstablishmentQuery(dietEstablishmentId);
+    dietEstablishment,
+    dietEstablishmentError,
+    dietEstablishmentLoading,
+  } = getDietEstablishment(dietEstablishmentId);
 
-  if (dietEstablishmentQueryError) return <div>Diet establishment error</div>;
+  if (dietEstablishmentError) return <div>Diet establishment error</div>;
 
   return (
     <StepStyled.DietEstablishmentStepWrapper>
@@ -35,7 +35,7 @@ const FattyAcids = () => {
       </StepStyled.StepHeadingWrapper>
       <StepStyled.DietEstablishmentStepContentContainer>
         <AnimatePresence>
-          {dietEstablishmentQueryLoading && (
+          {dietEstablishmentLoading && (
             <StepStyled.DietEstablishmentLoadingWrapper
               initial={{ opacity: 1 }}
               animate={{ opacity: 1 }}
@@ -46,7 +46,7 @@ const FattyAcids = () => {
             </StepStyled.DietEstablishmentLoadingWrapper>
           )}
         </AnimatePresence>
-        {dietEstablishmentQuery && (
+        {dietEstablishment && (
           <StepStyled.DietEstablishmentStepContentWrapper
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -55,31 +55,27 @@ const FattyAcids = () => {
             <StepStyled.DietEstablishmentItemsWrapper>
               <StepStyled.DietEstablishmentItem>
                 <h2>nasycone kwasy tłuszczowe: </h2>
-                <p>{dietEstablishmentQuery.saturatedFattyAcids || "-"}</p>
+                <p>{dietEstablishment.saturatedFattyAcids || "-"}</p>
               </StepStyled.DietEstablishmentItem>
               <StepStyled.DietEstablishmentItem>
                 <h2>wielonienasycone kwasy tłuszczowe: </h2>
-                <p>
-                  {dietEstablishmentQuery.pollyunsaturatedFattyAcids || "-"}
-                </p>
+                <p>{dietEstablishment.pollyunsaturatedFattyAcids || "-"}</p>
               </StepStyled.DietEstablishmentItem>
               <StepStyled.DietEstablishmentItem>
                 <h2>wielonienasycone kwasy tłuszczowe omega-3: </h2>
                 <p>
-                  {dietEstablishmentQuery.pollyunsaturatedFattyAcidsOmega3 ||
-                    "-"}
+                  {dietEstablishment.pollyunsaturatedFattyAcidsOmega3 || "-"}
                 </p>
               </StepStyled.DietEstablishmentItem>
               <StepStyled.DietEstablishmentItem>
                 <h2>wielonienasycone kwasy tłuszczowe omega-6: </h2>
                 <p>
-                  {dietEstablishmentQuery.pollyunsaturatedFattyAcidsOmega6 ||
-                    "-"}
+                  {dietEstablishment.pollyunsaturatedFattyAcidsOmega6 || "-"}
                 </p>
               </StepStyled.DietEstablishmentItem>
               <StepStyled.DietEstablishmentItem>
                 <h2>jednonienasycone kwasy tłuszczowe: </h2>
-                <p>{dietEstablishmentQuery.monounsaturatedFattyAcids || "-"}</p>
+                <p>{dietEstablishment.monounsaturatedFattyAcids || "-"}</p>
               </StepStyled.DietEstablishmentItem>
             </StepStyled.DietEstablishmentItemsWrapper>
           </StepStyled.DietEstablishmentStepContentWrapper>

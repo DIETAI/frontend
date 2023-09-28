@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useParams } from "react-router";
-import { getDiet, getDietQuery } from "services/getDiets";
+import { getDiet, getDietPopulate, getDietQuery } from "services/getDiets";
 import ReactLoading from "react-loading";
 import { dietsNavLinks } from "../utils/navLinks";
 
@@ -22,7 +22,8 @@ const EditDiet = () => {
 
   if (!dietEditId) return <div>not found</div>;
 
-  const { diet, dietError, dietLoading } = getDiet(dietEditId);
+  // const { diet, dietError, dietLoading } = getDiet(dietEditId);
+  const { diet, dietLoading, dietError } = getDietPopulate(dietEditId);
 
   if (dietLoading)
     return (
@@ -49,14 +50,19 @@ const EditDiet = () => {
         headingTitle={"Jadłospisy"}
         pageNavLinks={[
           ...dietsNavLinks,
-          {
-            id: dietsNavLinks.length + 1,
-            title: diet.name || "jadłospis",
-            path: `/dashboard/diets/edit/${dietEditId}`,
-          },
+          // {
+          //   id: dietsNavLinks.length + 1,
+          //   title: diet.name || "jadłospis",
+          //   path: `/dashboard/diets/edit/${dietEditId}`,
+          // },
         ]}
       />
-      <DietNav setView={setView} view={view} diet={diet} />
+      <DietNav
+        setView={setView}
+        view={view}
+        dietId={diet._id}
+        dietName={diet.name}
+      />
       <DietContent>
         {view === "oneDay" ? <OneDayView /> : <ManyDaysView />}
       </DietContent>

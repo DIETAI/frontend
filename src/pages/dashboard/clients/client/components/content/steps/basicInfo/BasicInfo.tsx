@@ -51,7 +51,6 @@ const dateFormat = (date: Date) => {
 
 const BasicInfo = () => {
   const { clientId } = useParams();
-  console.log({ clientId });
 
   if (!clientId) return <div>not found</div>;
   const { client, clientError, clientLoading } = getClient(clientId);
@@ -103,7 +102,10 @@ const BasicInfo = () => {
               <Styled.ClientInfoImageWrapper>
                 <img className="backgroundImg" src={LogoBackground} />
 
-                <img className="clientImg" src={client.imageURL || NoUser} />
+                <img
+                  className="clientImg"
+                  src={client.image?.imageURL || NoUser}
+                />
               </Styled.ClientInfoImageWrapper>
               <Styled.ClientInfoDescriptionWrapper>
                 <h2>{client.name + " " + client.lastName}</h2>

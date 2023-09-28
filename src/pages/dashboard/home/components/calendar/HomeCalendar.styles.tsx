@@ -1,5 +1,63 @@
 import styled, { css } from "styled-components";
 
+const CalendarStateWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    width: 100%;
+    max-width: ${breakpoints.lg};
+  `
+);
+
+const ErrorWrapper = styled.div(
+  ({
+    theme: {
+      palette,
+      typography: { fontSize, fontWeight },
+      layout: { border },
+      media: { breakpoints, up },
+    },
+  }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    padding: 4rem;
+    border: 0.1rem solid #ff000025;
+    border-radius: ${border.rounded.md};
+    background: #ff000019;
+    max-width: ${breakpoints.lg};
+
+    background: ${palette.common.contrast};
+    border: 0.1rem solid ${palette.primary.light};
+
+    svg {
+      width: 2.5rem;
+      height: 2.5rem;
+      path {
+        fill: red;
+      }
+    }
+
+    h3 {
+      color: ${palette.common.text};
+      font-size: ${fontSize.m};
+      font-weight: ${fontWeight.medium};
+    }
+
+    ${up(breakpoints.sm)} {
+      flex-direction: row;
+    }
+  `
+);
+
 const CalendarWrapper = styled.div(
   ({
     theme: {
@@ -439,4 +497,6 @@ export {
   CalendarDayHeading,
   GridCalendar,
   GridCalendarInfo,
+  CalendarStateWrapper,
+  ErrorWrapper,
 };

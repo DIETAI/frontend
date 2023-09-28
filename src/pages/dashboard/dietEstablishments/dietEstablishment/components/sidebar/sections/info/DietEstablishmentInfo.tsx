@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 import format from "date-fns/format";
 import { pl } from "date-fns/locale";
 
-import { useDietEstablishment } from "services/useDietEstablishments";
+import { getDietEstablishment } from "services/getDietEstablishments";
 
 //styles
 import * as Styled from "./DietEstablishmentInfo.styles";
@@ -38,7 +38,7 @@ const DietEstablishmentInfo = () => {
     dietEstablishment,
     dietEstablishmentError,
     dietEstablishmentLoading,
-  } = useDietEstablishment(dietEstablishmentId);
+  } = getDietEstablishment(dietEstablishmentId);
 
   if (dietEstablishmentError) return <div>dietEstablishment error</div>;
 

@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
-import axios from "utils/api";
-
-import { useForm, FormProvider, FieldValues } from "react-hook-form";
+import axiosInstance from "utils/api";
+import axios, { AxiosError } from "axios";
+import { useForm, FormProvider } from "react-hook-form";
 
 //schema
 import { login_schema } from "./LoginForm.schema";
@@ -26,19 +26,13 @@ import {
 
 //translation
 import { useTranslation } from "react-i18next";
+import { mutate } from "swr";
+import { useAlert } from "layout/dashboard/context/alert.context";
 
 const defaultValues = login_schema.cast({});
 
-const getData = (data: FieldValues) => {
-  return new Promise<FieldValues>((resolve, reject) => {
-    setTimeout(() => {
-      resolve(data);
-    }, 2000);
-  });
-};
-
 const Form = () => {
-  const navigate = useNavigate();
+  const { handleAlert } = useAlert();
   const { t } = useTranslation();
   const methods = useForm({
     resolver: yupResolver(login_schema),
@@ -59,15 +53,22 @@ const Form = () => {
 
   const onSubmit = async (data: ILoginSchema) => {
     try {
-      const loginData = await axios.post("/api/v1/sessions", data, {
+      const loginData = await axiosInstance.post("/api/v1/sessions", data, {
         withCredentials: true,
       });
       console.log({ loginData });
+      mutate("/api/v1/user");
+
       reset();
-      navigate("/dashboard/home");
     } catch (e) {
       console.log(e);
-      //set error alert
+      if (axios.isAxiosError(e)) {
+        if (e.response?.status === 401) {
+          return handleAlert("error", "Nieprawidłowy email lub hasło");
+        }
+      }
+
+      handleAlert("error", "Wystąpił błąd podczas logowania");
     }
   };
 

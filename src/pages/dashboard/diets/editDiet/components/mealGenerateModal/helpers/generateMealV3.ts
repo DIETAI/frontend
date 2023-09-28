@@ -12,10 +12,14 @@ import {
   IDietEstablishmentData,
   IDietEstablishmentMeal,
 } from "interfaces/dietEstablishment.interfaces";
+import {
+  IDietMealPopulateData,
+  IDietPopulateData,
+} from "interfaces/diet/dietPopulate.interfaces";
 
 export interface IGenerateDietMeal {
   allDietMeals: IDietMealData[];
-  mealToGenerate: IDietMealQueryData;
+  mealToGenerate: IDietMealPopulateData;
   dispatch: Dispatch;
   addDietMealGenerate: ActionCreatorWithPayload<IDietMealGenerate, string>;
   mealGenerateAction: IMealGenerateAction;

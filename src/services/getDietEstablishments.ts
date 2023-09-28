@@ -6,15 +6,15 @@ import {
   IDietEstablishmentQueryData,
 } from "interfaces/dietEstablishment.interfaces";
 
-const fetcher = (url: string, headers = {}) =>
-  axios
-    .get(url, {
-      headers,
-      withCredentials: true,
-    })
-    .then((res) => res.data);
+const fetcher = async (url: string, headers = {}) => {
+  const res = await axios.get(url, {
+    headers,
+    withCredentials: true,
+  });
+  return res.data;
+};
 
-export const useDietEstablishments = (page?: string, itemsCount?: number) => {
+export const getDietEstablishments = (page?: string, itemsCount?: number) => {
   if (page) {
     const { data, error } = useSWR<IDietEstablishmentPaginationData>(
       `/api/v1/dietEstablishments?page=${page}&itemsCount=${itemsCount}`, //correct
@@ -41,8 +41,8 @@ export const useDietEstablishments = (page?: string, itemsCount?: number) => {
   };
 };
 
-export const useDietEstablishment = (id: string) => {
-  const { data, error } = useSWR<IDietEstablishmentData | null>(
+export const getDietEstablishment = (id: string) => {
+  const { data, error } = useSWR<IDietEstablishmentData>(
     `/api/v1/dietEstablishments/${id}`,
     fetcher
   );

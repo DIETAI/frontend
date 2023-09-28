@@ -1,13 +1,13 @@
 import React from "react";
 import AvatarImg from "assets/avatar.png";
 import axios from "utils/api";
-import { useNavigate } from "react-router";
+import { useNavigate, redirect } from "react-router";
 import NoUserImg from "assets/noUser.svg";
 import { Link } from "react-router-dom";
 
 import * as Styled from "./AuthOption.styles";
 
-import { useUser } from "services/useUser";
+import { useUser } from "services/getUser";
 import { mutate } from "swr";
 
 const AuthOption = () => {
@@ -20,16 +20,17 @@ const AuthOption = () => {
       withCredentials: true,
     });
 
-    console.log({ logout });
-    // mutate(`/api/v1/user`);
-    window.location.reload();
-    // navigate("/auth/login");
+    // console.log({ logout });
+    mutate("/api/v1/user", null);
+    // window.location.reload();
+    navigate("/auth/login");
+    // return redirect("/auth/login");
   };
 
   return (
     <Styled.AuthOptionWrapper>
       <Styled.PersonWrapper background={!user?.avatar}>
-        <img src={user?.avatar || NoUserImg} />
+        <img src={user?.avatar?.imageURL || NoUserImg} />
         <Styled.PersonInfoWrapper>
           <h2>{user?.fullName}</h2>
           <p>{user?.email}</p>

@@ -1,4 +1,5 @@
 import React from "react";
+import { useParams } from "react-router";
 
 //translation
 import { useTranslation } from "react-i18next";
@@ -29,14 +30,15 @@ import {
 const defaultValues = dietDinnerSchema.concat(dietDinnerPortionSchema).cast({});
 
 const AddDinnerModal = ({ closeModal, meal }: IDinnerModalProps) => {
+  const { dietEditId } = useParams();
   const { t } = useTranslation();
 
   const addDinnerDefaultValues = {
     ...defaultValues,
-    dietId: meal.dietId,
+    dietId: dietEditId,
     dayId: meal.dayId,
     dietMealId: meal._id,
-    order: meal.dinners.length + 1,
+    order: meal.dietDinners.length + 1,
     mealType: meal.type,
   };
 

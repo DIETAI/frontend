@@ -31,14 +31,8 @@ const Portions = () => {
 
   const { t } = useTranslation();
   const { dinnerId } = useParams();
-  const {
-    dinnerPortionsQuery,
-    dinnerPortionsLoadingQuery,
-    dinnerPortionsErrorQuery,
-  } = getDinnerPortionsQuery(dinnerId as string);
-
-  // const { dinnerPortions, dinnerPortionsLoading, dinnerPortionsError } =
-  //   getDinnerPortions(dinnerId as string);
+  const { dinnerPortions, dinnerPortionsLoading, dinnerPortionsError } =
+    getDinnerPortions(dinnerId as string);
 
   const deletePortion = async (portionId: string) => {
     try {
@@ -53,16 +47,14 @@ const Portions = () => {
     }
   };
 
-  if (dinnerPortionsLoadingQuery) return <div>loading...</div>;
-  if (dinnerPortionsErrorQuery) return <div>error...</div>;
-
-  console.log({ dinnerPortionsQuery });
+  if (dinnerPortionsLoading) return <div>loading...</div>;
+  if (dinnerPortionsError) return <div>error...</div>;
 
   return (
     <Styled.PortionsWrapper>
-      {dinnerPortionsQuery &&
-        dinnerPortionsQuery.length > 0 &&
-        dinnerPortionsQuery.map((dinnerPortion, dinnerPortionIndex) => (
+      {dinnerPortions &&
+        dinnerPortions.length > 0 &&
+        dinnerPortions.map((dinnerPortion, dinnerPortionIndex) => (
           <Styled.PortionWrapper key={dinnerPortion._id}>
             <Styled.PortionHeadingWrapper>
               <Styled.PortionHeading>
@@ -133,22 +125,25 @@ const Portions = () => {
             <Styled.ProductsWrapper>
               {dinnerPortion.dinnerProducts.map((dinnerPortionProduct) => (
                 <Styled.ProductWrapper
-                  key={dinnerPortionProduct.dinnerProductId}
+                  key={dinnerPortionProduct.dinnerProductId._id}
                 >
                   <Styled.ProductMainWrapper>
-                    {dinnerPortionProduct.dinnerProduct.product.image && (
+                    {dinnerPortionProduct.dinnerProductId.productId.image && (
                       <div>
                         <Image
                           roundedDataGrid={true}
                           imageId={
-                            dinnerPortionProduct.dinnerProduct.product.image
+                            dinnerPortionProduct.dinnerProductId.productId.image
+                              ._id
                           }
                         />
                       </div>
                     )}
 
                     <Styled.ProductContentWrapper>
-                      <h3>{dinnerPortionProduct.dinnerProduct.product.name}</h3>
+                      <h3>
+                        {dinnerPortionProduct.dinnerProductId.productId.name}
+                      </h3>
 
                       {/* <Styled.ProductTotalFeaturesWrapper>
                         <Styled.ProductTotalFeature>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 //layout
@@ -11,29 +11,24 @@ import AdminRoutes from "./admin/admin.routes";
 import NotFoundPage from "pages/information/notFound/notFound.page";
 import PageLoading from "components/loading/PageLoading";
 
-// //redux
-// import { State } from "@redux/reducers";
-// import { useSelector } from "react-redux";
-
-import { useUser } from "services/useUser";
+import { useUser } from "services/getUser";
 
 const Dashboard = () => {
-  const { user, userLoading, userError } = useUser();
-
-  // const { data } = useSwr<User | null>(
-  //   `${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/api/v1/users`,
-  //   fetcher,
-  //   { fallbackData }
-  // );
-
-  console.log({ user });
+  const { user, userLoading, userError, loggedOut } = useUser();
 
   if (userLoading) return <PageLoading />;
-  // if (userError) return <div>nie udało się pobrać danych użytkownika..</div>;
 
-  if (!user || userError) {
+  if (loggedOut) {
     return <Navigate to="/auth/login" />;
+    // return <Navigate to="https://dietai.pl/" />;
   }
+
+  // useEffect(() => {
+  //   if(userError) {
+
+  //   }
+
+  // }, [userError])
 
   // if (!user.role) {
   //   return <Navigate to="/verify/role" />;
@@ -48,8 +43,6 @@ const Dashboard = () => {
       <Routes>
         <Route path="/*" element={<DieteticRoutes />} />
         <Route path="/admin/*" element={<AdminRoutes />} />
-        {/* <Route path="profile/*" element={<ProfileRoutes />} />
-        <Route path="measurements/*" element={<MeasurementRoutes />} /> */}
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </DashboardLayout>

@@ -76,6 +76,7 @@ const EditDinnerForm = ({ dinner }: IDinnerProps) => {
 
   const dinnerDefaultValues = {
     ...dinner,
+    image: dinner.image?._id,
     dietKindsExclude: dinner.dietKindsExclude || [],
   };
 

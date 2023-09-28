@@ -81,28 +81,17 @@ const BasicData = () => {
     getValues,
   } = useFormContext();
 
-  const clientId = watch("client") as string;
+  //błąd przy watch => many rerenders
+  const clientId = getValues("client") as string;
+  const weight = getValues("weight");
+  const height = getValues("height");
 
-  //odczytać sex i age z client model
-  //obliczyć client age
   const { client, clientLoading, clientError } = getClient(clientId);
 
   const age =
     client && differenceInYears(new Date(), new Date(client.dateOfBirth));
   const sex = client?.gender;
   const pal = client?.pal;
-
-  console.log({ age, clientBirth: client?.dateOfBirth });
-
-  // const sex = watch("sex");
-  // const age = watch("age");
-  const weight = watch("weight");
-  const height = watch("height");
-  // const pal = watch("pal");
-
-  const openAddFolderModal = () => {
-    console.log("dodaj folder");
-  };
 
   useEffect(() => {
     if (sex && age && weight && height && pal) {
@@ -149,14 +138,6 @@ const BasicData = () => {
         fullWidth
       />
 
-      {/* <Autocomplete
-        name="pal"
-        fullWidth
-        label={`pal *`}
-        options={palOptions}
-        optionLabel={"value"}
-        optionRender={"value"}
-      /> */}
       <Input
         label={`${t("measurement.form.basicData.ppmHarris")} *`}
         type="number"

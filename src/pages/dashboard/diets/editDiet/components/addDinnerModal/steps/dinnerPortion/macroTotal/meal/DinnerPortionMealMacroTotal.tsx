@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import * as Styled from "../DinnerPortionMacroTotal.styles";
 import { useFormContext } from "react-hook-form";
-import { getDiet } from "services/getDiets";
+import { getDiet, getDietPopulate } from "services/getDiets";
 import { getDietDayMeal } from "services/getDietMeals";
-import { useDietEstablishment } from "services/useDietEstablishments";
+import { getDietEstablishment } from "services/getDietEstablishments";
 import { SumModal } from "../sumModal/SumModal";
 import { getDinnerPortion } from "services/getDinnerPortions";
+import { round2 } from "helpers/round2";
 
 const roundValue = (value: number) => {
   return Math.round(value * 1e2) / 1e2;
@@ -31,14 +32,9 @@ const DinnerPortionMealMacroTotal = () => {
 
   const { dinnerPortion } = getDinnerPortion(selectedDinnerPortionId);
 
-  const { diet } = getDiet(dietId);
-
-  if (!diet) return null;
-
+  const { diet } = getDietPopulate(dietId);
   const { dietDayMeal: meal } = getDietDayMeal(mealId);
-  const { dietEstablishment: establishment } = useDietEstablishment(
-    diet.establishmentId
-  );
+  const establishment = diet?.establishmentId;
 
   useEffect(() => {
     if (dinnerPortion && meal) {
@@ -85,39 +81,45 @@ const DinnerPortionMealMacroTotal = () => {
           />
 
           <p>
-            B: <b>{meal.total?.protein.gram}</b>{" "}
+            B: <b>{round2(meal.total?.protein.gram)}</b>{" "}
           </p>
           <p>
-            T: <b>{meal.total?.fat.gram}</b>{" "}
+            T: <b>{round2(meal.total?.fat.gram)}</b>{" "}
           </p>
           <p>
-            W: <b>{meal.total?.carbohydrates.gram}</b>{" "}
+            W: <b>{round2(meal.total?.carbohydrates.gram)}</b>{" "}
           </p>
         </Styled.TotalMacroItemsWrapper>
         <h3>Po dodaniu porcji:</h3>
         <Styled.TotalMacroItemsWrapper>
           <SumModal
             macroType="kcal"
-            totalValue={mealTotalAfterAddedPortion?.kcal || meal.total.kcal}
+            totalValue={
+              round2(mealTotalAfterAddedPortion?.kcal) ||
+              round2(meal.total.kcal)
+            }
             establishmentValue={mealEstablishment?.kcal as number}
           />
 
           <p>
             B:{" "}
             <b>
-              {mealTotalAfterAddedPortion?.proteinGram ||
-                meal.total?.protein.gram}
+              {round2(mealTotalAfterAddedPortion?.proteinGram) ||
+                round2(meal.total?.protein.gram)}
             </b>{" "}
           </p>
           <p>
             T:{" "}
-            <b>{mealTotalAfterAddedPortion?.fatGram || meal.total?.fat.gram}</b>{" "}
+            <b>
+              {round2(mealTotalAfterAddedPortion?.fatGram) ||
+                round2(meal.total?.fat.gram)}
+            </b>{" "}
           </p>
           <p>
             W:{" "}
             <b>
-              {mealTotalAfterAddedPortion?.carbohydratesGram ||
-                meal.total?.carbohydrates.gram}
+              {round2(mealTotalAfterAddedPortion?.carbohydratesGram) ||
+                round2(meal.total?.carbohydrates.gram)}
             </b>{" "}
           </p>
         </Styled.TotalMacroItemsWrapper>

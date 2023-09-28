@@ -174,14 +174,14 @@ const GeneratedDays = () => {
                         meal.generatedDinners.map((generateDinner) => (
                           <Styled.DietDinnerWrapper key={generateDinner._id}>
                             <Styled.DietDinner>
-                              {generateDinner.dinnerImage && (
+                              {/* {generateDinner.dinnerImage && (
                                 <div>
                                   <Image
                                     roundedDataGrid={true}
                                     imageId={generateDinner.dinnerImage}
                                   />
                                 </div>
-                              )}
+                              )} */}
                               <h4>{generateDinner.dinnerName}</h4>
                             </Styled.DietDinner>
                             <Styled.DietDinnerTotalWrapper>
@@ -222,7 +222,10 @@ const AddedDietDinner = ({ dietDinner }: { dietDinner: IDietMealDinner }) => {
       <Styled.DietDinner>
         {dietDinner.dinner.image && (
           <div>
-            <Image roundedDataGrid={true} imageId={dietDinner.dinner.image} />
+            <Image
+              roundedDataGrid={true}
+              imageId={dietDinner.dinner.image._id}
+            />
           </div>
         )}
         <h4>{dietDinner.dinner.name}</h4>

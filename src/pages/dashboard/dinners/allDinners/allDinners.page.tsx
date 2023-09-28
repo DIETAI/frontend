@@ -41,12 +41,9 @@ const AllDinners = () => {
     }
   }, [pagination]);
 
-  // if (measurementsLoading) return <div>measurements loading...</div>;
-  // if (dinnersError || !dinners) return <div>dinners error</div>;
-
   const dinnersData = dinners?.map((data) => ({
     _id: data._id,
-    imageURL: data.imageObj?.imageURL,
+    imageURL: data.image?.imageURL,
     name: data.name,
     createdAt: format(new Date(data.createdAt), "dd.MM.yyyy"),
   }));

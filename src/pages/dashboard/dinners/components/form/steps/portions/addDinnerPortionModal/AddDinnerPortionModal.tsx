@@ -1,8 +1,5 @@
 import React, { ReactNode, useState, useEffect } from "react";
-import {
-  getDinnerProducts,
-  getDinnerProductsQuery,
-} from "services/getDinnerProducts";
+import { getDinnerProducts } from "services/getDinnerProducts";
 import { useParams } from "react-router";
 import { BaseSyntheticEvent } from "react";
 import axios from "utils/api";
@@ -32,10 +29,7 @@ import { mutate } from "swr";
 
 //schema
 import { dinnerPortionSchema } from "./schema/dinnerPortion.schema";
-import {
-  getDinnerPortions,
-  getDinnerPortionsQuery,
-} from "services/getDinnerPortions";
+import { getDinnerPortions } from "services/getDinnerPortions";
 
 //helpers
 import { countTotal } from "helpers/countTotal";
@@ -83,11 +77,8 @@ const AddDinnerPortionModal = ({ closeModal }: IDinnerPortionModalProps) => {
   const [activePage, setActivePage] = useState(pages[0].type);
   // const { dinnerProducts, dinnerProductsLoading, dinnerProductsError } =
   //   getDinnerProducts(dinnerId as string);
-  const {
-    dinnerProductsQuery,
-    dinnerProductsLoadingQuery,
-    dinnerProductsErrorQuery,
-  } = getDinnerProductsQuery(dinnerId as string);
+  const { dinnerProducts, dinnerProductsLoading, dinnerProductsError } =
+    getDinnerProducts(dinnerId as string);
 
   const addPortionFormMethods = useForm({
     resolver: yupResolver(dinnerPortionSchema),
@@ -103,37 +94,34 @@ const AddDinnerPortionModal = ({ closeModal }: IDinnerPortionModalProps) => {
   } = addPortionFormMethods;
 
   useEffect(() => {
-    if (dinnerProductsQuery && dinnerProductsQuery.length > 0) {
-      const initialDinnerProducts = dinnerProductsQuery.map(
-        (dinnerProduct) => ({
-          dinnerProductId: dinnerProduct._id,
+    if (dinnerProducts && dinnerProducts.length > 0) {
+      const initialDinnerProducts = dinnerProducts.map((dinnerProduct) => ({
+        dinnerProductId: dinnerProduct._id,
+        portion: dinnerProduct.defaultAmount,
+        total: countTotal({
+          product: dinnerProduct.productId,
           portion: dinnerProduct.defaultAmount,
-          total: countTotal({
-            product: dinnerProduct.product,
-            portion: dinnerProduct.defaultAmount,
-          }),
-        })
-      );
+        }),
+      }));
 
-      const total = sumTotal({ dinnerPortionProducts: initialDinnerProducts });
+      const total = sumTotal({
+        dinnerPortionProducts: initialDinnerProducts as any,
+      });
 
       setValue("type", "custom");
       setValue("total", total as any);
       setValue("dinnerProducts", initialDinnerProducts as any);
     }
-  }, [dinnerProductsQuery]);
+  }, [dinnerProducts]);
 
   const addPortion = (
     // data: IDinnerProductValues,
     e: BaseSyntheticEvent
   ) => {
-    console.log({ e });
     e.preventDefault();
     e.stopPropagation();
 
     handleAddPortionSubmit(async (data) => {
-      console.log("wysyłanie porcji");
-      console.log(data);
       const dinnerPortionData = { ...data, dinnerId: dinnerId };
       try {
         const newDinnerPortion = await axios.post(
@@ -144,7 +132,7 @@ const AddDinnerPortionModal = ({ closeModal }: IDinnerPortionModalProps) => {
           }
         );
 
-        await mutate(`/api/v1/dinnerPortions/dinner/${dinnerId}/query`);
+        await mutate(`/api/v1/dinnerPortions/dinner/${dinnerId}`);
       } catch (e) {
         console.log(e);
       }
@@ -153,9 +141,9 @@ const AddDinnerPortionModal = ({ closeModal }: IDinnerPortionModalProps) => {
     closeModal();
   };
 
-  if (dinnerProductsLoadingQuery) return <div>loading...</div>;
-  if (dinnerProductsErrorQuery) return <div>error...</div>;
-  if (!dinnerProductsQuery || dinnerProductsQuery.length < 1)
+  if (dinnerProductsLoading) return <div>loading...</div>;
+  if (dinnerProductsError) return <div>error...</div>;
+  if (!dinnerProducts || dinnerProducts.length < 1)
     return <p>brak produktów</p>;
 
   return (

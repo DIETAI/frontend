@@ -23,15 +23,14 @@ const columns: IColumn[] = [
   { label: "zdjęcie", key: "imageURL", type: "image" },
   { label: "imię", key: "name", type: "text" },
   { label: "nazwisko", key: "lastName", type: "text" },
-  // { label: "email", key: "email", type: "text" },
   { label: "data urodzenia", key: "dateOfBirth", type: "text" },
-  // { label: "płeć", key: "gender", type: "text" },
 ];
 
 const AllClients = () => {
   const [page, setPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5); //5 | 10 /15 /20
   const [pageCount, setPageCount] = useState(0);
+
   const { clients, clientsError, clientsLoading, pagination } = getClients(
     page.toString(),
     itemsPerPage
@@ -43,37 +42,14 @@ const AllClients = () => {
     }
   }, [pagination]);
 
-  const handleBack = () => {
-    if (page === 1) return;
-    setPage(page - 1);
-  };
-
-  const handleNext = () => {
-    if (page === pageCount) return;
-    setPage(page + 1);
-  };
-
-  console.log({ clients });
-
-  // if (measurementsLoading) return <div>measurements loading...</div>;
-  // if (clientsError || !clients) return <div>clients error</div>;
-
   const clientsData = clients?.map((data) => ({
     _id: data._id,
-    imageURL: data.imageURL, //błąd
+    imageURL: data.image?.imageURL,
     name: data.name,
     lastName: data.lastName,
-    fullName: data.name + " " + data.lastName,
-    // email: data.email,
     dateOfBirth: format(new Date(data.dateOfBirth), "dd.MM.yyyy"),
-    // gender: data.gender,
   }));
 
-  console.log({ clientsData });
-
-  const deleteClients = () => {
-    return;
-  };
   const deleteClient = () => {
     console.log("delete client");
   };

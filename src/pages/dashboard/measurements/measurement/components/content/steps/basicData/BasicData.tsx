@@ -10,7 +10,7 @@ import { FaWeightHanging, FaWeight } from "icons/icons";
 
 //components
 import LoadingGrid from "../../../loading/LoadingGrid";
-import { useMeasurement } from "services/useMeasurements";
+import { getMeasurement } from "services/getMeasurements";
 
 const BasicData = () => {
   const { measurementId } = useParams();
@@ -18,7 +18,7 @@ const BasicData = () => {
 
   if (!measurementId) return <div>not found</div>;
   const { measurement, measurementError, measurementLoading } =
-    useMeasurement(measurementId);
+    getMeasurement(measurementId);
 
   if (measurementError) return <div>Measurement error</div>;
 

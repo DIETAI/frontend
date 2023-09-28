@@ -21,36 +21,32 @@ import { defaultTheme, darkTheme } from "theme/theme";
 //store
 import { store } from "store/store";
 import { Provider as StoreProvider } from "react-redux";
+import { AlertProvider } from "layout/dashboard/context/alert.context";
 
 const App = () => {
   const { darkMode } = useDarkMode();
-  // const dispatch = useDispatch();
 
   const theme = darkMode ? darkTheme : defaultTheme;
-
-  // useEffect(() => {
-  //   dispatch(getUser());
-  // }, []);
-
-  //useSwr getUser
 
   return (
     <>
       <GlobalStyle />
       <StoreProvider store={store}>
         <ThemeProvider theme={theme}>
-          <Router>
-            <Routes>
-              <Route path="/*" element={<HomeRoutes />} />
-              <Route path="/auth/*" element={<AuthRoutes />} />
-              <Route path="/verify/*" element={<VerifyRoutes />} />
-              <Route
-                path="/subscription-plans/*"
-                element={<SubscriptionPlanRoutes />}
-              />
-              <Route path="/dashboard/*" element={<DashboardRoutes />} />
-            </Routes>
-          </Router>
+          <AlertProvider>
+            <Router>
+              <Routes>
+                <Route path="/*" element={<HomeRoutes />} />
+                <Route path="/auth/*" element={<AuthRoutes />} />
+                <Route path="/verify/*" element={<VerifyRoutes />} />
+                <Route
+                  path="/subscription-plans/*"
+                  element={<SubscriptionPlanRoutes />}
+                />
+                <Route path="/dashboard/*" element={<DashboardRoutes />} />
+              </Routes>
+            </Router>
+          </AlertProvider>
         </ThemeProvider>
       </StoreProvider>
     </>

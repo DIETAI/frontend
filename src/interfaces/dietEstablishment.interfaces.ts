@@ -47,9 +47,9 @@ export interface IDietEstablishmentData {
   name: string;
   folder?: string;
   description?: string;
-  dietKind?: string;
-  measurementId?: string;
-  client: string;
+  dietKind?: Pick<IDietKindData, "_id" | "name" | "type">;
+  measurementId?: Pick<IMeasurementData, "_id" | "name" | "cpm">;
+  client: Pick<IClientData, "_id" | "name" | "lastName">;
   clientMeasurementCpm: boolean;
   kcal: number;
   //meals

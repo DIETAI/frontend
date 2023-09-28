@@ -22,8 +22,6 @@ const PageNav = ({ headingTitle, pageNavLinks }: IPagNavProps) => {
   const location = useLocation();
   if (pageNavLinks.length < 1) return null;
 
-  console.log({ location: location });
-
   return (
     <Styled.PageNavContainer>
       <Styled.HeadingWrapper>

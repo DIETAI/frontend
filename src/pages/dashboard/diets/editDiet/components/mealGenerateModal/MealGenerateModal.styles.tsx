@@ -29,22 +29,6 @@ const ContentWrapper = styled.div(
     flex-direction: column;
     gap: 4rem;
     width: 100%;
-
-    img {
-      width: 20rem;
-      height: 20rem;
-      object-fit: contain;
-    }
-
-    h2 {
-      font-size: ${fontSize.l};
-      font-weight: ${fontWeight.semibold};
-      color: ${palette.common.text};
-    }
-
-    button {
-      margin-top: 2rem;
-    }
   `
 );
 
@@ -54,12 +38,18 @@ const MealToGenerateOptionsWrapper = styled.div(
       palette,
       typography: { fontSize, fontWeight },
       layout: { border },
+      media: { up, down, breakpoints },
     },
   }) => css`
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
+    flex-direction: column;
     gap: 2rem;
+
+    ${up(breakpoints.sm)} {
+      flex-direction: row;
+    }
   `
 );
 
@@ -75,6 +65,7 @@ const MealToGenerateOption = styled.div<IActiveOption>(
       palette,
       typography: { fontSize, fontWeight },
       layout: { border },
+      media: { up, down, breakpoints },
     },
     active,
     type,
@@ -84,9 +75,11 @@ const MealToGenerateOption = styled.div<IActiveOption>(
     align-items: center;
     justify-content: center;
     flex-direction: column;
+
     gap: 2rem;
-    width: 25rem;
+    width: 100%;
     min-height: 25rem;
+
     border: 0.2rem dashed ${palette.primary.light};
     border-radius: ${border.rounded.md};
     cursor: pointer;
@@ -140,6 +133,10 @@ const MealToGenerateOption = styled.div<IActiveOption>(
     css`
       border: 0.2rem dashed ${palette.primary.main};
     `}
+
+    ${up(breakpoints.sm)} {
+      width: 25rem;
+    }
   `
 );
 
@@ -149,10 +146,19 @@ const ContentButtonsWrapper = styled.div(
       palette,
       typography: { fontSize, fontWeight },
       layout: { border },
+      media: { up, down, breakpoints },
     },
   }) => css`
     display: flex;
+    align-items: center;
+    justify-content: center;
     gap: 2rem;
+    width: 100%;
+    flex-direction: column;
+
+    ${up(breakpoints.sm)} {
+      flex-direction: row;
+    }
   `
 );
 
@@ -177,15 +183,20 @@ const PortionWrapper = styled.div(
       palette,
       typography: { fontSize, fontWeight },
       layout: { border },
+      media: { up, breakpoints },
     },
   }) => css`
     display: flex;
     flex-direction: column;
     gap: 2rem;
-    padding: 3rem;
+    padding: 1rem;
     border-radius: ${border.rounded.md};
     border: 0.1rem dashed ${palette.primary.light};
     transition: 0.3s ease-out;
+
+    ${up(breakpoints.md)} {
+      padding: 3rem;
+    }
   `
 );
 
@@ -210,18 +221,24 @@ const PortionHeading = styled.div(
       palette,
       typography: { fontSize, fontWeight },
       layout: { border },
+      media: { up, breakpoints },
     },
   }) => css`
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: flex-start;
     gap: 2rem;
     padding: 1rem 0;
+    flex-direction: column;
 
     h2 {
       font-size: ${fontSize.m};
       font-weight: ${fontWeight.semibold};
       color: ${palette.common.text};
+    }
+
+    ${up(breakpoints.md)} {
+      flex-direction: row;
     }
   `
 );
@@ -340,15 +357,23 @@ const ProductWrapper = styled.li(
       palette,
       typography: { fontSize, fontWeight },
       layout: { border },
+      media: { breakpoints, up },
     },
   }) => css`
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
     padding: 2rem;
     gap: 1rem;
     border: 0.1rem solid ${palette.primary.light};
     border-radius: ${border.rounded.md};
+
+    ${up(breakpoints.sm)} {
+      align-items: center;
+      justify-content: space-between;
+      flex-direction: row;
+    }
   `
 );
 
@@ -395,6 +420,7 @@ const ProductPortionItem = styled.div(
       palette,
       typography: { fontSize, fontWeight },
       layout: { border },
+      media: { breakpoints, up },
     },
   }) => css`
     display: flex;
@@ -408,7 +434,12 @@ const ProductPortionItem = styled.div(
     color: lightgreen;
     font-weight: ${fontWeight.medium};
     font-size: 1.3rem;
-    min-width: 8rem;
+    width: 100%;
+
+    ${up(breakpoints.sm)} {
+      min-width: 8rem;
+      width: auto;
+    }
   `
 );
 
@@ -418,15 +449,20 @@ const ProductTotalFeaturesWrapper = styled.ul(
       palette,
       typography: { fontSize, fontWeight },
       layout: { border },
+      media: { breakpoints, up },
     },
   }) => css`
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-    gap: 1rem;
-    width: 100%;
-    flex-wrap: wrap;
-    margin-right: 4rem;
+    display: none;
+
+    ${up(breakpoints.sm)} {
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-start;
+      gap: 1rem;
+      width: 100%;
+      flex-wrap: wrap;
+      margin-right: 4rem;
+    }
   `
 );
 
@@ -485,6 +521,7 @@ const LoadingWrapper = styled(motion.div)(
     position: absolute;
     top: 0;
     left: 0;
+    height: 100%;
 
     gap: 2rem;
     padding: 2rem;
@@ -506,16 +543,25 @@ const GeneratedMealNavWrapper = styled.div(
       palette,
       typography: { fontSize, fontWeight },
       layout: { border },
+      media: { up, down, breakpoints },
     },
   }) => css`
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    width: 100%;
+    gap: 2rem;
 
     h3 {
       color: ${palette.common.text};
       font-weight: ${fontWeight.light};
       font-size: ${fontSize.m};
+    }
+
+    ${up(breakpoints.xl)} {
+      flex-direction: row;
+      justify-content: space-between;
     }
   `
 );
@@ -526,11 +572,18 @@ const GeneratedMealNavButtonsWrapper = styled.div(
       palette,
       typography: { fontSize, fontWeight },
       layout: { border },
+      media: { up, down, breakpoints },
     },
   }) => css`
     display: flex;
-    align-items: center;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
     gap: 2rem;
+
+    ${up(breakpoints.lg)} {
+      flex-direction: row;
+    }
   `
 );
 
@@ -554,6 +607,7 @@ const OneDayViewTotalWrapper = styled.ul(
       palette,
       typography: { fontSize, fontWeight },
       layout: { border },
+      media: { up, down, breakpoints },
     },
   }) => css`
     display: flex;
@@ -561,7 +615,8 @@ const OneDayViewTotalWrapper = styled.ul(
     justify-content: flex-start;
     gap: 1rem;
     margin-top: 2rem;
-    width: 100%;
+
+    flex-wrap: wrap;
   `
 );
 

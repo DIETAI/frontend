@@ -47,8 +47,6 @@ const AddProductFormContent = () => {
   const { product, productError, productLoading } =
     getProduct(selectedProductId);
 
-  console.log({ product });
-
   useEffect(() => {
     if (minAmount && maxAmount && defaultAmount) {
       const portions = getPortions({
@@ -93,7 +91,7 @@ const AddProductFormContent = () => {
       ) : (
         <Styled.ItemWrapper>
           {product?.image && (
-            <Image imageId={product.image} roundedSelect={true} />
+            <Image imageId={product.image._id} roundedSelect={true} />
           )}
 
           <Styled.ItemContent>

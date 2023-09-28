@@ -10,24 +10,20 @@ const StepWrapper = styled.section(
     },
   }) => css`
     display: flex;
-    gap: 2rem;
+    gap: 2.4rem;
     flex-direction: column;
     width: 100%;
     transition: 0.3s ease-out;
     background: ${palette.common.main};
     border: 0.1rem solid ${palette.primary.light};
-    gap: 3rem;
-    padding: 4rem 2rem;
+    padding: 4rem 2.4rem;
     border-radius: ${border.rounded.md};
 
     ${up(breakpoints.xs)} {
-      padding: 4rem;
+      padding: 3.2rem;
     }
 
     ${up(breakpoints.lg)} {
-      /* width: 80rem; */
-      /* flex: 1; */
-      /* width: 65rem; */
       flex: 1;
     }
   `
@@ -45,13 +41,12 @@ const StepHeadingWrapper = styled.div(
     display: flex;
     flex-direction: column;
     gap: 2rem;
-    margin-bottom: 1rem;
+    margin-bottom: 1.2rem;
 
     h2 {
       font-size: ${fontSize.l};
       font-weight: ${fontWeight.semibold};
       color: ${palette.common.text};
-      margin-bottom: 0.5rem;
       letter-spacing: 0.05rem;
       font-style: normal;
     }
@@ -74,15 +69,15 @@ const IconWrapper = styled.div(
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 5rem;
-    height: 5rem;
+    width: 4.8rem;
+    height: 4.8rem;
     border: 0.2rem solid ${palette.common.border};
     border-radius: ${border.rounded.sm};
     background: ${palette.primary.light};
 
     svg {
-      width: 2rem;
-      height: 2rem;
+      width: 1.8rem;
+      height: 1.8rem;
       path {
         fill: ${palette.primary.main};
       }

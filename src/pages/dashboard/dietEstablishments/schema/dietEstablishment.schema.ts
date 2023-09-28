@@ -5,10 +5,10 @@ export const establishmentBasicInfoSchema = yup.object({
   name: yup.string().required("To pole jest wymagane").default(""),
   folder: yup.string().default(""),
   description: yup.string().default(""),
-  dietKind: yup.string().default(""),
-  client: yup.string().required("To pole jest wymagane").default(""),
+  dietKind: yup.string(),
+  client: yup.string().required("To pole jest wymagane"),
   clientMeasurementCpm: yup.boolean().default(false),
-  measurementId: yup.string().default(""),
+  measurementId: yup.string(),
   kcal: yup
     .number()
     .typeError("To pole jest wymagane")

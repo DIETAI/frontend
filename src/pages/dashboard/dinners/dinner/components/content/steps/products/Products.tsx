@@ -93,7 +93,7 @@ const Products = () => {
 
                         <img
                           className="productImg"
-                          src={dinnerProduct.product.imageURL || NoImage}
+                          src={dinnerProduct.product.image?.imageURL || NoImage}
                         />
                       </Styled.FieldImageWrapper>
                       <h2>{dinnerProduct.product.name}</h2>

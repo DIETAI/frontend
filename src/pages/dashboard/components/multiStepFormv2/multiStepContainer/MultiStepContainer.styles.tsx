@@ -13,17 +13,17 @@ const FormContainer = styled.form(
     align-items: flex-start;
     width: 100%;
     gap: 4rem;
-    margin-top: 7rem;
+    margin-top: 4rem;
 
     flex-direction: column;
 
     ${up(breakpoints.lg)} {
       position: relative;
-      /* flex-direction: row; */
     }
 
     ${up(breakpoints.xl)} {
       flex-direction: row;
+      margin-top: 7.2rem;
     }
   `
 );

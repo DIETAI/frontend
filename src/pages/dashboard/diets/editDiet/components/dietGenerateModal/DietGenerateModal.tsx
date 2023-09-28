@@ -15,44 +15,59 @@ import { FaCalendarPlus } from "icons/icons";
 import {
   dietGenerateDaysSchema,
   dietGenerateMealsSchema,
-  // dietGeneratePreferencesSchema,
 } from "./schema/dietGenerate.schema";
 
-// //styles
-// import * as Styled from "./SubscriptionPlansPage.styles";
-
-// //utils
+//utils
 import { dietGenerateSteps } from "./utils/steps";
-import { IDietEstablishmentData } from "interfaces/dietEstablishment.interfaces";
 
 const defaultValues = dietGenerateDaysSchema
   .concat(dietGenerateMealsSchema)
-  // .concat(dietGeneratePreferencesSchema)
   .cast({});
 
 export type IDietGenerateValues = typeof defaultValues;
 
+export type DietGenerateState = "prepare" | "loading" | "generated";
+
 const DietGenerateModal = ({ closeModal }: { closeModal: () => void }) => {
+  const [generateDiet, setGenerateDiet] =
+    useState<DietGenerateState>("prepare");
+
+  if (generateDiet === "prepare") {
+    return (
+      <Styled.DietGenerateModalContainer>
+        <Heading icon={<FaCalendarPlus />} title="Generuj dietę" />
+        <MultiStepContainer
+          defaultValues={defaultValues}
+          setGenerateDiet={setGenerateDiet}
+          closeModal={closeModal}
+        >
+          {dietGenerateSteps.map(
+            ({ step, name, icon, id, validationSchema }) => (
+              <FormStep
+                key={id}
+                label={name}
+                icon={icon}
+                validationSchema={validationSchema}
+              >
+                {step}
+              </FormStep>
+            )
+          )}
+        </MultiStepContainer>
+      </Styled.DietGenerateModalContainer>
+    );
+  }
+
+  if (generateDiet === "loading") {
+    return <div>przygotowanie do generowania diety</div>;
+  }
+
   return (
-    <Styled.DietGenerateModalContainer>
-      <Heading
-        icon={<FaCalendarPlus />}
-        title="Generuj dietę"
-        // description={t("dinner.form.products.modal.description")}
-      />
-      <MultiStepContainer defaultValues={defaultValues} closeModal={closeModal}>
-        {dietGenerateSteps.map(({ step, name, icon, id, validationSchema }) => (
-          <FormStep
-            key={id}
-            label={name}
-            icon={icon}
-            validationSchema={validationSchema}
-          >
-            {step}
-          </FormStep>
-        ))}
-      </MultiStepContainer>
-    </Styled.DietGenerateModalContainer>
+    <div>
+      <h2>wygenerowane dni</h2> <button>generuj ponownie</button>{" "}
+      <button>dodaj do jadłospisu</button>{" "}
+      <button>zmień założenia generowania</button>{" "}
+    </div>
   );
 };
 

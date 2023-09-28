@@ -7,11 +7,11 @@ export interface IMeasurementData {
   updatedAt: string;
   user: string;
   date: string;
-  client: string;
+  client: Pick<IClientData, "_id" | "name" | "lastName">;
   //   client: IClientDocument['_id'];
   name: string;
   notes?: string;
-  images?: string[];
+  images?: Pick<IAssetData, "_id" | "imageURL">[];
   weight: number;
   height: number;
   age: number;
@@ -41,17 +41,6 @@ export interface IMeasurementData {
   shoulder_blade?: number;
   ala_of_ilium?: number;
   iliac_spine?: number;
-  //query
-  measurementClient: {
-    name: string;
-    lastName: string;
-    fullName: string;
-  };
-}
-
-export interface IMeasurementQueryData extends IMeasurementData {
-  patient: IClientData;
-  imagesArr?: IAssetData[];
 }
 
 export interface IMeasurementPaginationData {

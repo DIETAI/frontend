@@ -21,20 +21,17 @@ import LogoBackground from "assets/logo-icon.svg";
 import NoImage from "assets/noImage.svg";
 import { getDinnerProductsQuery } from "services/getDinnerProducts";
 import NoDataImg from "assets/noData.svg";
-import { getDinnerPortionsQuery } from "services/getDinnerPortions";
+import { getDinnerPortions } from "services/getDinnerPortions";
 
 const Portions = () => {
   const { dinnerId } = useParams();
   console.log({ dinnerId });
 
   if (!dinnerId) return <div>not found</div>;
-  const {
-    dinnerPortionsQuery,
-    dinnerPortionsErrorQuery,
-    dinnerPortionsLoadingQuery,
-  } = getDinnerPortionsQuery(dinnerId);
+  const { dinnerPortions, dinnerPortionsError, dinnerPortionsLoading } =
+    getDinnerPortions(dinnerId);
 
-  if (dinnerPortionsErrorQuery)
+  if (dinnerPortionsError)
     return (
       <StepStyled.DinnerStepWrapper>
         <StepStyled.StepHeadingWrapper>
@@ -60,7 +57,7 @@ const Portions = () => {
       </StepStyled.StepHeadingWrapper>
       <StepStyled.DinnerStepContentContainer>
         <AnimatePresence>
-          {dinnerPortionsLoadingQuery && (
+          {dinnerPortionsLoading && (
             <StepStyled.DinnerLoadingWrapper
               initial={{ opacity: 1 }}
               animate={{ opacity: 1 }}
@@ -72,21 +69,21 @@ const Portions = () => {
           )}
         </AnimatePresence>
 
-        {dinnerPortionsQuery && (
+        {dinnerPortions && (
           <StepStyled.DinnerStepContentWrapper
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1.3 }}
           >
-            {dinnerPortionsQuery.length < 1 && (
+            {dinnerPortions.length < 1 && (
               <StepStyled.DinnerEmptyItemWrapper>
                 <img src={NoDataImg} />
                 <h2>Brak dodanych zestawów porcji</h2>
               </StepStyled.DinnerEmptyItemWrapper>
             )}
-            {dinnerPortionsQuery.length > 1 && (
+            {dinnerPortions.length > 1 && (
               <StepStyled.DinnerItemsWrapper>
-                {dinnerPortionsQuery.map((dinnerPortion, index) => (
+                {dinnerPortions.map((dinnerPortion, index) => (
                   <Styled.FieldWrapper key={dinnerPortion._id}>
                     <Styled.FieldHeadWrapper>
                       <Styled.FieldNumberWrapper>
@@ -128,7 +125,7 @@ const Portions = () => {
                       {dinnerPortion.dinnerProducts.map(
                         (dinnerPortionProduct) => (
                           <Styled.ProductWrapper
-                            key={dinnerPortionProduct.dinnerProductId}
+                            key={dinnerPortionProduct.dinnerProductId._id}
                           >
                             <Styled.ProductMainWrapper>
                               <Styled.FieldImageWrapper>
@@ -140,8 +137,8 @@ const Portions = () => {
                                 <img
                                   className="productImg"
                                   src={
-                                    dinnerPortionProduct.dinnerProduct.product
-                                      .imageURL || NoImage
+                                    dinnerPortionProduct.dinnerProductId
+                                      .productId.image?.imageURL || NoImage
                                   }
                                 />
                               </Styled.FieldImageWrapper>
@@ -162,8 +159,8 @@ const Portions = () => {
                               <Styled.ProductContentWrapper>
                                 <h3>
                                   {
-                                    dinnerPortionProduct.dinnerProduct.product
-                                      .name
+                                    dinnerPortionProduct.dinnerProductId
+                                      .productId.name
                                   }
                                 </h3>
                               </Styled.ProductContentWrapper>

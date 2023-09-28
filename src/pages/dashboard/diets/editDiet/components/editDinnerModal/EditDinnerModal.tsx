@@ -1,73 +1,61 @@
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router";
-
-//translation
-import { useTranslation } from "react-i18next";
+import { useParams } from "react-router";
 
 //components
-import MultiStepContainer from "./multistepContainer/MultistepContainer";
-import { FormStep } from "./multistepContainer/MultistepContainer";
+import MultiStepContainer, {
+  FormStep,
+} from "./multistepContainer/MultistepContainer";
 import Heading from "components/heading/Heading";
 
 //styles
 import * as Styled from "../addDinnerModal/AddDinnerModal.styles";
 
 //icons
-import { FaUserCog } from "icons/icons";
+import { FaUserCog, FaUtensils } from "icons/icons";
 
 //utils
-import { dietDinnerSteps } from "../addDinnerModal/utils/steps";
+import { editDietDinnerSteps } from "./utils/steps";
 
-//interfaces
-import { IDietDinnerQueryData } from "interfaces/diet/dietQuery.interfaces";
-
-//schema
-import {
-  dietDinnerPortionSchema,
-  dietDinnerSchema,
-} from "../addDinnerModal/AddDinnerModel.schema";
-
-const defaultValues = dietDinnerSchema.concat(dietDinnerPortionSchema).cast({});
+import { IDietDinnerPopulateData } from "interfaces/diet/dietPopulate.interfaces";
 
 const EditDinnerModal = ({
   closeModal,
   dietDinner,
 }: {
   closeModal: () => void;
-  dietDinner: IDietDinnerQueryData;
+  dietDinner: IDietDinnerPopulateData;
 }) => {
-  const { t } = useTranslation();
+  const { dietEditId } = useParams();
 
   const editDinnerDefaultValues = {
-    dietId: dietDinner.dietId,
+    dietId: dietEditId,
     dayId: dietDinner.dayId,
     dietMealId: dietDinner.dietMealId,
     order: 1,
-    dinnerId: dietDinner.dinnerPortion.dinnerId,
-    dinnerPortionId: dietDinner.dinnerPortion._id,
+    dinnerId: dietDinner.dinnerPortionId.dinnerId._id,
+    dinnerPortionId: dietDinner.dinnerPortionId._id,
   };
 
   return (
     <Styled.DinnerModalContainer>
-      <Heading
-        icon={<FaUserCog />}
-        title={dietDinner.dinnerPortion.dinner.name}
-      />
+      <Heading icon={<FaUtensils />} title={"Edytuj posiłek"} />
       <MultiStepContainer
         defaultValues={editDinnerDefaultValues}
         closeModal={closeModal}
         dietDinnerId={dietDinner._id}
       >
-        {dietDinnerSteps.map(({ step, name, icon, id, validationSchema }) => (
-          <FormStep
-            key={id}
-            label={name}
-            icon={icon}
-            validationSchema={validationSchema}
-          >
-            {step}
-          </FormStep>
-        ))}
+        {editDietDinnerSteps.map(
+          ({ step, name, icon, id, validationSchema }) => (
+            <FormStep
+              key={id}
+              label={name}
+              icon={icon}
+              validationSchema={validationSchema}
+            >
+              {step}
+            </FormStep>
+          )
+        )}
       </MultiStepContainer>
     </Styled.DinnerModalContainer>
   );

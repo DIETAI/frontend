@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import { IDietMealQueryData } from "interfaces/diet/dietQuery.interfaces";
-import { getAllDietMeals } from "services/getDietMeals";
 import { getDinnerPortionsQuery } from "services/getDinnerPortions";
 import {
   procentClasses,
@@ -11,8 +9,6 @@ import useSWR, { useSWRConfig } from "swr";
 
 //helpers
 import { generateMeal } from "./helpers/generateMealV3";
-// import { generateMeal } from "./helpers/generateMeal";
-// import { generateMeal } from "./helpers/generateMealV2";
 import { countTotal } from "helpers/countTotal";
 import { sumTotal } from "helpers/sumTotal";
 
@@ -24,10 +20,6 @@ import {
 } from "store/dietMealGenerate";
 import { RootState } from "store/store";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  IDietEstablishmentData,
-  IDietEstablishmentMeal,
-} from "interfaces/dietEstablishment.interfaces";
 
 //components
 import Heading from "components/heading/Heading";
@@ -35,13 +27,10 @@ import Button from "components/form/button/Button";
 import ReactLoading from "react-loading";
 
 //icons
-import { FaUserCog, FaPlus, FaExchangeAlt } from "icons/icons";
+import { FaUserCog, FaPlus, FaExchangeAlt, FaUtensils } from "icons/icons";
 
 //styles
 import * as Styled from "./MealGenerateModal.styles";
-
-//images
-import GenerateMealImage from "assets/generateMeal.svg";
 
 import axios from "utils/api";
 import { useParams } from "react-router";
@@ -49,10 +38,12 @@ import {
   IDinnerPortionData,
   IDinnerPortionQueryData,
 } from "interfaces/dinner/dinnerPortions.interfaces";
-import { IDinnerPortion } from "pages/dashboard/dinners/components/form/steps/portions/addDinnerPortionModal/schema/dinnerPortion.schema";
 import { AnimatePresence } from "framer-motion";
-import { roundMacro } from "./helpers/cartesianDinners/cartesianDinners";
 import { IDietMealData } from "interfaces/diet/dietMeals.interfaces";
+import {
+  IDietMealPopulateData,
+  IDietPopulateData,
+} from "interfaces/diet/dietPopulate.interfaces";
 
 export interface IMealGenerateAction {
   actionType: string;
@@ -126,11 +117,12 @@ const MealGenerateModal = ({
   dietEstablishment,
   closeModal,
 }: {
-  meal: IDietMealQueryData;
-  mealEstablishment: IDietEstablishmentMeal;
-  dietEstablishment: IDietEstablishmentData;
+  meal: IDietMealPopulateData;
+  mealEstablishment: IDietPopulateData["establishmentId"]["meals"][0];
+  dietEstablishment: IDietPopulateData["establishmentId"];
   closeModal: () => void;
 }) => {
+  const [loading, setLoading] = useState(false);
   const { mutate } = useSWRConfig();
   const { dietEditId } = useParams();
   const [mealGenerateOption, setMealGenerateOption] =
@@ -181,7 +173,7 @@ const MealGenerateModal = ({
     };
 
     const generatedDietMeal = generateMeal({
-      ...generateMealInitialData,
+      ...(generateMealInitialData as any),
     });
 
     console.log({ generatedDietMeal });
@@ -193,6 +185,8 @@ const MealGenerateModal = ({
     //zapisać wygenerowany zestaw porcji jeśli nie jest już dodany! => validPortion
     //zapisać dietDinners
     console.log("add");
+
+    setLoading(true);
 
     console.log({ dietEditId });
 
@@ -257,7 +251,7 @@ const MealGenerateModal = ({
           const newDinnerPortionData = {
             type: "custom",
             total: sumTotal({
-              dinnerPortionProducts: newDinnerPortionProductsData,
+              dinnerPortionProducts: newDinnerPortionProductsData as any,
             }),
             dinnerProducts: newDinnerPortionProductsData,
           };
@@ -275,7 +269,7 @@ const MealGenerateModal = ({
           console.log({ newDinnerPortion });
 
           const newDietDinnerData = {
-            dietId: meal.dietId,
+            dietId: dietEditId,
             dayId: meal.dayId,
             dietMealId: meal._id,
             order: 1,
@@ -283,9 +277,9 @@ const MealGenerateModal = ({
             dinnerPortionId: newDinnerPortion.data._id,
           };
 
-          if (meal.dinners.length > 0) {
+          if (meal.dietDinners.length > 0) {
             await Promise.all(
-              meal.dinners.map(async (dietDinner) => {
+              meal.dietDinners.map(async (dietDinner) => {
                 const deletedDinner = await axios.delete(
                   `/api/v1/dietDinners/${dietDinner._id}`,
                   {
@@ -309,13 +303,14 @@ const MealGenerateModal = ({
           console.log({ newDietDinner });
 
           dispatch(removeMealGenerate());
+          setLoading(false);
           closeModal();
-          await mutate(`/api/v1/diets/${dietEditId}/query`); //correct
+          await mutate(`/api/v1/diets/${dietEditId}/populate`); //correct
           return newDietDinner;
         }
 
         const newDietDinnerData = {
-          dietId: meal.dietId,
+          dietId: dietEditId,
           dayId: meal.dayId,
           dietMealId: meal._id,
           order: 1,
@@ -324,9 +319,9 @@ const MealGenerateModal = ({
         };
 
         //delete added diet dinners
-        if (meal.dinners.length > 0) {
+        if (meal.dietDinners.length > 0) {
           await Promise.all(
-            meal.dinners.map(async (dietDinner) => {
+            meal.dietDinners.map(async (dietDinner) => {
               const deletedDinner = await axios.delete(
                 `/api/v1/dietDinners/${dietDinner._id}`,
                 {
@@ -349,8 +344,9 @@ const MealGenerateModal = ({
 
         console.log({ newDietDinner });
         dispatch(removeMealGenerate());
+        setLoading(false);
         closeModal();
-        await mutate(`/api/v1/diets/${dietEditId}/query`); //correct
+        await mutate(`/api/v1/diets/${dietEditId}/populate`); //correct
         return newDietDinner;
       })
     );
@@ -416,12 +412,7 @@ const MealGenerateModal = ({
 
   return (
     <Styled.GenerateMealModalContainer>
-      <Heading
-        icon={<FaUserCog />}
-        title="Generowanie posiłku"
-        // title={t("diet.form.dinner.modal.title")}
-        // description={t("diet.form.dinner.modal.description")}
-      />
+      <Heading icon={<FaUtensils />} title="Generowanie posiłku" />
       <Styled.MealGenerateContentWrapper>
         {mealDinners.length < 1 && (
           <Styled.ContentWrapper>
@@ -431,10 +422,9 @@ const MealGenerateModal = ({
                 active={mealGenerateOption === "newMeal"}
                 type="newMeal"
               >
-                {/* <img src={GenerateMealImage} /> */}
                 <FaPlus />
                 <h2>
-                  {meal.dinners.length > 0
+                  {meal.dietDinners.length > 0
                     ? "zamień dodane potrawy"
                     : "generuj nowe potrawy"}
                 </h2>
@@ -445,9 +435,8 @@ const MealGenerateModal = ({
                 }
                 type="changeAmountAddedMealDinners"
                 active={mealGenerateOption === "changeAmountAddedMealDinners"}
-                disabled={meal.dinners.length < 1}
+                disabled={meal.dietDinners.length < 1}
               >
-                {/* <img src={GenerateMealImage} /> */}
                 <FaExchangeAlt />
 
                 <h2>
@@ -464,9 +453,7 @@ const MealGenerateModal = ({
               >
                 generuj posiłek
               </Button>
-              {/* <Button type="button" onClick={handleGenerateDietMeal as any}>
-                generuj posiłek
-              </Button> */}
+
               <Button type="button" onClick={closeModal} variant="secondary">
                 anuluj
               </Button>
@@ -498,7 +485,11 @@ const MealGenerateModal = ({
                 >
                   generuj ponownie posiłek
                 </Button>
-                <Button type="button" onClick={addMealToDiet as any}>
+                <Button
+                  variant={loading ? "disabled" : "primary"}
+                  type="button"
+                  onClick={addMealToDiet as any}
+                >
                   dodaj posiłek do diety
                 </Button>
                 <Button
@@ -575,17 +566,10 @@ const MealGenerateModal = ({
                 </p>
               </Styled.OneDayViewTotalItem>
             </Styled.OneDayViewTotalWrapper>
-            <Styled.SelectedGroupInfo>
+            {/* <Styled.SelectedGroupInfo>
               <p>wybrana grupa na podstawie: </p>
               <h3> {selectedMealGroup?.description}</h3>
-            </Styled.SelectedGroupInfo>
-
-            {/* <Styled.GeneratedMealTotalWrapper>
-              <h3>
-                razem: {selectedMealGroup?.macroTotalCount.total_kcal} /{" "}
-                {mealEstablishment.kcal} kcal
-              </h3>
-            </Styled.GeneratedMealTotalWrapper> */}
+            </Styled.SelectedGroupInfo> */}
 
             <Styled.PortionsWrapper>
               {mealDinners.map((mealDinner, dinnerIndex) => (

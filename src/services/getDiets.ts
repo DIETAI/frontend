@@ -6,6 +6,7 @@ import {
 } from "interfaces/diet/diet.interfaces";
 import { IDietQueryData } from "interfaces/diet/dietQuery.interfaces";
 import { IDietDayData } from "interfaces/diet/dietDays.interfaces";
+import { IDietPopulateData } from "interfaces/diet/dietPopulate.interfaces";
 
 const fetcher = (url: string, headers = {}) =>
   axios
@@ -52,11 +53,24 @@ export const getDiet = (id: string) => {
   };
 };
 
+export const getDietPopulate = (id: string) => {
+  const { data, error } = useSWR<IDietPopulateData>(
+    `/api/v1/diets/${id}/populate`,
+    fetcher
+  );
+
+  return {
+    diet: data,
+    dietLoading: !error && !data,
+    dietError: error,
+  };
+};
+
 export const getDietQuery = (id: string) => {
   const { data, error } = useSWR<IDietQueryData | null>(
     `/api/v1/diets/${id}/query`,
-    fetcher,
-    { refreshInterval: 4000 }
+    fetcher
+    // { refreshInterval: 4000 }
   );
 
   return {

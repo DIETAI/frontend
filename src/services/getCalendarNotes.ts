@@ -12,7 +12,7 @@ const fetcher = (url: string, headers = {}) =>
     .then((res) => res.data);
 
 export const getCalendarNotes = () => {
-  const { data, error } = useSWR<ICalendarNoteData[] | null>(
+  const { data, error } = useSWR<ICalendarNoteData[]>(
     `/api/v1/calendarNotes`,
     fetcher
   );
@@ -25,7 +25,7 @@ export const getCalendarNotes = () => {
 };
 
 export const getCalendarNote = (id: string) => {
-  const { data, error } = useSWR<ICalendarNoteData | null>(
+  const { data, error } = useSWR<ICalendarNoteData>(
     `/api/v1/calendarNotes/${id}`,
     fetcher
   );

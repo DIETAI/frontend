@@ -13,7 +13,8 @@ const fetcher = (url: string, headers = {}) =>
 export const getAssets = () => {
   const { data, error } = useSWR<IAssetData[] | null>(
     `/api/v1/assets`,
-    fetcher
+    fetcher,
+    { shouldRetryOnError: false }
   );
 
   return {

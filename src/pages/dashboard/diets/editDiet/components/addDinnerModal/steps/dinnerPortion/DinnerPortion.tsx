@@ -17,6 +17,7 @@ import DinnerPortionMealMacroTotal from "./macroTotal/meal/DinnerPortionMealMacr
 
 //steps
 import * as Step from "./steps";
+import { getDinner } from "services/getDinners";
 
 type IDinnerPortionOption = "added" | "recommend" | "new";
 
@@ -43,23 +44,20 @@ const DinnerPortion = () => {
   const selectedDinnerId = watch("dinnerId") as string;
   const selectedDinnerPortionId = watch("dinnerPortionId") as string;
 
-  const {
-    dinnerPortionsQuery,
-    dinnerPortionsErrorQuery,
-    dinnerPortionsLoadingQuery,
-  } = getDinnerPortionsQuery(selectedDinnerId);
+  const { dinnerPortions, dinnerPortionsError, dinnerPortionsLoading } =
+    getDinnerPortions(selectedDinnerId);
 
   useEffect(() => {
-    if (dinnerPortionsQuery && !selectedDinnerPortionId) {
-      const defaultPortion = dinnerPortionsQuery.find(
+    if (dinnerPortions && !selectedDinnerPortionId) {
+      const defaultPortion = dinnerPortions.find(
         (portion) => portion.type === "default"
       );
       setValue("dinnerPortionId", defaultPortion?._id);
       trigger();
     }
-  }, [dinnerPortionsQuery, selectedDinnerPortionId]);
+  }, [dinnerPortions, selectedDinnerPortionId]);
 
-  if (dinnerPortionsLoadingQuery)
+  if (dinnerPortionsLoading)
     return (
       <Styled.LoadingWrapper
         initial={{ opacity: 0 }}
@@ -70,7 +68,7 @@ const DinnerPortion = () => {
         <h2>pobieranie porcji</h2>
       </Styled.LoadingWrapper>
     );
-  if (dinnerPortionsErrorQuery)
+  if (dinnerPortionsError)
     return (
       <Styled.LoadingWrapper
         initial={{ opacity: 0 }}
@@ -117,6 +115,7 @@ const DinnerPortion = () => {
           </Styled.PortionNavItem>
         </Styled.PortionFilterActions>
       </Styled.PortionFilterWrapper>
+
       <Step.AddedPortions />
       {openAddDinnerPortionPopup && (
         <Step.NewPortion

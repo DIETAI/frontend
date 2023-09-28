@@ -1,8 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { IProductData } from "interfaces/product.interfaces";
 import { useParams } from "react-router";
-import { getProduct } from "services/getProducts";
 import { AnimatePresence } from "framer-motion";
 
 //styles
@@ -12,16 +10,11 @@ import * as StepStyled from "../../DietEstablishmentContent.styles";
 //icons
 import { FaCubes } from "icons/icons";
 
-//assets
-import NoDataImg from "assets/noData.svg";
-
 //components
 import LoadingGrid from "../../../loading/LoadingGrid";
-import { getDietEstablishmentQuery } from "services/useDietEstablishments";
-import {
-  IDietEstablishmentMacrohydrate,
-  IDietEstablishmentMacrohydrateMinMax,
-} from "interfaces/dietEstablishment.interfaces";
+import { getDietEstablishment } from "services/getDietEstablishments";
+
+import { IDietEstablishmentMacrohydrateMinMax } from "interfaces/dietEstablishment.interfaces";
 
 interface IMacrohydrateOption {
   id: number;
@@ -36,12 +29,12 @@ const Macrohydrates = () => {
 
   if (!dietEstablishmentId) return <div>not found</div>;
   const {
-    dietEstablishmentQuery,
-    dietEstablishmentQueryError,
-    dietEstablishmentQueryLoading,
-  } = getDietEstablishmentQuery(dietEstablishmentId);
+    dietEstablishment,
+    dietEstablishmentError,
+    dietEstablishmentLoading,
+  } = getDietEstablishment(dietEstablishmentId);
 
-  if (dietEstablishmentQueryError) return <div>Diet establishment error</div>;
+  if (dietEstablishmentError) return <div>Diet establishment error</div>;
 
   const macrohydratesOptions = [
     {
@@ -49,29 +42,28 @@ const Macrohydrates = () => {
       key: "protein",
       info: "B",
       name: "Białko",
-      value: dietEstablishmentQuery?.protein,
+      value: dietEstablishment?.protein,
     },
     {
       id: 2,
       key: "fat",
       info: "T",
       name: "Tłuszcze",
-      value: dietEstablishmentQuery?.fat,
+      value: dietEstablishment?.fat,
     },
     {
       id: 3,
       key: "carbohydrates",
       info: "W",
       name: "Węglowodany",
-      value: dietEstablishmentQuery?.carbohydrates,
+      value: dietEstablishment?.carbohydrates,
     },
     {
       id: 4,
       key: "fiber",
       info: "Bł",
       name: "Błonnik",
-      value:
-        dietEstablishmentQuery?.fiber as IDietEstablishmentMacrohydrateMinMax,
+      value: dietEstablishment?.fiber as IDietEstablishmentMacrohydrateMinMax,
     },
     {
       id: 5,
@@ -79,7 +71,7 @@ const Macrohydrates = () => {
       info: "Wp",
       name: "Węglowodany przyswajalne",
       value:
-        dietEstablishmentQuery?.digestableCarbohydrates as IDietEstablishmentMacrohydrateMinMax,
+        dietEstablishment?.digestableCarbohydrates as IDietEstablishmentMacrohydrateMinMax,
     },
   ];
 
@@ -93,7 +85,7 @@ const Macrohydrates = () => {
       </StepStyled.StepHeadingWrapper>
       <StepStyled.DietEstablishmentStepContentContainer>
         <AnimatePresence>
-          {dietEstablishmentQueryLoading && (
+          {dietEstablishmentLoading && (
             <StepStyled.DietEstablishmentLoadingWrapper
               initial={{ opacity: 1 }}
               animate={{ opacity: 1 }}
@@ -104,7 +96,7 @@ const Macrohydrates = () => {
             </StepStyled.DietEstablishmentLoadingWrapper>
           )}
         </AnimatePresence>
-        {dietEstablishmentQuery && (
+        {dietEstablishment && (
           <StepStyled.DietEstablishmentStepContentWrapper
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -168,11 +160,11 @@ const Macrohydrates = () => {
 
               <StepStyled.DietEstablishmentItem>
                 <h2>wymienniki węglowodanowe: </h2>
-                <p>{dietEstablishmentQuery.carbohydrateExchangers}</p>
+                <p>{dietEstablishment.carbohydrateExchangers}</p>
               </StepStyled.DietEstablishmentItem>
               <StepStyled.DietEstablishmentItem>
                 <h2>wymienniki białkowo-tłuszczowe: </h2>
-                <p>{dietEstablishmentQuery.proteinFatExchangers}</p>
+                <p>{dietEstablishment.proteinFatExchangers}</p>
               </StepStyled.DietEstablishmentItem>
             </StepStyled.DietEstablishmentItemsWrapper>
           </StepStyled.DietEstablishmentStepContentWrapper>

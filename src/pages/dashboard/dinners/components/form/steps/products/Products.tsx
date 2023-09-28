@@ -4,7 +4,6 @@ import { useParams } from "react-router";
 import axios from "utils/api";
 
 //components
-import Input from "components/form/input/Input";
 import DashedSelect from "components/form/dashedSelect/DashedSelect";
 import Modal from "components/modal/Modal";
 import AddProductModalContent from "./addProductModal/AddProductModal";
@@ -18,7 +17,6 @@ import { FieldValues, useFieldArray, useFormContext } from "react-hook-form";
 
 //icons
 import { FaTrash, FaPlus, FaEdit } from "icons/icons";
-import { getProduct } from "services/getProducts";
 
 //interfaces
 import { IDinnerProducts } from "../../../../schema/newDinner.schema";
@@ -28,6 +26,7 @@ import { getDinnerProducts } from "services/getDinnerProducts";
 import { getDinnerPortions } from "services/getDinnerPortions";
 import { mutate } from "swr";
 import { IDinnerProductData } from "interfaces/dinner/dinnerProducts.interfaces";
+import { IProductData } from "interfaces/product.interfaces";
 
 interface IDinnerProductsValues {
   products: IDinnerProducts["products"];
@@ -58,8 +57,6 @@ const Products = () => {
     remove(index);
   };
 
-  console.log({ fields });
-
   if (dinnerProductsLoading) return <div>loading...</div>;
   if (dinnerProductsError || !dinnerProducts) return <div>error..</div>;
 
@@ -72,7 +69,7 @@ const Products = () => {
             dinnerProducts={dinnerProducts}
             fieldIndex={index}
             dinnerProductId={dinnerProduct._id}
-            productId={dinnerProduct.productId}
+            product={dinnerProduct.productId}
             removeProduct={removeProduct}
             defaultAmount={dinnerProduct.defaultAmount}
             minAmount={dinnerProduct.minAmount}
@@ -103,7 +100,7 @@ const Products = () => {
 interface IProductFieldProps {
   dinnerProductId: string;
   dinnerProducts: IDinnerProductData[];
-  productId: string;
+  product: IProductData;
   removeProduct: (fieldIndex: number) => void;
   fieldIndex: number;
   defaultAmount: number;
@@ -114,7 +111,7 @@ interface IProductFieldProps {
 
 const ProductField = ({
   dinnerProductId,
-  productId,
+  product,
   removeProduct,
   fieldIndex,
   defaultAmount,
@@ -124,46 +121,17 @@ const ProductField = ({
   portionsGram,
 }: IProductFieldProps) => {
   const { dinnerId } = useParams();
-  const { dinnerPortions, dinnerPortionsLoading, dinnerPortionsError } =
-    getDinnerPortions(dinnerId as string);
-
-  //odczytać dinnerProductQuery z obiektem produktu
-  const { product, productError, productLoading } = getProduct(productId);
-
-  if (productLoading || dinnerPortionsLoading) return <div>loading...</div>;
-  if (productError || dinnerPortionsError) return <div>error...</div>;
 
   const removeDinnerProduct = async () => {
-    console.log("usuwanie produktu");
-
     try {
       await axios.delete(`/api/v1/dinnerProducts/${dinnerProductId}`, {
         withCredentials: true,
       });
-      await mutate(
-        `/api/v1/dinnerProducts/dinner/${dinnerId}`,
-        dinnerProducts.filter(
-          (dinnerProduct) => dinnerProduct._id !== dinnerProductId
-        )
-      );
+
+      await mutate(`/api/v1/dinnerProducts/dinner/${dinnerId}`);
 
       //dinnerPortions
-      if (dinnerProducts.length === 1) {
-        await mutate(`/api/v1/dinnerPortions/dinner/${dinnerId}`, []);
-      }
-
-      if (dinnerPortions && dinnerProducts.length > 1) {
-        await mutate(
-          `/api/v1/dinnerPortions/dinner/${dinnerId}`,
-          dinnerPortions.map((dinnerPortion) => ({
-            ...dinnerPortion,
-            dinnerProducts: dinnerPortion.dinnerProducts.filter(
-              (dinnerProduct) =>
-                dinnerProduct.dinnerProductId !== dinnerProductId
-            ),
-          }))
-        );
-      }
+      await mutate(`/api/v1/dinnerPortions/dinner/${dinnerId}`, []);
 
       console.log("usunięto produkt z posiłku");
     } catch (e) {
@@ -197,10 +165,10 @@ const ProductField = ({
       </Styled.FieldHeadWrapper>
       <Styled.ItemWrapper>
         <Styled.ItemContent>
-          {product?.image && (
-            <Image imageId={product.image} roundedSelect={true} />
+          {product.image && (
+            <Image imageId={product.image._id} roundedSelect={true} />
           )}
-          <h2>{product?.name}</h2>
+          <h2>{product.name}</h2>
         </Styled.ItemContent>
         <Styled.ItemFeatures>
           <Styled.ItemFeatureWrapper>
