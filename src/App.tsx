@@ -53,12 +53,4 @@ const App = () => {
   );
 };
 
-// export default function WrappedApp() {
-//   return (
-//     <Suspense fallback="...is loading">
-//       <App />
-//     </Suspense>
-//   );
-// }
-
 export default App;

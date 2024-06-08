@@ -30,7 +30,7 @@ export interface IDietGenerateMeal {
   _id: string; //dietDayMealID to generate,
   name: string;
   type: "breakfast" | "second_breakfast" | "lunch" | "snack" | "dinner";
-  generatedType: "new" | "added" | "addedChangePortion"; //or added or addedChangePortion,
+  generatedType: "new" | "added" | "addedChangePortion"; //added or addedChangePortion,
   totalGroups?: number;
   selectedGroup?: {
     type: string;
@@ -39,9 +39,9 @@ export interface IDietGenerateMeal {
     macroTotalCount?: ICartesianResult["macroTotalCount"];
     missingProcentCount?: ICartesianResult["missingProcentCount"];
   };
-  total: IDietMealTotal; //albo dodane już meal total albo przerobić generatedMacroTotalCount
+  total: IDietMealTotal;
   generatedDinners?: IGenerateDinner[];
-  addedMealObj?: IDietMealData; //or undefined when new,
+  addedMealObj?: IDietMealData;
 }
 
 export interface IDietGenerateDay {

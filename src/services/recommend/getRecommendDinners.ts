@@ -3,8 +3,11 @@ import axios from "axios";
 import { IRecommendDinnerData } from "interfaces/recommend/recommendDinner.interface";
 import { IDietDayMealData } from "interfaces/diet/dietMeals.interfaces";
 
-const recommendDinnersServerURL =
-  "https://recommend-server.dietai.pl/recommend-dinners";
+// const recommendDinnersServerURL =
+//   "https://recommend-server.dietai.pl/recommend-dinners";
+
+//recommend dinners
+const recommendDinnersServerURL = `https://${process.env.REACT_APP_RECOMMEND_SERVER_DOMAIN}/recommend-dinners`;
 
 const fetcher = (url: string, headers = {}) =>
   axios

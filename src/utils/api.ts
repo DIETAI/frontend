@@ -6,10 +6,7 @@ export const baseURL =
     : process.env.REACT_APP_BACKEND_URL;
 
 const instance = axios.create({
-  // baseURL: process.env.REACT_APP_BACKEND_URL || "http://localhost:1337",
   baseURL: baseURL,
-
-  // baseURL: process.env.REACT_APP_BACKEND_URL,
 });
 
 export default instance;

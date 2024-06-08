@@ -95,8 +95,9 @@ const MealGenerateModal = ({ meal, closeModal }: IMealGenerateModalProps) => {
 
     try {
       //wysyłać zapytanie z serwera express z authentication headers
+      //rust generate server
       const generatedMeal = axios.get(
-        `https://generate-server.dietai.pl/meal-generate?recommend_meal_id=${meal._id}&current_meal_establishment_id=${meal.establishmentMealId}&current_diet_establishment_id=${diet?.establishmentId}`
+        `https://${process.env.REACT_APP_GENERATE_SERVER_DOMAIN}/meal-generate?recommend_meal_id=${meal._id}&current_meal_establishment_id=${meal.establishmentMealId}&current_diet_establishment_id=${diet?.establishmentId}`
       );
       console.log({ generatedMeal });
 

@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ISelectGroupInfo } from "pages/dashboard/diets/editDiet/components/mealGenerateModal/helpers/selectGroups";
 import { ICartesianResult } from "pages/dashboard/diets/editDiet/components/mealGenerateModal/helpers/cartesianDinners/cartesianDinners";
 
 export interface IDietMealGenerate {
