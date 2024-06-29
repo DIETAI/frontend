@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useUser } from "services/getUser";
+import { useUser } from "services/user.service";
 import NoUser from "assets/noUser.svg";
 import axios from "utils/api";
 import { useAlert } from "layout/dashboard/context/alert.context";

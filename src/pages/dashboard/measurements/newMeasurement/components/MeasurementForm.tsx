@@ -82,7 +82,7 @@ const NewMeasurementForm = () => {
             key={step.id}
             icon={step.icon}
             label={step.title}
-            validationSchema={step.validationSchema}
+            validationSchema={step.validationSchema as any}
             id={step.sectionId}
             sectionId={step.sectionId}
           >

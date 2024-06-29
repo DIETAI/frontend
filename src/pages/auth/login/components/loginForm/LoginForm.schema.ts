@@ -1,12 +1,16 @@
 import * as yup from "yup";
+import { ILoginUserInputData } from "interfaces/user.interfaces";
 
-export const login_schema = yup.object({
-  email: yup
-    .string()
-    .email("form.schema.email")
-    .required("form.schema.required")
-    .default(""),
-  password: yup.string().required("form.schema.required").default(""),
-});
+export const loginUserSchema: yup.ObjectSchema<ILoginUserInputData> = yup
+  .object()
+  .shape({
+    email: yup
+      .string()
+      .email("form.schema.email")
+      .required("form.schema.required")
+      .default(""),
+    password: yup.string().required("form.schema.required").default(""),
+  });
 
-export type ILoginSchema = yup.InferType<typeof login_schema>;
+export const defaultLoginUserInputData: ILoginUserInputData =
+  loginUserSchema.cast({});

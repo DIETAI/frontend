@@ -22,11 +22,13 @@ export const measurementBasicDataSchema = yup.object({
   weight: yup
     .number()
     .positive("Niewłaściwa wartość")
-    .required("To pole jest wymagane"),
+    .required("To pole jest wymagane")
+    .default(0),
   height: yup
     .number()
     .positive("Niewłaściwa wartość")
-    .required("To pole jest wymagane"),
+    .required("To pole jest wymagane")
+    .default(0),
   // pal: yup
   //   .number()
   //   .positive("To pole jest wymagane")
@@ -35,19 +37,23 @@ export const measurementBasicDataSchema = yup.object({
   ppmHarris: yup
     .number()
     .positive("Niewłaściwa wartość")
-    .required("To pole jest wymagane"),
+    .required("To pole jest wymagane")
+    .default(0),
   ppmMifflin: yup
     .number()
     .positive("Niewłaściwa wartość")
-    .required("To pole jest wymagane"),
+    .required("To pole jest wymagane")
+    .default(0),
   cpm: yup
     .number()
     .positive("Niewłaściwa wartość")
-    .required("To pole jest wymagane"),
+    .required("To pole jest wymagane")
+    .default(0),
   bmi: yup
     .number()
     .positive("Niewłaściwa wartość")
-    .required("To pole jest wymagane"),
+    .required("To pole jest wymagane")
+    .default(0),
 });
 
 export const measurementAdditionalDataSchema = yup.object({

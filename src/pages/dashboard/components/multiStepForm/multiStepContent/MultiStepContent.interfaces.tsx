@@ -1,4 +1,4 @@
-import { AnyObjectSchema, TypeOf } from "yup";
+import { AnyObjectSchema, InferType } from "yup";
 import { IChildrenProps } from "interfaces/children.interfaces";
 import { FieldValues } from "react-hook-form";
 import { ReactNode } from "react";
@@ -14,7 +14,7 @@ export interface IFormStepProps {
 
 export interface IMultiStepContentProps {
   children: IChildrenProps["children"];
-  defaultValues: TypeOf<AnyObjectSchema>;
+  defaultValues: InferType<AnyObjectSchema>;
   onSubmitAction: (data: any) => void;
   validationSchema: AnyObjectSchema;
   itemId?: string;

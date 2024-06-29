@@ -12,9 +12,6 @@ import DietEstablishmentRoutes from "./dietEstablishments.routes";
 import DietRoutes from "./diets.routes";
 import ClientRoutes from "./clients.routes";
 
-//swr
-import { useUser } from "services/getUser";
-
 const Dietetic = () => {
   //useSwr checkUserRole = dietetic
 

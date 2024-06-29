@@ -7,17 +7,17 @@ export const dietDataSchema = yup.object({
     .oneOf(["amount", "date"])
     .required("To pole jest wymagane")
     .default("date"),
-  daysAmount: yup.number().when("daysType", (daysType, schema) => {
+  daysAmount: yup.number().when("daysType", (daysType: any, schema: any) => {
     if (daysType === "amount") {
       return schema.required("To pole jest wymagane");
     }
   }),
-  dayStart: yup.date().when("daysType", (daysType, schema) => {
+  dayStart: yup.date().when("daysType", (daysType: any, schema: any) => {
     if (daysType === "date") {
       return schema.required("To pole jest wymagane");
     }
   }),
-  dayEnd: yup.date().when("daysType", (daysType, schema) => {
+  dayEnd: yup.date().when("daysType", (daysType: any, schema: any) => {
     if (daysType === "date") {
       return schema.required("To pole jest wymagane");
     }

@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 
 import * as Styled from "./AuthOption.styles";
 
-import { useUser } from "services/getUser";
+import { useUser } from "services/user.service";
 import { mutate } from "swr";
 
 const AuthOption = () => {

@@ -13,10 +13,12 @@ export const clientBasicInfoSchema = yup.object({
   gender: yup
     .string()
     .oneOf(["male", "female"])
-    .required("To pole jest wymagane"),
+    .required("To pole jest wymagane")
+    .default("male"),
   physiologicalState: yup
     .string()
     .oneOf(["lack", "pregnancy", "lactation"])
+    .default("lack")
     .default("lack"),
   // .when("gender", {
   //   is: "female",

@@ -6,89 +6,104 @@ export const totalSchema = {
     kcal: yup
       .number()
       .min(0, "Wartość nie może być mniejsza od 0")
-      .required("To pole jest wymagane"),
+      .required("To pole jest wymagane")
+      .default(0),
+
     protein: yup.object({
       gram: yup
         .number()
         .min(0, "Wartość nie może być mniejsza od 0")
-        .required("To pole jest wymagane"),
+        .required("To pole jest wymagane")
+        .default(0),
+
       kcal: yup
         .number()
         .min(0, "Wartość nie może być mniejsza od 0")
-        .required("To pole jest wymagane"),
+        .required("To pole jest wymagane")
+        .default(0),
     }),
     fat: yup.object({
       gram: yup
         .number()
         .min(0, "Wartość nie może być mniejsza od 0")
-        .required("To pole jest wymagane"),
+        .required("To pole jest wymagane")
+        .default(0),
       kcal: yup
         .number()
         .min(0, "Wartość nie może być mniejsza od 0")
-        .required("To pole jest wymagane"),
+        .required("To pole jest wymagane")
+        .default(0),
     }),
     carbohydrates: yup.object({
       gram: yup
         .number()
         .min(0, "Wartość nie może być mniejsza od 0")
-        .required("To pole jest wymagane"),
+        .required("To pole jest wymagane")
+        .default(0),
       kcal: yup
         .number()
         .min(0, "Wartość nie może być mniejsza od 0")
-        .required("To pole jest wymagane"),
+        .required("To pole jest wymagane")
+        .default(0),
     }),
     digestableCarbohydrates: yup.object({
       gram: yup
         .number()
         .min(0, "Wartość nie może być mniejsza od 0")
-        .required("To pole jest wymagane"),
+        .required("To pole jest wymagane")
+        .default(0),
       kcal: yup
         .number()
         .min(0, "Wartość nie może być mniejsza od 0")
-        .required("To pole jest wymagane"),
+        .required("To pole jest wymagane")
+        .default(0),
     }),
     fiber: yup.object({
       gram: yup
         .number()
         .min(0, "Wartość nie może być mniejsza od 0")
-        .required("To pole jest wymagane"),
+        .required("To pole jest wymagane")
+        .default(0),
       kcal: yup
         .number()
         .min(0, "Wartość nie może być mniejsza od 0")
-        .required("To pole jest wymagane"),
+        .required("To pole jest wymagane")
+        .default(0),
     }),
     // animalProtein: yup.object({
     //   gram: yup
     //     .number()
     //     .typeError("To pole jest wymagane")
     //     .positive("Wymagana wartość większa od 0")
-    //     .required("To pole jest wymagane"),
+    //     .required("To pole jest wymagane").default(0),
     //   kcal: yup
     //     .number()
     //     .typeError("To pole jest wymagane")
     //     .positive("Wymagana wartość większa od 0")
-    //     .required("To pole jest wymagane"),
+    //     .required("To pole jest wymagane").default(0),
     // }),
     // vegetableProtein: yup.object({
     //   gram: yup
     //     .number()
     //     .typeError("To pole jest wymagane")
     //     .positive("Wymagana wartość większa od 0")
-    //     .required("To pole jest wymagane"),
+    //     .required("To pole jest wymagane").default(0),
     //   kcal: yup
     //     .number()
     //     .typeError("To pole jest wymagane")
     //     .positive("Wymagana wartość większa od 0")
-    //     .required("To pole jest wymagane"),
+    //     .required("To pole jest wymagane").default(0),
     // }),
     carbohydrateExchangers: yup
       .number()
       .min(0, "Wartość nie może być mniejsza od 0")
-      .required("To pole jest wymagane"),
+      .required("To pole jest wymagane")
+      .default(0),
     proteinFatExchangers: yup
       .number()
       .min(0, "Wartość nie może być mniejsza od 0")
-      .required("To pole jest wymagane"),
+      .required("To pole jest wymagane")
+      .default(0),
 
     //fattyAcids
     saturatedFattyAcids: yup

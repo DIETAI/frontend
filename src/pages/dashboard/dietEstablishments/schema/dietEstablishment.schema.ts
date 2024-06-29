@@ -6,15 +6,15 @@ export const establishmentBasicInfoSchema = yup.object({
   folder: yup.string().default(""),
   description: yup.string().default(""),
   dietKind: yup.string(),
-  client: yup.string().required("To pole jest wymagane"),
+  client: yup.string().required("To pole jest wymagane").default(""),
   clientMeasurementCpm: yup.boolean().default(false),
   measurementId: yup.string(),
   kcal: yup
     .number()
     .typeError("To pole jest wymagane")
     .required("To pole jest wymagane")
-    .positive("Wymagana wartość większa od 0"),
-  // .default(2000),
+    .positive("Wymagana wartość większa od 0")
+    .default(2000),
 });
 
 export const establishmentMealsSchema = yup.object({
@@ -101,12 +101,14 @@ export const establishmentMacrohydratesSchema = yup.object({
       .number()
       .typeError("To pole jest wymagane")
       .positive("Wymagana wartość większa od 0")
-      .required("To pole jest wymagane"),
+      .required("To pole jest wymagane")
+      .default(0),
     kcal: yup
       .number()
       .typeError("To pole jest wymagane")
       .positive("Wymagana wartość większa od 0")
-      .required("To pole jest wymagane"),
+      .required("To pole jest wymagane")
+      .default(0),
     procent: yup
       .number()
       .typeError("To pole jest wymagane")
@@ -141,7 +143,8 @@ export const establishmentMacrohydratesSchema = yup.object({
       .lessThan(
         yup.ref("max_gram"),
         "wartość musi być mniejsza niż maksymalna ilość przedziału"
-      ),
+      )
+      .default(0),
     max_gram: yup
       .number()
       .typeError("To pole jest wymagane")
@@ -150,7 +153,8 @@ export const establishmentMacrohydratesSchema = yup.object({
       .moreThan(
         yup.ref("min_gram"),
         "wartość musi być większa niż minimalna ilość przedziału"
-      ),
+      )
+      .default(0),
     min_kcal: yup
       .number()
       .typeError("To pole jest wymagane")
@@ -159,7 +163,8 @@ export const establishmentMacrohydratesSchema = yup.object({
       .lessThan(
         yup.ref("max_kcal"),
         "wartość musi być mniejsza niż maksymalna ilość przedziału"
-      ),
+      )
+      .default(0),
     max_kcal: yup
       .number()
       .typeError("To pole jest wymagane")
@@ -168,19 +173,22 @@ export const establishmentMacrohydratesSchema = yup.object({
       .moreThan(
         yup.ref("min_kcal"),
         "wartość musi być większa niż minimalna ilość przedziału"
-      ),
+      )
+      .default(0),
   }),
   fat: yup.object({
     gram: yup
       .number()
       .typeError("To pole jest wymagane")
       .positive("Wymagana wartość większa od 0")
-      .required("To pole jest wymagane"),
+      .required("To pole jest wymagane")
+      .default(0),
     kcal: yup
       .number()
       .typeError("To pole jest wymagane")
       .positive("Wymagana wartość większa od 0")
-      .required("To pole jest wymagane"),
+      .required("To pole jest wymagane")
+      .default(0),
     procent: yup
       .number()
       .typeError("To pole jest wymagane")
@@ -215,7 +223,8 @@ export const establishmentMacrohydratesSchema = yup.object({
       .lessThan(
         yup.ref("max_gram"),
         "wartość musi być mniejsza niż maksymalna ilość przedziału"
-      ),
+      )
+      .default(0),
     max_gram: yup
       .number()
       .typeError("To pole jest wymagane")
@@ -224,7 +233,8 @@ export const establishmentMacrohydratesSchema = yup.object({
       .moreThan(
         yup.ref("min_gram"),
         "wartość musi być większa niż minimalna ilość przedziału"
-      ),
+      )
+      .default(0),
     min_kcal: yup
       .number()
       .typeError("To pole jest wymagane")
@@ -233,7 +243,8 @@ export const establishmentMacrohydratesSchema = yup.object({
       .lessThan(
         yup.ref("max_kcal"),
         "wartość musi być mniejsza niż maksymalna ilość przedziału"
-      ),
+      )
+      .default(0),
     max_kcal: yup
       .number()
       .typeError("To pole jest wymagane")
@@ -242,19 +253,22 @@ export const establishmentMacrohydratesSchema = yup.object({
       .moreThan(
         yup.ref("min_kcal"),
         "wartość musi być większa niż minimalna ilość przedziału"
-      ),
+      )
+      .default(0),
   }),
   carbohydrates: yup.object({
     gram: yup
       .number()
       .typeError("To pole jest wymagane")
       .positive("Wymagana wartość większa od 0")
-      .required("To pole jest wymagane"),
+      .required("To pole jest wymagane")
+      .default(0),
     kcal: yup
       .number()
       .typeError("To pole jest wymagane")
       .positive("Wymagana wartość większa od 0")
-      .required("To pole jest wymagane"),
+      .required("To pole jest wymagane")
+      .default(0),
     procent: yup
       .number()
       .typeError("To pole jest wymagane")
@@ -289,7 +303,8 @@ export const establishmentMacrohydratesSchema = yup.object({
       .lessThan(
         yup.ref("max_gram"),
         "wartość musi być mniejsza niż maksymalna ilość przedziału"
-      ),
+      )
+      .default(0),
     max_gram: yup
       .number()
       .typeError("To pole jest wymagane")
@@ -298,7 +313,8 @@ export const establishmentMacrohydratesSchema = yup.object({
       .moreThan(
         yup.ref("min_gram"),
         "wartość musi być większa niż minimalna ilość przedziału"
-      ),
+      )
+      .default(0),
     min_kcal: yup
       .number()
       .typeError("To pole jest wymagane")
@@ -307,7 +323,8 @@ export const establishmentMacrohydratesSchema = yup.object({
       .lessThan(
         yup.ref("max_kcal"),
         "wartość musi być mniejsza niż maksymalna ilość przedziału"
-      ),
+      )
+      .default(0),
     max_kcal: yup
       .number()
       .typeError("To pole jest wymagane")
@@ -316,19 +333,22 @@ export const establishmentMacrohydratesSchema = yup.object({
       .moreThan(
         yup.ref("min_kcal"),
         "wartość musi być większa niż minimalna ilość przedziału"
-      ),
+      )
+      .default(0),
   }),
   digestableCarbohydrates: yup.object({
     gram: yup
       .number()
       .typeError("To pole jest wymagane")
       .positive("Wymagana wartość większa od 0")
-      .required("To pole jest wymagane"),
+      .required("To pole jest wymagane")
+      .default(0),
     kcal: yup
       .number()
       .typeError("To pole jest wymagane")
       .positive("Wymagana wartość większa od 0")
-      .required("To pole jest wymagane"),
+      .required("To pole jest wymagane")
+      .default(0),
   }),
   fiber: yup.object({
     gram: yup
@@ -341,7 +361,8 @@ export const establishmentMacrohydratesSchema = yup.object({
       .number()
       .typeError("To pole jest wymagane")
       .positive("Wymagana wartość większa od 0")
-      .required("To pole jest wymagane"),
+      .required("To pole jest wymagane")
+      .default(0),
   }),
   // animalProtein: yup.object({
   //   gram: yup
@@ -381,12 +402,14 @@ export const establishmentMacrohydratesSchema = yup.object({
     .number()
     .typeError("To pole jest wymagane")
     .positive("Wymagana wartość większa od 0")
-    .required("To pole jest wymagane"),
+    .required("To pole jest wymagane")
+    .default(0),
   proteinFatExchangers: yup
     .number()
     .typeError("To pole jest wymagane")
     .positive("Wymagana wartość większa od 0")
-    .required("To pole jest wymagane"),
+    .required("To pole jest wymagane")
+    .default(0),
   maxMacroProcent: yup
     .number()
     .test("Niewłaściwa wartość procentowa", (value) => value === 100)

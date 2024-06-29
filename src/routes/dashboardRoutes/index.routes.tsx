@@ -11,32 +11,16 @@ import AdminRoutes from "./admin/admin.routes";
 import NotFoundPage from "pages/information/notFound/notFound.page";
 import PageLoading from "components/loading/PageLoading";
 
-import { useUser } from "services/getUser";
+import { useUser } from "services/user.service";
 
 const Dashboard = () => {
-  const { user, userLoading, userError, loggedOut } = useUser();
+  const { userLoading, loggedOut } = useUser();
 
   if (userLoading) return <PageLoading />;
 
   if (loggedOut) {
     return <Navigate to="/auth/login" />;
-    // return <Navigate to="https://dietai.pl/" />;
   }
-
-  // useEffect(() => {
-  //   if(userError) {
-
-  //   }
-
-  // }, [userError])
-
-  // if (!user.role) {
-  //   return <Navigate to="/verify/role" />;
-  // }
-
-  // if (!user.emailVerified) {
-  //   return <Navigate to="/verify/role" />;
-  // }
 
   return (
     <DashboardLayout>

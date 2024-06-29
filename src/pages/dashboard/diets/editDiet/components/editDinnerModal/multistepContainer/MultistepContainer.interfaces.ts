@@ -10,5 +10,5 @@ export interface IFormStepProps {
 }
 
 export interface IDefaultValues {
-  defaultValues: yup.TypeOf<yup.AnyObjectSchema>;
+  defaultValues: yup.InferType<yup.AnyObjectSchema>;
 }

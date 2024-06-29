@@ -93,7 +93,7 @@ const EditFileForm = ({ closeForm, assets, editAsset }: IEditFileFormProps) => {
 
   const imageTitle = getValues("title");
 
-  const onSubmit = async (data: IEditFileSchema) => {
+  const onSubmit = async (data: any) => {
     console.log({ data });
     console.log("wysyłanie zdjęcia");
 
@@ -203,7 +203,7 @@ const EditFileForm = ({ closeForm, assets, editAsset }: IEditFileFormProps) => {
   };
 
   const deleteImage = () => {
-    setValue("file", undefined);
+    setValue("file", "");
     setImageUpload("");
     trigger();
   };

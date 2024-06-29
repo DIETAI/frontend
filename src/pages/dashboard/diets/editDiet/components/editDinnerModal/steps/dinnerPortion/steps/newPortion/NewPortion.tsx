@@ -194,7 +194,7 @@ const NewPortion = ({
             <Styled.ButtonWrapper>
               <Button
                 type="button"
-                onClick={handleSubmit(onCreatePortionSubmit) as any}
+                onClick={handleSubmit(onCreatePortionSubmit as any) as any}
                 variant={
                   isSubmitting || !isValid || !validPortion()
                     ? "disabled"

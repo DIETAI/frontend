@@ -50,7 +50,7 @@ const EditDinnerModal = ({
               key={id}
               label={name}
               icon={icon}
-              validationSchema={validationSchema}
+              validationSchema={validationSchema as any}
             >
               {step}
             </FormStep>

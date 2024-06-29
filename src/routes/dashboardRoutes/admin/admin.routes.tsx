@@ -7,7 +7,7 @@ import SubscriptionPlanRoutes from "./subscriptionPlans.routes";
 import DietKindRoutes from "./dietKinds.routes";
 
 //swr
-import { useUser } from "services/getUser";
+import { useUser } from "services/user.service";
 
 const Admin = () => {
   //useSwr checkUserRole = dietetic

@@ -1,16 +1,15 @@
 import React from "react";
 import { useNavigate } from "react-router";
 import axios from "axios";
-import axiosInstance from "utils/api";
 import { useForm, FormProvider } from "react-hook-form";
 import { useAlert } from "layout/dashboard/context/alert.context";
 
 //schema
-import { register_schema } from "./RegisterForm.schema";
+import {
+  defaultRegisterUserInputData,
+  registerUserSchema,
+} from "./RegisterForm.schema";
 import { yupResolver } from "@hookform/resolvers/yup";
-
-//interfaces
-import { IRegisterSchema } from "./RegisterForm.schema";
 
 //components
 import AuthFormContainer from "../../../components/form/container/FormContainer";
@@ -28,7 +27,11 @@ import {
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
-const defaultValues = register_schema.cast({});
+//services
+import { loginUser, registerUser } from "services/user.service";
+
+//types
+import { IRegisterUserInputData } from "interfaces/user.interfaces";
 
 const Form = () => {
   const { handleAlert } = useAlert();
@@ -36,19 +39,19 @@ const Form = () => {
   const navigate = useNavigate();
 
   const methods = useForm({
-    resolver: yupResolver(register_schema),
+    resolver: yupResolver(registerUserSchema),
     shouldUnregister: false,
-    defaultValues,
+    defaultValues: defaultRegisterUserInputData,
     mode: "onBlur",
   });
 
   const {
     handleSubmit,
-    formState: { errors, isSubmitting, isDirty, isValid, isSubmitSuccessful },
+    formState: { isSubmitting, isValid },
     reset,
   } = methods;
 
-  const onSubmit = async (data: IRegisterSchema) => {
+  const onSubmit = async (data: IRegisterUserInputData) => {
     try {
       const fullName = data.name + " " + data.lastName;
       const registerFormData = {
@@ -56,23 +59,14 @@ const Form = () => {
         fullName,
       };
 
-      const registerData = await axiosInstance.post(
-        "/api/v1/user",
-        registerFormData,
-        {
-          withCredentials: true,
-        }
-      );
+      const newUser = await registerUser(data);
 
-      console.log({ registerData });
+      const session = await loginUser({
+        email: data.email,
+        password: data.password,
+      });
 
-      const loginData = await axiosInstance.post(
-        "/api/v1/sessions",
-        { email: data.email, password: data.password },
-        {
-          withCredentials: true,
-        }
-      );
+      handleAlert("success", "Utworzono konto");
 
       navigate("/dashboard/home");
       reset();

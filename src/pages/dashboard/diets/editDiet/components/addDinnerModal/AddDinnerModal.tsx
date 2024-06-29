@@ -54,7 +54,7 @@ const AddDinnerModal = ({ closeModal, meal }: IDinnerModalProps) => {
             key={id}
             label={name}
             icon={icon}
-            validationSchema={validationSchema}
+            validationSchema={validationSchema as any}
           >
             {step}
           </FormStep>

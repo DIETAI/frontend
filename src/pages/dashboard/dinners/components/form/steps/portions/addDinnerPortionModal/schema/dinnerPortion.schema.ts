@@ -5,7 +5,8 @@ export const dinnerPortionSchema = yup.object({
   type: yup
     .string()
     .oneOf(["custom", "default"])
-    .required("To pole jest wymagane"),
+    .required("To pole jest wymagane")
+    .default("custom"),
   uid: yup.string(),
   ...totalSchema,
   dinnerProducts: yup

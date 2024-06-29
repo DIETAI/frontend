@@ -76,7 +76,7 @@ const AddFileForm = ({ closeForm, assets }: IAddFileFormProps) => {
 
   const imageTitle = getValues("title");
 
-  const onSubmit = async (data: IAddFileSchema) => {
+  const onSubmit = async (data: any) => {
     console.log({ data });
     console.log("wysyłanie zdjęcia");
 
@@ -186,7 +186,7 @@ const AddFileForm = ({ closeForm, assets }: IAddFileFormProps) => {
   };
 
   const deleteImage = () => {
-    setValue("file", undefined);
+    setValue("file", "");
     setImageUpload("");
     trigger();
   };

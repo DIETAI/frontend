@@ -21,7 +21,7 @@ export const basicInfoSchema = yup.object({
   recipe: yup.string().default(""),
   dietKindsExclude: yup.array(yup.string().required()).default([]),
   tags: yup.array(yup.string().oneOf(["nogluten", "lactose-free"])), //array(yup.string()) wegetarianski, weganski, bezmleczny, bezglutenowy wyswietlone jako checkbox
-  preparation_time: yup.string().required("To pole jest wymagane"), // w zależności od czasu dodać opcje szybki, sredni, wolny
+  preparation_time: yup.string().required("To pole jest wymagane").default(""), // w zależności od czasu dodać opcje szybki, sredni, wolny
   // image: yup.mixed(),
   //rozmiar w zależności od ilości g przypisać mały, średni, duży
 });

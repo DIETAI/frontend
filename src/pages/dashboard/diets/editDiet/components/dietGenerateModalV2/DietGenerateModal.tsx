@@ -48,7 +48,7 @@ const DietGenerateModal = ({ closeModal }: { closeModal: () => void }) => {
                 key={id}
                 label={name}
                 icon={icon}
-                validationSchema={validationSchema}
+                validationSchema={validationSchema as any}
               >
                 {step}
               </FormStep>

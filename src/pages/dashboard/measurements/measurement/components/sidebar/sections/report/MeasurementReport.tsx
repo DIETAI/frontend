@@ -24,7 +24,7 @@ import {
 import {
   ValueType,
   NameType,
-} from "recharts/src/component/DefaultTooltipContent";
+} from "recharts/types/component/DefaultTooltipContent";
 
 //styles
 import * as Styled from "./MeasurementReport.styles";

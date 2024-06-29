@@ -13,7 +13,7 @@ import RoleVerify from "pages/verify/role/roleVerify.page";
 import NotFound from "pages/information/notFound/notFound.page";
 import PageLoading from "components/loading/PageLoading";
 
-import { useUser } from "services/getUser";
+import { useUser } from "services/user.service";
 
 const VerifyRoutes = () => {
   const { user, userLoading, userError } = useUser();

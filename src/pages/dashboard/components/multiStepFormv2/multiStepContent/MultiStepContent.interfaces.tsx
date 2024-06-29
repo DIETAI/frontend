@@ -1,4 +1,4 @@
-import { AnyObjectSchema, TypeOf } from "yup";
+import { AnyObjectSchema, InferType } from "yup";
 import { IChildrenProps } from "interfaces/children.interfaces";
 import { FieldValues } from "react-hook-form";
 import { ReactNode } from "react";

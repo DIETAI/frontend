@@ -1,11 +1,14 @@
 import * as yup from "yup";
 
 export const userSubscriptionPlanSchema = yup.object({
-  subscriptionPlanId: yup.string().required("To pole jest wymagane"),
+  subscriptionPlanId: yup
+    .string()
+    .required("To pole jest wymagane")
+    .default(""),
 });
 
 export const userSubscriptionPlanPriceSchema = yup.object({
-  stripePriceId: yup.string().required("To pole jest wymagane"),
+  stripePriceId: yup.string().required("To pole jest wymagane").default(""),
 });
 
 export const userSubscriptionPlanCheckoutSchema = yup.object({

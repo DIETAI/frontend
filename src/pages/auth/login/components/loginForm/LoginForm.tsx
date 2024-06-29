@@ -6,11 +6,8 @@ import axios, { AxiosError } from "axios";
 import { useForm, FormProvider } from "react-hook-form";
 
 //schema
-import { login_schema } from "./LoginForm.schema";
+import { defaultLoginUserInputData, loginUserSchema } from "./LoginForm.schema";
 import { yupResolver } from "@hookform/resolvers/yup";
-
-//interfaces
-import { ILoginSchema } from "./LoginForm.schema";
 
 //components
 import AuthFormContainer from "../../../components/form/container/FormContainer";
@@ -28,43 +25,37 @@ import {
 import { useTranslation } from "react-i18next";
 import { mutate } from "swr";
 import { useAlert } from "layout/dashboard/context/alert.context";
-
-const defaultValues = login_schema.cast({});
+import { ILoginUserInputData } from "interfaces/user.interfaces";
+import { loginUser, userApiUrl } from "services/user.service";
 
 const Form = () => {
   const { handleAlert } = useAlert();
   const { t } = useTranslation();
   const methods = useForm({
-    resolver: yupResolver(login_schema),
+    resolver: yupResolver(loginUserSchema),
     shouldUnregister: false,
-    defaultValues,
+    defaultValues: defaultLoginUserInputData,
     mode: "onBlur",
   });
 
   const {
     handleSubmit,
-    formState: { errors, isSubmitting, isDirty, isValid, isSubmitSuccessful },
-    trigger,
+    formState: { isSubmitting, isValid },
     reset,
-    setFocus,
-    getValues,
-    watch,
   } = methods;
 
-  const onSubmit = async (data: ILoginSchema) => {
+  const onSubmit = async (data: ILoginUserInputData) => {
     try {
-      const loginData = await axiosInstance.post("/api/v1/sessions", data, {
-        withCredentials: true,
-      });
-      console.log({ loginData });
-      mutate("/api/v1/user");
+      await loginUser(data);
+      mutate(userApiUrl);
 
       reset();
+      handleAlert("success", "Zalogowano");
     } catch (e) {
       console.log(e);
       if (axios.isAxiosError(e)) {
         if (e.response?.status === 401) {
-          return handleAlert("error", "Nieprawidłowy email lub hasło");
+          return handleAlert("error", "Nieprawidłowy adres e-mail lub hasło");
         }
       }
 
