@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import * as Styled from "./HomeCalendar.styles";
 
-import { useFormContext } from "react-hook-form";
-
 //icons
 import {
   FaCalendar,
@@ -34,12 +32,12 @@ import {
   isSameDay,
   isSameMonth,
 } from "date-fns";
-import { getCalendarNotes } from "services/getCalendarNotes";
+import { useCalendarNotes } from "services/calendarNote.service";
 import { ICalendarNoteData } from "interfaces/calendarNote";
 
 const Calendar = () => {
   const { calendarNotes, calendarNotesError, calendarNotesLoading } =
-    getCalendarNotes();
+    useCalendarNotes();
 
   const [selectedDay, setSelectedDay] = useState(new Date());
 

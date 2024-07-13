@@ -17,7 +17,7 @@ import { FaInfoCircle, FaExclamationCircle } from "icons/icons";
 
 import LogoBackground from "assets/logo-icon.svg";
 import { IClientData } from "interfaces/client.interfaces";
-import { getMeasurement } from "services/getMeasurements";
+import { useMeasurement } from "services/measurement.service";
 
 const BasicInfo = () => {
   const { measurementId } = useParams();
@@ -25,7 +25,7 @@ const BasicInfo = () => {
 
   if (!measurementId) return <div>not found</div>;
   const { measurement, measurementError, measurementLoading } =
-    getMeasurement(measurementId);
+    useMeasurement(measurementId);
 
   console.log({ measurement });
 

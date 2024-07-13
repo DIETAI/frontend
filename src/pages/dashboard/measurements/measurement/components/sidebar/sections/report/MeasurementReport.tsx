@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { getMeasurement, getMeasurements } from "services/getMeasurements";
+import { useMeasurement, useMeasurements } from "services/measurement.service";
 import { AnimatePresence } from "framer-motion";
 import format from "date-fns/format";
 import { pl } from "date-fns/locale";
@@ -84,12 +84,12 @@ const dateFormat = (date: string) => {
 const MeasurementReport = () => {
   const { measurementId } = useParams();
   const theme = useTheme();
-  const { measurement, measurementError, measurementLoading } = getMeasurement(
+  const { measurement, measurementError, measurementLoading } = useMeasurement(
     measurementId as string
   );
 
   const { measurements, measurementsLoading, measurementsError } =
-    getMeasurements();
+    useMeasurements();
 
   const [currentOption, setCurrentOption] = useState(measurementOptions[0]);
   const [measurementStart, setMeasurementStart] = useState<IMeasurementData>();

@@ -4,7 +4,7 @@ import { getDietKinds } from "services/getDietKinds";
 
 import { FaFolderPlus, FaFolderOpen } from "icons/icons";
 import { useTranslation } from "react-i18next";
-import { getMeasurements } from "services/getMeasurements";
+import { useMeasurements } from "services/measurement.service";
 
 //queries
 import { getClients } from "services/getClients";
@@ -51,7 +51,7 @@ const BasicInfo = () => {
   }, [patientIdParam]);
 
   const { measurements, measurementsLoading, measurementsError } =
-    getMeasurements();
+    useMeasurements();
 
   const { t } = useTranslation();
   const openAddFolderModal = () => {

@@ -10,14 +10,10 @@ const HomeFeaturesWrapper = styled.div(
     },
   }) => css`
     display: flex;
-    /* align-items: flex-start;
-    justify-content: flex-start; */
     width: 100%;
     max-width: ${breakpoints.lg};
     gap: 3rem;
     flex-direction: column;
-
-    /* flex-wrap: wrap; */
 
     ${up(breakpoints.md)} {
       flex-direction: row;
@@ -59,8 +55,6 @@ const HomeFeatureItem = styled.div(
       width: 6rem;
       height: 6rem;
       object-fit: contain;
-      /* border: 0.1rem dashed ${palette.primary.main};
-      border-radius: 50%; */
     }
 
     h2 {

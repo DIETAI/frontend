@@ -1,5 +1,4 @@
 import React from "react";
-import { useTranslation } from "react-i18next";
 import ReportImg from "assets/report.svg";
 import * as Styled from "./HomeInfo.styles";
 import { useNavigate } from "react-router";
@@ -18,10 +17,6 @@ const HomeInfo = () => {
           dostępnych funkcji w aplikacji
         </p>
         <Styled.ButtonWrapper>
-          {/* <Button variant="secondary">zobacz nowości</Button> */}
-          {/* <Button onClick={() => navigate("/dashboard/diets/new")}>
-            zobacz nowości
-          </Button> */}
           <Button onClick={() => navigate("/dashboard/account")}>konto</Button>
         </Styled.ButtonWrapper>
       </Styled.InfoHeading>

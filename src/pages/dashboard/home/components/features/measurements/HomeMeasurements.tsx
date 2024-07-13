@@ -1,5 +1,5 @@
 import React from "react";
-import { getMeasurements } from "services/getMeasurements";
+import { useMeasurements } from "services/measurement.service";
 import { format } from "date-fns";
 import { pl } from "date-fns/locale";
 import { useNavigate } from "react-router";
@@ -10,7 +10,7 @@ import * as Styled from "./HomeMeasurements.styles";
 const HomeMeasurements = () => {
   const navigate = useNavigate();
   const { measurements, measurementsLoading, measurementsError } =
-    getMeasurements();
+    useMeasurements();
 
   if (measurementsLoading) return <div>loading...</div>;
   if (measurementsError) return <div>error...</div>;
@@ -29,7 +29,6 @@ const HomeMeasurements = () => {
               navigate(`/dashboard/measurements/${measurement._id}`)
             }
           >
-            {/* <Styled.ItemLength>{index + 1}</Styled.ItemLength> */}
             <Styled.ItemContentWrapper>
               <h2>{measurement.name}</h2>
               <p>

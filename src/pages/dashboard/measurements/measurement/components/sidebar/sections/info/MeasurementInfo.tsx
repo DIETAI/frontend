@@ -9,7 +9,7 @@ import { useNavigate } from "react-router";
 import { useAlert } from "layout/dashboard/context/alert.context";
 import axios from "utils/api";
 
-import { getMeasurement } from "services/getMeasurements";
+import { useMeasurement } from "services/measurement.service";
 
 //icons
 import { FaEdit, FaTrash } from "icons/icons";
@@ -34,7 +34,7 @@ const MeasurementInfo = () => {
 
   if (!measurementId) return <div>not found</div>;
   const { measurement, measurementError, measurementLoading } =
-    getMeasurement(measurementId);
+    useMeasurement(measurementId);
 
   // if (measurementLoading) return <div>measurement loading...</div>;
   if (measurementError) return <div>measurement error</div>;

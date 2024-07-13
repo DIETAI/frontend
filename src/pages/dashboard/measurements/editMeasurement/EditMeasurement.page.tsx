@@ -7,7 +7,7 @@ import EditMeasurementForm from "./components/EditMeasurementForm";
 import PageNav from "components/pageNav/PageNav";
 
 //queries
-import { getMeasurement } from "services/getMeasurements";
+import { useMeasurement } from "services/measurement.service";
 
 const EditMeasurement = () => {
   const { measurementEditId } = useParams();
@@ -15,7 +15,7 @@ const EditMeasurement = () => {
 
   if (!measurementEditId) return <div>not found</div>;
   const { measurement, measurementError, measurementLoading } =
-    getMeasurement(measurementEditId);
+    useMeasurement(measurementEditId);
 
   if (measurementLoading) return <div>measurement loading...</div>;
   if (measurementError || !measurement) return <div>measurement error</div>;

@@ -8,17 +8,10 @@ import { ICalendarNoteData } from "interfaces/calendarNote";
 //context
 import { useAlert } from "layout/dashboard/context/alert.context";
 
-//icons
-import { FaTrash } from "icons/icons";
-
 //assets
 import DeleteImg from "assets/delete.svg";
 
-import { useForm, FormProvider, FieldValues } from "react-hook-form";
-
 //components
-import ReactLoading from "react-loading";
-import Input from "components/form/input/Input";
 import Button from "components/form/button/Button";
 
 //styles
@@ -57,7 +50,6 @@ const CalendarNoteDeleteForm = ({
     } catch (e) {
       handleAlert("error", "Usuwanie notatki nie powiodło się");
       console.log(e);
-      //set error alert
     }
   };
 

@@ -18,7 +18,7 @@ import PageNav from "components/pageNav/PageNav";
 import { IColumn } from "pages/dashboard/components/dataGridv2/DataGrid.interfaces";
 
 //services
-import { getMeasurements } from "services/getMeasurements";
+import { useMeasurements } from "services/measurement.service";
 import { measurementsNavLinks } from "../utlis/navLinks";
 
 const columns: IColumn[] = [
@@ -41,7 +41,7 @@ const AllMeasurements = () => {
   const [pageCount, setPageCount] = useState(0);
 
   const { measurements, measurementsError, measurementsLoading, pagination } =
-    getMeasurements(page.toString(), itemsPerPage);
+    useMeasurements(page.toString(), itemsPerPage);
 
   useEffect(() => {
     if (pagination) {

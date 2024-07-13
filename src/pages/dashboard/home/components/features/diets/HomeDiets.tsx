@@ -24,7 +24,6 @@ const HomeDiets = () => {
             key={diet._id}
             onClick={() => navigate(`/dashboard/diets/${diet._id}`)}
           >
-            {/* <Styled.ItemLength>{index + 1}</Styled.ItemLength> */}
             <Styled.ItemContentWrapper>
               <h2>{diet.name}</h2>
               <p>
