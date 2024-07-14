@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { Suspense, useEffect } from "react";
 
 //components
 import Nav from "./nav/nav";
@@ -14,17 +14,33 @@ import { useAlert } from "layout/dashboard/context/alert.context";
 
 //components
 import Alert from "components/alert/Alert";
+import PageLoading from "components/loading/PageLoading";
+import { useUser } from "services/user.service";
+import { Outlet, useNavigate } from "react-router";
 
-const PublicLayout = ({ children }: IChildrenProps) => {
+const AuthLayout = () => {
   const { alert, handleAlert } = useAlert();
+  const navigate = useNavigate();
+
+  const { user, userLoading, loggedOut } = useUser();
+
+  useEffect(() => {
+    if (user && !loggedOut) {
+      navigate("/dashboard/home");
+    }
+  }, [user, loggedOut]);
+
+  if (userLoading || !loggedOut) return <PageLoading />;
 
   return (
-    <Styled.MainLayoutContainer>
-      <Nav />
-      {alert.display && <Alert type={alert.type} message={alert.message} />}
-      {children}
-    </Styled.MainLayoutContainer>
+    <Suspense fallback={<PageLoading />}>
+      <Styled.MainLayoutContainer>
+        <Nav />
+        {alert.display && <Alert type={alert.type} message={alert.message} />}
+        <Outlet />
+      </Styled.MainLayoutContainer>
+    </Suspense>
   );
 };
 
-export default PublicLayout;
+export default AuthLayout;

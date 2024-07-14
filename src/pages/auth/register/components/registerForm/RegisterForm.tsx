@@ -116,9 +116,7 @@ const Form = () => {
 
         <StyledAuthFormLinkWrapper>
           <p>{t("login.info")}</p>
-          <Link to="/auth/login">
-            <a>{t("login.title")}</a>
-          </Link>
+          <Link to="/auth/login">{t("login.title")}</Link>
         </StyledAuthFormLinkWrapper>
       </AuthFormContainer>
     </FormProvider>
