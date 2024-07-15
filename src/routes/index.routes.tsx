@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 
 //components
-import NotFoundPage from "pages/information/notFound/notFound.page";
+import NotFoundPage from "pages/information/notFound/NotFound.page";
 import AuthLayout from "layout/auth/auth.layout";
 import { Login, Register } from "pages/auth";
 import EmailVerify from "pages/verify/email/emailVerify.page";
@@ -66,12 +66,14 @@ import {
   EditDietKind,
   NewDietKind,
 } from "pages/dashboard/dietKinds";
+import { Navigate } from "react-router";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
     <Route element={<Outlet />}>
+      <Route index element={<Navigate to="/auth/login" />} />
       <Route path="auth" element={<AuthLayout />}>
-        <Route index path="login" element={<Login />} />
+        <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>

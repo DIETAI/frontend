@@ -2,7 +2,7 @@ import { IChildrenProps } from "interfaces/children.interfaces";
 import React from "react";
 
 export interface IButtonProps {
-  children: IChildrenProps["children"];
+  children?: IChildrenProps["children"];
   variant?:
     | "primary"
     | "secondary"
