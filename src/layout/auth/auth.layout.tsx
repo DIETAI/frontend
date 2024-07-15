@@ -30,7 +30,7 @@ const AuthLayout = () => {
     }
   }, [user, loggedOut]);
 
-  if (userLoading || !loggedOut) return <PageLoading />;
+  if (!loggedOut) return <PageLoading />;
 
   return (
     <Suspense fallback={<PageLoading />}>
