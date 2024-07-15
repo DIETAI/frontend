@@ -127,7 +127,7 @@ const ChevronWrapper = styled.button(
     color: ${palette.common.text};
     transition: 0.3s ease-out;
 
-    :hover {
+    &:hover {
       background: ${palette.common.contrast};
     }
 
@@ -213,7 +213,7 @@ const CalendarDay = styled.div<ICurrentDay>(
     gap: 2rem;
     overflow-y: auto;
 
-    :hover {
+    &:hover {
       background: ${palette.common.contrast};
     }
 
@@ -268,7 +268,7 @@ const CalendarDayHeading = styled.div(
       height: 3rem;
       transition: 0.3s ease-out;
 
-      :hover {
+      &:hover {
         opacity: 0.7;
       }
     }
@@ -314,7 +314,7 @@ const CalendarNote = styled.li(
     cursor: pointer;
     transition: 0.3s ease-out;
 
-    :hover {
+    &:hover {
       opacity: 0.8;
     }
 
@@ -468,7 +468,7 @@ const NavOption = styled.li<IActiveOption>(
     cursor: pointer;
     transition: 0.3s ease-out;
 
-    :hover {
+    &:hover {
       opacity: 0.7;
     }
 

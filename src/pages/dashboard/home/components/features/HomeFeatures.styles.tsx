@@ -47,7 +47,7 @@ const HomeFeatureItem = styled.div(
     transition: 0.3s ease-out;
     width: 100%;
 
-    :hover {
+    &:hover {
       border: 0.1rem dashed ${palette.primary.main};
     }
 

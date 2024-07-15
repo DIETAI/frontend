@@ -35,11 +35,11 @@ const HomeMeasurementItem = styled.li(
     border-radius: ${border.rounded.md};
     transition: 0.3s ease-out;
 
-    :hover {
+    &:hover {
       background: ${palette.common.contrast};
     }
 
-    :not(:last-child) {
+    &:not(:last-child) {
       border-bottom: 0.1rem solid ${palette.common.border};
     }
   `
