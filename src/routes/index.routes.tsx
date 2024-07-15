@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 
 //components
-import NotFoundPage from "pages/information/notFound/NotFound.page";
+import NotFoundPage from "pages/error/notFound/NotFound.page";
 import AuthLayout from "layout/auth/auth.layout";
 import { Login, Register } from "pages/auth";
 import EmailVerify from "pages/verify/email/emailVerify.page";
