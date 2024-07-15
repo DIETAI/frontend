@@ -1,5 +1,4 @@
 import React from "react";
-import { languages } from "utils/languages";
 import NoUserImg from "assets/noUser.svg";
 import * as Styled from "./Nav.styles";
 
@@ -20,19 +19,9 @@ import ThemeOption from "./navOptions/themeOption/ThemeOption";
 import NotificationOption from "./navOptions/notificationOption/NotificationOption";
 
 //icons
-import {
-  FaSun,
-  FaEnvelope,
-  FaCog,
-  FaChevronRight,
-  FaBars,
-  FaAngleLeft,
-} from "icons/icons";
+import { FaSun, FaBars, FaAngleLeft } from "icons/icons";
 
 //img
-import AvatarImg from "assets/avatar.png";
-import Button from "components/form/button/Button";
-import Select from "components/select/Select";
 import { useUser } from "services/user.service";
 
 const Nav = () => {
@@ -55,23 +44,15 @@ const Nav = () => {
         className="sidebar-button"
       />
 
-      {/* <IconModal icon={<FaChevronRight />} /> */}
-
       <Styled.NavOptionsWrapper>
         {/* <Select options={languages} /> */}
         <IconModal icon={<FaSun />}>
           <ThemeOption />
         </IconModal>
-        {/* <IconModal icon={<FaEnvelope />}>
-          <NotificationOption />
-        </IconModal> */}
-        {/* <IconModal icon={<FaCog />} /> */}
         <IconModal img={user?.avatar?.imageURL || NoUserImg} background>
           <AuthOption />
         </IconModal>
       </Styled.NavOptionsWrapper>
-
-      {/* <Switch /> */}
     </Styled.NavWrapper>
   );
 };

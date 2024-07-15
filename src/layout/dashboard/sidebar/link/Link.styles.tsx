@@ -54,7 +54,7 @@ const LinkWrapper = styled.li<ILinkStyles>(
       border: 0.1rem solid transparent;
     }
 
-    :hover {
+    &:hover {
       span {
         svg {
           path {
@@ -83,7 +83,7 @@ const LinkWrapper = styled.li<ILinkStyles>(
         }
       `}
 
-      :hover {
+      &:hover {
         background: ${palette.common.contrast};
         border: 0.1rem solid ${palette.primary.light};
         a {
@@ -96,7 +96,6 @@ const LinkWrapper = styled.li<ILinkStyles>(
     css`
       a {
         opacity: 0;
-        /* display: none; */
       }
 
       ${activeLink &&
@@ -114,15 +113,13 @@ const LinkWrapper = styled.li<ILinkStyles>(
         }
       `}
 
-      :hover {
+      &:hover {
         span {
           border-radius: ${border.rounded.md};
           background: ${palette.common.contrast};
           border: 0.1rem solid ${palette.primary.light};
         }
       }
-      /* width: 4rem;
-      height: 4rem; */
     `}
   `
 );

@@ -35,7 +35,7 @@ The landing page is hosted on Vercel.
 
 https://dietai.mederak.com
 
-The application's dashboard frontend is hosted on DigitalOcean.
+The application's dashboard frontend is hosted on Netlify.
 
 https://dashboard.dietai.mederak.com
 

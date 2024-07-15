@@ -103,7 +103,7 @@ const ListWrapper = styled.ul(
       transition: 0.3s ease-out;
       cursor: pointer;
 
-      :hover {
+      &:hover {
         background: ${palette.common.contrast};
       }
 
@@ -141,7 +141,7 @@ const SignoutButton = styled.button(
     color: white;
     transition: 0.3s ease-out;
 
-    :hover {
+    &:hover {
       opacity: 0.8;
     }
   `

@@ -19,12 +19,8 @@ const AuthOption = () => {
     const logout = await axios.delete("/api/v1/sessions", {
       withCredentials: true,
     });
-
-    // console.log({ logout });
     mutate("/api/v1/user", null);
-    // window.location.reload();
     navigate("/auth/login");
-    // return redirect("/auth/login");
   };
 
   return (

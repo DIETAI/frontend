@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import * as Styled from "./Sidebar.styles";
-import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
 //logo
